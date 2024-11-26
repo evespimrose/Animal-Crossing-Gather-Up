@@ -39,8 +39,8 @@ public class Player : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
-		// test
-		Debug.Log($"Collected {item.itemName}!");
+		//// test
+		//Debug.Log($"Collected {item.itemName}!");
 	}
 
     private void HandleCollection()
