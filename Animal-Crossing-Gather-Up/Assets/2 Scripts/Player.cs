@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class Player : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class Player : MonoBehaviour
     public int money; // 보유 중인 돈
 
     private Vector3 movement;
+
+    public delegate void ItemCollectedHandler(Item item);
+    public event ItemCollectedHandler OnItemCollected;
 
     private void Start()
     {
@@ -59,6 +63,13 @@ public class Player : MonoBehaviour
             equippedTool.SetActive(false);
             equippedTool = null;
         }
+    }
+
+    public void CollectItem(Item item)
+    {
+        // 채집 완료 후 이벤트 호출
+        OnItemCollected?.Invoke(item);
+        //Debug.Log($"Collected {item.itemName}!");
     }
 
     // 채집물 판매
