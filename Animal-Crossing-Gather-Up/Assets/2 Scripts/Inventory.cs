@@ -5,19 +5,15 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
 	// This can be extended later
-	private List<Slot> slots = new List<Slot>(20);
-	//private bool isEmptySlotExist = true;
-
-	// use at choice slot
-	private Item currentItem;
+	private List<Slot> slots;
 
 	private void Start()
 	{
-		Player player = FindObjectOfType<Player>();
-		if (player != null)
+		slots = new List<Slot>(20);
+		for (int i = 0; i < 20; i++)
 		{
-			// event subscribe
-			player.OnItemCollected += AddItem;
+			// add empty slot
+			slots.Add(new Slot(null));
 		}
 	}
 
@@ -26,10 +22,9 @@ public class Inventory : MonoBehaviour
 	{
 		bool isAdded = false;
 
-		// if same item exist, stackCount++
+		// Check for existing item in slots
 		foreach (Slot slot in slots)
 		{
-
 			if (slot.IsAddableItem(item))
 			{
 				slot.AddItem();
@@ -40,12 +35,13 @@ public class Inventory : MonoBehaviour
 			}
 		}
 
-		// add empty slot
+		// Add item to an empty slot
 		for (int i = 0; i < slots.Count; i++)
 		{
 			// 1. check same item
 			if (slots[i].IsSlotEmpty())
 			{
+				// Create new slot with item
 				slots[i] = new Slot(item);
 				print($"Add {item} to new slot[{i}]. stackCount : {slots[i].stackCount}");
 				isAdded = true;
@@ -53,7 +49,7 @@ public class Inventory : MonoBehaviour
 			}
 		}
 
-		// add failed
+		// If inventory is full
 		if (isAdded == false)
 		{
 			print("Inventroy is Full!");
