@@ -14,7 +14,7 @@ public class Slot : MonoBehaviour
 		this.stackCount = 1;
 	}
 
-	// addable return method
+	// addable return method(stackLimit, same item exist)
 	public bool IsAddableItem(Item newItem)
 	{
 		return item == newItem && stackCount < item.stackLimit;
@@ -24,5 +24,11 @@ public class Slot : MonoBehaviour
 	public void AddItem()
 	{
 		stackCount++;
+	}
+
+	// return isEmpty
+	public bool IsSlotEmpty()
+	{
+		return item == null;
 	}
 }
