@@ -6,27 +6,33 @@ public class Player : MonoBehaviour
 {
     private CharacterController characterController;
     public float moveSpeed = 5f;
-    public Transform handPosition; // 장비를 장착할 위치
-    public GameObject equippedTool; // 현재 장착된 도구
-    //public Inventory inventory; // 플레이어의 인벤토리
-    public int money; // 보유 중인 돈
+    public Transform handPosition; 
+    public GameObject equippedTool;
+    //public Inventory inventory; 
+    //public int money;
 
     private Vector3 movement;
 
     public delegate void ItemCollectedHandler(Item item);
     public event ItemCollectedHandler OnItemCollected;
 
+     private ICollectCommand _currentCommand;
+
+    public void SetCommand(ICollectCommand command) { _currentCommand = command; }
+    public void Collect() => _currentCommand?.Execute();
+
     private void Start()
     {
         characterController = GetComponent<CharacterController>();
+        OnItemCollected += AddItem;
     }
 
     private void Update()
     {
         HandleMovement();
+        HandleCollection();
     }
 
-    // 플레이어 이동 처리
     private void HandleMovement()
     {
         float horizontal = Input.GetAxis("Horizontal");
@@ -40,26 +46,33 @@ public class Player : MonoBehaviour
         }
     }
 
-    // 장비 장착
+    private void HandleCollection()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Collect();
+        }
+    }
+
     public void EquipTool(GameObject tool)
     {
         if (equippedTool != null)
         {
-            UnequipTool(); // 기존 장비를 벗음
+            UnequipTool();
         }
 
         equippedTool = tool;
-        equippedTool.transform.SetParent(handPosition); // 손 위치에 장착
+        equippedTool.transform.SetParent(handPosition);
         equippedTool.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
     }
 
-    // 장비 해제
+    // 占쏙옙占?占쏙옙占쏙옙
     public void UnequipTool()
     {
         if (equippedTool != null)
         {
-            //inventory.AddItem(equippedTool); // 해제된 장비를 인벤토리에 추가
-            equippedTool.transform.SetParent(null); // 장비의 부모 해제
+            //inventory.AddItem(equippedTool); 
+            equippedTool.transform.SetParent(null);
             equippedTool.SetActive(false);
             equippedTool = null;
         }
@@ -67,17 +80,22 @@ public class Player : MonoBehaviour
 
     public void CollectItem(Item item)
     {
-        // 채집 완료 후 이벤트 호출
-        OnItemCollected?.Invoke(item);
+        //OnItemCollected?.Invoke(item);
+        //invetory.OnItemCollected?.Invoke(item);
         //Debug.Log($"Collected {item.itemName}!");
     }
 
-    // 채집물 판매
+    public void AddItem(Item item)
+    {
+        //inventory.AddItem(item);
+    }
+
+    // 채占쏙옙占쏙옙 占실몌옙
     public void SellItem(GameObject item)
     {
-        //if (inventory.RemoveItem(item)) // 인벤토리에서 아이템 제거 성공 시
+        //if (inventory.RemoveItem(item))
         //{
-        //    //money += item.sellPrice; // 아이템 판매 가격만큼 돈 증가
+        //    //money += item.sellPrice;
         //    //Debug.Log($"Sold {item.name} for {item.sellPrice}. Current Money: {money}");
         //}
         //else
