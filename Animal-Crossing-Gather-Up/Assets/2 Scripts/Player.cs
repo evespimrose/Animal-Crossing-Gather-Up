@@ -16,8 +16,9 @@ public class Player : MonoBehaviour
 
     public delegate void ItemCollectedHandler(Item item);
     public event ItemCollectedHandler OnItemCollected;
+    private Vector3 movement;
 
-     private ICollectCommand _currentCommand;
+    private ICollectCommand _currentCommand;
 
     public void SetCommand(ICollectCommand command) { _currentCommand = command; }
     public void Collect() => _currentCommand?.Execute();
@@ -39,9 +40,13 @@ public class Player : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
-		// test
-		Debug.Log($"Collected {item.itemName}!");
-	}
+        movement = new Vector3(horizontal, 0, vertical);
+        if (movement.magnitude > 0.1f)
+        {
+            characterController.Move(moveSpeed * Time.deltaTime * movement);
+            transform.forward = movement;
+        }
+    }
 
     private void HandleCollection()
     {
@@ -63,7 +68,7 @@ public class Player : MonoBehaviour
         equippedTool.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
     }
 
-    // ï¿½ï¿½ï¿½?ï¿½ï¿½ï¿½ï¿½
+    // ï¿½ï¿½ï¿?ï¿½ï¿½ï¿½ï¿½
     public void UnequipTool()
     {
         if (equippedTool != null)
