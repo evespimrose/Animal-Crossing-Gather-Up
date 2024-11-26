@@ -1,91 +1,103 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class Player : MonoBehaviour
 {
-	private CharacterController characterController;
-	public float moveSpeed = 5f;
-	public Transform handPosition; // Àåºñ¸¦ ÀåÂøÇÒ À§Ä¡
-	public GameObject equippedTool; // ÇöÀç ÀåÂøµÈ µµ±¸
+    private CharacterController characterController;
+    public float moveSpeed = 5f;
+    public Transform handPosition; 
+    public GameObject equippedTool;
+    //public Inventory inventory; 
+    //public int money;
 
-	//public Inventory inventory; // ÇÃ·¹ÀÌ¾îÀÇ ÀÎº¥Åä¸®
-	//public int money; // º¸À¯ ÁßÀÎ µ·
+	//public Inventory inventory; // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ ï¿½Îºï¿½ï¿½ä¸®
+	//public int money; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 
-	private Vector3 movement;
+    public delegate void ItemCollectedHandler(Item item);
+    public event ItemCollectedHandler OnItemCollected;
 
-	// item into inventory
-	public delegate void ItemCollectedHandler(Item item);
-	public event ItemCollectedHandler OnItemCollected;
+     private ICollectCommand _currentCommand;
 
-	public void CollectItem(Item item)
-	{
-		// Ã¤Áý ¿Ï·á ÈÄ ÀÌº¥Æ® È£Ãâ
-		OnItemCollected?.Invoke(item);
+    public void SetCommand(ICollectCommand command) { _currentCommand = command; }
+    public void Collect() => _currentCommand?.Execute();
+
+    private void Start()
+    {
+        characterController = GetComponent<CharacterController>();
+        OnItemCollected += AddItem;
+    }
+
+    private void Update()
+    {
+        HandleMovement();
+        HandleCollection();
+    }
+
+    private void HandleMovement()
+    {
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
 
 		// test
 		Debug.Log($"Collected {item.itemName}!");
 	}
 
-	private void Start()
-	{
-		characterController = GetComponent<CharacterController>();
-	}
+    private void HandleCollection()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Collect();
+        }
+    }
 
-	private void Update()
-	{
-		HandleMovement();
-	}
+    public void EquipTool(GameObject tool)
+    {
+        if (equippedTool != null)
+        {
+            UnequipTool();
+        }
 
-	// ÇÃ·¹ÀÌ¾î ÀÌµ¿ Ã³¸®
-	private void HandleMovement()
-	{
-		float horizontal = Input.GetAxis("Horizontal");
-		float vertical = Input.GetAxis("Vertical");
+        equippedTool = tool;
+        equippedTool.transform.SetParent(handPosition);
+        equippedTool.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+    }
 
-		movement = new Vector3(horizontal, 0, vertical);
-		if (movement.magnitude > 0.1f)
-		{
-			characterController.Move(moveSpeed * Time.deltaTime * movement);
-			transform.forward = movement;
-		}
-	}
+    // ï¿½ï¿½ï¿½?ï¿½ï¿½ï¿½ï¿½
+    public void UnequipTool()
+    {
+        if (equippedTool != null)
+        {
+            //inventory.AddItem(equippedTool); 
+            equippedTool.transform.SetParent(null);
+            equippedTool.SetActive(false);
+            equippedTool = null;
+        }
+    }
 
-	// Àåºñ ÀåÂø
-	public void EquipTool(GameObject tool)
-	{
-		if (equippedTool != null)
-		{
-			UnequipTool(); // ±âÁ¸ Àåºñ¸¦ ¹þÀ½
-		}
+    public void CollectItem(Item item)
+    {
+        //OnItemCollected?.Invoke(item);
+        //invetory.OnItemCollected?.Invoke(item);
+        //Debug.Log($"Collected {item.itemName}!");
+    }
 
-		equippedTool = tool;
-		equippedTool.transform.SetParent(handPosition); // ¼Õ À§Ä¡¿¡ ÀåÂø
-		equippedTool.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-	}
+    public void AddItem(Item item)
+    {
+        //inventory.AddItem(item);
+    }
 
-	// Àåºñ ÇØÁ¦
-	public void UnequipTool()
-	{
-		if (equippedTool != null)
-		{
-			//inventory.AddItem(equippedTool); // ÇØÁ¦µÈ Àåºñ¸¦ ÀÎº¥Åä¸®¿¡ Ãß°¡
-			equippedTool.transform.SetParent(null); // ÀåºñÀÇ ºÎ¸ð ÇØÁ¦
-			equippedTool.SetActive(false);
-			equippedTool = null;
-		}
-	}
-
-	// Ã¤Áý¹° ÆÇ¸Å
-	public void SellItem(GameObject item)
-	{
-		//if (inventory.RemoveItem(item)) // ÀÎº¥Åä¸®¿¡¼­ ¾ÆÀÌÅÛ Á¦°Å ¼º°ø ½Ã
-		//{
-		//    //money += item.sellPrice; // ¾ÆÀÌÅÛ ÆÇ¸Å °¡°Ý¸¸Å­ µ· Áõ°¡
-		//    //Debug.Log($"Sold {item.name} for {item.sellPrice}. Current Money: {money}");
-		//}
-		//else
-		//{
-		//    Debug.Log("Item not found in inventory.");
-		//}
-	}
+    // Ã¤ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¸ï¿½
+    public void SellItem(GameObject item)
+    {
+        //if (inventory.RemoveItem(item))
+        //{
+        //    //money += item.sellPrice;
+        //    //Debug.Log($"Sold {item.name} for {item.sellPrice}. Current Money: {money}");
+        //}
+        //else
+        //{
+        //    Debug.Log("Item not found in inventory.");
+        //}
+    }
 }
