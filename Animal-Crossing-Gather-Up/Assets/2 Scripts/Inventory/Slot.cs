@@ -2,17 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Slot
+public class Slot : MonoBehaviour
 {
 	public Item item;
 	public int stackCount;
 
 	// when "new Slot(item)"
-	public Slot(Item item)
+	public void Initialize(Item newItem)
 	{
-		this.item = item;
-		// if item != null, stackCount == 1
-		this.stackCount = item != null ? 1 : 0;
+		item = newItem; // Set the item
+		stackCount = 1; // Initialize stackCount
 	}
 
 	// addable return method(stackLimit, same item exist)
