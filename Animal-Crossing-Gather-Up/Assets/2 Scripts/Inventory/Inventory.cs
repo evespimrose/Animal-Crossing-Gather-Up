@@ -4,17 +4,34 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
+	public GameObject slotPrefab;   // Prefab for the slot
+
 	// This can be extended later
-	private List<Slot> slots;
+	private List<Slot> slots;   // List of slots
+
+	public GameObject[] verticalLayout;
 
 	private void Start()
 	{
-		slots = new List<Slot>(20);
+		slots = new List<Slot>(20); // Initialize slots list
 		for (int i = 0; i < 20; i++)
 		{
-			// add empty slot
-			slots.Add(new Slot(null));
+			if (i < 10)
+			{
+				AddSlot(0);  // add empty slot
+			}
+			else if (i < 20)
+			{
+				AddSlot(1);
+			}
 		}
+	}
+
+	private void AddSlot(int verticalCount)
+	{
+		GameObject slotObject = Instantiate(slotPrefab, verticalLayout[verticalCount].transform); // Instantiate the slot prefab
+		Slot slot = slotObject.GetComponent<Slot>();  // Get the Slot component
+		slots.Add(slot);
 	}
 
 	// item add logic
@@ -36,14 +53,14 @@ public class Inventory : MonoBehaviour
 		}
 
 		// Add item to an empty slot
-		for (int i = 0; i < slots.Count; i++)
+		foreach (Slot slot in slots)
 		{
-			// 1. check same item
-			if (slots[i].IsSlotEmpty())
+			if (slot.IsSlotEmpty())
 			{
-				// Create new slot with item
-				slots[i] = new Slot(item);
-				print($"Add {item} to new slot[{i}]. stackCount : {slots[i].stackCount}");
+				slot.Initialize(item);  // Initialize the slot with the item
+
+				// test
+				print($"Add {item} to empty slot. New stackCount : {slot.stackCount}");
 				isAdded = true;
 				return;
 			}
