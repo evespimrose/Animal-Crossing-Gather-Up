@@ -52,35 +52,20 @@ public class Inventory : MonoBehaviour
 		// If inventory is full
 		if (isAdded == false)
 		{
-			print("Inventroy is Full!");
+			InventoryFull();
 		}
-	}
-
-	private void InventoryOpen()
-	{
-		// hierarchy's popup enable true
-
-		// key input and cursor move
-
-		// if choose, delegate call
-
-		// but if full, call another delegate
-	}
-
-	// item into method
-	private void ItemIn()
-	{
-		// check slot and item Into or InventoryFull() call delegate
 	}
 
 	// inventory full method (inventory popup recycle)
 	private void InventoryFull()
 	{
+		print("Inventroy is Full!");
+
 		// inventory full delegate call
 
 		// if change delegate call
 
 		// inventory open
-		InventoryOpen();
+		InventoryDisplayer.Instance.InventoryOpen();
 	}
 }
