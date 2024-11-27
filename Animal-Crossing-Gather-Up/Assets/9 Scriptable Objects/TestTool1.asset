@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a6edce17e4f9cf448edd6666a5dae1b, type: 3}
   m_Name: TestTool1
   m_EditorClassIdentifier: 
-  itemName: t2
+  itemName: t1
   stackLimit: 1
   basePrice: 0
   icon: {fileID: 0}
