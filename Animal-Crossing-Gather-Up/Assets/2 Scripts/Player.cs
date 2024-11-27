@@ -6,18 +6,18 @@ public class Player : MonoBehaviour
 {
     private CharacterController characterController;
     public float moveSpeed = 5f;
-    public Transform handPosition; 
+    public Transform handPosition;
     public GameObject equippedTool;
     //public Inventory inventory; 
     //public int money;
 
-	//public Inventory inventory; // �÷��̾��� �κ��丮
-	//public int money; // ���� ���� ��
+    //public Inventory inventory; // �÷��̾��� �κ��丮
+    //public int money; // ���� ���� ��
 
     public delegate void ItemCollectedHandler(Item item);
     public event ItemCollectedHandler OnItemCollected;
 
-     private ICollectCommand _currentCommand;
+    private ICollectCommand _currentCommand;
 
     public void SetCommand(ICollectCommand command) { _currentCommand = command; }
     public void Collect() => _currentCommand?.Execute();
@@ -39,9 +39,9 @@ public class Player : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
-		// test
-		Debug.Log($"Collected {item.itemName}!");
-	}
+        // test
+        //Debug.Log($"Collected {item.itemName}!");
+    }
 
     private void HandleCollection()
     {
