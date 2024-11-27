@@ -15,4 +15,4 @@ MonoBehaviour:
   itemName: i1
   stackLimit: 2
   basePrice: 0
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 33be511302f9f4b9cbd542aa8988e06c, type: 3}

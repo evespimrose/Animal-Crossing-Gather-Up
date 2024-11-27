@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: t1
   stackLimit: 1
   basePrice: 0
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: ab8e6165a631d4b8da8c18a7f1615885, type: 3}
   maxDurability: 0
   currentDurability: 0
   isEquipped: 0
