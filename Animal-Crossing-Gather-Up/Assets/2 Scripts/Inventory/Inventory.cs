@@ -11,6 +11,9 @@ public class Inventory : MonoBehaviour
 
 	public GameObject[] verticalLayout;
 
+	public delegate void InventoryFullHandler();
+	public event InventoryFullHandler OnInventoryFull;  // Event for inventory full
+
 	private void Start()
 	{
 		slots = new List<Slot>(20); // Initialize slots list
@@ -83,6 +86,7 @@ public class Inventory : MonoBehaviour
 		// if change delegate call
 
 		// inventory open
-		InventoryDisplayer.Instance.InventoryOpen();
+		//InventoryDisplayer.Instance.InventoryOpen();
+		OnInventoryFull?.Invoke();  // Trigger the event
 	}
 }
