@@ -353,7 +353,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e5f4e42f5a381248b3d9c3e7bd01dea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryUI: {fileID: 1425451241}
+  inventory: {fileID: 0}
+  inventoryPanel: {fileID: 1425451241}
 --- !u!114 &205443568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -739,7 +740,7 @@ GameObject:
   - component: {fileID: 645227158}
   - component: {fileID: 645227157}
   m_Layer: 5
-  m_Name: ChatWindow
+  m_Name: ChatPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1047,7 +1048,7 @@ GameObject:
   - component: {fileID: 1425451244}
   - component: {fileID: 1425451243}
   m_Layer: 5
-  m_Name: InventoryWindow
+  m_Name: InventoryPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
