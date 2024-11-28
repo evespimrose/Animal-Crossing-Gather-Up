@@ -7,7 +7,6 @@ public class Slot : MonoBehaviour
 	public Item item;
 	public int stackCount;
 
-	// when "new Slot(item)"
 	public void Initialize(Item newItem)
 	{
 		item = newItem; // Set the item
