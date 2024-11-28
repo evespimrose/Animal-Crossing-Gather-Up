@@ -13,12 +13,14 @@ public class SlotUI : MonoBehaviour
 	{
 		if (item != null)
 		{
+			itemImage.gameObject.SetActive(true);
 			itemImage.sprite = item.icon;   // Set the item icon
 			stackCountText.text = stackCount > 1 ? stackCount.ToString() : "";  // Show stackCount if greater than 1
 		}
 		else
 		{
-			itemImage.sprite = null;    // Clear the image if no item
+			//itemImage.sprite = null;    // Clear the image if no item
+			itemImage.gameObject.SetActive(false);
 			stackCountText.text = "";   // Clear the stackCount
 		}
 	}
