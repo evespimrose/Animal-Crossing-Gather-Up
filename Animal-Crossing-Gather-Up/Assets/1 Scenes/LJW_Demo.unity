@@ -355,6 +355,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventory: {fileID: 0}
   inventoryPanel: {fileID: 1425451241}
+  slotUIs: []
 --- !u!114 &205443568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -367,6 +368,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd6c4e0fb77428e43b736ffd26cfdf4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventoryUI: {fileID: 0}
   slotPrefab: {fileID: 2373685319528431333, guid: 2ea6d640c80469e4c88ac90277a59c07, type: 3}
   verticalLayout:
   - {fileID: 658258836}
@@ -605,6 +607,7 @@ MonoBehaviour:
   moveSpeed: 5
   handPosition: {fileID: 0}
   equippedTool: {fileID: 0}
+  inventoryUI: {fileID: 0}
   i0: {fileID: 11400000, guid: f9a4adc236a3eda4facf7feb17199f75, type: 2}
   i1: {fileID: 11400000, guid: f76c3cd98c8f4cd4ca7131fddd94feb6, type: 2}
   t0: {fileID: 11400000, guid: cadb0224b7c4d2845b874ef3f521ba6f, type: 2}
@@ -719,7 +722,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1425451242}
-  - {fileID: 2138735947}
   - {fileID: 645227156}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1067,6 +1069,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1403158122}
+  - {fileID: 2138735947}
   m_Father: {fileID: 476664268}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2, y: 0.6}
@@ -1142,11 +1145,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 476664268}
+  m_Father: {fileID: 1425451242}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 51}
+  m_AnchoredPosition: {x: 0, y: -61.600006}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2138735948
