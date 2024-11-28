@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b8d69ec72502b5149b6aaab5b55cf7dd
+guid: 0eab123d47fb9d145b9e4207ed74592d
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -33,18 +33,18 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: MCU_am_Stand_React_Excited_HeelClick
+      name: Dance-LegsKick
       takeName: Unreal Take
       internalID: 8993902097722301239
       firstFrame: 0
-      lastFrame: 71
+      lastFrame: 56
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
+      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 1
       loopBlendPositionY: 1

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0eab123d47fb9d145b9e4207ed74592d
+guid: 342cb69b92e80794283bdd4255c870d1
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -33,18 +33,18 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: MCU_am_HandsHips_Dance_LegsKick_Stop
+      name: Talking
       takeName: Unreal Take
       internalID: 8993902097722301239
       firstFrame: 0
-      lastFrame: 56
+      lastFrame: 451
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 1
       loopBlendPositionY: 1

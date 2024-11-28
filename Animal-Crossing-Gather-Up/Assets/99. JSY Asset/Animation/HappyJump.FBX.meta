@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 342cb69b92e80794283bdd4255c870d1
+guid: b8d69ec72502b5149b6aaab5b55cf7dd
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -33,11 +33,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: MCU_am_Stand_Conv_Talk_05_Generic
+      name: HappyJump
       takeName: Unreal Take
       internalID: 8993902097722301239
       firstFrame: 0
-      lastFrame: 451
+      lastFrame: 71
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
