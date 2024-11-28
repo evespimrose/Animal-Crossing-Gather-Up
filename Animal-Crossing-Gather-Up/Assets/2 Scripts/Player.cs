@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class Player : MonoBehaviour
 {
@@ -17,8 +16,12 @@ public class Player : MonoBehaviour
 	public void SetCommand(ICollectCommand command) { _currentCommand = command; }
 	public void Collect() => _currentCommand?.Execute();
 
+	// test : inventory Open
+	public InventoryUI inventoryUI;
+
 	private void Start()
 	{
+		inventoryUI = FindObjectOfType<InventoryUI>();
 		characterController = GetComponent<CharacterController>();
 	}
 
@@ -51,6 +54,10 @@ public class Player : MonoBehaviour
 		else if (Input.GetKeyDown(KeyCode.V))
 		{
 			CollectItem(t1);
+		}
+		else if (Input.GetKeyDown(KeyCode.I))
+		{
+			inventoryUI.InventoryOpen();
 		}
 	}
 
