@@ -1,0 +1,6 @@
+Game: Animal Crossing: New Horizons
+Subject: Orville and Wilbur
+Copyright: Nintendo
+Model Ripper: Random Talking Bush
+Hosting Permissions: The Models Resource
+Notes: Both dodos share the same base model, just with different accessories.
