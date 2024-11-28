@@ -27,18 +27,14 @@ public class TreebugSpawner : MonoBehaviour
         int randomIndex = Random.Range(0, bugPrefab.Count);
         BugPrefabData selectedBug = bugPrefab[randomIndex];
 
-      
-        //지정된 위쳉 벌레 생성
-        GameObject newBugObject = Instantiate(selectedBug.prefab, spawnPoint.position, selectedBug.prefab.transform.rotation);
-        newBugObject.transform.SetParent(spawnPoint, worldPositionStays: true);
 
-        currentBug = newBugObject.GetComponent<Bug>();
+        // spawnPoint 위치에 생성하고 트리를 부모로 지정
+        GameObject newBugObject = Instantiate(selectedBug.prefab, spawnPoint.position, selectedBug.prefab.transform.rotation);
+        newBugObject.transform.parent = transform; // 트리를 부모로 지정
+
+        currentBug = GetComponentInChildren<Bug>();
         IslandManager.AddBug();
 
     }
-
-
-
-
 
 }

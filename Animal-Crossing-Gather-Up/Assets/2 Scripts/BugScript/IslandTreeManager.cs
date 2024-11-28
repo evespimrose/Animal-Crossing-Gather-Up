@@ -54,9 +54,6 @@ public class IslandTreeManager : MonoBehaviour
             selectedTree.SpawnRandomBug();
         }
     }
-
-
-
     //생성이 가능 한지 확인
     public bool CanSpawnBug()
     {
