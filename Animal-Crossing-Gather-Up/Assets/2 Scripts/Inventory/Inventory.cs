@@ -21,18 +21,10 @@ public class Inventory : MonoBehaviour
 	{
 		inventoryUI = FindAnyObjectByType<InventoryUI>();
 
-
 		slots = new List<Slot>(20); // Initialize slots list
 		for (int i = 0; i < 20; i++)
 		{
-			if (i < 10)
-			{
-				AddSlot(0);  // add empty slot
-			}
-			else if (i < 20)
-			{
-				AddSlot(1);
-			}
+			AddSlot(i < 10 ? 0 : 1);    // Add empty slots based on index
 		}
 	}
 
@@ -43,7 +35,7 @@ public class Inventory : MonoBehaviour
 		slots.Add(slot);
 
 		// inventoryUI¿¡°Ô SlotPrefab ¿¡ ºÎÂøµÈ SlotUI¸¦ ¾Ë·ÁÁÜ
-		inventoryUI.AddSlotUI(slotObject.GetComponent<SlotUI>());
+		inventoryUI.AddSlotUI(slotObject.GetComponent<SlotUI>());   // Add SlotUI to InventoryUI
 	}
 
 	// item add logic
@@ -58,7 +50,7 @@ public class Inventory : MonoBehaviour
 			{
 				slot.AddItem();
 				// test
-				print($"Add {item} to existing slot. New stackCount : {slot.stackCount}");
+				print($"Add {item.itemName} to existing slot. New stackCount : {slot.stackCount}");
 				isAdded = true;
 				return;
 			}
@@ -72,7 +64,7 @@ public class Inventory : MonoBehaviour
 				slot.Initialize(item);  // Initialize the slot with the item
 
 				// test
-				print($"Add {item} to empty slot. New stackCount : {slot.stackCount}");
+				print($"Add {item.itemName} to empty slot. New stackCount : {slot.stackCount}");
 				isAdded = true;
 				return;
 			}
