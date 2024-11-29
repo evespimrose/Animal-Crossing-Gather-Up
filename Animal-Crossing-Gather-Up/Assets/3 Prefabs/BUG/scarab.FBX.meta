@@ -1,0 +1,1062 @@
+fileFormatVersion: 2
+guid: 23d1258dd5e21d6448ddb78e9529d776
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: scarab_LOD0
+    100004: scarab_LOD1
+    100006: ScarabHead
+    100008: ScarabHub001
+    100010: ScarabLArm1
+    100012: ScarabLArm21
+    100014: ScarabLArm22
+    100016: ScarabLLeg11
+    100018: ScarabLLeg12
+    100020: ScarabLLeg1Ankle
+    100022: ScarabLLeg1Collarbone
+    100024: ScarabLLeg21
+    100026: ScarabLLeg22
+    100028: ScarabLLeg2Ankle
+    100030: ScarabLLeg31
+    100032: ScarabLLeg32
+    100034: ScarabLLeg3Ankle
+    100036: ScarabNeck
+    100038: ScarabRArm1
+    100040: ScarabRArm11
+    100042: ScarabRArm2
+    100044: ScarabRLeg11
+    100046: ScarabRLeg12
+    100048: ScarabRLeg1Ankle
+    100050: ScarabRLeg1Collarbone
+    100052: ScarabRLeg21
+    100054: ScarabRLeg22
+    100056: ScarabRLeg2Ankle
+    100058: ScarabRLeg31
+    100060: ScarabRLeg32
+    100062: ScarabRLeg3Ankle
+    100064: ScarabTail1
+    100066: ScarabTail2
+    100068: ScarabWingL11
+    100070: ScarabWingL12
+    100072: ScarabWingL2
+    100074: ScarabWingR11
+    100076: ScarabWingR12
+    100078: ScarabWingR2
+    100080: scarab_LOD0 1
+    100082: scarab
+    100084: scarab_LOD2
+    100086: Scarab
+    100088: root
+    400000: //RootNode
+    400002: scarab_LOD0
+    400004: scarab_LOD1
+    400006: ScarabHead
+    400008: ScarabHub001
+    400010: ScarabLArm1
+    400012: ScarabLArm21
+    400014: ScarabLArm22
+    400016: ScarabLLeg11
+    400018: ScarabLLeg12
+    400020: ScarabLLeg1Ankle
+    400022: ScarabLLeg1Collarbone
+    400024: ScarabLLeg21
+    400026: ScarabLLeg22
+    400028: ScarabLLeg2Ankle
+    400030: ScarabLLeg31
+    400032: ScarabLLeg32
+    400034: ScarabLLeg3Ankle
+    400036: ScarabNeck
+    400038: ScarabRArm1
+    400040: ScarabRArm11
+    400042: ScarabRArm2
+    400044: ScarabRLeg11
+    400046: ScarabRLeg12
+    400048: ScarabRLeg1Ankle
+    400050: ScarabRLeg1Collarbone
+    400052: ScarabRLeg21
+    400054: ScarabRLeg22
+    400056: ScarabRLeg2Ankle
+    400058: ScarabRLeg31
+    400060: ScarabRLeg32
+    400062: ScarabRLeg3Ankle
+    400064: ScarabTail1
+    400066: ScarabTail2
+    400068: ScarabWingL11
+    400070: ScarabWingL12
+    400072: ScarabWingL2
+    400074: ScarabWingR11
+    400076: ScarabWingR12
+    400078: ScarabWingR2
+    400080: scarab_LOD0 1
+    400082: scarab
+    400084: scarab_LOD2
+    400086: Scarab
+    400088: root
+    4300000: scarab_LOD0
+    4300002: scarab_LOD1
+    4300004: scarab_LOD0
+    4300006: scarab
+    4300008: scarab_LOD2
+    7400000: idle
+    7400002: taunt
+    7400004: hit
+    7400006: walk
+    7400008: take off
+    7400010: fly
+    7400012: landing
+    7400014: death
+    9500000: //RootNode
+    11100000: //RootNode
+    13700000: scarab_LOD0
+    13700002: scarab_LOD1
+    13700004: scarab_LOD0 1
+    13700006: scarab
+    13700008: scarab_LOD2
+    20500000: //RootNode
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: sarab_A
+    second: {fileID: 2100000, guid: 4866aa634d6233a448504d60274166a3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: scarab
+    second: {fileID: 2100000, guid: c9b846c0022778a4ab1412cfa137b516, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: idle
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 60
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: scarab
+        weight: 1
+      - path: ScarabHub001
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg1Collarbone
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg1Collarbone/ScarabLLeg11
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg1Collarbone/ScarabLLeg11/ScarabLLeg12
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg1Collarbone/ScarabLLeg11/ScarabLLeg12/ScarabLLeg1Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg21
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg21/ScarabLLeg22
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg21/ScarabLLeg22/ScarabLLeg2Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg31
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg31/ScarabLLeg32
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg31/ScarabLLeg32/ScarabLLeg3Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabNeck
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabLArm1
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabLArm21
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabLArm21/ScarabLArm22
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabRArm1
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabRArm1/ScarabRArm2
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabRArm11
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg1Collarbone
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg1Collarbone/ScarabRLeg11
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg1Collarbone/ScarabRLeg11/ScarabRLeg12
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg1Collarbone/ScarabRLeg11/ScarabRLeg12/ScarabRLeg1Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg21
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg21/ScarabRLeg22
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg21/ScarabRLeg22/ScarabRLeg2Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg31
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg31/ScarabRLeg32
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg31/ScarabRLeg32/ScarabRLeg3Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabTail1
+        weight: 1
+      - path: ScarabHub001/ScarabTail1/ScarabTail2
+        weight: 1
+      - path: ScarabHub001/ScarabWingL2
+        weight: 1
+      - path: ScarabHub001/ScarabWingL11
+        weight: 1
+      - path: ScarabHub001/ScarabWingL11/ScarabWingL12
+        weight: 1
+      - path: ScarabHub001/ScarabWingR2
+        weight: 1
+      - path: ScarabHub001/ScarabWingR11
+        weight: 1
+      - path: ScarabHub001/ScarabWingR11/ScarabWingR12
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: taunt
+      takeName: Take 001
+      firstFrame: 60
+      lastFrame: 90
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: scarab
+        weight: 1
+      - path: ScarabHub001
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg1Collarbone
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg1Collarbone/ScarabLLeg11
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg1Collarbone/ScarabLLeg11/ScarabLLeg12
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg1Collarbone/ScarabLLeg11/ScarabLLeg12/ScarabLLeg1Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg21
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg21/ScarabLLeg22
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg21/ScarabLLeg22/ScarabLLeg2Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg31
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg31/ScarabLLeg32
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg31/ScarabLLeg32/ScarabLLeg3Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabNeck
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabLArm1
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabLArm21
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabLArm21/ScarabLArm22
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabRArm1
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabRArm1/ScarabRArm2
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabRArm11
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg1Collarbone
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg1Collarbone/ScarabRLeg11
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg1Collarbone/ScarabRLeg11/ScarabRLeg12
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg1Collarbone/ScarabRLeg11/ScarabRLeg12/ScarabRLeg1Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg21
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg21/ScarabRLeg22
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg21/ScarabRLeg22/ScarabRLeg2Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg31
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg31/ScarabRLeg32
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg31/ScarabRLeg32/ScarabRLeg3Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabTail1
+        weight: 1
+      - path: ScarabHub001/ScarabTail1/ScarabTail2
+        weight: 1
+      - path: ScarabHub001/ScarabWingL2
+        weight: 1
+      - path: ScarabHub001/ScarabWingL11
+        weight: 1
+      - path: ScarabHub001/ScarabWingL11/ScarabWingL12
+        weight: 1
+      - path: ScarabHub001/ScarabWingR2
+        weight: 1
+      - path: ScarabHub001/ScarabWingR11
+        weight: 1
+      - path: ScarabHub001/ScarabWingR11/ScarabWingR12
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: hit
+      takeName: Take 001
+      firstFrame: 120
+      lastFrame: 140
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: scarab
+        weight: 1
+      - path: ScarabHub001
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg1Collarbone
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg1Collarbone/ScarabLLeg11
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg1Collarbone/ScarabLLeg11/ScarabLLeg12
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg1Collarbone/ScarabLLeg11/ScarabLLeg12/ScarabLLeg1Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg21
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg21/ScarabLLeg22
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg21/ScarabLLeg22/ScarabLLeg2Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg31
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg31/ScarabLLeg32
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg31/ScarabLLeg32/ScarabLLeg3Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabNeck
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabLArm1
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabLArm21
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabLArm21/ScarabLArm22
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabRArm1
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabRArm1/ScarabRArm2
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabRArm11
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg1Collarbone
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg1Collarbone/ScarabRLeg11
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg1Collarbone/ScarabRLeg11/ScarabRLeg12
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg1Collarbone/ScarabRLeg11/ScarabRLeg12/ScarabRLeg1Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg21
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg21/ScarabRLeg22
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg21/ScarabRLeg22/ScarabRLeg2Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg31
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg31/ScarabRLeg32
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg31/ScarabRLeg32/ScarabRLeg3Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabTail1
+        weight: 1
+      - path: ScarabHub001/ScarabTail1/ScarabTail2
+        weight: 1
+      - path: ScarabHub001/ScarabWingL2
+        weight: 1
+      - path: ScarabHub001/ScarabWingL11
+        weight: 1
+      - path: ScarabHub001/ScarabWingL11/ScarabWingL12
+        weight: 1
+      - path: ScarabHub001/ScarabWingR2
+        weight: 1
+      - path: ScarabHub001/ScarabWingR11
+        weight: 1
+      - path: ScarabHub001/ScarabWingR11/ScarabWingR12
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: walk
+      takeName: Take 001
+      firstFrame: 150
+      lastFrame: 170
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: scarab
+        weight: 1
+      - path: ScarabHub001
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg1Collarbone
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg1Collarbone/ScarabLLeg11
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg1Collarbone/ScarabLLeg11/ScarabLLeg12
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg1Collarbone/ScarabLLeg11/ScarabLLeg12/ScarabLLeg1Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg21
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg21/ScarabLLeg22
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg21/ScarabLLeg22/ScarabLLeg2Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg31
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg31/ScarabLLeg32
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg31/ScarabLLeg32/ScarabLLeg3Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabNeck
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabLArm1
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabLArm21
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabLArm21/ScarabLArm22
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabRArm1
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabRArm1/ScarabRArm2
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabRArm11
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg1Collarbone
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg1Collarbone/ScarabRLeg11
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg1Collarbone/ScarabRLeg11/ScarabRLeg12
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg1Collarbone/ScarabRLeg11/ScarabRLeg12/ScarabRLeg1Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg21
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg21/ScarabRLeg22
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg21/ScarabRLeg22/ScarabRLeg2Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg31
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg31/ScarabRLeg32
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg31/ScarabRLeg32/ScarabRLeg3Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabTail1
+        weight: 1
+      - path: ScarabHub001/ScarabTail1/ScarabTail2
+        weight: 1
+      - path: ScarabHub001/ScarabWingL2
+        weight: 1
+      - path: ScarabHub001/ScarabWingL11
+        weight: 1
+      - path: ScarabHub001/ScarabWingL11/ScarabWingL12
+        weight: 1
+      - path: ScarabHub001/ScarabWingR2
+        weight: 1
+      - path: ScarabHub001/ScarabWingR11
+        weight: 1
+      - path: ScarabHub001/ScarabWingR11/ScarabWingR12
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: take off
+      takeName: Take 001
+      firstFrame: 190
+      lastFrame: 210
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: scarab
+        weight: 1
+      - path: ScarabHub001
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg1Collarbone
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg1Collarbone/ScarabLLeg11
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg1Collarbone/ScarabLLeg11/ScarabLLeg12
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg1Collarbone/ScarabLLeg11/ScarabLLeg12/ScarabLLeg1Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg21
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg21/ScarabLLeg22
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg21/ScarabLLeg22/ScarabLLeg2Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg31
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg31/ScarabLLeg32
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg31/ScarabLLeg32/ScarabLLeg3Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabNeck
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabLArm1
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabLArm21
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabLArm21/ScarabLArm22
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabRArm1
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabRArm1/ScarabRArm2
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabRArm11
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg1Collarbone
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg1Collarbone/ScarabRLeg11
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg1Collarbone/ScarabRLeg11/ScarabRLeg12
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg1Collarbone/ScarabRLeg11/ScarabRLeg12/ScarabRLeg1Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg21
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg21/ScarabRLeg22
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg21/ScarabRLeg22/ScarabRLeg2Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg31
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg31/ScarabRLeg32
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg31/ScarabRLeg32/ScarabRLeg3Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabTail1
+        weight: 1
+      - path: ScarabHub001/ScarabTail1/ScarabTail2
+        weight: 1
+      - path: ScarabHub001/ScarabWingL2
+        weight: 1
+      - path: ScarabHub001/ScarabWingL11
+        weight: 1
+      - path: ScarabHub001/ScarabWingL11/ScarabWingL12
+        weight: 1
+      - path: ScarabHub001/ScarabWingR2
+        weight: 1
+      - path: ScarabHub001/ScarabWingR11
+        weight: 1
+      - path: ScarabHub001/ScarabWingR11/ScarabWingR12
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: fly
+      takeName: Take 001
+      firstFrame: 210
+      lastFrame: 225
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: scarab
+        weight: 1
+      - path: ScarabHub001
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg1Collarbone
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg1Collarbone/ScarabLLeg11
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg1Collarbone/ScarabLLeg11/ScarabLLeg12
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg1Collarbone/ScarabLLeg11/ScarabLLeg12/ScarabLLeg1Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg21
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg21/ScarabLLeg22
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg21/ScarabLLeg22/ScarabLLeg2Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg31
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg31/ScarabLLeg32
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg31/ScarabLLeg32/ScarabLLeg3Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabNeck
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabLArm1
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabLArm21
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabLArm21/ScarabLArm22
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabRArm1
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabRArm1/ScarabRArm2
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabRArm11
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg1Collarbone
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg1Collarbone/ScarabRLeg11
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg1Collarbone/ScarabRLeg11/ScarabRLeg12
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg1Collarbone/ScarabRLeg11/ScarabRLeg12/ScarabRLeg1Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg21
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg21/ScarabRLeg22
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg21/ScarabRLeg22/ScarabRLeg2Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg31
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg31/ScarabRLeg32
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg31/ScarabRLeg32/ScarabRLeg3Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabTail1
+        weight: 1
+      - path: ScarabHub001/ScarabTail1/ScarabTail2
+        weight: 1
+      - path: ScarabHub001/ScarabWingL2
+        weight: 1
+      - path: ScarabHub001/ScarabWingL11
+        weight: 1
+      - path: ScarabHub001/ScarabWingL11/ScarabWingL12
+        weight: 1
+      - path: ScarabHub001/ScarabWingR2
+        weight: 1
+      - path: ScarabHub001/ScarabWingR11
+        weight: 1
+      - path: ScarabHub001/ScarabWingR11/ScarabWingR12
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: landing
+      takeName: Take 001
+      firstFrame: 240
+      lastFrame: 260
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: scarab
+        weight: 1
+      - path: ScarabHub001
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg1Collarbone
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg1Collarbone/ScarabLLeg11
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg1Collarbone/ScarabLLeg11/ScarabLLeg12
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg1Collarbone/ScarabLLeg11/ScarabLLeg12/ScarabLLeg1Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg21
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg21/ScarabLLeg22
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg21/ScarabLLeg22/ScarabLLeg2Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg31
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg31/ScarabLLeg32
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg31/ScarabLLeg32/ScarabLLeg3Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabNeck
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabLArm1
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabLArm21
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabLArm21/ScarabLArm22
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabRArm1
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabRArm1/ScarabRArm2
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabRArm11
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg1Collarbone
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg1Collarbone/ScarabRLeg11
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg1Collarbone/ScarabRLeg11/ScarabRLeg12
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg1Collarbone/ScarabRLeg11/ScarabRLeg12/ScarabRLeg1Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg21
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg21/ScarabRLeg22
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg21/ScarabRLeg22/ScarabRLeg2Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg31
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg31/ScarabRLeg32
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg31/ScarabRLeg32/ScarabRLeg3Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabTail1
+        weight: 1
+      - path: ScarabHub001/ScarabTail1/ScarabTail2
+        weight: 1
+      - path: ScarabHub001/ScarabWingL2
+        weight: 1
+      - path: ScarabHub001/ScarabWingL11
+        weight: 1
+      - path: ScarabHub001/ScarabWingL11/ScarabWingL12
+        weight: 1
+      - path: ScarabHub001/ScarabWingR2
+        weight: 1
+      - path: ScarabHub001/ScarabWingR11
+        weight: 1
+      - path: ScarabHub001/ScarabWingR11/ScarabWingR12
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: death
+      takeName: Take 001
+      firstFrame: 280
+      lastFrame: 300
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: scarab
+        weight: 1
+      - path: ScarabHub001
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg1Collarbone
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg1Collarbone/ScarabLLeg11
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg1Collarbone/ScarabLLeg11/ScarabLLeg12
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg1Collarbone/ScarabLLeg11/ScarabLLeg12/ScarabLLeg1Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg21
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg21/ScarabLLeg22
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg21/ScarabLLeg22/ScarabLLeg2Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg31
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg31/ScarabLLeg32
+        weight: 1
+      - path: ScarabHub001/ScarabLLeg31/ScarabLLeg32/ScarabLLeg3Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabNeck
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabLArm1
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabLArm21
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabLArm21/ScarabLArm22
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabRArm1
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabRArm1/ScarabRArm2
+        weight: 1
+      - path: ScarabHub001/ScarabNeck/ScarabHead/ScarabRArm11
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg1Collarbone
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg1Collarbone/ScarabRLeg11
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg1Collarbone/ScarabRLeg11/ScarabRLeg12
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg1Collarbone/ScarabRLeg11/ScarabRLeg12/ScarabRLeg1Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg21
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg21/ScarabRLeg22
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg21/ScarabRLeg22/ScarabRLeg2Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg31
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg31/ScarabRLeg32
+        weight: 1
+      - path: ScarabHub001/ScarabRLeg31/ScarabRLeg32/ScarabRLeg3Ankle
+        weight: 1
+      - path: ScarabHub001/ScarabTail1
+        weight: 1
+      - path: ScarabHub001/ScarabTail1/ScarabTail2
+        weight: 1
+      - path: ScarabHub001/ScarabWingL2
+        weight: 1
+      - path: ScarabHub001/ScarabWingL11
+        weight: 1
+      - path: ScarabHub001/ScarabWingL11/ScarabWingL12
+        weight: 1
+      - path: ScarabHub001/ScarabWingR2
+        weight: 1
+      - path: ScarabHub001/ScarabWingR11
+        weight: 1
+      - path: ScarabHub001/ScarabWingR11/ScarabWingR12
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages:
+    - 0.25
+    - 0.01
+    globalScale: 0.1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 0
+    importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 0.00254
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 0
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: ScarabHub001
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
