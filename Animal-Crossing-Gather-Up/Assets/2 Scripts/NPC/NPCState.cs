@@ -1,6 +1,8 @@
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -8,8 +10,8 @@ public class NPCState : MonoBehaviour
 {
 
     public List<Vector3> waypoints = new List<Vector3>();
+    private int currentWaypointIndex = 0;
     Animator anim;
-    NavMeshAgent agent;
 
     public Transform player;
     private float rotateSpeed = 5f;
@@ -18,7 +20,6 @@ public class NPCState : MonoBehaviour
     {
         Idle,
         Walk,
-        NearByPlayer,
         Talk,
         Happy,
         Dance,
@@ -28,22 +29,17 @@ public class NPCState : MonoBehaviour
 
     private void Start()
     {
-        npcState = State.Idle;
+        npcState = State.Walk;
     }
+
 
     private void Awake()
     {
         anim = GetComponent<Animator>();
-        agent = GetComponent<NavMeshAgent>();
     }
 
     private void Update()
     {
-        if (IsPlayerNearby())
-        {
-            npcState = State.NearByPlayer;
-        }
-
         switch (npcState)
         {
             case State.Idle:
@@ -51,9 +47,7 @@ public class NPCState : MonoBehaviour
                 break;
             case State.Walk:
                 Walk();
-                break;
-            case State.NearByPlayer:
-                NearByPlayer();
+                Wander();
                 break;
             case State.Talk:
                 Talk();
@@ -65,6 +59,8 @@ public class NPCState : MonoBehaviour
                 Dance();
                 break;
         }
+
+        Wander();
     }
 
     private void Idle()
@@ -74,20 +70,44 @@ public class NPCState : MonoBehaviour
 
     private void Walk()
     {
-        anim.SetFloat("Walk", 0.1f);
+        anim.SetFloat("WalkForward", 0.1f);
     }
 
-    private void NearByPlayer()
+    public void LookAtPlayer()
     {
-        //�÷��̾ ���� ���ƺ��� -> �� ���� NPC
-        //Vector3 direction = player.position - transform.position;
-        //direction.y = 0;
+        Vector3 direction = player.position - transform.position;
+        direction.y = 0;
 
-        //Quaternion targetRotation = Quaternion.LookRotation(direction);
-        //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+        Quaternion targetRotation = Quaternion.LookRotation(direction);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+    }
 
-        //��� ���󰡱�
+    private void Wander()
+    {
+        Vector3 newWaypoint = RandomWaypoint();
+        waypoints.Add(newWaypoint);
 
+        if (waypoints.Count == 0) return;
+
+        Vector3 targetPosition = waypoints[currentWaypointIndex];
+        float moveSpeed = 0.5f * Time.deltaTime;
+        transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed);
+
+        if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
+        {
+            currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Count;
+        }
+
+        anim.SetFloat("Walk", 0.5f);
+    }
+
+    private Vector3 RandomWaypoint()
+    {
+        float x = Random.Range(-23f, -26f);
+        float y = 1.5f;
+        float z = Random.Range(22f, 28f);
+
+        return new Vector3(x, y, z);
     }
 
     private void Talk()
@@ -107,10 +127,5 @@ public class NPCState : MonoBehaviour
 
     }
 
-    private bool IsPlayerNearby() //�÷��̾ �ݰ� �ȿ� ������ ���ƺ��� (�ʱ��� or ��� �ֹ�)
-    {
-        float distance = Vector3.Distance(transform.position, player.position);
-        return distance < 4f;
-    }
 }
 
