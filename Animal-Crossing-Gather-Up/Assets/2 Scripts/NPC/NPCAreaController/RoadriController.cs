@@ -1,29 +1,28 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Assertions.Must;
-using UnityEngine.UI;
 
-public class MoriController : DialogController, IAreaNPC
+public class RoadriController : DialogController, IAreaNPC
 {
-    private NPCState moriState;
-    public NPCDialogData moriDialogData;
+
+    public NPCDialogData roadriDialogData;
 
     private void Awake()
     {
-        moriDialogData.isChooseActive = false;
-        moriDialogData.isEnterActive = false;
+        roadriDialogData.isChooseActive = false;
+        roadriDialogData.isEnterActive = false;
     }
+
     protected override void Start()
     {
         base.Start();
-        dialogData = moriDialogData;
-        uiManager.firstChooseText.text = "ì™¸ì¶œí• ë˜";
-        uiManager.thirdChooseText.text = "ì§€ê¸ˆì€ ì•ˆí• ë˜";
-        //string[] optionTexts = { "ì™¸ì¶œ", "ì•ˆí•¨" };
+        dialogData = roadriDialogData;
+        uiManager.firstChooseText.text = "µ¹¾Æ°¥·¡";
+        uiManager.thirdChooseText.text = "¼¶À» ´õ µ¹¾Æº¼·¡";
+        //string[] optionTexts = { "¿ÜÃâ", "¾ÈÇÔ" };
         //optionUI.SetOption(optionTexts);
     }
+
 
 
     public void AirplaneDialogStart()
@@ -34,21 +33,16 @@ public class MoriController : DialogController, IAreaNPC
 
     public void FirstAccept()
     {
-        Debug.Log("ë§ˆì¼ì„¬ ì¶œë°œ");
+        Debug.Log("¿ø·¡ ¼¶À¸·Î µ¹¾Æ°¨");
         uiManager.choosePanel.SetActive(false);
         uiManager.dialogPanel.SetActive(false);
         uiManager.enterPanel.SetActive(false);
     }
     public void EndTalk()
     {
-        Debug.Log("ëª¨ë¦¬ì™€ì˜ ëŒ€í™” ì¢…ë£Œ");
+        Debug.Log("¸¶ÀÏ¼¶ ´õ Åõ¾î");
         uiManager.choosePanel.SetActive(false);
         uiManager.dialogPanel.SetActive(false);
         uiManager.enterPanel.SetActive(false);
-    }
-
-    public void InteractionPlayer()
-    {
-        moriState.LookAtPlayer();
     }
 }
