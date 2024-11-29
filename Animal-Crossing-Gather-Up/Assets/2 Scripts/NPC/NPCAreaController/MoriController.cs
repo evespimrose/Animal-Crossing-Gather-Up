@@ -19,10 +19,8 @@ public class MoriController : DialogController, IAreaNPC
     {
         base.Start();
         dialogData = moriDialogData;
-        uiManager.firstChooseText.text = "외출할래";
-        uiManager.thirdChooseText.text = "지금은 안할래";
-        //string[] optionTexts = { "외출", "안함" };
-        //optionUI.SetOption(optionTexts);
+        string[] moriOptions = { "<mark=#FFDA3750>외출할래</mark>", "<mark=#FFDA3750>지금은 안할래</mark>" };
+        optionui.SetOptions(moriOptions);
     }
 
 
@@ -35,14 +33,14 @@ public class MoriController : DialogController, IAreaNPC
     public void FirstAccept()
     {
         Debug.Log("마일섬 출발");
-        uiManager.choosePanel.SetActive(false);
+        optionui.optionPanel.SetActive(false);
         uiManager.dialogPanel.SetActive(false);
         uiManager.enterPanel.SetActive(false);
     }
     public void EndTalk()
     {
         Debug.Log("모리와의 대화 종료");
-        uiManager.choosePanel.SetActive(false);
+        optionui.optionPanel.SetActive(false);
         uiManager.dialogPanel.SetActive(false);
         uiManager.enterPanel.SetActive(false);
     }
