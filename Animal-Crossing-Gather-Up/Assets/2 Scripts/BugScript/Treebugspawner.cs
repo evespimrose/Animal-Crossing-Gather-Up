@@ -5,7 +5,7 @@ using UnityEngine;
 public class TreebugSpawner : MonoBehaviour
 {
     [SerializeField] private List<BugPrefabData> bugPrefab;
-    [SerializeField] private float spawnInterval = 10f; //스폰 간격
+    //[SerializeField] private float spawnInterval = 10f; //스폰 간격
     [SerializeField] private Transform spawnPoint; //드래그엔 드롭으로 위치 지정
 
     private IslandTreeManager IslandManager;
