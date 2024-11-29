@@ -82,14 +82,20 @@ public class NPCState : MonoBehaviour
 
     private void Happy()
     {
-        animator.SetTrigger("Talk"); // 한번으로 끝나서 Trigger로 설정
+        animator.SetTrigger("Happy"); // 한번으로 끝나서 Trigger로 설정
 
     }
 
     private void Dance()
     {
-        animator.SetTrigger("Talk");
+        animator.SetTrigger("Dance");
 
+    }
+
+    private bool IsPlayerNearby() //플레이어가 반경 안에 있으면 돌아보기 (너구리 or 몇몇 주민)
+    {
+        float distance = Vector3.Distance(transform.position, player.position);
+        return distance < 4f;
     }
 }
 
