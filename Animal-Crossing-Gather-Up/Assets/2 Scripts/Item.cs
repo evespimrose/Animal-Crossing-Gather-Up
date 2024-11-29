@@ -9,4 +9,6 @@ public class Item : ScriptableObject
 	public int stackLimit;
 	public int basePrice;
 	public Sprite icon;
+	public string[] optionText;
+	public string[] fullInventoryOptionText;
 }
