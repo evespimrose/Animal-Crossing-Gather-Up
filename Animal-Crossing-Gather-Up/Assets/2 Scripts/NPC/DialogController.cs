@@ -40,12 +40,12 @@ public class DialogController : MonoBehaviour
                     string text = dialogData.dialogTexts[talkCount];
                     currentCoroutine = StartCoroutine(TypingDialog(text));
                     talkCount++;
-                    if (talkCount == dialogData.dialogTexts.Length)
-                    {
-                        dialogData.isChooseActive = true;
-                    }
                 }
             }
+        }
+        if (talkCount == dialogData.dialogTexts.Length)
+        {
+            dialogData.isChooseActive = true;
         }
         uiManager.enterPanel.SetActive(dialogData.isEnterActive);
     }

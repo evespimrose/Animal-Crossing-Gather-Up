@@ -9,6 +9,9 @@ public class NPCDialogData : ScriptableObject
     public string npcName; //npc 이름
     [TextArea]
     public string[] dialogTexts; //ncp 대화
+    //[TextArea]
+    //public string[] secondDialog; // 선택패널 후 두번째 대화 -> 필요하다면 계속 생성
+
     public bool isChooseActive; //선택패널 활성화 bool
     public bool isEnterActive; //엔터패널 활성화 bool
 }
