@@ -10,6 +10,7 @@ using Unity.VisualScripting;
 public class DialogController : MonoBehaviour
 {
     protected NPCPanelUI uiManager;
+    protected OptionUI optionui;
     protected Coroutine currentCoroutine;
     protected int talkCount = 0;
 
@@ -18,8 +19,9 @@ public class DialogController : MonoBehaviour
     protected virtual void Start()
     {
         uiManager = FindObjectOfType<NPCPanelUI>();
+        optionui = FindObjectOfType<OptionUI>();
         uiManager.dialogPanel.SetActive(false);
-        uiManager.choosePanel.SetActive(false);
+        optionui.optionPanel.SetActive(false);
         uiManager.enterPanel.SetActive(false);
     }
 
@@ -47,6 +49,7 @@ public class DialogController : MonoBehaviour
         {
             dialogData.isChooseActive = true;
         }
+
         uiManager.enterPanel.SetActive(dialogData.isEnterActive);
     }
 
@@ -78,7 +81,7 @@ public class DialogController : MonoBehaviour
         }
 
         dialogData.isEnterActive = true;
-        uiManager.choosePanel.SetActive(dialogData.isChooseActive);
+        optionui.PanelActive(dialogData.isChooseActive);
         currentCoroutine = null;
     }
 
