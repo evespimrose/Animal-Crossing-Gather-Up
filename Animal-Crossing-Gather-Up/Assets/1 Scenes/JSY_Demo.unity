@@ -530,7 +530,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: dc68642c26c05c44cbca4ed5fae28565, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: dc68642c26c05c44cbca4ed5fae28565, type: 3}
       propertyPath: m_LocalRotation.x
@@ -538,7 +538,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: dc68642c26c05c44cbca4ed5fae28565, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: dc68642c26c05c44cbca4ed5fae28565, type: 3}
       propertyPath: m_LocalRotation.z
@@ -550,7 +550,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: dc68642c26c05c44cbca4ed5fae28565, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: dc68642c26c05c44cbca4ed5fae28565, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -593,6 +593,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: dc68642c26c05c44cbca4ed5fae28565, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1258940542}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: dc68642c26c05c44cbca4ed5fae28565, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1258940543}
   m_SourcePrefab: {fileID: 100100000, guid: dc68642c26c05c44cbca4ed5fae28565, type: 3}
 --- !u!1001 &867834890
 PrefabInstance:
@@ -1325,7 +1328,7 @@ GameObject:
   - component: {fileID: 1043426275}
   - component: {fileID: 1043426274}
   m_Layer: 5
-  m_Name: Image
+  m_Name: EnterPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1684,6 +1687,20 @@ MonoBehaviour:
   dialogText: {fileID: 1994299648}
   choosePanel: {fileID: 1853330697}
   enterPaner: {fileID: 1043426272}
+--- !u!114 &1258940543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1258940537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9f8cf322463444488dc3c6c301ca581, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waypoints: []
+  player: {fileID: 1350617833}
 --- !u!1001 &1289641289
 PrefabInstance:
   m_ObjectHideFlags: 0
