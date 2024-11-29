@@ -9,7 +9,7 @@ public class InventoryUI : MonoBehaviour
 
 	// UI에 띄우기 위한 slot들?
 	public List<SlotUI> slotUIs = new List<SlotUI>();   // List of SlotUI components
-	private int selectedSlotIndex = 0;  // Index of the currently selected slot
+	private int cursorOnSlotIndex = 0;  // Index of the currently selected slot
 	private const int slotsPerRow = 10; // Number of slots per row
 	private const int totalRows = 2;    // Total number of rows
 
@@ -45,7 +45,7 @@ public class InventoryUI : MonoBehaviour
 		// but if full, call another delegate
 
 		UpdateAllSlotsUI(); // Update all slots when opening the inventory
-		SelectSlot(selectedSlotIndex);  // Select the first slot by default
+		CursorOnSlot(cursorOnSlotIndex);  // Select the first slot by default
 	}
 
 	// inventory가 SlotPrefab을 Instantiate할때 SlotPrefab에 부착된 SlotUI을 받아오기 위한 함수
@@ -69,44 +69,55 @@ public class InventoryUI : MonoBehaviour
 
 	private void HandleSlotSelection()
 	{
-		int previousSlotIndex = selectedSlotIndex;  // Store the previous index
+		int previousSlotIndex = cursorOnSlotIndex;  // Store the previous index
 
-		if (Input.GetKeyDown(KeyCode.W) && selectedSlotIndex >= slotsPerRow)
+		if (Input.GetKeyDown(KeyCode.W) && cursorOnSlotIndex >= slotsPerRow)
 		{
-			// Move selection up
-			selectedSlotIndex -= slotsPerRow;   // Move up by one row
+			// Move cursor up
+			cursorOnSlotIndex -= slotsPerRow;   // Move up by one row
 		}
-		else if (Input.GetKeyDown(KeyCode.S) && selectedSlotIndex < slotsPerRow * (totalRows - 1))
+		else if (Input.GetKeyDown(KeyCode.S) && cursorOnSlotIndex < slotsPerRow * (totalRows - 1))
 		{
-			// Move selection down
-			selectedSlotIndex += slotsPerRow;   // Move down by one row
+			// Move cursor down
+			cursorOnSlotIndex += slotsPerRow;   // Move down by one row
 		}
-		else if (Input.GetKeyDown(KeyCode.A) && selectedSlotIndex % slotsPerRow > 0)
+		else if (Input.GetKeyDown(KeyCode.A) && cursorOnSlotIndex % slotsPerRow > 0)
 		{
-			// Move selection left
-			selectedSlotIndex--;    // Move left by one slot
+			// Move cursor left
+			cursorOnSlotIndex--;    // Move left by one slot
 		}
-		else if (Input.GetKeyDown(KeyCode.D) && selectedSlotIndex % slotsPerRow < slotsPerRow - 1)
+		else if (Input.GetKeyDown(KeyCode.D) && cursorOnSlotIndex % slotsPerRow < slotsPerRow - 1)
 		{
-			// Move selection right
-			selectedSlotIndex++;    // Move right by one slot
+			// Move cursor right
+			cursorOnSlotIndex++;    // Move right by one slot
+		}
+		else if (Input.GetKeyDown(KeyCode.Return))
+		{
+			// Select CursorOnSlot
+			SelectSlot(cursorOnSlotIndex);
 		}
 
 		// Only update the selection if it has changed
-		if (previousSlotIndex != selectedSlotIndex)
+		if (previousSlotIndex != cursorOnSlotIndex)
 		{
-			SelectSlot(selectedSlotIndex);
+			CursorOnSlot(cursorOnSlotIndex);
 		}
+	}
+
+	private void CursorOnSlot(int index)
+	{
+		// Decursor on all slots
+		foreach (var slotUI in slotUIs)
+		{
+			slotUI.CursorOnSlot(false);
+		}
+
+		// Cursor on the current slot
+		slotUIs[index].CursorOnSlot(true);
 	}
 
 	private void SelectSlot(int index)
 	{
-		// Deselect all slots
-		foreach (var slotUI in slotUIs)
-		{
-			slotUI.SelectSlot(false);
-		}
-
 		// Select the current slot
 		slotUIs[index].SelectSlot(true);
 	}
