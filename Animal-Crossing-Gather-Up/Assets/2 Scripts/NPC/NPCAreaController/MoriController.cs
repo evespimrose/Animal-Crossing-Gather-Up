@@ -21,6 +21,8 @@ public class MoriController : DialogController, IDialog
         dialogData = moriDialogData;
         uiManager.firstChooseText.text = "외출할래";
         uiManager.thirdChooseText.text = "지금은 안할래";
+        //string[] optionTexts = { "외출", "안함" };
+        //optionUI.SetOption(optionTexts);
     }
 
     public void AirplaneDialogStart()
