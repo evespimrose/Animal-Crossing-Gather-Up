@@ -10,6 +10,12 @@ public class SlotUI : MonoBehaviour
 	public TextMeshProUGUI stackCountText;  // Reference to the UI Text for the stackCount
 	public Image choiceBackground;  // Reference to the choice background image
 	public TextMeshProUGUI itemNameText;
+	private Slot currentSlot;
+
+	private void Start()
+	{
+		currentSlot = GetComponent<Slot>();
+	}
 
 	public void UpdateUI(Item item, int stackCount)
 	{
@@ -29,8 +35,16 @@ public class SlotUI : MonoBehaviour
 		}
 	}
 
-	public void SelectSlot(bool isSelected)
+	public void CursorOnSlot(bool isCursorOn)
 	{
-		choiceBackground.gameObject.SetActive(isSelected);  // Activate or deactivate choice background
+		choiceBackground.gameObject.SetActive(isCursorOn);  // Activate or deactivate choice background
+	}
+
+	public void SelectSlot(bool isSelect)
+	{
+		//optionUI.SetActive(isSelect);
+		//OptionUI optionUI;
+		//optionUI.SetOptions(currentSlot.item.optionText);
+		// 활성화 하고, 다른 키 누르면 다시 비활성화
 	}
 }
