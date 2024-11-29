@@ -8,7 +8,7 @@ public class NPCState : MonoBehaviour
 {
 
     public List<Vector3> waypoints = new List<Vector3>();
-    Animator animator;
+    Animator anim;
     NavMeshAgent agent;
 
     public Transform player;
@@ -18,21 +18,32 @@ public class NPCState : MonoBehaviour
     {
         Idle,
         Walk,
-        LookAtPlayer,
+        NearByPlayer,
         Talk,
         Happy,
         Dance,
     }
 
     State npcState;
+
+    private void Start()
+    {
+        npcState = State.Idle;
+    }
+
     private void Awake()
     {
-        animator = GetComponent<Animator>();
+        anim = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
     }
 
     private void Update()
     {
+        if (IsPlayerNearby())
+        {
+            npcState = State.NearByPlayer;
+        }
+
         switch (npcState)
         {
             case State.Idle:
@@ -41,8 +52,8 @@ public class NPCState : MonoBehaviour
             case State.Walk:
                 Walk();
                 break;
-            case State.LookAtPlayer:
-                LookAtPlayer();
+            case State.NearByPlayer:
+                NearByPlayer();
                 break;
             case State.Talk:
                 Talk();
@@ -63,32 +74,36 @@ public class NPCState : MonoBehaviour
 
     private void Walk()
     {
-        animator.SetFloat("Walk", 0.1f);
+        anim.SetFloat("Walk", 0.1f);
     }
 
-    private void LookAtPlayer()
+    private void NearByPlayer()
     {
-        Vector3 direction = player.position - transform.position;
-        direction.y = 0;
+        //플레이어를 향해 돌아보기 -> 모리 같은 NPC
+        //Vector3 direction = player.position - transform.position;
+        //direction.y = 0;
 
-        Quaternion targetRotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+        //Quaternion targetRotation = Quaternion.LookRotation(direction);
+        //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+
+        //고개 따라가기
+
     }
 
     private void Talk()
     {
-        animator.SetBool("Talk", true); // -> Bool 설정
+        anim.SetBool("Talk", true); // -> Bool 설정
     }
 
     private void Happy()
     {
-        animator.SetTrigger("Happy"); // 한번으로 끝나서 Trigger로 설정
+        anim.SetTrigger("Happy"); // 한번으로 끝나서 Trigger로 설정
 
     }
 
     private void Dance()
     {
-        animator.SetTrigger("Dance");
+        anim.SetTrigger("Dance");
 
     }
 
