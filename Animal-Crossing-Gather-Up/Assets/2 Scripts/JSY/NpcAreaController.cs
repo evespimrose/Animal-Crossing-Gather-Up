@@ -6,11 +6,10 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.AI;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
-using UnityEditor.ShaderGraph.Internal;
 
 public class NPCAreaController : MonoBehaviour
 {
-    public GameObject dialogPanel; //UIManager·Î ¿Å±æ ¿¹Á¤
+    public GameObject dialogPanel; //UIManagerï¿½ï¿½ ï¿½Å±ï¿½ ï¿½ï¿½ï¿½ï¿½
     DialogController dialogController;
 
 
@@ -25,7 +24,7 @@ public class NPCAreaController : MonoBehaviour
 
     }
 
-    public void AirplaneDialogActive() //ÇÃ·¹ÀÌ¾î ½ºÅ©¸³Æ®¿¡¼­ Å° ´©¸£¸é ÇÔ¼ö ½ÇÇàµÇ°Ô Ãß°¡
+    public void AirplaneDialogActive() //ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½Å©ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ Å° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½ ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ ï¿½ß°ï¿½
     {
         dialogPanel.SetActive(true);
         dialogController.DialogStart();

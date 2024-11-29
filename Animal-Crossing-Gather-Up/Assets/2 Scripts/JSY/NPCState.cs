@@ -8,7 +8,7 @@ public class NPCState : MonoBehaviour
 {
 
     public List<Vector3> waypoints = new List<Vector3>();
-    Animator animator;
+    Animator anim;
     NavMeshAgent agent;
 
     public Transform player;
@@ -18,21 +18,32 @@ public class NPCState : MonoBehaviour
     {
         Idle,
         Walk,
-        LookAtPlayer,
+        NearByPlayer,
         Talk,
         Happy,
         Dance,
     }
 
     State npcState;
+
+    private void Start()
+    {
+        npcState = State.Idle;
+    }
+
     private void Awake()
     {
-        animator = GetComponent<Animator>();
+        anim = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
     }
 
     private void Update()
     {
+        if (IsPlayerNearby())
+        {
+            npcState = State.NearByPlayer;
+        }
+
         switch (npcState)
         {
             case State.Idle:
@@ -41,8 +52,8 @@ public class NPCState : MonoBehaviour
             case State.Walk:
                 Walk();
                 break;
-            case State.LookAtPlayer:
-                LookAtPlayer();
+            case State.NearByPlayer:
+                NearByPlayer();
                 break;
             case State.Talk:
                 Talk();
@@ -63,36 +74,40 @@ public class NPCState : MonoBehaviour
 
     private void Walk()
     {
-        animator.SetFloat("Walk", 0.1f);
+        anim.SetFloat("Walk", 0.1f);
     }
 
-    private void LookAtPlayer()
+    private void NearByPlayer()
     {
-        Vector3 direction = player.position - transform.position;
-        direction.y = 0;
+        //ï¿½Ã·ï¿½ï¿½Ì¾î¸¦ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Æºï¿½ï¿½ï¿½ -> ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ NPC
+        //Vector3 direction = player.position - transform.position;
+        //direction.y = 0;
 
-        Quaternion targetRotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+        //Quaternion targetRotation = Quaternion.LookRotation(direction);
+        //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+
+        //ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ó°¡±ï¿½
+
     }
 
     private void Talk()
     {
-        animator.SetBool("Talk", true); // -> Bool ¼³Á¤
+        anim.SetBool("Talk", true); // -> Bool ï¿½ï¿½ï¿½ï¿½
     }
 
     private void Happy()
     {
-        animator.SetTrigger("Happy"); // ÇÑ¹øÀ¸·Î ³¡³ª¼­ Trigger·Î ¼³Á¤
+        anim.SetTrigger("Happy"); // ï¿½Ñ¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Triggerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
     }
 
     private void Dance()
     {
-        animator.SetTrigger("Dance");
+        anim.SetTrigger("Dance");
 
     }
 
-    private bool IsPlayerNearby() //ÇÃ·¹ÀÌ¾î°¡ ¹Ý°æ ¾È¿¡ ÀÖÀ¸¸é µ¹¾Æº¸±â (³Ê±¸¸® or ¸î¸î ÁÖ¹Î)
+    private bool IsPlayerNearby() //ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½Ý°ï¿½ ï¿½È¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Æºï¿½ï¿½ï¿½ (ï¿½Ê±ï¿½ï¿½ï¿½ or ï¿½ï¿½ï¿½ ï¿½Ö¹ï¿½)
     {
         float distance = Vector3.Distance(transform.position, player.position);
         return distance < 4f;
