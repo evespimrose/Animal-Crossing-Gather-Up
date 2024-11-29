@@ -79,25 +79,25 @@ public class NPCState : MonoBehaviour
 
     private void NearByPlayer()
     {
-        //ÇÃ·¹ÀÌ¾î¸¦ ÇâÇØ µ¹¾Æº¸±â -> ¸ð¸® °°Àº NPC
+        //ï¿½Ã·ï¿½ï¿½Ì¾î¸¦ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Æºï¿½ï¿½ï¿½ -> ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ NPC
         //Vector3 direction = player.position - transform.position;
         //direction.y = 0;
 
         //Quaternion targetRotation = Quaternion.LookRotation(direction);
         //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
 
-        //°í°³ µû¶ó°¡±â
+        //ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ó°¡±ï¿½
 
     }
 
     private void Talk()
     {
-        anim.SetBool("Talk", true); // -> Bool ¼³Á¤
+        anim.SetBool("Talk", true); // -> Bool ï¿½ï¿½ï¿½ï¿½
     }
 
     private void Happy()
     {
-        anim.SetTrigger("Happy"); // ÇÑ¹øÀ¸·Î ³¡³ª¼­ Trigger·Î ¼³Á¤
+        anim.SetTrigger("Happy"); // ï¿½Ñ¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Triggerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
     }
 
@@ -107,7 +107,7 @@ public class NPCState : MonoBehaviour
 
     }
 
-    private bool IsPlayerNearby() //ÇÃ·¹ÀÌ¾î°¡ ¹Ý°æ ¾È¿¡ ÀÖÀ¸¸é µ¹¾Æº¸±â (³Ê±¸¸® or ¸î¸î ÁÖ¹Î)
+    private bool IsPlayerNearby() //ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½Ý°ï¿½ ï¿½È¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Æºï¿½ï¿½ï¿½ (ï¿½Ê±ï¿½ï¿½ï¿½ or ï¿½ï¿½ï¿½ ï¿½Ö¹ï¿½)
     {
         float distance = Vector3.Distance(transform.position, player.position);
         return distance < 4f;
