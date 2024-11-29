@@ -16,6 +16,11 @@ MonoBehaviour:
   stackLimit: 1
   basePrice: 0
   icon: {fileID: 21300000, guid: e0c87a3f07d5c45c8b7ff6bf32242f12, type: 3}
+  optionText:
+  - "\uB4E4\uAE30"
+  - "\uADFC\uCC98\uC5D0 \uB450\uAE30"
+  fullInventoryOptionText:
+  - "\uBC14\uAFB8\uAE30"
   maxDurability: 0
   currentDurability: 0
   isEquipped: 0
