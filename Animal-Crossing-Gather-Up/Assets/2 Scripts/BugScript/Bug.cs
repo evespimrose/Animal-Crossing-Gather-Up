@@ -8,7 +8,7 @@ public class Bug : MonoBehaviour
 
     private void Start()
     {
-        islandTreeManager = GetComponent<IslandTreeManager>();
+        islandTreeManager = GetComponentInParent<IslandTreeManager>();
     }
 
     private void OnDestroy()

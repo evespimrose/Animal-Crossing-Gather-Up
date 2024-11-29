@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 497653321048569005}
   - component: {fileID: 8913472142359367323}
   - component: {fileID: 2922707357804819042}
+  - component: {fileID: 1764501201365015466}
   m_Layer: 0
   m_Name: Butterfly
   m_TagString: Untagged
@@ -83,3 +84,15 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &1764501201365015466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3509250616930223806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da5843e41f78ea246a611bb2c38d3ac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

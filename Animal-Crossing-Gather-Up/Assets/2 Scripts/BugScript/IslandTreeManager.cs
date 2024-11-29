@@ -24,6 +24,7 @@ public class IslandTreeManager : MonoBehaviour
 
     private IEnumerator SpawnBugRoutine()
     {
+        yield return null;
         while (true)
         {
             if (CanSpawnBug())

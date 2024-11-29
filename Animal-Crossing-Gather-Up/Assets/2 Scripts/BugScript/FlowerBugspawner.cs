@@ -16,9 +16,15 @@ public class FlowerBugSpawner : MonoBehaviour
         if (IslandManager == null) return;
     }
 
+    public void Init(IslandFlowerManager IslandManager)
+    {
+
+    }
+
     public void SpawnRandomBug()
     {
         if (bugPrefab.Count == 0) return;
+        if (IslandManager == null) return;
 
         int randomIndex = Random.Range(0, bugPrefab.Count);
         BugPrefabData selectedBug = bugPrefab[randomIndex];
@@ -27,6 +33,7 @@ public class FlowerBugSpawner : MonoBehaviour
         newBugObject.transform.parent = transform;
 
         currentBug = GetComponentInChildren<Bug>();
+
         IslandManager.AddBug();
     }
 }

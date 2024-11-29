@@ -10,10 +10,14 @@ public class IslandFlowerManager : MonoBehaviour
     private List<FlowerBugSpawner> flowerSpawners = new List<FlowerBugSpawner>();
     private int currentBugCount = 0;
 
-    private void Start()
+    private void Awake()
     {
         flowerSpawners.AddRange(GetComponentsInChildren<FlowerBugSpawner>());
         if (flowerSpawners.Count == 0) return;
+    }
+
+    private void Start()
+    {
         StartCoroutine(SpawnBugRoutine());
     }
 

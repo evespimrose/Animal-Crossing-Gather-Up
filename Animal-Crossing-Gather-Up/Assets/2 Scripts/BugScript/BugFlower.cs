@@ -4,15 +4,25 @@ using UnityEngine;
 
 public class BugFlower : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private IslandFlowerManager islandFlowerManager;
+
+    private void Start()
     {
-        
+
+        // 안될거같은뎅
+        islandFlowerManager = GetComponentInParent<IslandFlowerManager>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDestroy()
     {
-        
+        if (islandFlowerManager != null)
+        {
+            islandFlowerManager.RemoveBug();
+        }
+    }
+
+    private void OnMouseDown()
+    {
+        Destroy(gameObject);
     }
 }
