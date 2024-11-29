@@ -6,7 +6,6 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.AI;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
-using UnityEditor.ShaderGraph.Internal;
 
 public class NPCAreaController : MonoBehaviour
 {
