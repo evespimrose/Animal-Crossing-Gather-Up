@@ -24,9 +24,21 @@ public class PurchaseUI : MonoBehaviour
 		}
 	}
 
+	private void UpdateAllSlotUIs()
+	{
+		for (int i = 0; i < slotUIs.Count; i++)
+		{
+			//slotUIs[i].UpdateUI(slot)
+		}
+	}
+
 	public void PurchasePanelOpen()
 	{
 		purchasePanel.SetActive(true);
+		foreach (SlotUI slotUI in slotUIs)
+		{
+			slotUI.cursorImage.gameObject.SetActive(false);
+		}
 		CursorOnSlot(cursorOnSlotIndex);  // Select the first slot by default
 	}
 
@@ -73,9 +85,14 @@ public class PurchaseUI : MonoBehaviour
 		foreach (SlotUI slotUI in slotUIs)
 		{
 			slotUI.CursorOnSlotDisplayCursor(false);
+			slotUI.CursorOnSlotDisplayName(false);
 		}
 
 		// Cursor on the current slot
 		slotUIs[index].CursorOnSlotDisplayCursor(true);
+		if (slotUIs[index].itemNameText.text != "")
+		{
+			slotUIs[index].CursorOnSlotDisplayName(true);
+		}
 	}
 }
