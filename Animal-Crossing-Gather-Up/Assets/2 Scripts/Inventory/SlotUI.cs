@@ -9,6 +9,7 @@ public class SlotUI : MonoBehaviour
 	public Image itemImage; // Reference to the UI Image for the item
 	public TextMeshProUGUI stackCountText;  // Reference to the UI Text for the stackCount
 	public Image choiceBackground;  // Reference to the choice background image
+	public Image cursorImage;
 	public TextMeshProUGUI itemNameText;
 	private Slot currentSlot;
 
@@ -35,9 +36,15 @@ public class SlotUI : MonoBehaviour
 		}
 	}
 
-	public void CursorOnSlot(bool isCursorOn)
+	public void CursorOnSlotDisplayBackground(bool isCursorOn)
 	{
 		choiceBackground.gameObject.SetActive(isCursorOn);  // Activate or deactivate choice background
+	}
+
+	// cursor
+	public void CursorOnSlotDisplayCursor(bool isCursorOn)
+	{
+		cursorImage.gameObject.SetActive(isCursorOn);
 	}
 
 	public void SelectSlot(bool isSelect)
