@@ -31,7 +31,10 @@ public class InventoryUI : MonoBehaviour
 		}
 
 		// Handle slot selection with keyboard input
-		HandleSlotSelection();
+		if (inventoryPanel.activeSelf)
+		{
+			HandleSlotSelection();
+		}
 	}
 
 	public void InventoryOpen()
@@ -44,8 +47,12 @@ public class InventoryUI : MonoBehaviour
 
 		// but if full, call another delegate
 
-		UpdateAllSlotsUI(); // Update all slots when opening the inventory
+		UpdateAllSlotUIs(); // Update all slots when opening the inventory
 		CursorOnSlot(cursorOnSlotIndex);  // Select the first slot by default
+		foreach (SlotUI slotUI in slotUIs)
+		{
+			slotUI.cursorImage.gameObject.SetActive(false);
+		}
 	}
 
 	// inventory가 SlotPrefab을 Instantiate할때 SlotPrefab에 부착된 SlotUI을 받아오기 위한 함수
@@ -55,12 +62,12 @@ public class InventoryUI : MonoBehaviour
 	}
 
 	// Inventory에게서 Inventory에 담긴 Slots에 담긴 item의 정보들을 받아오기 위한 함수
-	private void UpdateAllSlotsUI()
+	private void UpdateAllSlotUIs()
 	{
 		// 인벤토리의 Slot의 정보들을 새로 할당받아서 받아옴
 		// 이 slots를 변경해도 Inventory의 slot에 담긴 아이템이 바뀌지는 않음
 		List<Slot> slots = inventory.GetSlotInfo();
-		// 인벤토리의 Slot의 정보을 토대로 slotUIs를 업데이트
+		// 인벤토리의 Slot의 정보를 토대로 slotUIs를 업데이트
 		for (int i = 0; i < slots.Count; i++)
 		{
 			slotUIs[i].UpdateUI(slots[i].item, slots[i].stackCount);
@@ -107,13 +114,13 @@ public class InventoryUI : MonoBehaviour
 	private void CursorOnSlot(int index)
 	{
 		// Decursor on all slots
-		foreach (var slotUI in slotUIs)
+		foreach (SlotUI slotUI in slotUIs)
 		{
-			slotUI.CursorOnSlot(false);
+			slotUI.CursorOnSlotDisplayBackground(false);
 		}
 
 		// Cursor on the current slot
-		slotUIs[index].CursorOnSlot(true);
+		slotUIs[index].CursorOnSlotDisplayBackground(true);
 	}
 
 	private void SelectSlot(int index)
