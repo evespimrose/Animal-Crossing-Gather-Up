@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a6edce17e4f9cf448edd6666a5dae1b, type: 3}
-  m_Name: TestTool1
+  m_Name: FisingRod
   m_EditorClassIdentifier: 
-  itemName: t1
+  itemName: FishingRod
   stackLimit: 1
-  basePrice: 0
-  icon: {fileID: 21300000, guid: ab8e6165a631d4b8da8c18a7f1615885, type: 3}
+  basePrice: 100
+  icon: {fileID: 21300000, guid: e2992f80e56bd5f43baf69803c25fa8c, type: 3}
   optionText:
   - "\uB4E4\uAE30\t"
   - "\uADFC\uCC98\uC5D0 \uB450\uAE30"
