@@ -28,17 +28,13 @@ Shader "Custom/TurrainShader"
 
         void vert(inout appdata_full v) 
         {
-            // ���� ������ ���?
             float4 worldPos = mul(unity_ObjectToWorld, v.vertex);
             
-            float dist = length(worldPos.xz - _WorldSpaceCameraPos.xz);
+            float dist = abs(worldPos.x - _WorldSpaceCameraPos.x);
             
-            // ���� ȿ�� ����
             float bendFactor = saturate(dist / _BendRadius);
-            float height = worldPos.y;
             worldPos.y -= bendFactor * _CurveStrength * dist * dist;
             
-            // ���� ���������� ��ȯ
             v.vertex = mul(unity_WorldToObject, worldPos);
         }
 

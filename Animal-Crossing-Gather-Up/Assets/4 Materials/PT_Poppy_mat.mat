@@ -77,7 +77,7 @@ Material:
     - _CUSTOMCOLORSTINTING: 1
     - _CUSTOMFLOWERSCOLOR: 0
     - _CUSTOMWIND: 1
-    - _CurveStrength: 0.0035
+    - _CurveStrength: 0
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 10

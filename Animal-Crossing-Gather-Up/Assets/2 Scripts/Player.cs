@@ -11,19 +11,49 @@ public class Player : MonoBehaviour
 	public delegate void ItemCollectedHandler(Item item);
 	public event ItemCollectedHandler OnItemCollected;
 
-	private ICollectCommand _currentCommand;
+    private Vector3 movement;
 
-	public void SetCommand(ICollectCommand command) { _currentCommand = command; }
-	public void Collect() => _currentCommand?.Execute();
+    private ICollectCommand _currentCommand;
+
+    // test of input item Player to Inventory
+    public Item i0;
+    public Item i1;
+    public Item t0;
+    public Item t1;
+
+    private Dictionary<string, ICollectCommand> _commands = new Dictionary<string, ICollectCommand>();
+
+    public Tool CurrentTool;
+
+    private void Start()
+    {
+        characterController = GetComponent<CharacterController>();
+        InitializeCommands();
+    }
+
+    private void InitializeCommands()
+    {
+        _commands["Net"] = new NetCollectCommand();
+        _commands["FishingRod"] = new FishingRodCollectCommand();
+        _commands["Axe"] = new AxeCollectCommand();
+    }
+
+    public void SetCommand(string commandName)
+    {
+        if (_commands.TryGetValue(commandName, out var command))
+        {
+            _currentCommand = command;
+        }
+        else
+        {
+            Debug.LogWarning($"Command {commandName} not found.");
+        }
+    }
+
+    public void Collect() => _currentCommand?.Execute();
 
 	// test : inventory Open
 	public InventoryUI inventoryUI;
-
-	private void Start()
-	{
-		inventoryUI = FindObjectOfType<InventoryUI>();
-		characterController = GetComponent<CharacterController>();
-	}
 
 	private void Update()
 	{
@@ -32,11 +62,6 @@ public class Player : MonoBehaviour
 		Test();
 	}
 
-	// test of input item Player to Inventory
-	public Item i0;
-	public Item i1;
-	public Item t0;
-	public Item t1;
 	private void Test()
 	{
 		if (Input.GetKeyDown(KeyCode.Z))
@@ -65,13 +90,27 @@ public class Player : MonoBehaviour
 	{
 		float horizontal = Input.GetAxis("Horizontal");
 		float vertical = Input.GetAxis("Vertical");
-	}
+
+        movement = new Vector3(horizontal, 0, vertical);
+        if (movement.magnitude > 0.1f)
+        {
+            characterController.Move(moveSpeed * Time.deltaTime * movement);
+            transform.forward = movement;
+        }
+    }
 
 	private void HandleCollection()
 	{
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
-			Collect();
+			if (_currentCommand != null)
+			{
+				Collect();
+			}
+			else
+			{
+				Debug.LogWarning("No command set.");
+			}
 		}
 	}
 
@@ -85,9 +124,32 @@ public class Player : MonoBehaviour
 		equippedTool = tool;
 		equippedTool.transform.SetParent(handPosition);
 		equippedTool.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+
+		CurrentTool = tool.GetComponent<Tool>();
+		UpdateCollectCommand();
 	}
 
-	// ���?����
+	private void UpdateCollectCommand()
+	{
+		if (CurrentTool is Axe)
+		{
+			SetCommand("Axe");
+		}
+		else if (CurrentTool is FishingRod)
+		{
+			SetCommand("FishingRod");
+		}
+		else if (CurrentTool is InsectNet)
+		{
+			SetCommand("Net");
+		}
+		else
+		{
+			_currentCommand = null;
+			Debug.LogWarning("Unknown tool equipped.");
+		}
+	}
+
 	public void UnequipTool()
 	{
 		if (equippedTool != null)
@@ -106,7 +168,7 @@ public class Player : MonoBehaviour
 		//Debug.Log($"Collected {item.itemName}!");
 	}
 
-	// ä���� �Ǹ�
+	// 
 	public void SellItem(GameObject item)
 	{
 		//if (inventory.RemoveItem(item))

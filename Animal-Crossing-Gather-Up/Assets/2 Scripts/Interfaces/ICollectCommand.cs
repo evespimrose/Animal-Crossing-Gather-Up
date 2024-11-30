@@ -4,30 +4,38 @@ using UnityEngine;
 
 public interface ICollectCommand
 {
-    void Execute();
+    public void Execute();
 }
 
-public class NetCollectCommand : ICollectCommand
+public class CollectCommand : ICollectCommand
 {
-    public void Execute()
+    public virtual void Execute()
     {
-        Debug.Log("잠자리채 사용 채집!");
+       
     }
 }
 
-public class FishingRodCollectCommand : ICollectCommand
+public class NetCollectCommand : CollectCommand
 {
-    public void Execute()
+    public override void Execute()
     {
-        Debug.Log("낚싯대 사용 채집!");
+
     }
 }
 
-public class AxeCollectCommand : ICollectCommand
+public class FishingRodCollectCommand : CollectCommand
 {
-    public void Execute()
+    public override void Execute()
     {
-        Debug.Log("도끼 사용 채집!");
+
+    }
+}
+
+public class AxeCollectCommand : CollectCommand
+{
+    public override void Execute()
+    {
+
     }
 }
 

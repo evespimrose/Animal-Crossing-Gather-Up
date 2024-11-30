@@ -238,8 +238,10 @@
                 v2f o;
 
                 o.worldPos = mul(unity_ObjectToWorld, v.vert).xyz;
-                float dist = length(o.worldPos.xz - _WorldSpaceCameraPos.xz);
+                
+                float dist = abs(o.worldPos.x - _WorldSpaceCameraPos.x);
                 o.worldPos.y += _CurveStrength * dist * dist * _ProjectionParams.x;
+                
                 o.worldPos.y += WaveHeight(o.worldPos.xz);
                 o.vert = mul(UNITY_MATRIX_VP, float4(o.worldPos, 1));
                 o.grabPos = ComputeGrabScreenPos(o.vert);

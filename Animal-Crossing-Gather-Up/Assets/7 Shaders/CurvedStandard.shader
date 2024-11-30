@@ -37,12 +37,12 @@ Shader "Custom/CurvedStandard"
         {
             float4 worldPos = mul(unity_ObjectToWorld, v.vertex);
             
-            float dist = length(worldPos.xz - _WorldSpaceCameraPos.xz);
+            float dist = abs(worldPos.x - _WorldSpaceCameraPos.x);
             
             worldPos.y += _CurveStrength * dist * dist * _ProjectionParams.x;
             
             float3 worldNormal = UnityObjectToWorldNormal(v.normal);
-            float3 curved = normalize(float3(worldPos.x, 0, worldPos.z));
+            float3 curved = normalize(float3(0, 0, worldPos.z));
             float3 newNormal = normalize(lerp(worldNormal, curved, _CurveStrength * dist));
             v.normal = UnityWorldToObjectNormal(newNormal);
             

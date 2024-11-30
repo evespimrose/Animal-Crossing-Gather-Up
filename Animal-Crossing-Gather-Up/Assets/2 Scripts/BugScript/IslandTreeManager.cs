@@ -19,7 +19,7 @@ public class IslandTreeManager : MonoBehaviour
         if (treeSpawners.Count == 0) return;
 
         //시작 코루틴
-        StartCoroutine(SpawnBugRoutine());
+        //StartCoroutine(SpawnBugRoutine());
     }
 
     private IEnumerator SpawnBugRoutine()

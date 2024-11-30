@@ -4,7 +4,7 @@ using UnityEngine;
 public class WorldCurver : MonoBehaviour
 {
     [Range(-0.1f, 0.1f)]
-    public float curveStrength = 0.01f;
+    public float curveStrength = 0.0134f;
 
     [SerializeField]
     private Material[] materialsToAffect;
