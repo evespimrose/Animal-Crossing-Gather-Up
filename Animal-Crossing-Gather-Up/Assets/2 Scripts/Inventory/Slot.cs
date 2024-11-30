@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class Slot : MonoBehaviour
 {
-	public Item item;
+	public Item Item { get; private set; }
 	public int stackCount;
 
 	public void Initialize(Item newItem)
 	{
-		item = newItem; // Set the item
+		Item = newItem; // Set the item
 		stackCount = 1; // Initialize stackCount
 	}
 
 	// addable return method(stackLimit, same item exist)
 	public bool IsAddableItem(Item newItem)
 	{
-		return item == newItem && stackCount < item.stackLimit;
+		return Item == newItem && stackCount < Item.stackLimit;
 	}
 
 	// add item at current slot
@@ -28,6 +28,6 @@ public class Slot : MonoBehaviour
 	// return isEmpty
 	public bool IsSlotEmpty()
 	{
-		return item == null;
+		return Item == null;
 	}
 }
