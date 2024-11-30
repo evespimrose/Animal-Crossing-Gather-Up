@@ -59,6 +59,9 @@
         _CausticsSpeed ("Caustics Speed", float) = 0.1
         _CausticsPower("Caustics Power", Range(0.0, 1.0)) = 1.0
         _CausticsNoiseScale ("Noise Scale", Range(0.0, 1.0)) = 0.01
+
+        [Header(Curve)]
+        _CurveStrength ("Curve Strength", Range(0,0.01)) = 0.001
     }
     SubShader
     {
@@ -125,6 +128,7 @@
             float _Wave2Speed;
             sampler2D _GrabTexture;
             sampler2D _CameraDepthTexture;
+            float _CurveStrength;
 
             struct appdata
             {
@@ -234,6 +238,8 @@
                 v2f o;
 
                 o.worldPos = mul(unity_ObjectToWorld, v.vert).xyz;
+                float dist = length(o.worldPos.xz - _WorldSpaceCameraPos.xz);
+                o.worldPos.y += _CurveStrength * dist * dist * _ProjectionParams.x;
                 o.worldPos.y += WaveHeight(o.worldPos.xz);
                 o.vert = mul(UNITY_MATRIX_VP, float4(o.worldPos, 1));
                 o.grabPos = ComputeGrabScreenPos(o.vert);

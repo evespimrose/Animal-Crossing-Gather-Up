@@ -39,7 +39,7 @@ public class Inventory : MonoBehaviour
 	}
 
 	// item add logic
-	public void AddItem(Item item)
+	public void AddItem(Item item = null)
 	{
 		bool isAdded = false;
 

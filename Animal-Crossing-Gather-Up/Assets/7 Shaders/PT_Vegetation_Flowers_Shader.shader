@@ -28,6 +28,7 @@ Shader "Polytope Studio/PT_Vegetation_Flowers_Shader"
 		_WindStrength("Wind Strength", Range( 0 , 1)) = 0.3
 		[HideInInspector] _texcoord( "", 2D ) = "white" {}
 		[HideInInspector] __dirty( "", Int ) = 1
+		_CurveStrength ("Curve Strength", Range(0,0.01)) = 0.001
 	}
 
 	SubShader
@@ -80,6 +81,7 @@ Shader "Polytope Studio/PT_Vegetation_Flowers_Shader"
 		uniform half _TransShadow;
 		uniform float _LeavesThickness;
 		uniform float _MaskClipValue;
+		half _CurveStrength;
 
 
 		float3 mod2D289( float3 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
@@ -118,6 +120,14 @@ Shader "Polytope Studio/PT_Vegetation_Flowers_Shader"
 		{
 			UNITY_INITIALIZE_OUTPUT( Input, o );
 			float4 ase_vertex4Pos = v.vertex;
+			
+			// Apply world curve before wind
+			float4 worldPos = mul(unity_ObjectToWorld, ase_vertex4Pos);
+			float dist = length(worldPos.xz - _WorldSpaceCameraPos.xz);
+			worldPos.y += _CurveStrength * dist * dist * _ProjectionParams.x;
+			ase_vertex4Pos = mul(unity_WorldToObject, worldPos);
+			
+			// Existing wind calculation
 			float simplePerlin2D321 = snoise( (ase_vertex4Pos*1.0 + ( _Time.y * _WindMovement )).xy*_WindDensity );
 			simplePerlin2D321 = simplePerlin2D321*0.5 + 0.5;
 			float4 appendResult329 = (float4(( ( ( ( simplePerlin2D321 - 0.5 ) / 10.0 ) * _WindStrength ) + ase_vertex4Pos.x ) , ase_vertex4Pos.y , ase_vertex4Pos.z , 1.0));

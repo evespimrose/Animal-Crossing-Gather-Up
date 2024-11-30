@@ -5,13 +5,13 @@ using UnityEngine;
 public class GameManager : SingletonManager<GameManager>
 {
 	private Player player;
-	private Inventory inventory;
+	//private Inventory inventory;
 
 
 	private void Start()
 	{
 		player = FindObjectOfType<Player>();
-		inventory = FindObjectOfType<Inventory>();
-		player.OnItemCollected += inventory.AddItem;
+		//inventory = FindObjectOfType<Inventory>();
+		//player.OnItemCollected += inventory.AddItem;
 	}
 }

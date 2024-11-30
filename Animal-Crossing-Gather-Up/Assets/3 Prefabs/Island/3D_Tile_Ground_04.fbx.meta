@@ -3,7 +3,12 @@ guid: 8dc31db6daddf8247b4c028ec2e7d0e8
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Farming_Color_Palette_01
+    second: {fileID: 2100000, guid: 8fe75327fa13482418eca0e72d3ba6f4, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

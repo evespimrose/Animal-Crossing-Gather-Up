@@ -87,7 +87,7 @@ public class Player : MonoBehaviour
 		equippedTool.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
 	}
 
-	// ï¿½ï¿½ï¿½?ï¿½ï¿½ï¿½ï¿½
+	// ï¿½ï¿½ï¿?ï¿½ï¿½ï¿½ï¿½
 	public void UnequipTool()
 	{
 		if (equippedTool != null)

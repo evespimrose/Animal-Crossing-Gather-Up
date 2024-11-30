@@ -3,7 +3,7 @@ Shader "Custom/TurrainShader"
       Properties
     {
         _MainTex ("Terrain Texture", 2D) = "white" {}
-        _BendAmount ("Bend Amount", Range(0, 0.01)) = 0.001
+        _CurveStrength ("Curve Strength", Range(0,0.01)) = 0.001
         _BendCenter ("Bend Center", Vector) = (0, 0, 0, 0)
         _BendRadius ("Bend Radius", Float) = 10
     }
@@ -13,11 +13,11 @@ Shader "Custom/TurrainShader"
         Tags { "RenderType"="Opaque" }
         
         CGPROGRAM
-        #pragma surface surf Standard vertex:vert
+        #pragma surface surf Standard vertex:vert addshadow
         #pragma target 3.0
 
         sampler2D _MainTex;
-        float _BendAmount;
+        float _CurveStrength;
         float4 _BendCenter;
         float _BendRadius;
 
@@ -28,18 +28,17 @@ Shader "Custom/TurrainShader"
 
         void vert(inout appdata_full v) 
         {
-            // ¿ùµå Æ÷Áö¼Ç °è»ê
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿?
             float4 worldPos = mul(unity_ObjectToWorld, v.vertex);
             
-            // º¥µå ¼¾ÅÍ·ÎºÎÅÍÀÇ °Å¸® °è»ê
-            float dist = length(worldPos.xz - _BendCenter.xz);
+            float dist = length(worldPos.xz - _WorldSpaceCameraPos.xz);
             
-            // º¥µå È¿°ú Àû¿ë
+            // ï¿½ï¿½ï¿½ï¿½ È¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             float bendFactor = saturate(dist / _BendRadius);
             float height = worldPos.y;
-            worldPos.y -= bendFactor * _BendAmount * dist * dist;
+            worldPos.y -= bendFactor * _CurveStrength * dist * dist;
             
-            // ·ÎÄÃ Æ÷Áö¼ÇÀ¸·Î º¯È¯
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
             v.vertex = mul(unity_WorldToObject, worldPos);
         }
 
