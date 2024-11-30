@@ -10,12 +10,14 @@ public class SlotUI : MonoBehaviour
 	public TextMeshProUGUI stackCountText;  // Reference to the UI Text for the stackCount
 	public Image choiceBackground;  // Reference to the choice background image
 	public Image cursorImage;
-	public TextMeshProUGUI itemNameText;
+	public GameObject itemInfo;
+	private TextMeshProUGUI itemNameText;
 	private Slot currentSlot;
 
 	private void Start()
 	{
 		currentSlot = GetComponent<Slot>();
+		itemNameText = itemInfo.GetComponentInChildren<TextMeshProUGUI>();
 	}
 
 	public void UpdateUI(Item item, int stackCount)
@@ -45,6 +47,12 @@ public class SlotUI : MonoBehaviour
 	public void CursorOnSlotDisplayCursor(bool isCursorOn)
 	{
 		cursorImage.gameObject.SetActive(isCursorOn);
+	}
+
+	// Item Name text
+	public void CursorOnSlotDisplayName(bool isCursorOn)
+	{
+		itemInfo.gameObject.SetActive(isCursorOn);
 	}
 
 	public void SelectSlot(bool isSelect)
