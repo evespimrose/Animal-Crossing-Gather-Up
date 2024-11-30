@@ -4,23 +4,22 @@ using UnityEngine;
 
 public class Bug : MonoBehaviour
 {
-    private IslandTreeManager islandTreeManager;
+   //버그 인포 참조
+   //버그 ibugmanger
 
-    private void Start()
-    {
-        islandTreeManager = GetComponentInParent<IslandTreeManager>();
-    }
+    private BugInfo info;
+    private IBugManager manager;
 
-    private void OnDestroy()
+    public void Initialize(BugInfo buginfom, IBugManager bugManager)
     {
-        if (islandTreeManager != null)
-        {
-            islandTreeManager.RemoveBug();
-        }
+        info = buginfom;
+        manager = bugManager;
     }
 
     private void OnMouseDown()
     {
-        Destroy(gameObject);
+        manager?.CatchBug(this);
+        Destroy(gameObject);                    
     }
+    public int GetValue() => info.value;
 }
