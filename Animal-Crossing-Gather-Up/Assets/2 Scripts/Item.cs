@@ -9,6 +9,6 @@ public class Item : ScriptableObject
 	public int stackLimit;
 	public int basePrice;
 	public Sprite icon;
-	public string[] optionText;
-	public string[] fullInventoryOptionText;
+	public string[] optionText = { "근처에 두기" };
+	public string[] fullInventoryOptionText = { "바꾸기" };
 }
