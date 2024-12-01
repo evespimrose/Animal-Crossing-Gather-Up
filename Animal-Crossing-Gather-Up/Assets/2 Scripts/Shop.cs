@@ -19,12 +19,21 @@ public class Shop : MonoBehaviour
 
 	// SlotUI는 할당된 아이템에 대한 정보 표시만 가능하도록 하면 좋겠는데,.
 
+	// 리스트 여기서 만들어서 so 여기 할당하고 가져오는 것 구현해야함
+	private List<Slot> purchaseSlots = new List<Slot>(4);
+	public List<Item> items = new List<Item>();
+
 	// 구매
 	private PurchaseUI purchaseUI;
 
 	private void Start()
 	{
 		purchaseUI = FindObjectOfType<PurchaseUI>();
+		for (int i = 0; i < purchaseSlots.Count; i++)
+		{
+			purchaseSlots[i].Initialize(items[i]);
+			print(purchaseSlots[i]);
+		}
 	}
 
 	private void Update()
@@ -37,6 +46,12 @@ public class Shop : MonoBehaviour
 		{
 			PurchasePanelClose();
 		}
+	}
+
+	public List<Slot> GetPurchaseSlotInfo()
+	{
+		List<Slot> newSlots = new List<Slot>(purchaseSlots);
+		return newSlots;
 	}
 
 	public void PurchasePanelOpen()
