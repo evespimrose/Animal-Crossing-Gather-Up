@@ -6,6 +6,8 @@ public class PurchaseUI : MonoBehaviour
 {
 	public GameObject purchasePanel;
 	public List<SlotUI> slotUIs = new List<SlotUI>(); // List of SlotUI components
+	private List<Slot> slots = new List<Slot>(8);
+	public Shop shop;
 
 	private int cursorOnSlotIndex = 0;  // Index of the currently selected slot
 	private const int slotsPerRow = 4; // Number of slots per row
@@ -13,7 +15,11 @@ public class PurchaseUI : MonoBehaviour
 
 	private void Start()
 	{
+		// Find and initialize shop reference
+		shop = FindObjectOfType<Shop>();
+
 		purchasePanel.SetActive(false);
+		slots = shop.GetPurchaseSlotInfo();
 	}
 
 	private void Update()
@@ -90,7 +96,8 @@ public class PurchaseUI : MonoBehaviour
 
 		// Cursor on the current slot
 		slotUIs[index].CursorOnSlotDisplayCursor(true);
-		if (slotUIs[index].itemNameText.text != "")
+		print(slots[index].Item);
+		if (slots[index].Item != null)
 		{
 			slotUIs[index].CursorOnSlotDisplayName(true);
 		}
