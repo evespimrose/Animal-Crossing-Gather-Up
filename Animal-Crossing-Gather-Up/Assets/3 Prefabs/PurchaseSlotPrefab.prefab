@@ -423,7 +423,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a070b11c6381fb4397df898fdd0a7c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 0}
   stackCount: 0
 --- !u!114 &9021440840848917750
 MonoBehaviour:
@@ -441,7 +440,7 @@ MonoBehaviour:
   stackCountText: {fileID: 4699192934728047838}
   choiceBackground: {fileID: 7760626962206585936}
   cursorImage: {fileID: 3310334345729273049}
-  itemNameText: {fileID: 8239832334352762102}
+  itemInfo: {fileID: 9190645432481493853}
 --- !u!1 &3795722459073002755
 GameObject:
   m_ObjectHideFlags: 0
