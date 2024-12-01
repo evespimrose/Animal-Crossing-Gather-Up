@@ -6,6 +6,9 @@ using UnityEngine;
 public class OptionUI : MonoBehaviour
 {
     NPCPanelUI dialogui;
+    //DialogController dialogCtrl;
+    //NPCDialogData npcDialogData;
+
     public GameObject optionPanel; //옵션패널
     public TextMeshProUGUI[] optionTexts; //옵션 텍스트 
     public GameObject cursor; //커서 이미지
@@ -69,6 +72,7 @@ public class OptionUI : MonoBehaviour
         dialogui.dialogPanel.SetActive(false);
         return currentOption;
     }
+
 
     private void SelecteedOptionPosition()
     {
