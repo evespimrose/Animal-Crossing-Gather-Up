@@ -42,3 +42,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: DialogPanel
+    uniqueID: 1727756583
+    locked: 0
+  - name: OptionPanel
+    uniqueID: 84502537
+    locked: 0
+  - name: OptionText
+    uniqueID: 2487118969
+    locked: 0
+  - name: Underline/Cursor
+    uniqueID: 1874216209
+    locked: 0
