@@ -28,10 +28,11 @@ public class DialogController : MonoBehaviour
 
     public void DialogStart()
     {
+        talkCount = 0;
         StartText();
     }
 
-    protected void Update()
+    protected virtual void Update()
     {
         if (talkCount != 0)
         {
