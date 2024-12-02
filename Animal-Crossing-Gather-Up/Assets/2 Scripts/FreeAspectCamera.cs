@@ -48,16 +48,17 @@ public class FreeAspectCamera : MonoBehaviour
     //__________________________________________________________________________ Move & Rotate
     private void Update()
     {
-        activate();
-        move();
-        rotate();
+        Activate();
+        Move();
+        Rotate();
     }
-    private void activate()
+
+    private void Activate()
     {
         if (Input.GetKeyDown(changeActivationKey))
             activation = !activation;
     }
-    private void move()
+    private void Move()
     {
         if (!activation) return;
 
@@ -79,7 +80,7 @@ public class FreeAspectCamera : MonoBehaviour
 
         cam.position += speed * Time.deltaTime * Vector3.Normalize(dir); //방향벡터의 길이를 1로 계산
     }
-    private void rotate()
+    private void Rotate()
     {
         if (!activation) return;
 

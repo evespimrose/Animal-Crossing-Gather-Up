@@ -16,9 +16,14 @@ public class WorldCurver : MonoBehaviour
         m_CurveStrengthID = Shader.PropertyToID("_CurveStrength");
     }
 
-    void Update()
+    private void Update()
     {
+        UpdateMaterialsCurveStrength();
+    }
 
+    // 상태 변경 메서드
+    private void UpdateMaterialsCurveStrength()
+    {
         if (materialsToAffect != null)
         {
             foreach (Material mat in materialsToAffect)
@@ -29,5 +34,12 @@ public class WorldCurver : MonoBehaviour
                 }
             }
         }
+    }
+
+    // 외부에서 접근 가능한 메서드
+    public void SetCurveStrength(float newStrength)
+    {
+        curveStrength = newStrength;
+        UpdateMaterialsCurveStrength();
     }
 }
