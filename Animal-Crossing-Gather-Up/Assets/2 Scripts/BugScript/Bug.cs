@@ -8,18 +8,26 @@ public class Bug : MonoBehaviour
    //버그 ibugmanger
 
     private BugInfo info;
-    private IBugManager manager;
+    
 
-    public void Initialize(BugInfo buginfom, IBugManager bugManager)
+    public void Initialize(BugInfo buginfom)
     {
         info = buginfom;
-        manager = bugManager;
+      
     }
 
     private void OnMouseDown()
     {
-        manager?.CatchBug(this);
-        Destroy(gameObject);                    
+        Collect();
+    }
+
+    private void Collect()
+    {
+        GetValue();
+        Destroy(gameObject);
+
+        BaseIslandManager.Instance.RemoveBug(info); // SingletonManager<> 상속받은 매니저
+        GameManager.Instance.inventory.AddItem(info);
     }
     public int GetValue() => info.basePrice;
 }
