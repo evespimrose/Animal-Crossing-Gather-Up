@@ -29,7 +29,7 @@ public class TestDialogMove : MonoBehaviour
         if (other.CompareTag("NPCMori"))
         {
             //NPC별 태그 추가해야함
-            moriCtrl.AirplaneDialogStart();
+            moriCtrl.MoriDialogStart();
         }
     }
 }
