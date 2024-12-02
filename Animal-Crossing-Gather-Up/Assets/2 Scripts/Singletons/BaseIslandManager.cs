@@ -30,6 +30,7 @@ public class BaseIslandManager : SingletonManager<BaseIslandManager>
     {
         FindBugSpawnerByType();
         //돌이든 물고기든 타입을 각각 여기다 놓기
+        FindFishSpawnerByType();
 
     }
     private void FindBugSpawnerByType()
@@ -52,7 +53,7 @@ public class BaseIslandManager : SingletonManager<BaseIslandManager>
     }
 
 
-    private void InitializeFishSpawners()
+    private void FindFishSpawnerByType()
     {
         fishSpawners.AddRange(FindObjectsOfType<FishSpawner>());
         foreach (var spawner in fishSpawners)
@@ -79,6 +80,12 @@ public class BaseIslandManager : SingletonManager<BaseIslandManager>
                 TrySpawnBugOnRandomSpawner(flowerSpawners);
             }
 
+            // 물고기 스폰 시도
+            if (currentFish < maxFish)
+            {
+                TrySpawnFishOnRandomSpawner(fishSpawners);
+            }
+
             yield return new WaitForSeconds(spawnInterval);
         }
     }
@@ -101,7 +108,7 @@ public class BaseIslandManager : SingletonManager<BaseIslandManager>
         availableSpawners[randomIndex].TrySpawnFish();
     }
 
-    // 4. 공개 메서드
+    
     public void AddFish() => currentFish++;
     public void RemoveFish() => currentFish = Mathf.Max(0, currentFish - 1);
 
