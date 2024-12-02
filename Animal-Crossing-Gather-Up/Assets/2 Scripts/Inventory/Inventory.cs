@@ -12,7 +12,7 @@ public class Inventory : MonoBehaviour
 	// This can be extended later
 	private List<Slot> slots;   // List of slots
 
-	public GameObject[] verticalLayout;
+	public GameObject[] horizontalLayoutObjects;
 
 	public delegate void InventoryFullHandler();
 	public event InventoryFullHandler OnInventoryFull;  // Event for inventory full
@@ -30,7 +30,7 @@ public class Inventory : MonoBehaviour
 
 	private void AddSlot(int verticalCount)
 	{
-		GameObject slotObject = Instantiate(slotPrefab, verticalLayout[verticalCount].transform); // Instantiate the slot prefab
+		GameObject slotObject = Instantiate(slotPrefab, horizontalLayoutObjects[verticalCount].transform); // Instantiate the slot prefab
 		Slot slot = slotObject.GetComponent<Slot>();  // Get the Slot component
 		slots.Add(slot);
 
