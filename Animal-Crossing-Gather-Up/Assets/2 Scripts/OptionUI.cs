@@ -6,7 +6,7 @@ using UnityEngine;
 public class OptionUI : MonoBehaviour
 {
     NPCPanelUI dialogui;
-    //DialogController dialogCtrl;
+    DialogController dialogCtrl;
     //NPCDialogData npcDialogData;
 
     public GameObject optionPanel; //可记菩澄
@@ -31,6 +31,7 @@ public class OptionUI : MonoBehaviour
     private void Start()
     {
         dialogui = FindObjectOfType<NPCPanelUI>();
+        dialogCtrl = FindObjectOfType<DialogController>();
     }
 
     public void PanelActive(bool isActive)
@@ -70,7 +71,7 @@ public class OptionUI : MonoBehaviour
     {
         currentOption = optionTexts[currentIndex].text;
         optionPanel.SetActive(false);
-        dialogui.dialogPanel.SetActive(false);
+
         print($"泅犁 可记: {currentOption}");
         return currentOption;
     }
