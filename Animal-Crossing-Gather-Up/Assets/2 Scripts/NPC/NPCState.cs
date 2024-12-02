@@ -14,7 +14,7 @@ public class NPCState : MonoBehaviour
     Animator anim;
 
     public Transform player;
-    private float rotateSpeed = 5f;
+    private float rotateSpeed = 5f; //고개 돌리기
 
     enum State
     {
@@ -27,15 +27,15 @@ public class NPCState : MonoBehaviour
 
     State npcState;
 
-    private void Start()
-    {
-        npcState = State.Walk;
-    }
-
-
     private void Awake()
     {
         anim = GetComponent<Animator>();
+        npcState = State.Idle;
+    }
+
+    private void Start()
+    {
+        npcState = State.Walk;
     }
 
     private void Update()
@@ -47,7 +47,6 @@ public class NPCState : MonoBehaviour
                 break;
             case State.Walk:
                 Walk();
-                Wander();
                 break;
             case State.Talk:
                 Talk();
@@ -59,8 +58,6 @@ public class NPCState : MonoBehaviour
                 Dance();
                 break;
         }
-
-        Wander();
     }
 
     private void Idle()
@@ -70,7 +67,8 @@ public class NPCState : MonoBehaviour
 
     private void Walk()
     {
-        anim.SetFloat("WalkForward", 0.1f);
+        Wander();
+        anim.SetFloat("Speed", 0.5f);
     }
 
     public void LookAtPlayer()
@@ -84,8 +82,11 @@ public class NPCState : MonoBehaviour
 
     private void Wander()
     {
-        Vector3 newWaypoint = RandomWaypoint();
-        waypoints.Add(newWaypoint);
+        if (waypoints.Count == 0 || Vector3.Distance(transform.position, waypoints[currentWaypointIndex]) < 0.5f)
+        {
+            Vector3 newWaypoint = RandomWaypoint();
+            waypoints.Add(newWaypoint);
+        }
 
         if (waypoints.Count == 0) return;
 
@@ -93,15 +94,15 @@ public class NPCState : MonoBehaviour
         float moveSpeed = 0.5f * Time.deltaTime;
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed);
 
-        if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
+        if (Vector3.Distance(transform.position, targetPosition) < 0.5f)
         {
             currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Count;
         }
 
-        anim.SetFloat("Walk", 0.5f);
+        anim.SetFloat("Speed", 0.5f);
     }
 
-    private Vector3 RandomWaypoint()
+    private Vector3 RandomWaypoint() //리즈 기준
     {
         float x = Random.Range(-23f, -26f);
         float y = 1.5f;

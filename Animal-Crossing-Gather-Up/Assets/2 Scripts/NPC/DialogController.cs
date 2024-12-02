@@ -29,18 +29,20 @@ public class DialogController : MonoBehaviour
 
     public void DialogStart()
     {
-        if (!isDialogActive) 
+        if (!isDialogActive)
         {
             talkCount = 0;
-            isDialogActive = true; 
+            isDialogActive = true;
             StartText();
         }
     }
 
     public void EndDialog()
     {
-        isDialogActive = false; 
-        dialogData.isChooseActive = false; 
+        isDialogActive = false;
+        dialogData.isChooseActive = false;
+        optionui.cursor.SetActive(false);
+        optionui.optionPanel.SetActive(false);
         uiManager.dialogPanel.SetActive(false);
     }
 
@@ -70,9 +72,9 @@ public class DialogController : MonoBehaviour
 
     public void InteractWithNPC()
     {
-        if (!isDialogActive) 
+        if (!isDialogActive)
         {
-            DialogStart(); 
+            DialogStart();
         }
     }
 
@@ -100,7 +102,7 @@ public class DialogController : MonoBehaviour
         uiManager.dialogText.text = "";
         foreach (char letter in text.ToCharArray())
         {
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetKeyDown(KeyCode.T)) //T 누르면 코루틴 멈추고 전체 텍스트
             {
                 uiManager.dialogText.text = text;
                 break;

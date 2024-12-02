@@ -24,7 +24,7 @@ public class OptionUI : MonoBehaviour
         {
             optionTexts[i].text = options[i];
             optionTexts[i].gameObject.SetActive(true);
-            float preferredWidth = optionTexts[i].preferredWidth;
+            //float preferredWidth = optionTexts[i].preferredWidth;
         }
     }
 
@@ -32,6 +32,7 @@ public class OptionUI : MonoBehaviour
     {
         dialogui = FindObjectOfType<NPCPanelUI>();
     }
+
     public void PanelActive(bool isActive)
     {
         //option panel 활성화
@@ -70,6 +71,7 @@ public class OptionUI : MonoBehaviour
         currentOption = optionTexts[currentIndex].text;
         optionPanel.SetActive(false);
         dialogui.dialogPanel.SetActive(false);
+        print($"현재 옵션: {currentOption}");
         return currentOption;
     }
 
@@ -80,15 +82,15 @@ public class OptionUI : MonoBehaviour
         float optionWidth = selectedOption.preferredWidth;
 
         Vector3 cursorPos = selectedOption.transform.position;
-        cursorPos.x += (optionWidth + 60);
+        cursorPos.x += optionWidth + 60;
         cursor.transform.position = cursorPos;
 
         Vector3 underlinePos = selectedOption.transform.position;
-        underlinePos.x += optionWidth * 1.25f;
+        underlinePos.x += optionWidth + 20f;
         underline.transform.position = underlinePos;
 
         RectTransform underlineRect = underline.GetComponent<RectTransform>();
-        underlineRect.sizeDelta = new Vector2(optionWidth, underlineRect.sizeDelta.y);
+        underlineRect.sizeDelta = new Vector2(optionWidth - 20f, underlineRect.sizeDelta.y);
     }
 
 }
