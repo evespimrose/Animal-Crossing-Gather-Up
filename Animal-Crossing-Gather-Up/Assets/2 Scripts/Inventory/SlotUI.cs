@@ -14,7 +14,7 @@ public class SlotUI : MonoBehaviour
 	private TextMeshProUGUI itemNameText;
 	private Slot currentSlot;
 
-	private void Start()
+	private void Awake()
 	{
 		currentSlot = GetComponent<Slot>();
 		itemNameText = itemInfo.GetComponentInChildren<TextMeshProUGUI>();
@@ -24,7 +24,7 @@ public class SlotUI : MonoBehaviour
 	{
 		if (item != null)
 		{
-			itemNameText.text = item.name;
+			itemNameText.text = item.itemName;
 			itemImage.gameObject.SetActive(true);
 			itemImage.sprite = item.icon;   // Set the item icon
 			stackCountText.text = stackCount > 1 ? stackCount.ToString() : "";  // Show stackCount if greater than 1
