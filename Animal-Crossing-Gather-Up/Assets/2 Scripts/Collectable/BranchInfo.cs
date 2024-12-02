@@ -1,7 +1,9 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewBranch", menuName = "Items/Branch")]
-public class BranchInfo : Item
+public class BranchInfo : Item, ICollectableInfo
 {
     public GameObject prefab;
+
+    GameObject ICollectableInfo.prefab => throw new System.NotImplementedException();
 } 

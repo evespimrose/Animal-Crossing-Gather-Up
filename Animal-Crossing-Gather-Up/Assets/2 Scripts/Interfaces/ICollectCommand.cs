@@ -24,7 +24,7 @@ public class HandFlowerCommand : ICollectCommand
         {
             if (hitCollider.TryGetComponent(out Flower flower))
             {
-                flower.Collect();
+                //flower.Collect();
             }
         }
     }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Branch : MonoBehaviour
+public class Branch : MonoBehaviour, ICollectable
 {
     private readonly BranchInfo branchInfo;
     

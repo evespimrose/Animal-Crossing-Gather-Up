@@ -17,6 +17,10 @@ public class BaseIslandManager : SingletonManager<BaseIslandManager>
     private int currentTreeBugs;
     private int currentFlowerBugs;
 
+    [SerializeField] private List<OakTree> oakTrees = new List<OakTree>();
+    [SerializeField] private BranchSpawner branchSpawner;
+    private const float respawnTime = 86400f; // ?˜ë£¨ë¥?ì´ˆë¡œ ë³€??(24 * 60 * 60)
+
     protected override void Awake()
     {
         base.Awake();  
@@ -25,15 +29,17 @@ public class BaseIslandManager : SingletonManager<BaseIslandManager>
     private void Start()
     {
         FindBugSpawnerByType();
-        //µ¹ÀÌµç ¹°°í±âµç Å¸ÀÔÀ» °¢°¢ ¿©±â´Ù ³õ±â
+        //Ìµ Å¸  Å¸ 
 
+        StartCoroutine(RefillBranchesRoutine());
     }
+
     private void FindBugSpawnerByType()
     {
-        // ¸ðµç ½ºÆ÷³Ê Ã£±â
+        // ï¿½ï¿½ï¿?ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½
         var allSpawners = FindObjectsOfType<BugSpawner>();
 
-        // ½ºÆ÷³ÊÀÇ BugInfo Å¸ÀÔ¿¡ µû¶ó ºÐ·ù
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ BugInfo Å¸ï¿½Ô¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ð·ï¿½
         foreach (var spawner in allSpawners)
         {
             if (spawner.GetBugType() == BugType.TreeBug)
@@ -47,20 +53,17 @@ public class BaseIslandManager : SingletonManager<BaseIslandManager>
         StartCoroutine(SpawnRoutine());
     }
 
-
-    
-
     public IEnumerator SpawnRoutine()
     {
         while (true)
         {
-            // Æ®¸® ¹ö±× ½ºÆù ½Ãµµ
+            // Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ãµï¿½
             if (currentTreeBugs < maxTreeBugs)
             {
                 TrySpawnBugOnRandomSpawner(treeSpawners);
             }
 
-            // ÇÃ¶ó¿ö ¹ö±× ½ºÆù ½Ãµµ
+            // ï¿½Ã¶ï¿½ï¿?ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ãµï¿½
             if (currentFlowerBugs < maxFlowerBugs)
             {
                 TrySpawnBugOnRandomSpawner(flowerSpawners);
@@ -93,5 +96,23 @@ public class BaseIslandManager : SingletonManager<BaseIslandManager>
             currentTreeBugs = Mathf.Max(0, currentTreeBugs - 1);
         else
             currentFlowerBugs = Mathf.Max(0, currentFlowerBugs - 1);
+    }
+
+    private IEnumerator RefillBranchesRoutine()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(respawnTime);
+
+            foreach (var oakTree in oakTrees)
+            {
+                int branchesToSpawn = oakTree.maxBranches - oakTree.branchCount;
+                for (int i = 0; i < branchesToSpawn; i++)
+                {
+                    branchSpawner.SpawnBranch(oakTree.branchInfo);
+                }
+                oakTree.RefillBranches(branchesToSpawn);
+            }
+        }
     }
 }
