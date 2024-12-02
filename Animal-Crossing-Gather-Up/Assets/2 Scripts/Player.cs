@@ -26,18 +26,6 @@ public class Player : MonoBehaviour
         characterController = GetComponent<CharacterController>();
     }
 
-    public void Collect()
-    {
-        if (CurrentTool?.collectCommand != null)
-        {
-            CurrentTool.collectCommand.Execute();
-        }
-        else
-        {
-            Debug.LogWarning("No command set or tool equipped.");
-        }
-    }
-
 	// test : inventory Open
 	public InventoryUI inventoryUI;
 
@@ -92,8 +80,19 @@ public class Player : MonoBehaviour
 			Collect();
 		}
 	}
+    public void Collect()
+    {
+        if (CurrentTool?.collectCommand != null)
+        {
+            CurrentTool.collectCommand.Execute();
+        }
+        else
+        {
+            Debug.LogWarning("No command set or tool equipped.");
+        }
+    }
 
-	public void EquipTool(GameObject tool)
+    public void EquipTool(GameObject tool)
 	{
 		if (equippedTool != null)
 		{
@@ -108,7 +107,6 @@ public class Player : MonoBehaviour
 		if (equippedTool.TryGetComponent(out Tool toolComponent))
 		{
 			CurrentTool = toolComponent;
-
 		}
 		else
 		{
@@ -141,7 +139,6 @@ public class Player : MonoBehaviour
 		//if (inventory.RemoveItem(item))
 		//{
 		//    //money += item.sellPrice;
-		//    //Debug.Log($"Sold {item.name} for {item.sellPrice}. Current Money: {money}");
 		//}
 		//else
 		//{
