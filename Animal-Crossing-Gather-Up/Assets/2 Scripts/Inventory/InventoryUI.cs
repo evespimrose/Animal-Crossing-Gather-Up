@@ -9,7 +9,8 @@ public class InventoryUI : MonoBehaviour
 
 	// UI에 띄우기 위한 slot들?
 	public List<SlotUI> slotUIs = new List<SlotUI>();   // List of SlotUI components
-	private int selectedSlotIndex = 0;  // Index of the currently selected slot
+	private List<Slot> slots;
+	private int cursorOnSlotIndex = 0;  // Index of the currently selected slot
 	private const int slotsPerRow = 10; // Number of slots per row
 	private const int totalRows = 2;    // Total number of rows
 
@@ -31,7 +32,10 @@ public class InventoryUI : MonoBehaviour
 		}
 
 		// Handle slot selection with keyboard input
-		HandleSlotSelection();
+		if (inventoryPanel.activeSelf)
+		{
+			HandleSlotSelection();
+		}
 	}
 
 	public void InventoryOpen()
@@ -44,8 +48,12 @@ public class InventoryUI : MonoBehaviour
 
 		// but if full, call another delegate
 
-		UpdateAllSlotsUI(); // Update all slots when opening the inventory
-		SelectSlot(selectedSlotIndex);  // Select the first slot by default
+		UpdateAllSlotUIs(); // Update all slots when opening the inventory
+		CursorOnSlot(cursorOnSlotIndex);  // Select the first slot by default
+		foreach (SlotUI slotUI in slotUIs)
+		{
+			slotUI.cursorImage.gameObject.SetActive(false);
+		}
 	}
 
 	// inventory가 SlotPrefab을 Instantiate할때 SlotPrefab에 부착된 SlotUI을 받아오기 위한 함수
@@ -55,58 +63,74 @@ public class InventoryUI : MonoBehaviour
 	}
 
 	// Inventory에게서 Inventory에 담긴 Slots에 담긴 item의 정보들을 받아오기 위한 함수
-	private void UpdateAllSlotsUI()
+	private void UpdateAllSlotUIs()
 	{
 		// 인벤토리의 Slot의 정보들을 새로 할당받아서 받아옴
 		// 이 slots를 변경해도 Inventory의 slot에 담긴 아이템이 바뀌지는 않음
-		List<Slot> slots = inventory.GetSlotInfo();
-		// 인벤토리의 Slot의 정보을 토대로 slotUIs를 업데이트
+		slots = inventory.GetSlotInfo();
+		// 인벤토리의 Slot의 정보를 토대로 slotUIs를 업데이트
 		for (int i = 0; i < slots.Count; i++)
 		{
-			slotUIs[i].UpdateUI(slots[i].item, slots[i].stackCount);
+			slotUIs[i].UpdateUI(slots[i].Item, slots[i].stackCount);
 		}
 	}
 
 	private void HandleSlotSelection()
 	{
-		int previousSlotIndex = selectedSlotIndex;  // Store the previous index
+		int previousSlotIndex = cursorOnSlotIndex;  // Store the previous index
 
-		if (Input.GetKeyDown(KeyCode.W) && selectedSlotIndex >= slotsPerRow)
+		if (Input.GetKeyDown(KeyCode.W) && cursorOnSlotIndex >= slotsPerRow)
 		{
-			// Move selection up
-			selectedSlotIndex -= slotsPerRow;   // Move up by one row
+			// Move cursor up
+			cursorOnSlotIndex -= slotsPerRow;   // Move up by one row
 		}
-		else if (Input.GetKeyDown(KeyCode.S) && selectedSlotIndex < slotsPerRow * (totalRows - 1))
+		else if (Input.GetKeyDown(KeyCode.S) && cursorOnSlotIndex < slotsPerRow * (totalRows - 1))
 		{
-			// Move selection down
-			selectedSlotIndex += slotsPerRow;   // Move down by one row
+			// Move cursor down
+			cursorOnSlotIndex += slotsPerRow;   // Move down by one row
 		}
-		else if (Input.GetKeyDown(KeyCode.A) && selectedSlotIndex % slotsPerRow > 0)
+		else if (Input.GetKeyDown(KeyCode.A) && cursorOnSlotIndex % slotsPerRow > 0)
 		{
-			// Move selection left
-			selectedSlotIndex--;    // Move left by one slot
+			// Move cursor left
+			cursorOnSlotIndex--;    // Move left by one slot
 		}
-		else if (Input.GetKeyDown(KeyCode.D) && selectedSlotIndex % slotsPerRow < slotsPerRow - 1)
+		else if (Input.GetKeyDown(KeyCode.D) && cursorOnSlotIndex % slotsPerRow < slotsPerRow - 1)
 		{
-			// Move selection right
-			selectedSlotIndex++;    // Move right by one slot
+			// Move cursor right
+			cursorOnSlotIndex++;    // Move right by one slot
+		}
+		else if (Input.GetKeyDown(KeyCode.Return))
+		{
+			// Select CursorOnSlot
+			SelectSlot(cursorOnSlotIndex);
 		}
 
 		// Only update the selection if it has changed
-		if (previousSlotIndex != selectedSlotIndex)
+		if (previousSlotIndex != cursorOnSlotIndex)
 		{
-			SelectSlot(selectedSlotIndex);
+			CursorOnSlot(cursorOnSlotIndex);
+		}
+	}
+
+	private void CursorOnSlot(int index)
+	{
+		// Decursor on all slots
+		foreach (SlotUI slotUI in slotUIs)
+		{
+			slotUI.CursorOnSlotDisplayBackground(false);
+			slotUI.CursorOnSlotDisplayName(false);
+		}
+
+		// Cursor on the current slot
+		slotUIs[index].CursorOnSlotDisplayBackground(true);
+		if (slots[index].Item != null)
+		{
+			slotUIs[index].CursorOnSlotDisplayName(true);
 		}
 	}
 
 	private void SelectSlot(int index)
 	{
-		// Deselect all slots
-		foreach (var slotUI in slotUIs)
-		{
-			slotUI.SelectSlot(false);
-		}
-
 		// Select the current slot
 		slotUIs[index].SelectSlot(true);
 	}
