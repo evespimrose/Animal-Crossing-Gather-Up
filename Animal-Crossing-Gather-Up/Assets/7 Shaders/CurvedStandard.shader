@@ -7,6 +7,7 @@ Shader "Custom/CurvedStandard"
         _Glossiness ("Smoothness", Range(0,1)) = 0.5
         _Metallic ("Metallic", Range(0,1)) = 0.0
         _CurveStrength ("Curve Strength", Range(0,01)) = 0.001
+        _AlphaCutoff ("Alpha Cutoff", Range(0,1)) = 0.5
     }
     SubShader
     {
@@ -22,6 +23,7 @@ Shader "Custom/CurvedStandard"
         half _Metallic;
         fixed4 _Color;
         half _CurveStrength;
+        half _AlphaCutoff;
 
         struct Input
         {
@@ -54,6 +56,8 @@ Shader "Custom/CurvedStandard"
         void surf (Input IN, inout SurfaceOutputStandard o)
         {
             fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
+            if (c.a < _AlphaCutoff)
+                discard;
             o.Albedo = c.rgb;
             o.Metallic = _Metallic;
             o.Smoothness = _Glossiness;
