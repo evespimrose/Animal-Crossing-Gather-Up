@@ -118,6 +118,7 @@ public class DialogController : MonoBehaviour
         optionui.SetOptions(nextOptions);
         talkCount = 0; // 대화 카운트 초기화
         StartText(); // 첫 번째 텍스트 시작
+
     }
 
     private IEnumerator TypingDialog(string text)
