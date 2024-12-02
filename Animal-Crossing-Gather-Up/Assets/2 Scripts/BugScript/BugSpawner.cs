@@ -39,8 +39,10 @@ public class BugSpawner : MonoBehaviour
 
     private void SpawnBug(BugInfo buginfo)
     {
+        Quaternion rotation = Quaternion.Euler(-90, -90, 0);
+
         var bugObject = Instantiate(buginfo.prefab, spawnPoint.position,
-            Quaternion.identity, transform);
+            rotation, transform);
 
         CurrentBug = bugObject.GetComponent<Bug>();
         CurrentBug.Initialize(buginfo, manager);
