@@ -5,12 +5,12 @@ using UnityEngine;
 public class PurchaseUI : MonoBehaviour
 {
 	public GameObject purchasePanel;
-	public List<SlotUI> slotUIs = new List<SlotUI>(); // List of SlotUI components
-	private List<Slot> slots = new List<Slot>(8);
+	public List<SlotUI> slotUIs; // List of SlotUI components
+	private List<Slot> slots;
 	public Shop shop;
 
 	private int cursorOnSlotIndex = 0;  // Index of the currently selected slot
-	private const int slotsPerRow = 4; // Number of slots per row
+	private const int slotsPerRow = 2; // Number of slots per row
 	private const int totalRows = 2;    // Total number of rows
 
 	private void Start()
@@ -30,12 +30,9 @@ public class PurchaseUI : MonoBehaviour
 		}
 	}
 
-	private void UpdateAllSlotUIs()
+	public void AddSlotUI(SlotUI slotUI)
 	{
-		for (int i = 0; i < slotUIs.Count; i++)
-		{
-			//slotUIs[i].UpdateUI(slot)
-		}
+		slotUIs.Add(slotUI);
 	}
 
 	public void PurchasePanelOpen()
