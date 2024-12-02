@@ -13,44 +13,30 @@ public class Player : MonoBehaviour
 
     private Vector3 movement;
 
-    private ICollectCommand _currentCommand;
-
     // test of input item Player to Inventory
     public Item i0;
     public Item i1;
     public Item t0;
     public Item t1;
 
-    private Dictionary<string, ICollectCommand> _commands = new Dictionary<string, ICollectCommand>();
-
     public Tool CurrentTool;
 
     private void Start()
     {
         characterController = GetComponent<CharacterController>();
-        InitializeCommands();
     }
 
-    private void InitializeCommands()
+    public void Collect()
     {
-        _commands["Net"] = new BugNetCollectCommand();
-        _commands["FishingRod"] = new FishingRodCollectCommand();
-        _commands["Axe"] = new AxeCollectCommand();
-    }
-
-    public void SetCommand(string commandName)
-    {
-        if (_commands.TryGetValue(commandName, out var command))
+        if (CurrentTool?.collectCommand != null)
         {
-            _currentCommand = command;
+            CurrentTool.collectCommand.Execute();
         }
         else
         {
-            Debug.LogWarning($"Command {commandName} not found.");
+            Debug.LogWarning("No command set or tool equipped.");
         }
     }
-
-    public void Collect() => _currentCommand?.Execute();
 
 	// test : inventory Open
 	public InventoryUI inventoryUI;
@@ -103,14 +89,7 @@ public class Player : MonoBehaviour
 	{
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
-			if (_currentCommand != null)
-			{
-				Collect();
-			}
-			else
-			{
-				Debug.LogWarning("No command set.");
-			}
+			Collect();
 		}
 	}
 
@@ -122,31 +101,19 @@ public class Player : MonoBehaviour
 		}
 
 		equippedTool = tool;
+		
 		equippedTool.transform.SetParent(handPosition);
 		equippedTool.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
 
-		CurrentTool = tool.GetComponent<Tool>();
-		UpdateCollectCommand();
-	}
+		if (equippedTool.TryGetComponent(out Tool toolComponent))
+		{
+			CurrentTool = toolComponent;
 
-	private void UpdateCollectCommand()
-	{
-		if (CurrentTool is Axe)
-		{
-			SetCommand("Axe");
-		}
-		else if (CurrentTool is FishingRod)
-		{
-			SetCommand("FishingRod");
-		}
-		else if (CurrentTool is BugNet)
-		{
-			SetCommand("Net");
 		}
 		else
 		{
-			_currentCommand = null;
-			Debug.LogWarning("Unknown tool equipped.");
+			CurrentTool = null;
+			Debug.LogWarning("Equipped object does not have a Tool component.");
 		}
 	}
 
