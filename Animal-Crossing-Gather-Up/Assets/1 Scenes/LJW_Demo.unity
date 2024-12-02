@@ -501,7 +501,7 @@ MonoBehaviour:
   m_text: "\uB300\uD654\uCC3D\uC785\uB2C8\uB2E4.\nHi\nHello"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3e22aa7b7fa3e6f40b4af01d069b65eb, type: 2}
-  m_sharedMaterial: {fileID: -7529852090145136994, guid: 3e22aa7b7fa3e6f40b4af01d069b65eb, type: 2}
+  m_sharedMaterial: {fileID: -6914711452477415670, guid: 3e22aa7b7fa3e6f40b4af01d069b65eb, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -647,6 +647,7 @@ GameObject:
   m_Component:
   - component: {fileID: 472297919}
   - component: {fileID: 472297918}
+  - component: {fileID: 472297920}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -669,11 +670,12 @@ MonoBehaviour:
   moveSpeed: 5
   handPosition: {fileID: 0}
   equippedTool: {fileID: 0}
-  inventoryUI: {fileID: 0}
   i0: {fileID: 11400000, guid: 51868ca4e1dd78845bbf164ad95ced4f, type: 2}
   i1: {fileID: 11400000, guid: f76c3cd98c8f4cd4ca7131fddd94feb6, type: 2}
   t0: {fileID: 11400000, guid: cadb0224b7c4d2845b874ef3f521ba6f, type: 2}
   t1: {fileID: 11400000, guid: 52ecf822dd94cea479aaa74413594c12, type: 2}
+  CurrentTool: {fileID: 0}
+  inventoryUI: {fileID: 0}
 --- !u!4 &472297919
 Transform:
   m_ObjectHideFlags: 0
@@ -689,6 +691,32 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!143 &472297920
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 472297917}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &476664264
 GameObject:
   m_ObjectHideFlags: 0
@@ -1038,6 +1066,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0b10c1c48df51e4781b54486df883d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventory: {fileID: 0}
 --- !u!4 &1068292804
 Transform:
   m_ObjectHideFlags: 0
