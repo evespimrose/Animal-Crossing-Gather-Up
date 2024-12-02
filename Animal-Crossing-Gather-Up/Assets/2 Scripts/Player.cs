@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(CharacterController))]
 public class Player : MonoBehaviour
 {
 	private CharacterController characterController;
@@ -11,20 +12,21 @@ public class Player : MonoBehaviour
 	public delegate void ItemCollectedHandler(Item item);
 	public event ItemCollectedHandler OnItemCollected;
 
-    private Vector3 movement;
+	private Vector3 movement;
 
-    // test of input item Player to Inventory
-    public Item i0;
-    public Item i1;
-    public Item t0;
-    public Item t1;
+	// test of input item Player to Inventory
+	public Item i0;
+	public Item i1;
+	public Item t0;
+	public Item t1;
 
-    public Tool CurrentTool;
+	public Tool CurrentTool;
 
-    private void Start()
-    {
-        characterController = GetComponent<CharacterController>();
-    }
+	private void Start()
+	{
+		characterController = GetComponent<CharacterController>();
+		inventoryUI = FindObjectOfType<InventoryUI>();
+	}
 
 	// test : inventory Open
 	public InventoryUI inventoryUI;
@@ -65,13 +67,13 @@ public class Player : MonoBehaviour
 		float horizontal = Input.GetAxis("Horizontal");
 		float vertical = Input.GetAxis("Vertical");
 
-        movement = new Vector3(horizontal, 0, vertical);
-        if (movement.magnitude > 0.1f)
-        {
-            characterController.Move(moveSpeed * Time.deltaTime * movement);
-            transform.forward = movement;
-        }
-    }
+		movement = new Vector3(horizontal, 0, vertical);
+		if (movement.magnitude > 0.1f)
+		{
+			characterController.Move(moveSpeed * Time.deltaTime * movement);
+			transform.forward = movement;
+		}
+	}
 
 	private void HandleCollection()
 	{
@@ -80,19 +82,19 @@ public class Player : MonoBehaviour
 			Collect();
 		}
 	}
-    public void Collect()
-    {
-        if (CurrentTool?.collectCommand != null)
-        {
-            CurrentTool.collectCommand.Execute();
-        }
-        else
-        {
-            Debug.LogWarning("No command set or tool equipped.");
-        }
-    }
+	public void Collect()
+	{
+		if (CurrentTool?.collectCommand != null)
+		{
+			CurrentTool.collectCommand.Execute();
+		}
+		else
+		{
+			Debug.LogWarning("No command set or tool equipped.");
+		}
+	}
 
-    public void EquipTool(GameObject tool)
+	public void EquipTool(GameObject tool)
 	{
 		if (equippedTool != null)
 		{
@@ -100,7 +102,7 @@ public class Player : MonoBehaviour
 		}
 
 		equippedTool = tool;
-		
+
 		equippedTool.transform.SetParent(handPosition);
 		equippedTool.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
 
