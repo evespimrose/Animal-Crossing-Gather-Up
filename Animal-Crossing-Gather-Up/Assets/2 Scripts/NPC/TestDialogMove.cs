@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class TestDialogMove : MonoBehaviour
 {
-    NPCAreaController npcCtrl;
+    MoriController moriCtrl;
     public float moveSpeed;
 
     private void Start()
     {
-        npcCtrl = FindObjectOfType<NPCAreaController>();
+        moriCtrl = FindObjectOfType<MoriController>();
     }
     private void Update()
     {
@@ -29,7 +29,7 @@ public class TestDialogMove : MonoBehaviour
         if (other.CompareTag("NPCMori"))
         {
             //NPC별 태그 추가해야함
-            npcCtrl.AirplaneDialogActive();
+            moriCtrl.MoriDialogStart();
         }
     }
 }
