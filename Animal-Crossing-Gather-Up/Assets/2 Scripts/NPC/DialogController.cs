@@ -13,6 +13,7 @@ public class DialogController : MonoBehaviour
     protected OptionUI optionui;
     protected Coroutine currentCoroutine;
     protected int talkCount = 0;
+    protected int nextTalkCount = 0;
     protected bool isDialogActive = false; // 대화 활성화 상태
 
     protected NPCDialogData dialogData; //scriptableObject 참조
@@ -31,8 +32,8 @@ public class DialogController : MonoBehaviour
     {
         if (!isDialogActive)
         {
-            talkCount = 0;
-            isDialogActive = true;
+            talkCount = 0; //대화 카운트 초기화
+            isDialogActive = true; //대화 시작 bool
             StartText();
         }
     }
@@ -41,7 +42,6 @@ public class DialogController : MonoBehaviour
     {
         isDialogActive = false;
         dialogData.isChooseActive = false;
-        optionui.cursor.SetActive(false);
         optionui.optionPanel.SetActive(false);
         uiManager.dialogPanel.SetActive(false);
     }
@@ -67,7 +67,20 @@ public class DialogController : MonoBehaviour
             //optionui.ShowOptions(dialogData.nextDialogs); // 옵션 패널에 다음 대화 표시
         }
 
-        uiManager.enterPanel.SetActive(dialogData.isEnterActive);
+        if (nextTalkCount != 0)
+        {
+            if (Input.GetKeyDown(KeyCode.Space) && currentCoroutine == null)
+            {
+                if (nextTalkCount < dialogData.nextDialogTexts.Length)
+                {
+                    string text = dialogData.nextDialogTexts[nextTalkCount];
+                    currentCoroutine = StartCoroutine(TypingDialog(text));
+                    nextTalkCount++;
+                }
+            }
+
+            uiManager.enterPanel.SetActive(dialogData.isEnterActive);
+        }
     }
 
     public void InteractWithNPC()
@@ -75,6 +88,16 @@ public class DialogController : MonoBehaviour
         if (!isDialogActive)
         {
             DialogStart();
+        }
+    }
+
+    public void SelectedOptionAndNextDialog()
+    {
+        if (currentCoroutine == null && nextTalkCount < dialogData.nextDialogTexts.Length)
+        {
+            string text = dialogData.nextDialogTexts[0];
+            currentCoroutine = StartCoroutine(TypingDialog(text));
+            nextTalkCount++;
         }
     }
 
@@ -89,12 +112,13 @@ public class DialogController : MonoBehaviour
 
     }
 
-    //public void StartNextDialog(NPCDialogData nextDialog)
-    //{
-    //    dialogData = nextDialog; // 다음 대화 데이터로 변경
-    //    talkCount = 0; // 대화 카운트 초기화
-    //    StartText(); // 첫 번째 텍스트 시작
-    //}
+    public void StartNextDialog(NPCDialogData nextDialog, string[] nextOptions)
+    {
+        dialogData = nextDialog; // 다음 대화 데이터로 변경
+        optionui.SetOptions(nextOptions);
+        talkCount = 0; // 대화 카운트 초기화
+        StartText(); // 첫 번째 텍스트 시작
+    }
 
     private IEnumerator TypingDialog(string text)
     {
