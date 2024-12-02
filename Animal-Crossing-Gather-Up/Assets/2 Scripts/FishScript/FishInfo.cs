@@ -1,18 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.WSA;
 
-public class FishInfo : MonoBehaviour
+[CreateAssetMenu(fileName = "NewFish", menuName = "Items/Fish")]
+public class FishInfo : Item
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public GameObject prefab;
+    [Range(0.1f, 1f)]
+    public float spawnWeight;
+    public float moveSpeed;
+    public float wanderRadius = 3f;
+    
 }

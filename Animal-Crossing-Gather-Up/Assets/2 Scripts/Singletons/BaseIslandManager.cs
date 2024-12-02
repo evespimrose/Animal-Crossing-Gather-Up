@@ -8,12 +8,16 @@ public class BaseIslandManager : SingletonManager<BaseIslandManager>
 {
     [SerializeField] private int maxTreeBugs = 2;
     [SerializeField] private int maxFlowerBugs = 2;
-
     [SerializeField] protected float spawnInterval = 5f;
+
+    [SerializeField] private int maxFish = 3;
+    [SerializeField] protected float FishspawnInterval = 5f;
 
     private List<BugSpawner> treeSpawners = new List<BugSpawner>();
     private List<BugSpawner> flowerSpawners = new List<BugSpawner>();
-
+    private List<FishSpawner> fishSpawners = new List<FishSpawner>();
+    
+    private int currentFish;
     private int currentTreeBugs;
     private int currentFlowerBugs;
 
@@ -48,7 +52,16 @@ public class BaseIslandManager : SingletonManager<BaseIslandManager>
     }
 
 
-    
+    private void InitializeFishSpawners()
+    {
+        fishSpawners.AddRange(FindObjectsOfType<FishSpawner>());
+        foreach (var spawner in fishSpawners)
+        {
+            spawner.Initialize();
+        }
+    }
+
+
 
     public IEnumerator SpawnRoutine()
     {
@@ -78,6 +91,19 @@ public class BaseIslandManager : SingletonManager<BaseIslandManager>
         int randomIndex = Random.Range(0, availableSpawners.Count);
         availableSpawners[randomIndex].TrySpawnBug();
     }
+
+    private void TrySpawnFishOnRandomSpawner(List<FishSpawner> spawnerList)
+    {
+        var availableSpawners = spawnerList.Where(s => s.CurrentFish == null).ToList();
+        if (availableSpawners.Count == 0) return;
+
+        int randomIndex = Random.Range(0, availableSpawners.Count);
+        availableSpawners[randomIndex].TrySpawnFish();
+    }
+
+    // 4. 공개 메서드
+    public void AddFish() => currentFish++;
+    public void RemoveFish() => currentFish = Mathf.Max(0, currentFish - 1);
 
     public void AddBug(BugInfo bugInfo)
     {
