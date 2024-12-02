@@ -7,33 +7,41 @@ public interface ICollectCommand
     public void Execute();
 }
 
-public class CollectCommand : ICollectCommand
+//public class CollectCommand : ICollectCommand
+//{
+//    public virtual void Execute()
+//    {
+        
+//    }
+//}
+
+public class HandFlowerCommand : ICollectCommand
 {
-    public virtual void Execute()
+    public void Execute()
     {
-       
+        Debug.Log("");
     }
 }
 
-public class NetCollectCommand : CollectCommand
+public class BugNetCollectCommand : ICollectCommand
 {
-    public override void Execute()
+    public void Execute()
     {
 
     }
 }
 
-public class FishingRodCollectCommand : CollectCommand
+public class FishingRodCollectCommand : ICollectCommand
 {
-    public override void Execute()
+    public void Execute()
     {
 
     }
 }
 
-public class AxeCollectCommand : CollectCommand
+public class AxeCollectCommand : ICollectCommand
 {
-    public override void Execute()
+    public void Execute()
     {
 
     }

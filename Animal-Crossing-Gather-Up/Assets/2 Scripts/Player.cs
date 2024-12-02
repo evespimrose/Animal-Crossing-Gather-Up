@@ -33,7 +33,7 @@ public class Player : MonoBehaviour
 
     private void InitializeCommands()
     {
-        _commands["Net"] = new NetCollectCommand();
+        _commands["Net"] = new BugNetCollectCommand();
         _commands["FishingRod"] = new FishingRodCollectCommand();
         _commands["Axe"] = new AxeCollectCommand();
     }
@@ -139,7 +139,7 @@ public class Player : MonoBehaviour
 		{
 			SetCommand("FishingRod");
 		}
-		else if (CurrentTool is InsectNet)
+		else if (CurrentTool is BugNet)
 		{
 			SetCommand("Net");
 		}

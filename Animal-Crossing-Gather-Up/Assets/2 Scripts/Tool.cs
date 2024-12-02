@@ -13,5 +13,5 @@ public class Tool : Item
 	public int currentDurability;
 	public bool isEquipped;
 
-	public CollectCommand collectCommand;
+	public ICollectCommand collectCommand;
 }
