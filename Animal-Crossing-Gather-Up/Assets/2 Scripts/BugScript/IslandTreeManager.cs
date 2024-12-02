@@ -5,7 +5,11 @@ using UnityEngine;
 public class IslandTreeManager : BaseIslandManager
 {
     public override void CatchBug(Bug bug)
-    {              
-        //향후 게임매니져에서 처리 캐치버그시 돈 업데이트
+    {
+        int bugValue = bug.GetValue();
+
+        //인벤에 버그인포를 추가하는 로직
+
+        RemoveBug();
     }
 }

@@ -14,7 +14,14 @@ public abstract class BaseIslandManager : MonoBehaviour, IBugManager
     protected virtual void Start()
     {
         InitializeSpawners();
-        StartCoroutine(SpawnRoutine());
+        if (spawners.Count > 0)  // 스포너가 있는지 확인
+        {
+            StartCoroutine(SpawnRoutine());
+        }
+        else
+        {
+            Debug.LogError("No BugSpawners found!");
+        }
     }
 
     protected virtual void InitializeSpawners()

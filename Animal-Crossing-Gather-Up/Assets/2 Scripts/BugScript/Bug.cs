@@ -21,5 +21,5 @@ public class Bug : MonoBehaviour
         manager?.CatchBug(this);
         Destroy(gameObject);                    
     }
-    public int GetValue() => info.value;
+    public int GetValue() => info.basePrice;
 }

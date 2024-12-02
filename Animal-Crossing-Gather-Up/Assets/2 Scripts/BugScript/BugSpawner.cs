@@ -9,16 +9,24 @@ public class BugSpawner : MonoBehaviour
     [SerializeField] private Transform spawnPoint;
     private IBugManager manager;
     public Bug CurrentBug { get; private set; }
-
+  
     public void Initialize(IBugManager bugManager)
     {
         manager = bugManager;
+
+        if (spawnPoint == null)
+        {
+            spawnPoint = transform.Find("SpawnPoint");
+        }
     }
 
     public bool TrySpawnBug()
     {
-        if (CurrentBug != null || bugList.Count == 0) return false;
+        if (CurrentBug != null || bugList == null || bugList.Count == 0) return false;
+
         var selectedBug = SelectRandomBug();
+        if (selectedBug == null) return false;
+
         SpawnBug(selectedBug);
         return true;
     }
