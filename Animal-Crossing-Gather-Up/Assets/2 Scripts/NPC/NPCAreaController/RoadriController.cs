@@ -28,7 +28,7 @@ public class RoadriController : DialogController, IAreaNPC
     public void AirplaneDialogStart()
     {
         uiManager.dialogPanel.SetActive(true);
-        DialogStart();
+        DialogStart(dialogData.dialogTexts, dialogData.talkCount[0]);
     }
 
     public void FirstAccept()

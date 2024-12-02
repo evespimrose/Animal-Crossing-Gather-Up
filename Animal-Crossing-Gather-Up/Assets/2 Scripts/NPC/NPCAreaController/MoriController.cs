@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Assertions.Must;
 using UnityEngine.UI;
 
-public class MoriController : DialogController, IAreaNPC
+public class MoriController : DialogController
 {
     private NPCState moriState;
     public NPCDialogData moriDialogData;
@@ -19,8 +19,7 @@ public class MoriController : DialogController, IAreaNPC
     {
         base.Start();
         dialogData = moriDialogData;
-        string[] moriOptions = { "외출할래", "지금은 안할래", "키키키ㅣ키", "푸하하ㅏ하하" };
-        //텍스트에 배경색 넣기 = <mark=#FFDA3750>외출할래</mark>
+        string[] moriOptions = { "외출할래", "지금은 안할래" };
         optionui.SetOptions(moriOptions);
     }
 
@@ -28,31 +27,44 @@ public class MoriController : DialogController, IAreaNPC
     {
         base.Update();
         optionui.CursorMove();
+        SelectedOptionAfter();
     }
 
-    public void AirplaneDialogStart()
+    public void MoriDialogStart()
     {
         uiManager.dialogPanel.SetActive(true);
-        DialogStart();
+        DialogStart(moriDialogData.dialogTexts, moriDialogData.talkCount[0]);
     }
 
-    public void FirstAccept()
+    public void SelectedOptionAfter()
     {
-        Debug.Log("마일섬 출발");
-        optionui.optionPanel.SetActive(false);
-        uiManager.dialogPanel.SetActive(false);
-        uiManager.enterPanel.SetActive(false);
-    }
-    public void EndTalk()
-    {
-        Debug.Log("모리와의 대화 종료");
-        optionui.optionPanel.SetActive(false);
-        uiManager.dialogPanel.SetActive(false);
-        uiManager.enterPanel.SetActive(false);
+        if (optionui.currentOption == "외출할래")
+        {
+            FirstTextStart(moriDialogData.nextDialogTexts, moriDialogData.talkCount[1]);
+            StartDialog(moriDialogData.nextDialogTexts, moriDialogData.talkCount[1]);
+            string[] moriOptions = { "출발!" };
+            optionui.SetOptions(moriOptions);
+        }
+
+        if (optionui.currentOption == "지금은 안할래")
+        {
+            FirstTextStart(moriDialogData.thirdDialogTexts, moriDialogData.talkCount[2]);
+            StartDialog(moriDialogData.thirdDialogTexts, moriDialogData.talkCount[2]);
+            string[] moriOptions = { "대화종료" };
+            optionui.SetOptions(moriOptions);
+        }
+
+        if (optionui.currentOption == "출발!")
+        {
+            EndDialog();
+            print("마일섬으로 출발!");
+        }
+
+        if (optionui.currentOption == "대화종료")
+        {
+            EndDialog();
+            print("모리 대화 종료");
+        }
     }
 
-    public void InteractionPlayer()
-    {
-        moriState.LookAtPlayer();
-    }
 }
