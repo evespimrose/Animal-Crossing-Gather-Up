@@ -16,6 +16,10 @@ MonoBehaviour:
   stackLimit: 0
   basePrice: 100
   icon: {fileID: 0}
-  prefab: {fileID: 3509250616930223806, guid: 94627e1867eb31e4583550292fbbb516, type: 3}
+  optionText:
+  - "\uADFC\uCC98\uC5D0 \uB450\uAE30"
+  fullInventoryOptionText:
+  - "\uBC14\uAFB8\uAE30"
+  prefab: {fileID: 3182054163324619375, guid: 51f189b487ed13943b2cf58fbe23b9e0, type: 3}
   type: 1
   spawnWeight: 0.1
