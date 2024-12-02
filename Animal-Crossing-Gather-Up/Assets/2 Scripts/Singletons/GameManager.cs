@@ -5,8 +5,7 @@ using UnityEngine;
 public class GameManager : SingletonManager<GameManager>
 {
 	private Player player;
-	private Inventory inventory;
-
+	public Inventory inventory;
 
 	private void Start()
 	{

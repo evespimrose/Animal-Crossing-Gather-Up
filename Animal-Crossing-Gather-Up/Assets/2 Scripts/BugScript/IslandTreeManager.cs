@@ -8,7 +8,7 @@ public class IslandTreeManager : BaseIslandManager
     {
         int bugValue = bug.GetValue();
 
-        //ÀÎº¥¿¡ ¹ö±×ÀÎÆ÷¸¦ Ãß°¡ÇÏ´Â ·ÎÁ÷
+        //ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½
 
         RemoveBug();
     }

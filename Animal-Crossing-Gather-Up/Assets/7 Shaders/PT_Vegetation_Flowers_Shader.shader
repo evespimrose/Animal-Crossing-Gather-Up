@@ -1,5 +1,3 @@
-// Made with Amplify Shader Editor v1.9.0.2
-// Available at the Unity Asset Store - http://u3d.as/y3X 
 Shader "Polytope Studio/PT_Vegetation_Flowers_Shader"
 {
 	Properties
@@ -28,6 +26,7 @@ Shader "Polytope Studio/PT_Vegetation_Flowers_Shader"
 		_WindStrength("Wind Strength", Range( 0 , 1)) = 0.3
 		[HideInInspector] _texcoord( "", 2D ) = "white" {}
 		[HideInInspector] __dirty( "", Int ) = 1
+		_CurveStrength ("Curve Strength", Range(0,0.01)) = 0.001
 	}
 
 	SubShader
@@ -80,6 +79,7 @@ Shader "Polytope Studio/PT_Vegetation_Flowers_Shader"
 		uniform half _TransShadow;
 		uniform float _LeavesThickness;
 		uniform float _MaskClipValue;
+		half _CurveStrength;
 
 
 		float3 mod2D289( float3 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
@@ -118,6 +118,14 @@ Shader "Polytope Studio/PT_Vegetation_Flowers_Shader"
 		{
 			UNITY_INITIALIZE_OUTPUT( Input, o );
 			float4 ase_vertex4Pos = v.vertex;
+			
+			// Apply world curve before wind
+			float4 worldPos = mul(unity_ObjectToWorld, ase_vertex4Pos);
+			float dist = abs(worldPos.x - _WorldSpaceCameraPos.x);
+			worldPos.y += _CurveStrength * dist * dist * _ProjectionParams.x;
+			ase_vertex4Pos = mul(unity_WorldToObject, worldPos);
+			
+			// Existing wind calculation
 			float simplePerlin2D321 = snoise( (ase_vertex4Pos*1.0 + ( _Time.y * _WindMovement )).xy*_WindDensity );
 			simplePerlin2D321 = simplePerlin2D321*0.5 + 0.5;
 			float4 appendResult329 = (float4(( ( ( ( simplePerlin2D321 - 0.5 ) / 10.0 ) * _WindStrength ) + ase_vertex4Pos.x ) , ase_vertex4Pos.y , ase_vertex4Pos.z , 1.0));
@@ -312,7 +320,7 @@ Node;AmplifyShaderEditor.GetLocalVarNode;394;406.6841,386.0674;Inherit;False;393
 Node;AmplifyShaderEditor.GetLocalVarNode;401;244.2854,64.10895;Inherit;False;400;FINALCOLOR;1;0;OBJECT;;False;1;COLOR;0
 Node;AmplifyShaderEditor.RangedFloatNode;130;944.7643,-169.6443;Inherit;False;Property;_MaskClipValue;Mask Clip Value;8;1;[HideInInspector];Fetch;True;0;0;0;False;0;False;0.5;0.5;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;407;256.6289,164.2671;Inherit;False;Constant;_Float5;Float 5;16;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.StandardSurfaceOutputNode;62;648.3509,76.09714;Float;False;True;-1;2;;0;0;Standard;Polytope Studio/PT_Vegetation_Flowers_Shader;False;False;False;False;False;False;False;False;False;False;False;False;True;False;False;False;True;False;False;False;False;Off;0;False;;0;False;;False;0;False;;0;False;;False;0;Custom;0.5;True;True;0;True;TransparentCutout;;Geometry;ForwardOnly;18;all;True;True;True;True;0;False;;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;2;15;10;25;False;0.5;True;0;0;False;;0;False;;0;0;False;;0;False;;0;False;;0;False;;0;False;0;0,0,0,0;VertexOffset;True;False;Cylindrical;False;True;Absolute;0;;-1;11;-1;-1;0;False;0;0;False;;-1;0;True;_MaskClipValue;1;Pragma;multi_compile __ LOD_FADE_CROSSFADE;False;;Custom;0;0;False;0.1;False;;0;False;;False;16;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;13;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;14;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;0
+Node;AmplifyShaderEditor.StandardSurfaceOutputNode;62;648.3509,76.09714;Float;False;True;-1;2;;0;0;Standard;Polytope Studio/PT_Vegetation_Flowers_Shader;False;False;False;False;False;False;False;False;False;False;False;False;True;False;False;False;True;False;False;False;False;Off;0;False;;0;False;;False;0;False;;0;False;;False;0;Custom;0.5;True;True;0;True;TransparentCutout;;Geometry;ForwardOnly;18;all;True;True;True;True;0;False;;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;2;15;10;25;False;0.5;True;0;0;False;;0;False;;0;0;False;;0;False;;0;False;;0;False;;0;False;0;0,0,0,0;VertexOffset;True;False;Cylindrical;False;True;Absolute;0;;-1;11;-1;-1;0;False;0;0;False;;-1;0;True;_MaskClipValue;1;Pragma;multi_compile __ LOD_FADE_CROSSFADE;False;;Custom;0;0;False;0.1;False;;0;False;;False;16;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;13;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;14;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;0
 WireConnection;235;1;233;0
 WireConnection;204;1;206;0
 WireConnection;236;0;235;2

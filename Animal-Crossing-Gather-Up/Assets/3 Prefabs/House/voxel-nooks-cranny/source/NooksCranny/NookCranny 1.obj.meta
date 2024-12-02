@@ -3,7 +3,52 @@ guid: 53af28a6a0827cc4d860e61a9c20f7d5
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TomNookStore_1_palette
+    second: {fileID: 2100000, guid: 04a5921431530aa4cbbb04ffff82dfee, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TomNookStore_2_palette
+    second: {fileID: 2100000, guid: 69e20f943cf66524b95305856e9b3623, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TomNookStore_3_palette
+    second: {fileID: 2100000, guid: 70d7a9bc48074d949aa9395aea3e2736, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TomNookStore_4_palette
+    second: {fileID: 2100000, guid: f365db133198eff4c8685b5a6523fdbd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TomNookStore_5_palette
+    second: {fileID: 2100000, guid: 305d26e9e4f18b042bac90ed3b7badbb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TomNookStore_6_palette
+    second: {fileID: 2100000, guid: 176811472c8f233448035b254598b1e8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TomNookStore_7_palette
+    second: {fileID: 2100000, guid: 22893a867e7a75149a0275cfcef535f8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TomNookStore_8_palette
+    second: {fileID: 2100000, guid: d4e4d86f3b916004caa1916a52a3b764, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: palette
+    second: {fileID: 2100000, guid: f22754c06c1fca448bb67bcc97a7a530, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
