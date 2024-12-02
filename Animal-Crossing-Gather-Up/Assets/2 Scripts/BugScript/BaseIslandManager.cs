@@ -24,6 +24,12 @@ public class BaseIslandManager : SingletonManager<BaseIslandManager>
 
     private void Start()
     {
+        FindBugSpawnerByType();
+        //돌이든 물고기든 타입을 각각 여기다 놓기
+
+    }
+    private void FindBugSpawnerByType()
+    {
         // 모든 스포너 찾기
         var allSpawners = FindObjectsOfType<BugSpawner>();
 
@@ -39,10 +45,8 @@ public class BaseIslandManager : SingletonManager<BaseIslandManager>
         }
 
         StartCoroutine(SpawnRoutine());
-
-
-
     }
+
 
     
 

@@ -27,7 +27,7 @@ public class Bug : MonoBehaviour
         Destroy(gameObject);
 
         BaseIslandManager.Instance.RemoveBug(info); // SingletonManager<> 상속받은 매니저
-     
+        GameManager.Instance.inventory.AddItem(info);
     }
     public int GetValue() => info.basePrice;
 }
