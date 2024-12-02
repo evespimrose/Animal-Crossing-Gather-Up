@@ -4,20 +4,20 @@ using UnityEngine;
 
 public class InsectTest : Item
 {
-    private IslandTreeManager islandTreeManager;
+    //private IslandTreeManager islandTreeManager;
 
     private void Start()
     {
         //islandTreeManager = GetComponent<IslandTreeManager>(); // IslandTreeManager 초기??
     }
 
-    private void OnDestroy()
-    {
-        if (islandTreeManager != null)
-        {
-            islandTreeManager.RemoveBug();
-        }
-    }
+    //private void OnDestroy()
+    //{
+    //    if (islandTreeManager != null)
+    //    {
+    //        islandTreeManager.RemoveBug();
+    //    }
+    //}
 
     private void OnMouseDown()
     {
