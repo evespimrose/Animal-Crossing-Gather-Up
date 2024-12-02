@@ -1338,7 +1338,7 @@ Transform:
   - {fileID: 400074}
   - {fileID: 400072}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: -90}
+  m_LocalEulerAnglesHint: {x: -90, y: -90, z: 0}
 --- !u!95 &9517516
 Animator:
   serializedVersion: 5
