@@ -20,6 +20,12 @@ public class PurchaseUI : MonoBehaviour
 
 		purchasePanel.SetActive(false);
 		slots = shop.GetPurchaseSlotInfo();
+
+		// update all slots
+		for (int i = 0; i < slots.Count; i++)
+		{
+			slotUIs[i].UpdateUI(slots[i].Item, slots[i].stackCount);
+		}
 	}
 
 	private void Update()
@@ -93,7 +99,6 @@ public class PurchaseUI : MonoBehaviour
 
 		// Cursor on the current slot
 		slotUIs[index].CursorOnSlotDisplayCursor(true);
-		print(slots[index].Item);
 		if (slots[index].Item != null)
 		{
 			slotUIs[index].CursorOnSlotDisplayName(true);
