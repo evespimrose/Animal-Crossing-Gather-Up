@@ -31,7 +31,7 @@ public class Shop : MonoBehaviour
 
 	private const int slotsPerRow = 2; // Number of slots per row
 
-	private void Start()
+	private void Awake()
 	{
 		purchaseUI = FindObjectOfType<PurchaseUI>();
 		for (int i = 0; i < items.Count; i++)
