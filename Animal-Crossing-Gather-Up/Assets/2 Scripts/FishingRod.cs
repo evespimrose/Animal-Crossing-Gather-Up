@@ -4,15 +4,9 @@ using UnityEngine;
 
 public class FishingRod : Tool
 {
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        
+        collectCommand = new FishingRodCollectCommand();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
