@@ -50,7 +50,6 @@ public class Inventory : MonoBehaviour
 			{
 				slot.AddItem();
 				// test
-				print($"Add {item.itemName} to existing slot. New stackCount : {slot.stackCount}");
 				isAdded = true;
 				return;
 			}
@@ -64,7 +63,6 @@ public class Inventory : MonoBehaviour
 				slot.Initialize(item);  // Initialize the slot with the item
 
 				// test
-				print($"Add {item.itemName} to empty slot. New stackCount : {slot.stackCount}");
 				isAdded = true;
 				return;
 			}
