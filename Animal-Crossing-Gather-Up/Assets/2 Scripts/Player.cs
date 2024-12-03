@@ -67,7 +67,7 @@ public class Player : MonoBehaviour
 		float horizontal = Input.GetAxis("Horizontal");
 		float vertical = Input.GetAxis("Vertical");
 
-		movement = new Vector3(horizontal, 0, vertical);
+		movement = new Vector3(-vertical, 0, horizontal);
 		if (movement.magnitude > 0.1f)
 		{
 			characterController.Move(moveSpeed * Time.deltaTime * movement);
