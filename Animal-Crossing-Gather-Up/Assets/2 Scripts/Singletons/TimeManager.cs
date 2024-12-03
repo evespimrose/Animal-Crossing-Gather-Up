@@ -7,243 +7,154 @@ using UnityEngine.Rendering;
 
 public class TimeManager : SingletonManager<TimeManager>
 {
-    public float DayNightCycleDuration = 1440f; 
-    public float CurrentTime { get; private set; }
-
-    [SerializeField] private Light directionalLight;
-    [SerializeField] private AmbientMode ambientMode = AmbientMode.Skybox;
-    [SerializeField] private float nightIntensity = 0.1f;
-    [SerializeField] private float dayIntensity = 1f;
-
-    [SerializeField] private Material dawnSkybox;
-    [SerializeField] private Material morningSkybox;
-    [SerializeField] private Material daySkybox;
-    [SerializeField] private Material eveningSkybox;
-    [SerializeField] private Material nightSkybox;
-    [SerializeField] private float transitionDuration = 2f; // 전환 시간
-    private Material currentSkybox;
-    private Coroutine skyboxTransitionCoroutine;
-
-
-    // 옵저버 패턴 구현을 위한 이벤트들
-    public event Action OnNightToDayChanged;  // bool: true=낮, false=밤 시간대가 변경될 때 호출
-    private TimeOfDay currentTimeOfDay;
+    public event Action OnDayNightChanged;
     private bool wasNight;
-  
 
-    public enum TimeOfDay
-    {
-        Dawn,    // 새벽 (00:00-04:59)
-        Morning, // 아침 (05:00-08:59)
-        Day,     // 낮   (09:00-16:59)
-        Evening, // 저녁 (17:00-20:59)
-        Night    // 밤   (21:00-23:59)
-    }
+    [Header("Time Settings")]
+    [SerializeField] private float timeMultiplier = 60f;  // 1분(현실) = 1시간(게임)
+    [SerializeField] private float startHour = 6f;        // 시작 시간
+    [SerializeField][Range(1f, 20f)] private float timeScale = 1f;  // 시간 배속 (1~20배)
+
+    [Header("Celestial Bodies")]
+    [SerializeField] private Transform sunPivot;          // 태양 피봇
+    [SerializeField] private Transform moonPivot;         // 달 피봇
+    [SerializeField] private Light sunLight;              // 태양 광원
+    [SerializeField] private Light moonLight;             // 달 광원
+    [SerializeField] private SpriteRenderer sunRenderer;  // 태양 스프라이트
+    [SerializeField] private SpriteRenderer moonRenderer; // 달 스프라이트
+
+    [Header("Light Settings")]
+    [SerializeField] private float sunriseHour = 6f;      // 일출 시간
+    [SerializeField] private float sunsetHour = 18f;      // 일몰 시간
+    [SerializeField] private float maxSunIntensity = 1f;  // 태양 최대 광도
+    [SerializeField] private float maxMoonIntensity = 0.3f; // 달 최대 광도
+    [SerializeField] private Color sunColor = Color.white;
+    [SerializeField] private Color moonColor = new Color(0.6f, 0.6f, 0.8f);
+
+    private float currentTime;    // 현재 시간 (시간)
+
+    public bool IsNight => currentTime < sunriseHour || currentTime > sunsetHour;
 
     protected override void Awake()
     {
         base.Awake();
-        wasNight = IsNight();
-        SetInitialTimeOfDay();
+        currentTime = startHour;
+        wasNight = IsNight;
+        InitializeCelestialBodies();
     }
-    private void Start()
+
+    private void InitializeCelestialBodies()
     {
-        if (!directionalLight)
-            directionalLight = FindObjectOfType<Light>();
+        // 태양과 달의 초기 설정
+        sunLight.intensity = 0;
+        moonLight.intensity = 0;
 
-        RenderSettings.ambientMode = ambientMode;
-        ValidateSkyboxMaterials();
-
-        // 초기 스카이박스 설정
-        currentSkybox = GetSkyboxForCurrentTime();
-        if (currentSkybox != null)
+        // 스프라이트 설정
+        if (sunRenderer)
         {
-            RenderSettings.skybox = currentSkybox;
+            sunRenderer.color = sunColor;
+            sunRenderer.transform.localScale = Vector3.one * 10f;  // 크기 조절
+        }
+
+        if (moonRenderer)
+        {
+            moonRenderer.color = moonColor;
+            moonRenderer.transform.localScale = Vector3.one * 8f;  // 크기 조절
         }
     }
 
     private void Update()
     {
         UpdateTime();
-        UpdateEnvironment();
-        UpdateSkybox();
-        CheckNightToDayTransition();
-        UpdateTimeOfDay();
+        UpdateCelestialBodies();
+        CheckDayNightTransition();
     }
 
     private void UpdateTime()
     {
-        CurrentTime += Time.deltaTime;
-        if (CurrentTime >= DayNightCycleDuration)
-            CurrentTime = 0;
-                         
+        currentTime += Time.deltaTime * timeMultiplier * timeScale;
+        if (currentTime >= 24f) currentTime = 0f;
     }
 
-    private void UpdateEnvironment()
+    private void UpdateCelestialBodies()
     {
-        // 태양 회전
-        float rotationDegree = (CurrentTime / DayNightCycleDuration) * 360f;
-        rotationDegree = Mathf.Repeat(rotationDegree, 360f);
-        directionalLight.transform.rotation = Quaternion.Euler(rotationDegree, 170f, 0f);
+        // 태양과 달의 회전 (180도는 지평선 아래)
+        float sunRotation = (currentTime - sunriseHour) * 180f / (sunsetHour - sunriseHour);
+        float moonRotation = sunRotation + 180f;  // 달은 태양의 반대편
 
-        // 빛 강도 조절
-        float timeRatio = CurrentTime / DayNightCycleDuration;
-        float intensity = Mathf.Lerp(dayIntensity, nightIntensity,
-            Mathf.Abs(Mathf.Cos(timeRatio * Mathf.PI)));
-        directionalLight.intensity = intensity;
+        // 피봇 회전
+        sunPivot.rotation = Quaternion.Euler(sunRotation, 170f, 0f);
+        moonPivot.rotation = Quaternion.Euler(moonRotation, 170f, 0f);
 
-        // 환경광 조절
-        Color ambientColor = IsDay()
-            ? Color.white
-            : new Color(0.2f, 0.2f, 0.3f);
-        RenderSettings.ambientLight = ambientColor;
-    }
+        // 광원 강도 계산
+        float sunIntensity = 0f;
+        float moonIntensity = 0f;
 
-    private Material GetSkyboxForCurrentTime()
-    {
-        float hourOfDay = (CurrentTime / 60f);
-
-        if (hourOfDay >= 0 && hourOfDay < 5)
-            return dawnSkybox;
-        if (hourOfDay >= 5 && hourOfDay < 9)
-            return morningSkybox;
-        if (hourOfDay >= 9 && hourOfDay < 17)
-            return daySkybox;
-        if (hourOfDay >= 17 && hourOfDay < 21)
-            return eveningSkybox;
-        return nightSkybox;
-    }
-    private void UpdateSkybox()
-    {
-        Material targetSkybox = GetSkyboxForCurrentTime();
-
-        if (targetSkybox != null && targetSkybox != currentSkybox)
+        if (currentTime >= sunriseHour && currentTime <= sunsetHour)
         {
-            // 이전 전환이 진행 중이면 중단
-            if (skyboxTransitionCoroutine != null)
+            // 낮 시간
+            if (currentTime <= sunriseHour + 2f) // 일출
             {
-                StopCoroutine(skyboxTransitionCoroutine);
+                float t = (currentTime - sunriseHour) / 2f;
+                sunIntensity = Mathf.Lerp(0f, maxSunIntensity, t);
+                moonIntensity = Mathf.Lerp(maxMoonIntensity, 0f, t);
             }
-
-            // 새로운 전환 시작
-            skyboxTransitionCoroutine = StartCoroutine(SmoothSkyboxTransition(targetSkybox));
+            else if (currentTime >= sunsetHour - 2f) // 일몰
+            {
+                float t = (currentTime - (sunsetHour - 2f)) / 2f;
+                sunIntensity = Mathf.Lerp(maxSunIntensity, 0f, t);
+                moonIntensity = Mathf.Lerp(0f, maxMoonIntensity, t);
+            }
+            else // 낮
+            {
+                sunIntensity = maxSunIntensity;
+                moonIntensity = 0f;
+            }
         }
-    }
-
-
-    private IEnumerator SmoothSkyboxTransition(Material targetSkybox)
-    {
-        float elapsedTime = 0f;
-        Material startSkybox = currentSkybox;
-
-        // 첫 전환인 경우
-        if (startSkybox == null)
+        else // 밤
         {
-            RenderSettings.skybox = targetSkybox;
-            currentSkybox = targetSkybox;
-            yield break;
+            sunIntensity = 0f;
+            moonIntensity = maxMoonIntensity;
         }
 
-        // 현재 스카이박스 페이드 아웃
-        float startExposure = startSkybox.GetFloat("_Exposure");
-        while (elapsedTime < transitionDuration * 0.5f)
+        // 광원 업데이트
+        sunLight.intensity = sunIntensity;
+        moonLight.intensity = moonIntensity;
+
+        // 스프라이트 알파값 업데이트
+        if (sunRenderer)
         {
-            elapsedTime += Time.deltaTime;
-            float t = elapsedTime / (transitionDuration * 0.5f);
-
-            float exposure = Mathf.Lerp(startExposure, 0f, t);
-            startSkybox.SetFloat("_Exposure", exposure);
-
-            yield return null;
+            Color sunColor = sunRenderer.color;
+            sunColor.a = sunIntensity;
+            sunRenderer.color = sunColor;
         }
 
-        // 타겟 스카이박스로 변경
-        RenderSettings.skybox = targetSkybox;
-        currentSkybox = targetSkybox;
-
-        // 새 스카이박스 페이드 인
-        elapsedTime = 0f;
-        while (elapsedTime < transitionDuration * 0.5f)
+        if (moonRenderer)
         {
-            elapsedTime += Time.deltaTime;
-            float t = elapsedTime / (transitionDuration * 0.5f);
-
-            float exposure = Mathf.Lerp(0f, startExposure, t);
-            targetSkybox.SetFloat("_Exposure", exposure);
-
-            yield return null;
+            Color moonColor = moonRenderer.color;
+            moonColor.a = moonIntensity * 2f; // 달은 좀 더 잘 보이게
+            moonRenderer.color = moonColor;
         }
 
-        skyboxTransitionCoroutine = null;
+        // 환경광 업데이트
+        RenderSettings.ambientLight = Color.Lerp(moonColor * moonIntensity, sunColor * sunIntensity, sunIntensity);
     }
-    private void CheckNightToDayTransition()
+
+    private void CheckDayNightTransition()
     {
-        bool isNight = IsNight();
-        if (wasNight && !isNight)  // 밤에서 낮으로 바뀌는 순간
+        bool isNight = IsNight;
+        if (wasNight != isNight)
         {
-            OnNightToDayChanged?.Invoke();
+            wasNight = isNight;
+            OnDayNightChanged?.Invoke();
         }
-        wasNight = isNight;
-    }
-    private void SetInitialTimeOfDay()
-    {
-        float timeRatio = CurrentTime / DayNightCycleDuration;
-        currentTimeOfDay = GetTimeOfDayFromRatio(timeRatio);
-    }
-    private void UpdateTimeOfDay()
-    {
-        float timeRatio = CurrentTime / DayNightCycleDuration;
-        TimeOfDay newTimeOfDay = GetTimeOfDayFromRatio(timeRatio);
-
-        if (newTimeOfDay != currentTimeOfDay)
-        {
-            currentTimeOfDay = newTimeOfDay;
-        }
-    }
-    private TimeOfDay GetTimeOfDayFromRatio(float ratio)
-    {
-        float hourOfDay = ratio * 24f;
-
-        if (hourOfDay >= 0 && hourOfDay < 5) return TimeOfDay.Dawn;    // 새벽
-        if (hourOfDay >= 5 && hourOfDay < 9) return TimeOfDay.Morning; // 아침
-        if (hourOfDay >= 9 && hourOfDay < 17) return TimeOfDay.Day;    // 낮
-        if (hourOfDay >= 17 && hourOfDay < 21) return TimeOfDay.Evening; // 저녁
-        return TimeOfDay.Night;  // 밤
-    }
-
-    private void ValidateSkyboxMaterials()
-    {
-        if (dawnSkybox == null || morningSkybox == null ||
-            daySkybox == null || eveningSkybox == null ||
-            nightSkybox == null) { }
-        
-           
-        
-
-    }
-
-    // 현재 밤인지 확인
-    private bool IsNight()
-    {
-        TimeOfDay currentTime = GetCurrentTimeOfDay();
-        return currentTime == TimeOfDay.Night || currentTime == TimeOfDay.Dawn;
-    }
-
-    
-    public bool IsDay()
-    {
-        float hourOfDay = (CurrentTime / 60f);
-        return hourOfDay >= 9 && hourOfDay < 17;  // 9시-17시를 낮으로 간주
     }
 
     public string GetTimeString()
     {
-        float totalHours = (CurrentTime / 60f);
-        int hours = (int)totalHours;
-        int minutes = (int)((totalHours - hours) * 60);
-
-        return $"{hours:D2}:{minutes:D2}";
+        int hours = Mathf.FloorToInt(currentTime);
+        int minutes = Mathf.FloorToInt((currentTime - hours) * 60f);
+        return $"{hours:00}:{minutes:00}";
     }
 
-    public TimeOfDay GetCurrentTimeOfDay() => currentTimeOfDay;
 }
