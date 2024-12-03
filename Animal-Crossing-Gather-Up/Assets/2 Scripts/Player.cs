@@ -25,11 +25,7 @@ public class Player : MonoBehaviour
 	private void Start()
 	{
 		characterController = GetComponent<CharacterController>();
-		inventoryUI = FindObjectOfType<InventoryUI>();
 	}
-
-	// test : inventory Open
-	public InventoryUI inventoryUI;
 
 	private void Update()
 	{
@@ -58,7 +54,7 @@ public class Player : MonoBehaviour
 		}
 		else if (Input.GetKeyDown(KeyCode.I))
 		{
-			inventoryUI.InventoryOpen();
+			UIManager.Instance.OpenInventory();
 		}
 	}
 
