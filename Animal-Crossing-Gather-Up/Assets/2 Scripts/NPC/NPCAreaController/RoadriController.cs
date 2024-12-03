@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoadriController : DialogController, IAreaNPC
+public class RoadriController : DialogController
 {
 
     public NPCDialogData roadriDialogData;
@@ -17,10 +17,7 @@ public class RoadriController : DialogController, IAreaNPC
     {
         base.Start();
         dialogData = roadriDialogData;
-        //uiManager.firstChooseText.text = "돌아갈래";
-        //uiManager.thirdChooseText.text = "섬을 더 돌아볼래";
-        //string[] optionTexts = { "외출", "안함" };
-        //optionUI.SetOption(optionTexts);
+
     }
 
 
@@ -28,7 +25,7 @@ public class RoadriController : DialogController, IAreaNPC
     public void AirplaneDialogStart()
     {
         uiManager.dialogPanel.SetActive(true);
-        DialogStart(dialogData.dialogTexts, dialogData.talkCount[0]);
+        DialogStart(dialogData.dialogTexts, dialogData.dialogIndex[0]);
     }
 
     public void FirstAccept()

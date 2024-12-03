@@ -5,11 +5,13 @@ using UnityEngine;
 public class TestDialogMove : MonoBehaviour
 {
     MoriController moriCtrl;
+    NPCState moriState;
     public float moveSpeed;
 
     private void Start()
     {
         moriCtrl = FindObjectOfType<MoriController>();
+        moriState = FindObjectOfType<NPCState>();
     }
     private void Update()
     {
