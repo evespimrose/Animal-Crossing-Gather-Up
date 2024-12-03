@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class InventoryUI : MonoBehaviour
 {
+	[Header("References")]
 	public Inventory inventory; // Reference to the Inventory
-	public GameObject inventoryPanel;   // Reference to the inventory UI Panel
+	[SerializeField]
+	private GameObject inventoryPanel;   // Reference to the inventory UI Panel
 
+	[Header("UI Elements")]
 	// UI에 띄우기 위한 slot들?
 	public List<SlotUI> slotUIs = new List<SlotUI>();   // List of SlotUI components
 	private List<Slot> slots;
@@ -16,9 +19,14 @@ public class InventoryUI : MonoBehaviour
 
 	private void Start()
 	{
+		// Find component
 		inventory = FindObjectOfType<Inventory>();
-		inventory.OnInventoryFull += InventoryOpen; // Subscribe to the event
-		inventoryPanel.SetActive(false);    // Hide the inventoryPanel at start
+		inventory.OnInventoryFull += OnInventoryFull; // Subscribe to the event
+
+		if (inventoryPanel != null)
+		{
+			inventoryPanel.SetActive(false);    // Hide the inventoryPanel at start
+		}
 	}
 
 	private void Update()
@@ -27,7 +35,7 @@ public class InventoryUI : MonoBehaviour
 		{
 			if (inventoryPanel.activeSelf)
 			{
-				inventoryPanel.SetActive(false);
+				UIManager.Instance.CloseInventory();
 			}
 		}
 
@@ -36,6 +44,11 @@ public class InventoryUI : MonoBehaviour
 		{
 			HandleSlotSelection();
 		}
+	}
+
+	private void OnInventoryFull()
+	{
+		UIManager.Instance.OpenInventory();
 	}
 
 	public void InventoryOpen()
@@ -54,6 +67,11 @@ public class InventoryUI : MonoBehaviour
 		{
 			slotUI.cursorImage.gameObject.SetActive(false);
 		}
+	}
+
+	public void InventoryClose()
+	{
+		inventoryPanel.SetActive(false);
 	}
 
 	// inventory가 SlotPrefab을 Instantiate할때 SlotPrefab에 부착된 SlotUI을 받아오기 위한 함수
