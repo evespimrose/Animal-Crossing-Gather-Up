@@ -63,7 +63,7 @@ public class InventoryUI : MonoBehaviour
 	}
 
 	// Inventory에게서 Inventory에 담긴 Slots에 담긴 item의 정보들을 받아오기 위한 함수
-	private void UpdateAllSlotUIs()
+	public void UpdateAllSlotUIs()
 	{
 		// 인벤토리의 Slot의 정보들을 새로 할당받아서 받아옴
 		// 이 slots를 변경해도 Inventory의 slot에 담긴 아이템이 바뀌지는 않음
