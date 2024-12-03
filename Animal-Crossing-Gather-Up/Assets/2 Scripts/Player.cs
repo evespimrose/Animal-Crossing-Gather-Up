@@ -82,9 +82,24 @@ public class Player : MonoBehaviour
 			Collect();
 		}
 	}
+
 	public void Collect()
 	{
-		currentTool?.Execute();
+		if (currentTool != null)
+		{
+			currentTool.Execute();
+			
+			if (currentTool.ToolInfo.currentDurability <= 0)
+			{
+				// 인벤토리에서 아이템 제거
+				OnItemCollected?.Invoke(currentTool.ToolInfo);
+				
+				// 도구 해제 및 파괴
+				GameObject toolToDestroy = equippedTool;
+				UnequipTool();
+				Destroy(toolToDestroy);
+			}
+		}
 	}
 
 	public void EquipTool(GameObject tool)
