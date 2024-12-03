@@ -12,10 +12,8 @@ public class DialogController : MonoBehaviour
     protected NPCPanelUI uiManager;
     protected OptionUI optionui;
     protected Coroutine currentCoroutine;
-    protected bool isDialogActive = false; // 대화 활성화 상태
 
-    protected NPCDialogData dialogData; //scriptableObject 참조
-
+    protected NPCDialogData dialogData;
     protected virtual void Start()
     {
         uiManager = FindObjectOfType<NPCPanelUI>();
@@ -25,18 +23,18 @@ public class DialogController : MonoBehaviour
         uiManager.enterPanel.SetActive(false);
     }
 
-    public void DialogStart(string[] dialogTexts, int talkCount)
+    public void DialogStart(string[] setDialogTexts, int talkCount)
     {
-        if (!isDialogActive)
+        FirstTextStart(setDialogTexts, talkCount);
+        if (setDialogTexts.Length > 0)
         {
-            isDialogActive = true; //대화 시작 bool
-            FirstTextStart(dialogTexts, talkCount);
+            EnterDialog(setDialogTexts, talkCount);
         }
+
     }
 
     public void EndDialog()
     {
-        isDialogActive = false;
         dialogData.isChooseActive = false;
         for (int i = 0; i < dialogData.talkCount.Length; i++)
         {
@@ -48,42 +46,35 @@ public class DialogController : MonoBehaviour
 
     protected virtual void Update()
     {
-        StartDialog(dialogData.dialogTexts, dialogData.talkCount[0]);
+        optionui.PanelActive(dialogData.isChooseActive);
         uiManager.enterPanel.SetActive(dialogData.isEnterActive);
-
     }
 
-    public void StartDialog(string[] SetdialogTexts, int talkCount)
-    {
-        if (talkCount < SetdialogTexts.Length)
-        {
-            if (Input.GetKeyDown(KeyCode.Space) && currentCoroutine == null)
-            {
-                if (talkCount < SetdialogTexts.Length)
-                {
-                    string text = SetdialogTexts[talkCount];
-                    currentCoroutine = StartCoroutine(TypingDialog(text));
-                    talkCount++;
-                }
-            }
-        }
-
-        if (talkCount == SetdialogTexts.Length)
-        {
-            dialogData.isChooseActive = true;
-        }
-
-    }
-
-    public void FirstTextStart(string[] SetdialogTexts, int talkCount)
+    public void FirstTextStart(string[] SetdialogTexts, int dialogIndex)
     {
         if (currentCoroutine == null)
         {
-            string firstText = SetdialogTexts[talkCount];
+            string firstText = SetdialogTexts[0];
             currentCoroutine = StartCoroutine(TypingDialog(firstText));
-            talkCount++;
+        }
+    }
+
+    public void EnterDialog(string[] SetdialogTexts, int dialogIndex)
+    {
+        if (dialogIndex < SetdialogTexts.Length)
+        {
+            if (Input.GetKeyDown(KeyCode.Space) && currentCoroutine == null)
+            {
+                string text = SetdialogTexts[dialogIndex];
+                currentCoroutine = StartCoroutine(TypingDialog(text));
+            }
         }
 
+        if (dialogIndex >= SetdialogTexts.Length)
+        {
+            dialogData.isChooseActive = true;
+            dialogIndex = 0;
+        }
     }
 
     private IEnumerator TypingDialog(string text)
@@ -92,7 +83,7 @@ public class DialogController : MonoBehaviour
         uiManager.dialogText.text = "";
         foreach (char letter in text.ToCharArray())
         {
-            if (Input.GetKeyDown(KeyCode.T)) //T 누르면 코루틴 멈추고 전체 텍스트
+            if (Input.GetKeyDown(KeyCode.T))
             {
                 uiManager.dialogText.text = text;
                 break;
