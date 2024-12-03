@@ -82,5 +82,9 @@ public class SlotUI : MonoBehaviour
 		//OptionUI optionUI;
 		//optionUI.SetOptions(currentSlot.item.optionText);
 		// Ȱ��ȭ �ϰ�, �ٸ� Ű ������ �ٽ� ��Ȱ��ȭ
+		if (currentSlot.Item != null)
+		{
+			UIManager.Instance.ShowOptions(currentSlot.Item.optionText);
+		}
 	}
 }
