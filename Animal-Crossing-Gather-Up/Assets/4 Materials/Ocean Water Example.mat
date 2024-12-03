@@ -48,7 +48,7 @@ Material:
     - _CausticsPower: 1
     - _CausticsScale: 12
     - _CausticsSpeed: 0.1
-    - _CurveStrength: 0.0134
+    - _CurveStrength: 0
     - _DistanceCutoff: 0.06
     - _EdgeFoamSize: 0.1
     - _GlintPower: 50
