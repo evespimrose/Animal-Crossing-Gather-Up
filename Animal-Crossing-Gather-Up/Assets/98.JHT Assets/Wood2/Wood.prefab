@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8262011545224422162}
   - component: {fileID: 7106035929094201578}
+  - component: {fileID: 8280355132863003314}
   m_Layer: 0
   m_Name: Wood
   m_TagString: Untagged
@@ -47,10 +48,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e6b02fe33f2caf45be2a2f01e39a4fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dropAnimator: {fileID: 8280355132863003314}
+--- !u!114 &8280355132863003314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2535020073358834376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fa7495a343152b499ca581ed274f181, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   dropHeight: 1
   dropDuration: 0.25
   bounceRadius: 1
-  bounceDuration: 0.15
 --- !u!1001 &366395280698140977
 PrefabInstance:
   m_ObjectHideFlags: 0
