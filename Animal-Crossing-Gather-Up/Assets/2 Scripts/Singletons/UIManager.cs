@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class UIManager : SingletonManager<UIManager>
 {
-	// UI Components
+	[Header("UI Components")]
 	public Canvas mainCanvas;
 	public InventoryUI inventoryUI;
 	public PurchaseUI purchaseUI;
@@ -20,71 +20,67 @@ public class UIManager : SingletonManager<UIManager>
 	protected override void Awake()
 	{
 		base.Awake();
+		// Keep UIManager and Canvas persistent across scenes
+		DontDestroyOnLoad(gameObject);
+		if (mainCanvas != null)
+		{
+			DontDestroyOnLoad(mainCanvas.gameObject);
+		}
 		InitializeUIComponents();
 	}
 
 	private void InitializeUIComponents()
 	{
-		// Find or create main canvas if not assigned
+		// Setup mainCanvas with default settings if not assigned
 		if (mainCanvas == null)
 		{
 			mainCanvas = FindObjectOfType<Canvas>();
 			if (mainCanvas == null)
 			{
+				// Create new canvas with necessary components
 				GameObject canvasObj = new GameObject("MainCanvas");
 				mainCanvas = canvasObj.AddComponent<Canvas>();
 				canvasObj.AddComponent<CanvasScaler>();
 				canvasObj.AddComponent<GraphicRaycaster>();
+
+				// Configure canvas settings
 				mainCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+
+				// Configure canvasScaler settings
 				canvasObj.GetComponent<CanvasScaler>().uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
 				canvasObj.GetComponent<CanvasScaler>().referenceResolution = new Vector2(1920, 1080);
+
+				DontDestroyOnLoad(canvasObj);
 			}
 		}
 
-		// Initialize UI components
+		// Find all UI components in the scene
 		inventoryUI = FindAnyObjectByType<InventoryUI>();
 		purchaseUI = FindAnyObjectByType<PurchaseUI>();
 		optionUI = FindAnyObjectByType<OptionUI>();
 		npcPanelUI = FindAnyObjectByType<NPCPanelUI>();
-
-		// Set initial states
-		if (inventoryUI)
-		{
-			inventoryUI.gameObject.SetActive(false);
-		}
-		if (purchaseUI)
-		{
-			purchaseUI.gameObject.SetActive(false);
-		}
-		if (optionUI)
-		{
-			optionUI.gameObject.SetActive(false);
-		}
-		if (npcPanelUI != null)
-		{
-			npcPanelUI.dialogPanel.SetActive(false);
-			npcPanelUI.enterPanel.SetActive(false);
-		}
 	}
 
-	// Inventory Management
+	#region Inventory Management
 	public void OpenInventory()
 	{
 		if (inventoryUI != null)
 		{
-			inventoryUI.gameObject.SetActive(true); // Show inventoryUI
-			inventoryUI.UpdateAllSlotUIs(); // Update the slots
+			isInventoryOpen = true;
+			inventoryUI.InventoryOpen();
 		}
 	}
 	public void CloseInventory()
 	{
 		if (inventoryUI != null)
 		{
-			inventoryUI.gameObject.SetActive(false);    // Hide inventoryUI
+			isInventoryOpen = false;
+			inventoryUI.InventoryClose();
 		}
 	}
+	#endregion
 
-	// PurchaseUI Management
+	#region PurchaseUI Management
 	public void OpenPurchasePanel()
 	{
 		if (purchaseUI != null)
@@ -101,31 +97,46 @@ public class UIManager : SingletonManager<UIManager>
 			purchaseUI.PurchasePanelClose();
 		}
 	}
+	#endregion
 
-	// Dialog System Management
+	#region Dialog System Management
 	public void ShowDialog(string[] dialogTexts, int talkCount)
 	{
-		isDialogOpen = true;
-		npcPanelUI.dialogPanel.SetActive(true);
-		npcPanelUI.dialogText.text = dialogTexts[talkCount];
+		if (npcPanelUI != null)
+		{
+			isDialogOpen = true;
+			npcPanelUI.dialogPanel.SetActive(true);
+			npcPanelUI.dialogText.text = dialogTexts[talkCount];
+		}
 	}
 	public void CloseDialog()
 	{
-		isDialogOpen = false;
-		npcPanelUI.dialogPanel.SetActive(false);
-		npcPanelUI.enterPanel.SetActive(false);
+		if (npcPanelUI != null)
+		{
+			isDialogOpen = false;
+			npcPanelUI.dialogPanel.SetActive(false);
+			npcPanelUI.enterPanel.SetActive(false);
+		}
 	}
+	#endregion
 
-	// OptionUI Management
+	#region OptionUI Management
 	public void ShowOptions(string[] options)
 	{
-		optionUI.PanelActive(true);
-		optionUI.SetOptions(options);
+		if (optionUI != null)
+		{
+			optionUI.PanelActive(true);
+			optionUI.SetOptions(options);
+		}
 	}
 	public void CloseOptions()
 	{
-		optionUI.PanelActive(false);
+		if (optionUI != null)
+		{
+			optionUI.PanelActive(false);
+		}
 	}
+	#endregion
 
 	// General UI State Check
 	public bool IsAnyUIOpen()
