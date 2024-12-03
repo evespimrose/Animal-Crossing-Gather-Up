@@ -34,6 +34,9 @@ public class OptionUI : MonoBehaviour
 	{
 		DisableAllOptionTexts();
 
+		// Initialize cursor position
+		currentIndex = 0;
+
 		optionSize = options.Length;
 		for (int i = 0; i < options.Length; i++)
 		{
