@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OakTree : MonoBehaviour
+public class OakTree : MonoBehaviour, ICollectable
 {
     public BranchInfo branchInfo;
     public int branchCount = 0;
@@ -25,16 +25,22 @@ public class OakTree : MonoBehaviour
         }
     }
 
-    private void Collect()
+    public void Collect()
     {
-        Debug.Log("Branch collected from OakTree.");
-        GameManager.Instance.inventory.AddItem(branchInfo);
+        GameObject branchObject = Instantiate(branchInfo.prefab, transform.position, Quaternion.identity);
+        if (!branchObject.TryGetComponent(out Branch branch))
+        {
+            Destroy(branchObject);
+            return;
+        }
+        branch.Spawn(branchInfo);
+        //GameManager.Instance.inventory.AddItem(branchInfo);
         branchCount--;
+        
     }
 
     public void RefillBranches(int amount)
     {
         branchCount = Mathf.Min(maxBranches, branchCount + amount);
-        Debug.Log("Branches have been refilled on the OakTree.");
     }
 } 

@@ -17,7 +17,7 @@ public class BaseIslandManager : SingletonManager<BaseIslandManager>
     private int currentTreeBugs;
     private int currentFlowerBugs;
 
-    [SerializeField] private List<OakTree> oakTrees = new List<OakTree>();
+    [SerializeField] private List<OakTree> oakTrees = new();
     [SerializeField] private BranchSpawner branchSpawner;
     private const float respawnTime = 86400f; // ?�루�?초로 변??(24 * 60 * 60)
 
@@ -107,10 +107,6 @@ public class BaseIslandManager : SingletonManager<BaseIslandManager>
             foreach (var oakTree in oakTrees)
             {
                 int branchesToSpawn = oakTree.maxBranches - oakTree.branchCount;
-                for (int i = 0; i < branchesToSpawn; i++)
-                {
-                    branchSpawner.SpawnBranch(oakTree.branchInfo);
-                }
                 oakTree.RefillBranches(branchesToSpawn);
             }
         }

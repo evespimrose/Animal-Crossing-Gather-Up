@@ -67,7 +67,7 @@ public class AxeCollectCommand : ICollectCommand
         Collider[] hitColliders = Physics.OverlapSphere(Vector3.zero, 5f);
         foreach (var hitCollider in hitColliders)
         {
-            if (hitCollider.TryGetComponent(out Branch tree))
+            if (hitCollider.TryGetComponent(out OakTree tree))
             {
                 tree.Collect();
             }
