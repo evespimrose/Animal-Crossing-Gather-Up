@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static BugInfo;
 
 public class BaseIslandManager : SingletonManager<BaseIslandManager>
@@ -24,6 +25,32 @@ public class BaseIslandManager : SingletonManager<BaseIslandManager>
     protected override void Awake()
     {
         base.Awake();  
+    }
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // 변수 초기화
+        currentFish = 0;
+        currentTreeBugs = 0;
+        currentFlowerBugs = 0;
+
+        // 리스트 초기화
+        treeSpawners.Clear();
+        flowerSpawners.Clear();
+        fishSpawners.Clear();
+
+        // 스포너 찾기
+        FindBugSpawnerByType();
+        FindFishSpawnerByType();
     }
 
     private void Start()
@@ -127,4 +154,5 @@ public class BaseIslandManager : SingletonManager<BaseIslandManager>
         else
             currentFlowerBugs = Mathf.Max(0, currentFlowerBugs - 1);
     }
+
 }
