@@ -20,9 +20,12 @@ public class NPCDialogData : ScriptableObject
     //public string[] nextDialogTexts; // 선택패널 후 두번째 대화 -> 필요하다면 계속 생성
 
     [Header("talkCount")]
-    public int[] talkCount;
+    public int[] dialogIndex;
 
     [Header("bool")]
     public bool isChooseActive; //선택패널 활성화 bool
     public bool isEnterActive; //엔터패널 활성화 bool
+
+    [Header("Option")]
+    public string currentOption;
 }

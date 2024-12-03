@@ -28,7 +28,11 @@ public class OptionUI : MonoBehaviour
 
     public void PanelActive(bool isActive)
     {
-        //option panel È°¼ºÈ­
+        if (isActive)
+        {
+            currentIndex = 0;
+            SelecteedOptionPosition();
+        }
         optionPanel.SetActive(isActive);
         cursor.SetActive(isActive);
     }
