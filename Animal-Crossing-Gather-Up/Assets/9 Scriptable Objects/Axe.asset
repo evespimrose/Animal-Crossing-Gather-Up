@@ -21,6 +21,6 @@ MonoBehaviour:
   - "\uADFC\uCC98\uC5D0 \uB450\uAE30"
   fullInventoryOptionText:
   - "\uBC14\uAFB8\uAE30"
-  maxDurability: 0
-  currentDurability: 0
+  maxDurability: 10000
+  currentDurability: 1000
   isEquipped: 0

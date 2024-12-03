@@ -12,11 +12,11 @@ public class FishingRod : MonoBehaviour, ITool
         collectCommand = new FishingRodCollectCommand();
     }
 
-    public void Execute()
+    public void Execute(Vector3 position)
     {
         if (toolInfo.currentDurability > 0)
         {
-            collectCommand.Execute();
+            collectCommand.Execute(position);
             toolInfo.currentDurability--;
         }
     }

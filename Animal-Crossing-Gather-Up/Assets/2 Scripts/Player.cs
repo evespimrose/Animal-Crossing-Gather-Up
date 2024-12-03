@@ -22,10 +22,14 @@ public class Player : MonoBehaviour
 
 	private ITool currentTool;
 
-	private void Start()
+	[Header("For Debug")]
+	public GameObject debugTool;
+
+    private void Start()
 	{
 		characterController = GetComponent<CharacterController>();
 		inventoryUI = FindObjectOfType<InventoryUI>();
+		EquipTool(debugTool);
 	}
 
 	// test : inventory Open
@@ -87,17 +91,16 @@ public class Player : MonoBehaviour
 	{
 		if (currentTool != null)
 		{
-			currentTool.Execute();
+			currentTool.Execute(transform.position);
 			
 			if (currentTool.ToolInfo.currentDurability <= 0)
 			{
-				// 인벤토리에서 아이템 제거
 				OnItemCollected?.Invoke(currentTool.ToolInfo);
 				
-				// 도구 해제 및 파괴
 				GameObject toolToDestroy = equippedTool;
 				UnequipTool();
 				Destroy(toolToDestroy);
+				// Inventory.DestroyItem();
 			}
 		}
 	}
@@ -109,7 +112,8 @@ public class Player : MonoBehaviour
 			UnequipTool();
 		}
 
-		equippedTool = tool;
+		GameObject toolInstance = Instantiate(tool, handPosition.position, Quaternion.identity);
+		equippedTool = toolInstance;
 		equippedTool.transform.SetParent(handPosition);
 		equippedTool.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
 
@@ -125,8 +129,7 @@ public class Player : MonoBehaviour
 		if (equippedTool != null)
 		{
 			//inventory.AddItem(equippedTool); 
-			equippedTool.transform.SetParent(null);
-			equippedTool.SetActive(false);
+			Destroy(equippedTool);
 			equippedTool = null;
 		}
 	}

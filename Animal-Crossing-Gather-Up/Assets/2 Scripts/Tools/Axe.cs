@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Axe : MonoBehaviour, ITool
 {
@@ -12,11 +13,12 @@ public class Axe : MonoBehaviour, ITool
         collectCommand = new AxeCollectCommand();
     }
 
-    public void Execute()
+    public void Execute(Vector3 position)
     {
         if (toolInfo.currentDurability > 0)
         {
-            collectCommand.Execute();
+            collectCommand.Execute(position);
+            
             toolInfo.currentDurability--;
         }
     }

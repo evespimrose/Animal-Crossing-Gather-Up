@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface ICollectCommand
 {
-    public void Execute();
+    public void Execute(Vector3 position);
 }
 
 //public class CollectCommand : ICollectCommand
@@ -17,8 +17,9 @@ public interface ICollectCommand
 
 public class HandFlowerCommand : ICollectCommand
 {
-    public void Execute()
+    public void Execute(Vector3 position)
     {
+        Debug.Log("HandFlowerCommand");
         Collider[] hitColliders = Physics.OverlapSphere(Vector3.zero, 5f);
         foreach (var hitCollider in hitColliders)
         {
@@ -32,8 +33,10 @@ public class HandFlowerCommand : ICollectCommand
 
 public class BugNetCollectCommand : ICollectCommand
 {
-    public void Execute()
+    public void Execute(Vector3 position)
     {
+        Debug.Log("BugNetCollectCommand");
+
         Collider[] hitColliders = Physics.OverlapSphere(Vector3.zero, 5f);
         foreach (var hitCollider in hitColliders)
         {
@@ -47,8 +50,10 @@ public class BugNetCollectCommand : ICollectCommand
 
 public class FishingRodCollectCommand : ICollectCommand
 {
-    public void Execute()
+    public void Execute(Vector3 position)
     {
+        Debug.Log("FishingRodCollectCommand");
+
         Collider[] hitColliders = Physics.OverlapSphere(Vector3.zero, 5f);
         foreach (var hitCollider in hitColliders)
         {
@@ -62,13 +67,16 @@ public class FishingRodCollectCommand : ICollectCommand
 
 public class AxeCollectCommand : ICollectCommand
 {
-    public void Execute()
+    public void Execute(Vector3 position)
     {
-        Collider[] hitColliders = Physics.OverlapSphere(Vector3.zero, 5f);
+
+        Collider[] hitColliders = Physics.OverlapSphere(position, 5f);
         foreach (var hitCollider in hitColliders)
         {
+            //Debug.Log($"AxeCollectCommand - {hitCollider.name}, {hitCollider.gameObject.name}");
             if (hitCollider.TryGetComponent(out OakTree tree))
             {
+
                 tree.Collect();
             }
             else if (hitCollider.TryGetComponent(out Stone stone))

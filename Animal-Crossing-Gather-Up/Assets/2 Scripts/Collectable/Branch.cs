@@ -4,7 +4,7 @@ using UnityEngine;
 public class Branch : MonoBehaviour, ICollectable
 {
     [Header("Drop Settings")]
-    [SerializeField] private BranchDropAnimator dropAnimator;
+    [SerializeField] private DropAnimator dropAnimator;
     
     private BranchInfo branchInfo;
     

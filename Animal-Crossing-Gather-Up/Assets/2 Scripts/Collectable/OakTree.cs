@@ -27,8 +27,9 @@ public class OakTree : MonoBehaviour, ICollectable
 
     public void Collect()
     {
+
         if (branchCount <= 0 || branchInfo == null) return;
-        
+
         GameObject branchObject = Instantiate(branchInfo.prefab, transform.position, Quaternion.identity);
         if (!branchObject.TryGetComponent(out Branch branch))
         {
