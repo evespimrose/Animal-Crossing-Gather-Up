@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class FishingRod : MonoBehaviour, ITool
 {
-    public FishingRodInfo fishingRodInfo;
+    [SerializeField] private ToolInfo toolInfo;
     private ICollectCommand collectCommand;
+
+    public ToolInfo ToolInfo => toolInfo;
 
     private void Awake()
     {
@@ -12,10 +14,10 @@ public class FishingRod : MonoBehaviour, ITool
 
     public void Execute()
     {
-        if (fishingRodInfo.currentDurability > 0)
+        if (toolInfo.currentDurability > 0)
         {
             collectCommand.Execute();
-            fishingRodInfo.currentDurability--;
+            toolInfo.currentDurability--;
         }
     }
 }

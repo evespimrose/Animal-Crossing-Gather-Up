@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class BugNet : MonoBehaviour, ITool
 {
-    public BugNetInfo bugNetInfo;
+    [SerializeField] private ToolInfo toolInfo;
     private ICollectCommand collectCommand;
+
+    public ToolInfo ToolInfo => toolInfo;
 
     private void Awake()
     {
@@ -12,10 +14,10 @@ public class BugNet : MonoBehaviour, ITool
 
     public void Execute()
     {
-        if (bugNetInfo.currentDurability > 0)
+        if (toolInfo.currentDurability > 0)
         {
             collectCommand.Execute();
-            bugNetInfo.currentDurability--;
+            toolInfo.currentDurability--;
         }
     }
 }

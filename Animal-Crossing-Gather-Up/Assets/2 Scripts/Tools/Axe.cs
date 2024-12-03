@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class Axe : MonoBehaviour, ITool
 {
-    public AxeInfo axeInfo;
+    [SerializeField] private ToolInfo toolInfo;
     private ICollectCommand collectCommand;
+
+    public ToolInfo ToolInfo => toolInfo;
 
     private void Awake()
     {
@@ -12,10 +14,10 @@ public class Axe : MonoBehaviour, ITool
 
     public void Execute()
     {
-        if (axeInfo.currentDurability > 0)
+        if (toolInfo.currentDurability > 0)
         {
             collectCommand.Execute();
-            axeInfo.currentDurability--;
+            toolInfo.currentDurability--;
         }
     }
 }
