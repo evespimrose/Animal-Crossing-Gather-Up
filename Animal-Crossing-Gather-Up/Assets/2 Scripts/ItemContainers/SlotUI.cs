@@ -14,14 +14,35 @@ public class SlotUI : MonoBehaviour
 	private TextMeshProUGUI itemNameText;
 	private Slot currentSlot;
 
+	private bool isInitialized = false;
+
+	private Item pendingItem = null;
+	private int pendingStackCount = 0;
+	private bool hasPendingUpdate = false;
+
 	private void Awake()
 	{
 		currentSlot = GetComponent<Slot>();
 		itemNameText = itemInfo.GetComponentInChildren<TextMeshProUGUI>();
+		isInitialized = true;
+
+		if (hasPendingUpdate)
+		{
+			UpdateUI(pendingItem, pendingStackCount);
+			hasPendingUpdate = false;
+		}
 	}
 
 	public void UpdateUI(Item item, int stackCount)
 	{
+		if (isInitialized == false)
+		{
+			pendingItem = item;
+			pendingStackCount = stackCount;
+			hasPendingUpdate = true;
+			return;
+		}
+
 		if (item != null)
 		{
 			itemNameText.text = item.itemName;
@@ -60,6 +81,6 @@ public class SlotUI : MonoBehaviour
 		//optionUI.SetActive(isSelect);
 		//OptionUI optionUI;
 		//optionUI.SetOptions(currentSlot.item.optionText);
-		// È°¼ºÈ­ ÇÏ°í, ´Ù¸¥ Å° ´©¸£¸é ´Ù½Ã ºñÈ°¼ºÈ­
+		// È°ï¿½ï¿½È­ ï¿½Ï°ï¿½, ï¿½Ù¸ï¿½ Å° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½È°ï¿½ï¿½È­
 	}
 }
