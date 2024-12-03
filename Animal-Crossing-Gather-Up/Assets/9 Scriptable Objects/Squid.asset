@@ -21,6 +21,6 @@ MonoBehaviour:
   fullInventoryOptionText:
   - "\uBC14\uAFB8\uAE30"
   prefab: {fileID: 7038114840533862827, guid: 38844ef9b5b2c4740aa901572445add5, type: 3}
-  spawnWeight: 0.1
+  spawnWeight: 1
   moveSpeed: 1
   wanderRadius: 3

@@ -20,12 +20,10 @@ public class TimeManager : SingletonManager<TimeManager>
     [SerializeField] private Material daySkybox;
     [SerializeField] private Material eveningSkybox;
     [SerializeField] private Material nightSkybox;
-
+    [SerializeField] private float transitionDuration = 2f; // 전환 시간
     private Material currentSkybox;
-    private Material nextSkybox;
-    private float blendFactor = 0f;
-    private const float SKYBOX_UPDATE_INTERVAL = 0.1f;
-    private float lastSkyboxUpdateTime;
+    private Coroutine skyboxTransitionCoroutine;
+
 
     // 옵저버 패턴 구현을 위한 이벤트들
     public event Action OnNightToDayChanged;  // bool: true=낮, false=밤 시간대가 변경될 때 호출
@@ -56,19 +54,19 @@ public class TimeManager : SingletonManager<TimeManager>
         RenderSettings.ambientMode = ambientMode;
         ValidateSkyboxMaterials();
 
+        // 초기 스카이박스 설정
+        currentSkybox = GetSkyboxForCurrentTime();
+        if (currentSkybox != null)
+        {
+            RenderSettings.skybox = currentSkybox;
+        }
     }
 
     private void Update()
     {
         UpdateTime();
         UpdateEnvironment();
-
-        if (Time.time - lastSkyboxUpdateTime >= SKYBOX_UPDATE_INTERVAL)
-        {
-            UpdateSkybox();
-            lastSkyboxUpdateTime = Time.time;
-        }
-
+        UpdateSkybox();
         CheckNightToDayTransition();
         UpdateTimeOfDay();
     }
@@ -85,7 +83,8 @@ public class TimeManager : SingletonManager<TimeManager>
     {
         // 태양 회전
         float rotationDegree = (CurrentTime / DayNightCycleDuration) * 360f;
-        directionalLight.transform.rotation = Quaternion.Euler(rotationDegree, -30f, 0f);
+        rotationDegree = Mathf.Repeat(rotationDegree, 360f);
+        directionalLight.transform.rotation = Quaternion.Euler(rotationDegree, 170f, 0f);
 
         // 빛 강도 조절
         float timeRatio = CurrentTime / DayNightCycleDuration;
@@ -100,45 +99,83 @@ public class TimeManager : SingletonManager<TimeManager>
         RenderSettings.ambientLight = ambientColor;
     }
 
-    private void UpdateSkybox()
+    private Material GetSkyboxForCurrentTime()
     {
         float hourOfDay = (CurrentTime / 60f);
 
-        // 시간대에 따른 스카이박스 전환
-        if (hourOfDay >= 0 && hourOfDay < 5)         // 새벽 (0시-5시)
-        {
-            SetSkyboxTransition(nightSkybox, dawnSkybox, hourOfDay / 5f);
-        }
-        else if (hourOfDay >= 5 && hourOfDay < 9)    // 아침 (5시-9시)
-        {
-            SetSkyboxTransition(dawnSkybox, morningSkybox, (hourOfDay - 5) / 4f);
-        }
-        else if (hourOfDay >= 9 && hourOfDay < 17)   // 낮 (9시-17시)
-        {
-            SetSkyboxTransition(morningSkybox, daySkybox, (hourOfDay - 9) / 8f);
-        }
-        else if (hourOfDay >= 17 && hourOfDay < 21)  // 저녁 (17시-21시)
-        {
-            SetSkyboxTransition(daySkybox, eveningSkybox, (hourOfDay - 17) / 4f);
-        }
-        else                                         // 밤 (21시-24시)
-        {
-            SetSkyboxTransition(eveningSkybox, nightSkybox, (hourOfDay - 21) / 3f);
-        }
-
-        if (currentSkybox != null && nextSkybox != null)
-        {
-            RenderSettings.skybox.Lerp(currentSkybox, nextSkybox, blendFactor);
-        }
+        if (hourOfDay >= 0 && hourOfDay < 5)
+            return dawnSkybox;
+        if (hourOfDay >= 5 && hourOfDay < 9)
+            return morningSkybox;
+        if (hourOfDay >= 9 && hourOfDay < 17)
+            return daySkybox;
+        if (hourOfDay >= 17 && hourOfDay < 21)
+            return eveningSkybox;
+        return nightSkybox;
     }
-
-    private void SetSkyboxTransition(Material from, Material to, float blend)
+    private void UpdateSkybox()
     {
-        currentSkybox = from;
-        nextSkybox = to;
-        blendFactor = Mathf.Clamp01(blend);
+        Material targetSkybox = GetSkyboxForCurrentTime();
+
+        if (targetSkybox != null && targetSkybox != currentSkybox)
+        {
+            // 이전 전환이 진행 중이면 중단
+            if (skyboxTransitionCoroutine != null)
+            {
+                StopCoroutine(skyboxTransitionCoroutine);
+            }
+
+            // 새로운 전환 시작
+            skyboxTransitionCoroutine = StartCoroutine(SmoothSkyboxTransition(targetSkybox));
+        }
     }
 
+
+    private IEnumerator SmoothSkyboxTransition(Material targetSkybox)
+    {
+        float elapsedTime = 0f;
+        Material startSkybox = currentSkybox;
+
+        // 첫 전환인 경우
+        if (startSkybox == null)
+        {
+            RenderSettings.skybox = targetSkybox;
+            currentSkybox = targetSkybox;
+            yield break;
+        }
+
+        // 현재 스카이박스 페이드 아웃
+        float startExposure = startSkybox.GetFloat("_Exposure");
+        while (elapsedTime < transitionDuration * 0.5f)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / (transitionDuration * 0.5f);
+
+            float exposure = Mathf.Lerp(startExposure, 0f, t);
+            startSkybox.SetFloat("_Exposure", exposure);
+
+            yield return null;
+        }
+
+        // 타겟 스카이박스로 변경
+        RenderSettings.skybox = targetSkybox;
+        currentSkybox = targetSkybox;
+
+        // 새 스카이박스 페이드 인
+        elapsedTime = 0f;
+        while (elapsedTime < transitionDuration * 0.5f)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / (transitionDuration * 0.5f);
+
+            float exposure = Mathf.Lerp(0f, startExposure, t);
+            targetSkybox.SetFloat("_Exposure", exposure);
+
+            yield return null;
+        }
+
+        skyboxTransitionCoroutine = null;
+    }
     private void CheckNightToDayTransition()
     {
         bool isNight = IsNight();
@@ -176,9 +213,13 @@ public class TimeManager : SingletonManager<TimeManager>
 
     private void ValidateSkyboxMaterials()
     {
-        if (dawnSkybox == null || morningSkybox == null || daySkybox == null ||
-            eveningSkybox == null || nightSkybox == null) { }
-       
+        if (dawnSkybox == null || morningSkybox == null ||
+            daySkybox == null || eveningSkybox == null ||
+            nightSkybox == null) { }
+        
+           
+        
+
     }
 
     // 현재 밤인지 확인
