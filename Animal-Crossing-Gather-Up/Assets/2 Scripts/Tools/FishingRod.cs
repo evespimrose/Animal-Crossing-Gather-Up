@@ -1,12 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class FishingRod : Tool
+public class FishingRod : MonoBehaviour, ITool
 {
+    public FishingRodInfo fishingRodInfo;
+    private ICollectCommand collectCommand;
+
     private void Awake()
     {
         collectCommand = new FishingRodCollectCommand();
     }
 
+    public void Execute()
+    {
+        if (fishingRodInfo.currentDurability > 0)
+        {
+            collectCommand.Execute();
+            fishingRodInfo.currentDurability--;
+        }
+    }
 }

@@ -1,13 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class BugNet : Tool
+public class BugNet : MonoBehaviour, ITool
 {
-    // TODO : BugPreFabData TryGetComponent 하면서 성공하면 Collect 발동
+    public BugNetInfo bugNetInfo;
+    private ICollectCommand collectCommand;
+
     private void Awake()
     {
         collectCommand = new BugNetCollectCommand();
     }
 
+    public void Execute()
+    {
+        if (bugNetInfo.currentDurability > 0)
+        {
+            collectCommand.Execute();
+            bugNetInfo.currentDurability--;
+        }
+    }
 }

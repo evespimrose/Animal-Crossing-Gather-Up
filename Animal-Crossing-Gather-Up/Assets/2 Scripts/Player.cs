@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
 	public Item t0;
 	public Item t1;
 
-	public Tool CurrentTool;
+	private ITool currentTool;
 
 	private void Start()
 	{
@@ -84,14 +84,7 @@ public class Player : MonoBehaviour
 	}
 	public void Collect()
 	{
-		if (CurrentTool?.collectCommand != null)
-		{
-			CurrentTool.collectCommand.Execute();
-		}
-		else
-		{
-			Debug.LogWarning("No command set or tool equipped.");
-		}
+		currentTool?.Execute();
 	}
 
 	public void EquipTool(GameObject tool)
@@ -102,18 +95,13 @@ public class Player : MonoBehaviour
 		}
 
 		equippedTool = tool;
-
 		equippedTool.transform.SetParent(handPosition);
 		equippedTool.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
 
-		if (equippedTool.TryGetComponent(out Tool toolComponent))
+		currentTool = equippedTool.GetComponent<ITool>();
+		if (currentTool == null)
 		{
-			CurrentTool = toolComponent;
-		}
-		else
-		{
-			CurrentTool = null;
-			Debug.LogWarning("Equipped object does not have a Tool component.");
+			Debug.LogWarning("Equipped object does not have a valid tool component.");
 		}
 	}
 
