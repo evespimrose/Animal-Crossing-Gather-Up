@@ -83,6 +83,10 @@ public class OptionUI : MonoBehaviour
 		{
 			SelectOption();
 		}
+		else if (Input.GetKeyDown(KeyCode.Escape))
+		{
+			PanelActive(false);
+		}
 
 		SelecteedOptionPosition();
 	}
@@ -90,7 +94,7 @@ public class OptionUI : MonoBehaviour
 	public string SelectOption()
 	{
 		currentOption = optionTexts[currentIndex].text;
-		optionPanel.SetActive(false);
+		PanelActive(false);
 
 		print($"현재 옵션: {currentOption}");
 		return currentOption;
