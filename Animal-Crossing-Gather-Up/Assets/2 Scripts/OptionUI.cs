@@ -24,11 +24,22 @@ public class OptionUI : MonoBehaviour
 
 	public void SetOptions(string[] options)
 	{
+		DisableAllOptionTexts();
+
 		optionSize = options.Length;
 		for (int i = 0; i < options.Length; i++)
 		{
 			optionTexts[i].text = options[i];
 			optionTexts[i].gameObject.SetActive(true);
+		}
+	}
+
+	private void DisableAllOptionTexts()
+	{
+		// all texts set active false
+		foreach (TextMeshProUGUI optionText in optionTexts)
+		{
+			optionText.gameObject.SetActive(false);
 		}
 	}
 
