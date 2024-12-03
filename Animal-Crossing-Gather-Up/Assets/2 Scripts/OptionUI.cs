@@ -22,6 +22,14 @@ public class OptionUI : MonoBehaviour
 		optionPanel.SetActive(false);
 	}
 
+	private void Update()
+	{
+		if (optionPanel.activeSelf)
+		{
+			CursorMove();
+		}
+	}
+
 	public void SetOptions(string[] options)
 	{
 		DisableAllOptionTexts();
