@@ -5,5 +5,5 @@ public class BranchInfo : Item, ICollectableInfo
 {
     public GameObject prefab;
 
-    GameObject ICollectableInfo.prefab => throw new System.NotImplementedException();
+    GameObject ICollectableInfo.prefab => prefab;
 } 

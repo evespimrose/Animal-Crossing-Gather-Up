@@ -18,9 +18,7 @@ public class BaseIslandManager : SingletonManager<BaseIslandManager>
     private int currentFlowerBugs;
 
     [SerializeField] private List<OakTree> oakTrees = new();
-    [SerializeField] private BranchSpawner branchSpawner;
-    private const float respawnTime = 86400f; // ?�루�?초로 변??(24 * 60 * 60)
-
+    private const float respawnTime = 86400f;
     protected override void Awake()
     {
         base.Awake();  
