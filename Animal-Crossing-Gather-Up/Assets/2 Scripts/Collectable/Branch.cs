@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Branch : MonoBehaviour, ICollectable
 {
-    [Header("?쒕∼ ?ㅼ젙")]
+    [Header("드롭 설정")]
     [SerializeField] private float dropHeight = 1f;      
     [SerializeField] private float dropDuration = 0.25f;
     [SerializeField] private float bounceRadius = 1f;

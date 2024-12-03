@@ -34,7 +34,7 @@ public class OakTree : MonoBehaviour, ICollectable
             return;
         }
         branch.Spawn(branchInfo);
-        //GameManager.Instance.inventory.AddItem(branchInfo);
+
         branchCount--;
         
     }
