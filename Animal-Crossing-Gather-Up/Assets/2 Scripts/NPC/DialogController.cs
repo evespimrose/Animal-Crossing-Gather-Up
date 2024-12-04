@@ -56,6 +56,7 @@ public class DialogController : MonoBehaviour
         {
             EnterDialog(activeDialogTexts, activeDialogIndex);
         }
+
         //플레이어와 상호작용 이런 식으로 작성 예정
         //일정 거리 안에 플레이어가 들어왔을 때 r키를 누르면 대화창 활성화 
         //if(Vector3.Distance(player.position, npc.position) < 5f))
