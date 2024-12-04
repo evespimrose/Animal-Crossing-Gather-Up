@@ -6,6 +6,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NPCDialogData", menuName = "NPC/DialogData")]
 public class NPCDialogData : ScriptableObject
 {
+    public Vector3 position; //npc 위치
+
     public string npcName; //npc 이름
     [TextArea]
     public string[] dialogTexts; //ncp 대화
