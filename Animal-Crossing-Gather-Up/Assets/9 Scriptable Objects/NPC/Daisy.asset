@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1299f8a28cba43d4c818fd955c90c18a, type: 3}
-  m_Name: Kicks
+  m_Name: Daisy
   m_EditorClassIdentifier: 
-  npcName: Kicks
+  npcName: Daisy
   dialogTexts: []
   nextDialogTexts: []
   thirdDialogTexts: []
