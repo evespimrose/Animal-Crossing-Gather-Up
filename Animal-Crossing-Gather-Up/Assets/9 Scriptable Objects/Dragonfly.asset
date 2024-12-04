@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: "\uC7A0\uC790\uB9AC"
   stackLimit: 0
   basePrice: 100
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 7c9b2f354e325e240917653278f646e1, type: 3}
   optionText:
   - "\uADFC\uCC98\uC5D0 \uB450\uAE30"
   fullInventoryOptionText:
