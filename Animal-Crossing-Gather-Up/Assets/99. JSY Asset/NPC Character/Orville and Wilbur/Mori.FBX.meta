@@ -3,7 +3,52 @@ guid: dc68642c26c05c44cbca4ed5fae28565
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beak
+    second: {fileID: 2100000, guid: 3c4d90e2df6377e42960fd574174aebc, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Body
+    second: {fileID: 2100000, guid: eace605b6abf8164dacb68c9e0f66c5f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cloth
+    second: {fileID: 2100000, guid: 0205a2e3fdf453f4fb5753ee24bfacaa, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Eye
+    second: {fileID: 2100000, guid: a05934a383192ed4fbf2c4c048f8566c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: OrvilleCap
+    second: {fileID: 2100000, guid: 2e3b272d467d9874588d40d8d4b9744d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: OrvilleTool
+    second: {fileID: 2100000, guid: cf409ed6f2077b5438994465da0a928d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: WilburAccessory
+    second: {fileID: 2100000, guid: fa7510d9261b6814aacf10ce5a0009c4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: WilburAccessoryAlpha
+    second: {fileID: 2100000, guid: 83606524074e92f46af80561399919d4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: WilburCap
+    second: {fileID: 2100000, guid: 141cbab28b3093943800861c3cb222eb, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
