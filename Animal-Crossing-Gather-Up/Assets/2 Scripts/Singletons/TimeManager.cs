@@ -107,21 +107,20 @@ public class TimeManager : SingletonManager<TimeManager>
         }
         else // 밤
         {
-           
+
+            float nightDuration = 24f - sunsetHour + sunriseHour; // 밤의 총 길이
+            float nightTime;
+
             if (currentTime > sunsetHour)
             {
-                // 해의 이동 시간과 동일하게 설정
-                float dayDuration = sunsetHour - sunriseHour;  // 낮의 길이
-                float nightProgress = (currentTime - sunsetHour) / dayDuration;
-                rotation = -nightProgress * 180f;
-
-                // 회전이 180도를 넘어가면 180도로 고정
-                rotation = Mathf.Clamp(rotation, -180f, 0f);
+                nightTime = currentTime - sunsetHour;
             }
-            else // 자정~일출
+            else
             {
-                rotation = 0f; // 동쪽 위치 유지
+                nightTime = currentTime + (24f - sunsetHour);
             }
+
+            rotation = -(nightTime * 180f / nightDuration);
 
             if (celestialPivot)
             {
