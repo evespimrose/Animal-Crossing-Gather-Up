@@ -7,10 +7,8 @@ public class TestDialogMove : MonoBehaviour
     NPCState moriState;
     public float moveSpeed;
 
-    private MoriController moriCtrl;
     private void Start()
     {
-        moriCtrl = FindObjectOfType<MoriController>();
         moriState = FindObjectOfType<NPCState>();
     }
     private void Update()
@@ -28,11 +26,4 @@ public class TestDialogMove : MonoBehaviour
         transform.position += new Vector3(x * moveSpeed * Time.deltaTime, 0, z * moveSpeed * Time.deltaTime);
     }
 
-    private void InteractionTest()
-    {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            moriCtrl.NPCDialogStart();
-        }
-    }
 }
