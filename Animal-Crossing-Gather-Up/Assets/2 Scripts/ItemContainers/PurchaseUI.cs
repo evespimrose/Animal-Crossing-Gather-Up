@@ -4,22 +4,21 @@ using UnityEngine;
 
 public class PurchaseUI : MonoBehaviour
 {
+	[Header("UI References")]
 	public GameObject purchasePanel;
 	public List<SlotUI> slotUIs; // List of SlotUI components
-	private List<Slot> slots;
-	public Shop shop;
 
+	[Header("Shop Data")]
+	private List<Slot> slots;   // List of shop slots containing items
 	private int cursorOnSlotIndex = 0;  // Index of the currently selected slot
 	private const int slotsPerRow = 2; // Number of slots per row
 	private const int totalRows = 2;    // Total number of rows
 
 	private void Start()
 	{
-		// Find and initialize shop reference
-		shop = FindObjectOfType<Shop>();
-
+		// Initialize lists and set default state
 		purchasePanel.SetActive(false);
-		slots = shop.GetPurchaseSlotInfo();
+		slotUIs = new List<SlotUI>();
 	}
 
 	private void Update()
@@ -30,9 +29,39 @@ public class PurchaseUI : MonoBehaviour
 		}
 	}
 
+	// Initialize slots and update UI once
+	public void InitializeShopSlots(List<Slot> shopSlots)
+	{
+		if (shopSlots == null)
+		{
+			return;
+		}
+
+		// Store reference to shop slots
+		slots = new List<Slot>(shopSlots);
+
+		// Ensure we have both slots and UI components
+		if (slotUIs.Count == 0)
+		{
+			return;
+		}
+
+		// Update UI components
+		for (int i = 0; i < slots.Count && i < slotUIs.Count; i++)
+		{
+			if (slots[i] != null && slots[i].Item != null && slotUIs[i] != null)
+			{
+				slotUIs[i].UpdateUI(slots[i].Item, slots[i].stackCount);
+			}
+		}
+	}
+
 	public void AddSlotUI(SlotUI slotUI)
 	{
-		slotUIs.Add(slotUI);
+		if (slotUI != null)
+		{
+			slotUIs.Add(slotUI);
+		}
 	}
 
 	public void PurchasePanelOpen()
@@ -93,7 +122,6 @@ public class PurchaseUI : MonoBehaviour
 
 		// Cursor on the current slot
 		slotUIs[index].CursorOnSlotDisplayCursor(true);
-		print(slots[index].Item);
 		if (slots[index].Item != null)
 		{
 			slotUIs[index].CursorOnSlotDisplayName(true);
