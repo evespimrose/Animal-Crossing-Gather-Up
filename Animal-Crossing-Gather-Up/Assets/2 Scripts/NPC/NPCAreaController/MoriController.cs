@@ -31,7 +31,7 @@ public class MoriController : DialogController
     {
         base.Update();
         optionui.CursorMove();
-        moriDialogData.currentOption = optionui.currentOption;
+
         if (moriDialogData.currentOption != optionui.currentOption && optionui.currentOption != null)
         {
             moriDialogData.currentOption = optionui.currentOption;
@@ -50,18 +50,23 @@ public class MoriController : DialogController
         if (moriDialogData.currentOption == "외출할래")
         {
             dialogData.isChooseActive = false;
+            optionui.PanelActive(moriDialogData.isChooseActive);
+
+            DialogStart(moriDialogData.nextDialogTexts, moriDialogData.dialogIndex[1]);
+
             string[] moriOptions = { "출발!" };
             optionui.SetOptions(moriOptions);
-            DialogStart(moriDialogData.nextDialogTexts, moriDialogData.dialogIndex[1]);
         }
 
         if (moriDialogData.currentOption == "지금은 안할래")
         {
             dialogData.isChooseActive = false;
-            string[] moriOptions = { "대화종료" };
-            optionui.SetOptions(moriOptions);
+            optionui.PanelActive(moriDialogData.isChooseActive);
+
             DialogStart(moriDialogData.thirdDialogTexts, moriDialogData.dialogIndex[2]);
 
+            string[] moriOptions = { "대화종료" };
+            optionui.SetOptions(moriOptions);
         }
 
         if (moriDialogData.currentOption == "출발!")
