@@ -7,7 +7,6 @@ using UnityEngine.UI;
 
 public class RoadriController : DialogController, INPCArea
 {
-    private NPCState moriState;
     public NPCDialogData roadriDialogData;
     private void Awake()
     {
@@ -23,6 +22,8 @@ public class RoadriController : DialogController, INPCArea
     {
         base.Start();
         dialogData = roadriDialogData;
+        roadriDialogData.currentOption = "";
+        optionui.currentOption = roadriDialogData.currentOption;
         string[] roadriOptions = { "돌아갈래", "섬을 더 구경할게" };
         optionui.SetOptions(roadriOptions);
     }
@@ -31,7 +32,6 @@ public class RoadriController : DialogController, INPCArea
     {
 
         base.Update();
-        optionui.CursorMove();
         if (roadriDialogData.currentOption != optionui.currentOption && optionui.currentOption != null)
         {
             roadriDialogData.currentOption = optionui.currentOption;
