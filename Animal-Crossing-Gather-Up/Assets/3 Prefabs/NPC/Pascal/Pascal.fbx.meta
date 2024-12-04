@@ -3,7 +3,32 @@ guid: bbe20a5ff46f83547825a966e2c71327
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mBeak
+    second: {fileID: 2100000, guid: 5f25690701fc28f4f8f318101e104c65, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mBody
+    second: {fileID: 2100000, guid: 3e04b18b70d663343aa9a896ea2799e0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mCap
+    second: {fileID: 2100000, guid: d5e7d62fe42219649bbacae776efeb12, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mCloth
+    second: {fileID: 2100000, guid: 341984743b0130d4cb3416ccd68810b8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mEye
+    second: {fileID: 2100000, guid: 636f63d7d4b71224b9e07a7240d6a7bd, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

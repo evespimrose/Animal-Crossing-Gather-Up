@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 public class WorldCurver : MonoBehaviour
 {
     [Range(-0.1f, 0.1f)]

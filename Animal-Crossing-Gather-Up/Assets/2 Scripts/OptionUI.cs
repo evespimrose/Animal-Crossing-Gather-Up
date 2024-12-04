@@ -87,8 +87,8 @@ public class OptionUI : MonoBehaviour
             PanelActive(false);
         }
 
-        SelecteedOptionPosition();
-    }
+		// Initialize cursor position
+		currentIndex = 0;
 
     public string SelectOption()
     {
@@ -100,21 +100,21 @@ public class OptionUI : MonoBehaviour
     }
 
 
-    private void SelecteedOptionPosition()
-    {
-        TextMeshProUGUI selectedOption = optionTexts[currentIndex];
-        float optionWidth = selectedOption.preferredWidth;
+	private void SelecteedOptionPosition()
+	{
+		TextMeshProUGUI selectedOption = optionTexts[currentIndex];
+		float optionWidth = selectedOption.preferredWidth;
 
-        Vector3 cursorPos = selectedOption.transform.position;
-        cursorPos.x += optionWidth + 60;
-        cursor.transform.position = cursorPos;
+		Vector3 cursorPos = selectedOption.transform.position;
+		cursorPos.x += optionWidth + 60;
+		cursor.transform.position = cursorPos;
 
-        Vector3 underlinePos = selectedOption.transform.position;
-        underlinePos.x += optionWidth + 20f;
-        underline.transform.position = underlinePos;
+		Vector3 underlinePos = selectedOption.transform.position;
+		underlinePos.x += optionWidth + 20f;
+		underline.transform.position = underlinePos;
 
-        RectTransform underlineRect = underline.GetComponent<RectTransform>();
-        underlineRect.sizeDelta = new Vector2(optionWidth - 20f, underlineRect.sizeDelta.y);
-    }
+		RectTransform underlineRect = underline.GetComponent<RectTransform>();
+		underlineRect.sizeDelta = new Vector2(optionWidth - 20f, underlineRect.sizeDelta.y);
+	}
 
 }

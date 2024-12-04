@@ -3,7 +3,37 @@ guid: 4675644023587594a805d5ec2e1aac08
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mBody
+    second: {fileID: 2100000, guid: 929a398cafd68e94a90088551551f98b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mCap
+    second: {fileID: 2100000, guid: 803f4b7eeb1ce234484c3c9e7877e7c5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mCapVis
+    second: {fileID: 2100000, guid: e1cc6eeb1b068454f929bfc8c2aca798, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mCloth
+    second: {fileID: 2100000, guid: 63102540a278beb46b00465b08a9cc04, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mEye
+    second: {fileID: 2100000, guid: ad1be6ac372e8ad46aa5f0121725641f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mSoftmesh
+    second: {fileID: 2100000, guid: ca36a18733c08d84eae4d79a71070536, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
