@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Unity.VisualScripting;
+using Unity.Android.Types;
 
 
 
@@ -12,9 +13,10 @@ public class DialogController : MonoBehaviour
     protected NPCPanelUI uiManager;
     protected OptionUI optionui;
     protected Coroutine currentCoroutine;
-    protected bool isDialogActive = false; // 대화 활성화 상태
 
-    protected NPCDialogData dialogData; //scriptableObject 참조
+    protected NPCDialogData dialogData;
+    protected string[] activeDialogTexts;
+    protected int activeDialogIndex;
 
     protected virtual void Start()
     {
@@ -23,67 +25,78 @@ public class DialogController : MonoBehaviour
         uiManager.dialogPanel.SetActive(false);
         optionui.optionPanel.SetActive(false);
         uiManager.enterPanel.SetActive(false);
+
     }
 
-    public void DialogStart(string[] dialogTexts, int talkCount)
+    public void DialogStart(string[] setDialogTexts, int dialogIndexCount)
     {
-        if (!isDialogActive)
-        {
-            isDialogActive = true; //대화 시작 bool
-            FirstTextStart(dialogTexts, talkCount);
-        }
+        dialogData.isChooseActive = false;
+        activeDialogTexts = setDialogTexts;
+        activeDialogIndex = dialogIndexCount;
+        FirstTextStart(setDialogTexts, dialogIndexCount);
     }
 
     public void EndDialog()
     {
-        isDialogActive = false;
         dialogData.isChooseActive = false;
-        for (int i = 0; i < dialogData.talkCount.Length; i++)
+        for (int i = 0; i < dialogData.dialogIndex.Length; i++)
         {
-            dialogData.talkCount[i] = 0;
+            dialogData.dialogIndex[i] = 0;
         }
+        activeDialogTexts = null;
         optionui.optionPanel.SetActive(false);
         uiManager.dialogPanel.SetActive(false);
     }
 
     protected virtual void Update()
     {
-        StartDialog(dialogData.dialogTexts, dialogData.talkCount[0]);
         uiManager.enterPanel.SetActive(dialogData.isEnterActive);
 
-    }
-
-    public void StartDialog(string[] SetdialogTexts, int talkCount)
-    {
-        if (talkCount < SetdialogTexts.Length)
+        if (uiManager.dialogPanel.activeSelf && activeDialogTexts != null)
         {
-            if (Input.GetKeyDown(KeyCode.Space) && currentCoroutine == null)
-            {
-                if (talkCount < SetdialogTexts.Length)
-                {
-                    string text = SetdialogTexts[talkCount];
-                    currentCoroutine = StartCoroutine(TypingDialog(text));
-                    talkCount++;
-                }
-            }
+            EnterDialog(activeDialogTexts, activeDialogIndex);
         }
 
-        if (talkCount == SetdialogTexts.Length)
-        {
-            dialogData.isChooseActive = true;
-        }
+        //플레이어와 상호작용 이런 식으로 작성 예정
+        //일정 거리 안에 플레이어가 들어왔을 때 r키를 누르면 대화창 활성화 
+        //if(Vector3.Distance(player.position, npc.position) < 5f))
+        //   {
+        //      if(GetKeyDown(KeyCode.R))
+        //      {
+        //          DialogStart();
+        //      }
+        //   }
 
     }
 
-    public void FirstTextStart(string[] SetdialogTexts, int talkCount)
+    public void FirstTextStart(string[] SetdialogTexts, int dialogIndexCount)
     {
         if (currentCoroutine == null)
         {
-            string firstText = SetdialogTexts[talkCount];
+            string firstText = SetdialogTexts[dialogData.dialogIndex[dialogIndexCount]];
             currentCoroutine = StartCoroutine(TypingDialog(firstText));
-            talkCount++;
+            dialogData.dialogIndex[dialogIndexCount]++;
+        }
+    }
+
+    public void EnterDialog(string[] setDialogTexts, int dialogIndexCount)
+    {
+        if (dialogData.dialogIndex[dialogIndexCount] >= setDialogTexts.Length)
+        {
+            dialogData.isChooseActive = true;
+            activeDialogTexts = null;
+            return;
         }
 
+        if (dialogData.dialogIndex[dialogIndexCount] < setDialogTexts.Length && currentCoroutine == null)
+        {
+            if (Input.GetKeyDown(KeyCode.Space) && currentCoroutine == null)
+            {
+                string text = setDialogTexts[dialogData.dialogIndex[dialogIndexCount]];
+                currentCoroutine = StartCoroutine(TypingDialog(text));
+                dialogData.dialogIndex[dialogIndexCount]++;
+            }
+        }
     }
 
     private IEnumerator TypingDialog(string text)
@@ -92,7 +105,7 @@ public class DialogController : MonoBehaviour
         uiManager.dialogText.text = "";
         foreach (char letter in text.ToCharArray())
         {
-            if (Input.GetKeyDown(KeyCode.T)) //T 누르면 코루틴 멈추고 전체 텍스트
+            if (Input.GetKeyDown(KeyCode.T))
             {
                 uiManager.dialogText.text = text;
                 break;
