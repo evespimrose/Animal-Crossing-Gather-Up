@@ -12,11 +12,14 @@ public class DialogController : MonoBehaviour
 {
     protected NPCPanelUI uiManager;
     protected OptionUI optionui;
+
     protected Coroutine currentCoroutine;
 
     protected NPCDialogData dialogData;
+
     protected string[] activeDialogTexts;
     protected int activeDialogIndex;
+
 
     protected virtual void Start()
     {
@@ -28,12 +31,13 @@ public class DialogController : MonoBehaviour
 
     }
 
+
     public void DialogStart(string[] setDialogTexts, int dialogIndexCount)
     {
         dialogData.isChooseActive = false;
         activeDialogTexts = setDialogTexts;
         activeDialogIndex = dialogIndexCount;
-        FirstTextStart(setDialogTexts, dialogIndexCount);
+        FirstText(setDialogTexts, dialogIndexCount);
     }
 
     public void EndDialog()
@@ -50,26 +54,19 @@ public class DialogController : MonoBehaviour
 
     protected virtual void Update()
     {
-        uiManager.enterPanel.SetActive(dialogData.isEnterActive);
+        //if (uiManager != null && uiManager.enterPanel != null)
+        //{
+        //    print($"isEnterActive: {dialogData.isEnterActive}");
+        //    uiManager.enterPanel.SetActive(dialogData.isEnterActive);
+        //}
 
         if (uiManager.dialogPanel.activeSelf && activeDialogTexts != null)
         {
             EnterDialog(activeDialogTexts, activeDialogIndex);
         }
-
-        //�÷��̾�� ��ȣ�ۿ� �̷� ������ �ۼ� ����
-        //���� �Ÿ� �ȿ� �÷��̾ ������ �� rŰ�� ������ ��ȭâ Ȱ��ȭ 
-        //if(Vector3.Distance(player.position, npc.position) < 5f))
-        //   {
-        //      if(GetKeyDown(KeyCode.R))
-        //      {
-        //          DialogStart();
-        //      }
-        //   }
-
     }
 
-    public void FirstTextStart(string[] SetdialogTexts, int dialogIndexCount)
+    public void FirstText(string[] SetdialogTexts, int dialogIndexCount)
     {
         if (currentCoroutine == null)
         {
@@ -106,6 +103,7 @@ public class DialogController : MonoBehaviour
     private IEnumerator TypingDialog(string text)
     {
         dialogData.isEnterActive = false;
+        uiManager.enterPanel.SetActive(false);
         uiManager.dialogText.text = "";
         foreach (char letter in text.ToCharArray())
         {
@@ -120,6 +118,7 @@ public class DialogController : MonoBehaviour
         }
 
         dialogData.isEnterActive = true;
+        uiManager.enterPanel.SetActive(true);
         optionui.PanelActive(dialogData.isChooseActive);
         currentCoroutine = null;
     }
