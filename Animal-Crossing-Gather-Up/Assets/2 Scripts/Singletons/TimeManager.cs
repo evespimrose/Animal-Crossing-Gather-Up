@@ -25,17 +25,16 @@ public class TimeManager : SingletonManager<TimeManager>
     [SerializeField] private GameObject moonPrefab;       // 달 프리팹
 
     [Header("Light Settings")]
-    [SerializeField] private float sunriseHour = 6f;      // 일출 시간
-    [SerializeField] private float sunsetHour = 18f;      // 일몰 시간
-    [SerializeField] private float maxSunIntensity = 1f;  // 태양 최대 밝기
-    [SerializeField] private float maxMoonIntensity = 0.3f; // 달 최대 밝기
+    [SerializeField] private float sunriseHour = 6f;
+    [SerializeField] private float sunsetHour = 18f;
+    [SerializeField] private float maxSunIntensity = 1f;
+    [SerializeField] private float maxMoonIntensity = 0.5f;
     [SerializeField] private Color sunColor = Color.white;
-    [SerializeField] private Color moonColor = new Color(0.6f, 0.6f, 0.8f);
-
+    [SerializeField] private Color moonColor = new Color(0.6f, 0.6f, 0.8f, 1f);
+    
     private GameObject sunObject;    // 생성된 태양 오브젝트
     private GameObject moonObject;   // 생성된 달 오브젝트
     private float currentTime;       // 현재 시간
-
     private Light sunPointLight;
     private Light moonPointLight;
 
@@ -90,15 +89,7 @@ public class TimeManager : SingletonManager<TimeManager>
         if (currentTime >= 24f) currentTime = 0f;
     }
 
-    private void CheckDayNightTransition()
-    {
-        bool isNight = IsNight;
-        if (wasNight != isNight)
-        {
-            wasNight = isNight;
-            OnDayNightChanged?.Invoke();
-        }
-    }
+    
 
     private void UpdateEnvironment()
     {
@@ -112,53 +103,57 @@ public class TimeManager : SingletonManager<TimeManager>
         // 광원 강도 계산
         float sunIntensity = 0f;
         float moonIntensity = 0f;
-
-        if (sunPointLight) sunPointLight.intensity = sunIntensity * 2f;
-        if (moonPointLight) moonPointLight.intensity = moonIntensity * 1.5f;
-
-       
-
-
-            if (currentTime >= sunriseHour && currentTime <= sunsetHour)
+      
+      
+        if (currentTime >= sunriseHour && currentTime <= sunsetHour)
         {
-            if (currentTime <= sunriseHour + 2f) // 일출
-            {
-                float t = (currentTime - sunriseHour) / 2f;
-                sunIntensity = Mathf.Lerp(0f, maxSunIntensity, t);
-                moonIntensity = Mathf.Lerp(maxMoonIntensity, 0f, t);
-            }
-            else if (currentTime >= sunsetHour - 2f) // 일몰
-            {
-                float t = (currentTime - (sunsetHour - 2f)) / 2f;
-                sunIntensity = Mathf.Lerp(maxSunIntensity, 0f, t);
-                moonIntensity = Mathf.Lerp(0f, maxMoonIntensity, t);
-            }
-            else // 낮
-            {
-                sunIntensity = maxSunIntensity;
-                moonIntensity = 0f;
-            }
+          if (currentTime <= sunriseHour + 2f) // 일출
+          {
+              float t = (currentTime - sunriseHour) / 2f;
+              sunIntensity = Mathf.Lerp(0f, maxSunIntensity, t);
+              moonIntensity = Mathf.Lerp(maxMoonIntensity, 0f, t);
+          }
+          else if (currentTime >= sunsetHour - 2f) // 일몰
+          {
+              float t = (currentTime - (sunsetHour - 2f)) / 2f;
+              sunIntensity = Mathf.Lerp(maxSunIntensity, 0f, t);
+              moonIntensity = Mathf.Lerp(0f, maxMoonIntensity, t);
+          }
+          else // 낮
+          {
+              sunIntensity = maxSunIntensity;
+              moonIntensity = 0f;
+          }
         }
         else // 밤
         {
             sunIntensity = 0f;
             moonIntensity = maxMoonIntensity;
+            // 밤 시간 환경광을 더 밝게 설정 (0.3f를 더 높은 값으로 변경)
+            RenderSettings.ambientLight = moonColor * 1.2f;  // 이 값을 조절
         }
 
         // 광원 업데이트
         if (sunLight) sunLight.intensity = sunIntensity;
         if (moonLight) moonLight.intensity = moonIntensity;
-        
-        // 환경광 업데이트
-        RenderSettings.ambientLight = Color.Lerp(moonColor * moonIntensity, sunColor * sunIntensity, sunIntensity);
+
+        // Point Light 업데이트
+        if (sunPointLight) sunPointLight.intensity = sunIntensity * 2f;
+        if (moonPointLight) moonPointLight.intensity = moonIntensity * 2f;
+
+      
     }
 
-    public string GetTimeString()
+    private void CheckDayNightTransition()
     {
-        int hours = Mathf.FloorToInt(currentTime);
-        int minutes = Mathf.FloorToInt((currentTime - hours) * 60f);
-        return $"{hours:00}:{minutes:00}";
+        bool isNight = IsNight;
+        if (wasNight != isNight)
+        {
+            wasNight = isNight;
+            OnDayNightChanged?.Invoke();
+        }
     }
+ 
 
     private void OnDestroy()
     {
@@ -166,16 +161,6 @@ public class TimeManager : SingletonManager<TimeManager>
         if (moonObject) Destroy(moonObject);
     }
 
-    // 시간 설정 메서드 (디버그나 게임 진행용)
-    public void SetTime(float hour)
-    {
-        currentTime = Mathf.Clamp(hour, 0f, 24f);
-        UpdateEnvironment();
-    }
-
-    public void SetTimeScale(float scale)
-    {
-        timeScale = Mathf.Clamp(scale, 1f, 20f);
-    }
+   
 
 }
