@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Assertions.Must;
 using UnityEngine.UI;
 
-public class MoriController : DialogController
+public class MoriController : DialogController, INPCArea
 {
     private NPCState moriState;
     public NPCDialogData moriDialogData;
@@ -31,6 +31,7 @@ public class MoriController : DialogController
     {
         base.Update();
         optionui.CursorMove();
+        moriDialogData.position = gameObject.transform.position;
 
         if (moriDialogData.currentOption != optionui.currentOption && optionui.currentOption != null)
         {
@@ -39,8 +40,10 @@ public class MoriController : DialogController
         }
     }
 
-    public void MoriDialogStart()
+    public void NPCDialogStart()
     {
+        string[] moriOptions = { "외출할래", "지금은 안할래" };
+        optionui.SetOptions(moriOptions);
         uiManager.dialogPanel.SetActive(true);
         DialogStart(moriDialogData.dialogTexts, moriDialogData.dialogIndex[0]);
     }
