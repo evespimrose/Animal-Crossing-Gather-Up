@@ -27,6 +27,7 @@ public class OakTree : MonoBehaviour, ICollectable
 
     public void Collect()
     {
+        Debug.Log("Tree - Collect");
 
         if (branchCount <= 0 || branchInfo == null) return;
 

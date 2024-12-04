@@ -22,11 +22,7 @@ public class DropAnimator : MonoBehaviour
     {
         float randomAngle = Random.Range(0f, 360f);
         float randomRadius = Random.Range(0f, bounceRadius);
-        Vector3 randomOffset = new Vector3(
-            Mathf.Cos(randomAngle * Mathf.Deg2Rad) * randomRadius,
-            0f,
-            Mathf.Sin(randomAngle * Mathf.Deg2Rad) * randomRadius
-        );
+        Vector3 randomOffset = new Vector3(Mathf.Cos(randomAngle * Mathf.Deg2Rad) * randomRadius, 0f, Mathf.Sin(randomAngle * Mathf.Deg2Rad) * randomRadius);
         
         targetPosition = groundPosition + randomOffset;
     }
@@ -44,11 +40,7 @@ public class DropAnimator : MonoBehaviour
             elapsedTime += Time.deltaTime;
             float t = elapsedTime / dropDuration;
 
-            Vector3 horizontalPos = Vector3.Lerp(
-                new Vector3(startPos.x, 0, startPos.z),
-                new Vector3(targetPosition.x, 0, targetPosition.z),
-                t
-            );
+            Vector3 horizontalPos = Vector3.Lerp(new Vector3(startPos.x, 0, startPos.z), new Vector3(targetPosition.x, 0, targetPosition.z), t);
             
             float height = Mathf.Lerp(dropHeight, 0f, t * t);
             transform.position = new Vector3(horizontalPos.x, groundPosition.y + height, horizontalPos.z);

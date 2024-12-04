@@ -1,6 +1,5 @@
 using UnityEngine;
-
-//[ExecuteInEditMode]
+[ExecuteInEditMode]
 public class WorldCurver : MonoBehaviour
 {
     [Range(-0.1f, 0.1f)]
@@ -14,12 +13,22 @@ public class WorldCurver : MonoBehaviour
     private void OnEnable()
     {
         m_CurveStrengthID = Shader.PropertyToID("_CurveStrength");
-        SetCurveStrength(0.0134f);
+        SetCurveStrength(0.0134f); // ±‚∫ª∞™ º≥¡§
     }
 
     private void Update()
     {
         UpdateMaterialsCurveStrength();
+    }
+
+    private void OnDisable()
+    {
+        ResetCurveStrength(); // Play ∏µÂ ¡æ∑· Ω√ ∫π±∏
+    }
+
+    private void OnApplicationQuit()
+    {
+        ResetCurveStrength(); // æ÷«√∏Æƒ…¿Ãº« ¡æ∑· Ω√ ∫π±∏
     }
 
     private void UpdateMaterialsCurveStrength()
@@ -36,10 +45,24 @@ public class WorldCurver : MonoBehaviour
         }
     }
 
-    // ?∏Î??êÏÑú ?ëÍ∑º Í∞Ä?•Ìïú Î©îÏÑú??
     public void SetCurveStrength(float newStrength)
     {
         curveStrength = newStrength;
         UpdateMaterialsCurveStrength();
+    }
+
+    private void ResetCurveStrength()
+    {
+        curveStrength = 0f;
+        if (materialsToAffect != null)
+        {
+            foreach (Material mat in materialsToAffect)
+            {
+                if (mat != null)
+                {
+                    mat.SetFloat(m_CurveStrengthID, 0f);
+                }
+            }
+        }
     }
 }
