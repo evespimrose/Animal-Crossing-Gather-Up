@@ -22,4 +22,4 @@ MonoBehaviour:
   - "\uBC14\uAFB8\uAE30"
   prefab: {fileID: 157960, guid: 062963ab1fe07ad4b8422ec9829a169e, type: 3}
   type: 0
-  spawnWeight: 0.1
+  spawnWeight: 0.3

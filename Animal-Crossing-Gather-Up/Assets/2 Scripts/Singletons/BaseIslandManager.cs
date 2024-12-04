@@ -2,18 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static BugInfo;
 
 public class BaseIslandManager : SingletonManager<BaseIslandManager>
 {
     [SerializeField] private int maxTreeBugs = 2;
     [SerializeField] private int maxFlowerBugs = 2;
-
     [SerializeField] protected float spawnInterval = 5f;
+
+    [SerializeField] private int maxFish = 3;
+    [SerializeField] protected float FishspawnInterval = 5f;
 
     private List<BugSpawner> treeSpawners = new List<BugSpawner>();
     private List<BugSpawner> flowerSpawners = new List<BugSpawner>();
-
+    private List<FishSpawner> fishSpawners = new List<FishSpawner>();
+    
+    private int currentFish;
     private int currentTreeBugs;
     private int currentFlowerBugs;
 
@@ -21,11 +26,38 @@ public class BaseIslandManager : SingletonManager<BaseIslandManager>
     {
         base.Awake();  
     }
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // 변수 초기화
+        currentFish = 0;
+        currentTreeBugs = 0;
+        currentFlowerBugs = 0;
+
+        // 리스트 초기화
+        treeSpawners.Clear();
+        flowerSpawners.Clear();
+        fishSpawners.Clear();
+
+        // 스포너 찾기
+        FindBugSpawnerByType();
+        FindFishSpawnerByType();
+    }
 
     private void Start()
     {
         FindBugSpawnerByType();
         //돌이든 물고기든 타입을 각각 여기다 놓기
+        FindFishSpawnerByType();
 
     }
     private void FindBugSpawnerByType()
@@ -48,7 +80,16 @@ public class BaseIslandManager : SingletonManager<BaseIslandManager>
     }
 
 
-    
+    private void FindFishSpawnerByType()
+    {
+        fishSpawners.AddRange(FindObjectsOfType<FishSpawner>());
+        foreach (var spawner in fishSpawners)
+        {
+            spawner.Initialize();
+        }
+    }
+
+
 
     public IEnumerator SpawnRoutine()
     {
@@ -66,6 +107,12 @@ public class BaseIslandManager : SingletonManager<BaseIslandManager>
                 TrySpawnBugOnRandomSpawner(flowerSpawners);
             }
 
+            // 물고기 스폰 시도
+            if (currentFish < maxFish)
+            {
+                TrySpawnFishOnRandomSpawner(fishSpawners);
+            }
+
             yield return new WaitForSeconds(spawnInterval);
         }
     }
@@ -78,6 +125,19 @@ public class BaseIslandManager : SingletonManager<BaseIslandManager>
         int randomIndex = Random.Range(0, availableSpawners.Count);
         availableSpawners[randomIndex].TrySpawnBug();
     }
+
+    private void TrySpawnFishOnRandomSpawner(List<FishSpawner> spawnerList)
+    {
+        var availableSpawners = spawnerList.Where(s => s.CurrentFish == null).ToList();
+        if (availableSpawners.Count == 0) return;
+
+        int randomIndex = Random.Range(0, availableSpawners.Count);
+        availableSpawners[randomIndex].TrySpawnFish();
+    }
+
+    
+    public void AddFish() => currentFish++;
+    public void RemoveFish() => currentFish = Mathf.Max(0, currentFish - 1);
 
     public void AddBug(BugInfo bugInfo)
     {
@@ -94,4 +154,5 @@ public class BaseIslandManager : SingletonManager<BaseIslandManager>
         else
             currentFlowerBugs = Mathf.Max(0, currentFlowerBugs - 1);
     }
+
 }

@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e663573ea880e8c45a619976f5da2c28, type: 3}
+  m_Name: Squid
+  m_EditorClassIdentifier: 
+  itemName: "\uC624\uC9D5\uC5B4"
+  stackLimit: 0
+  basePrice: 100
+  icon: {fileID: 0}
+  optionText:
+  - "\uADFC\uCC98\uC5D0 \uB450\uAE30"
+  fullInventoryOptionText:
+  - "\uBC14\uAFB8\uAE30"
+  prefab: {fileID: 7038114840533862827, guid: 38844ef9b5b2c4740aa901572445add5, type: 3}
+  spawnWeight: 1
+  moveSpeed: 1
+  wanderRadius: 3
