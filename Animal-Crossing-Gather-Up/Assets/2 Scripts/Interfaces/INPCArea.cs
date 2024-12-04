@@ -6,3 +6,4 @@ public interface INPCArea
 {
     public void NPCDialogStart();
 }
+
