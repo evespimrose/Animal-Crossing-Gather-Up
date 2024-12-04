@@ -42,7 +42,7 @@ public class MoriController : DialogController, INPCArea
 
     public void NPCDialogStart()
     {
-        string[] moriOptions = { "외출할래", "지금은 안할래" };
+        string[] moriOptions = { "외출할래", "지금은 안할래dodo" };
         optionui.SetOptions(moriOptions);
         uiManager.dialogPanel.SetActive(true);
         DialogStart(moriDialogData.dialogTexts, moriDialogData.dialogIndex[0]);
