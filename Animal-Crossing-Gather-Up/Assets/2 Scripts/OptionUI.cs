@@ -5,117 +5,116 @@ using UnityEngine;
 
 public class OptionUI : MonoBehaviour
 {
-	[Header("Option Panel")]
-	public GameObject optionPanel; //ø…º«∆–≥Œ
-	public TextMeshProUGUI[] optionTexts; //ø…º« ≈ÿΩ∫∆Æ 
+    [Header("Option Panel")]
+    public GameObject optionPanel; //ÏòµÏÖò Ìå®ÎÑê
+    public TextMeshProUGUI[] optionTexts; //ÏòµÏÖò ÌÖçÏä§Ìä∏ 
 
-	[Header("Cursor Move")]
-	public GameObject cursor; //ƒøº≠ ¿ÃπÃ¡ˆ
-	public GameObject underline; //πÿ¡Ÿ ¿ÃπÃ¡ˆ
-	public int currentIndex; //ƒøº≠/πÿ¡Ÿ¿Ã ∞°∏Æ≈∞∞Ì ¿÷¥¬ «ˆ¿Á ¿Œµ¶Ω∫optionText -> ƒøº≠øÎ
-	public string currentOption; //«ˆ¿Á ø…º«
-	private int optionSize; //ø…º« ∞≥ºˆ
+    [Header("Cursor Move")]
+    public GameObject cursor; //Ïª§ÏÑú
+    public GameObject underline; //Î∞ëÏ§Ñ
+    public int currentIndex; //ÌòÑÏû¨ Ïù∏Îç±Ïä§
+    public string currentOption; //ÌòÑÏû¨ ÏòµÏÖò
+    private int optionSize; //ÏòµÏÖò Ïù∏Îç±Ïä§ ÌÅ¨Í∏∞
 
-	// set active false when start
-	private void Start()
-	{
-		optionPanel.SetActive(false);
-	}
+    // set active false when start
+    private void Start()
+    {
+        optionPanel.SetActive(false);
+    }
 
-	private void Update()
-	{
-		if (optionPanel.activeSelf)
-		{
-			CursorMove();
-		}
-	}
+    private void Update()
+    {
+        if (optionPanel.activeSelf)
+        {
+            CursorMove();
+        }
+    }
 
-	public void SetOptions(string[] options)
-	{
-		DisableAllOptionTexts();
+    public void SetOptions(string[] options)
+    {
+        DisableAllOptionTexts();
 
-		// Initialize cursor position
-		currentIndex = 0;
+        // Initialize cursor position
+        currentIndex = 0;
 
-		optionSize = options.Length;
-		for (int i = 0; i < options.Length; i++)
-		{
-			optionTexts[i].text = options[i];
-			optionTexts[i].gameObject.SetActive(true);
-		}
-	}
+        optionSize = options.Length;
+        for (int i = 0; i < options.Length; i++)
+        {
+            optionTexts[i].text = options[i];
+            optionTexts[i].gameObject.SetActive(true);
+        }
+    }
 
-	private void DisableAllOptionTexts()
-	{
-		// all texts set active false
-		foreach (TextMeshProUGUI optionText in optionTexts)
-		{
-			optionText.gameObject.SetActive(false);
-		}
-	}
+    private void DisableAllOptionTexts()
+    {
+        // all texts set active false
+        foreach (TextMeshProUGUI optionText in optionTexts)
+        {
+            optionText.gameObject.SetActive(false);
+        }
+    }
 
-	public void PanelActive(bool isActive)
-	{
-		//option panel »∞º∫»≠
-		optionPanel.SetActive(isActive);
-		cursor.SetActive(isActive);
-	}
+    public void PanelActive(bool isActive)
+    {
+        optionPanel.SetActive(isActive);
+        cursor.SetActive(isActive);
+    }
 
-	public void CursorMove()
-	{
-		if (Input.GetKeyDown(KeyCode.W))
-		{
-			currentIndex--;
-			if (currentIndex <= 0)
-			{
-				currentIndex = 0;
-			}
-		}
-		else if (Input.GetKeyDown(KeyCode.S))
-		{
-			currentIndex++;
-			if (currentIndex >= optionSize)
-			{
-				currentIndex = optionSize - 1;
-			}
-		}
-		else if (Input.GetKeyDown(KeyCode.Return))
-		{
-			SelectOption();
-		}
-		else if (Input.GetKeyDown(KeyCode.Escape))
-		{
-			PanelActive(false);
-		}
+    public void CursorMove()
+    {
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            currentIndex--;
+            if (currentIndex <= 0)
+            {
+                currentIndex = 0;
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.S))
+        {
+            currentIndex++;
+            if (currentIndex >= optionSize)
+            {
+                currentIndex = optionSize - 1;
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.Return))
+        {
+            SelectOption();
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            PanelActive(false);
+        }
 
-		SelecteedOptionPosition();
-	}
+        SelecteedOptionPosition();
+    }
 
-	public string SelectOption()
-	{
-		currentOption = optionTexts[currentIndex].text;
-		PanelActive(false);
+    public string SelectOption()
+    {
+        currentOption = optionTexts[currentIndex].text;
+        PanelActive(false);
 
-		print($"«ˆ¿Á ø…º«: {currentOption}");
-		return currentOption;
-	}
+        print($"ÌòÑÏû¨ ÏòµÏÖò: {currentOption}");
+        return currentOption;
+    }
 
 
-	private void SelecteedOptionPosition()
-	{
-		TextMeshProUGUI selectedOption = optionTexts[currentIndex];
-		float optionWidth = selectedOption.preferredWidth;
+    private void SelecteedOptionPosition()
+    {
+        TextMeshProUGUI selectedOption = optionTexts[currentIndex];
+        float optionWidth = selectedOption.preferredWidth;
 
-		Vector3 cursorPos = selectedOption.transform.position;
-		cursorPos.x += optionWidth + 60;
-		cursor.transform.position = cursorPos;
+        Vector3 cursorPos = selectedOption.transform.position;
+        cursorPos.x += optionWidth + 60;
+        cursor.transform.position = cursorPos;
 
-		Vector3 underlinePos = selectedOption.transform.position;
-		underlinePos.x += optionWidth + 20f;
-		underline.transform.position = underlinePos;
+        Vector3 underlinePos = selectedOption.transform.position;
+        underlinePos.x += optionWidth + 20f;
+        underline.transform.position = underlinePos;
 
-		RectTransform underlineRect = underline.GetComponent<RectTransform>();
-		underlineRect.sizeDelta = new Vector2(optionWidth - 20f, underlineRect.sizeDelta.y);
-	}
+        RectTransform underlineRect = underline.GetComponent<RectTransform>();
+        underlineRect.sizeDelta = new Vector2(optionWidth - 20f, underlineRect.sizeDelta.y);
+    }
 
 }
