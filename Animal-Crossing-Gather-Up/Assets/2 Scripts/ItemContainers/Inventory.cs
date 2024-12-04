@@ -91,6 +91,14 @@ public class Inventory : MonoBehaviour
 		}
 	}
 
+	public void RemoveItem(int index)
+	{
+		if (slots[index].IsSlotEmpty() == false)
+		{
+			slots[index].RemoveItem();
+		}
+	}
+
 	// private slots의 정보만 받기 위해 새로 할당받아서 복사해줘서 반환함
 	// 반환한 slots들을 변경해도 inventory의 slots에 담긴 item의 데이터가 바뀌지 않음
 	public List<Slot> GetSlotInfo()
