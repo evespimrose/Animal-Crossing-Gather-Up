@@ -2,24 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bug : MonoBehaviour
+public class Bug : MonoBehaviour, ICollectable
 {
-   //¹ö±× ÀÎÆ÷ ÂüÁ¶
-   //¹ö±× ibugmanger
+   //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+   //ï¿½ï¿½ï¿½ï¿½ ibugmanger
 
     private BugInfo info;
-    private IBugManager manager;
+    
 
-    public void Initialize(BugInfo buginfom, IBugManager bugManager)
+    public void Initialize(BugInfo buginfom)
     {
         info = buginfom;
-        manager = bugManager;
+      
     }
 
     private void OnMouseDown()
     {
-        manager?.CatchBug(this);
-        Destroy(gameObject);                    
+        Collect();
+    }
+
+    public void Collect()
+    {
+        GetValue();
+        Destroy(gameObject);
+
+        BaseIslandManager.Instance.RemoveBug(info); // SingletonManager<> ï¿½ï¿½Ó¹ï¿½ï¿½ï¿?ï¿½Å´ï¿½ï¿½ï¿½
+        GameManager.Instance.inventory.AddItem(info);
     }
     public int GetValue() => info.basePrice;
 }

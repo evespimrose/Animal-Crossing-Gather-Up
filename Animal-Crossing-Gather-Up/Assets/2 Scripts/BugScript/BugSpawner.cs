@@ -2,18 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static BugInfo;
 
 public class BugSpawner : MonoBehaviour
 {
     [SerializeField] private List<BugInfo> bugList;
     [SerializeField] private Transform spawnPoint;
-    private IBugManager manager;
+   
     public Bug CurrentBug { get; private set; }
-  
-    public void Initialize(IBugManager bugManager)
-    {
-        manager = bugManager;
+    public BugType GetBugType() => bugList != null && bugList.Count > 0
+       ? bugList[0].type
+       : BugType.TreeBug;
 
+    public void Initialize( )
+    {
         if (spawnPoint == null)
         {
             spawnPoint = transform.Find("SpawnPoint");
@@ -51,10 +53,16 @@ public class BugSpawner : MonoBehaviour
 
         var bugObject = Instantiate(buginfo.prefab, spawnPoint.position,
             rotation, transform);
+        if (!bugObject.TryGetComponent<Bug>(out Bug bug))
+        {         
+            Destroy(bugObject);
+            return;
+        }
 
-        CurrentBug = bugObject.GetComponent<Bug>();
-        CurrentBug.Initialize(buginfo, manager);
-        manager.AddBug();
+
+        CurrentBug = bug;
+        CurrentBug.Initialize(buginfo);
+        BaseIslandManager.Instance.AddBug(buginfo);
     }
 
 

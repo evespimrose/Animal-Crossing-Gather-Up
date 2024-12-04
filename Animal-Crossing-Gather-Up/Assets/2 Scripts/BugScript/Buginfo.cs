@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewBug", menuName = "Items/Bug")]
-public class BugInfo : Item
+public class BugInfo : Item, ICollectableInfo
 {
-    //¹ö±×id , ¹ö±× ÀÌ¸§(µð½ºÇÃ·¹ÀÌ»ó) , ÇÁ¸®Æé , Å¸ÀÔ
-    //°¡ÁßÄ¡(È®·ü), °ª
+    //ï¿½ï¿½ï¿½ï¿½id , ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½(ï¿½ï¿½ï¿½Ã·ï¿½ï¿½Ì»ï¿½) , ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ , Å¸ï¿½ï¿½
+    //ï¿½ï¿½ï¿½ï¿½Ä¡(È®ï¿½ï¿½), ï¿½ï¿½
    
     
     
@@ -16,9 +16,10 @@ public class BugInfo : Item
 
     [Range(0.1f, 1f)]
     public float spawnWeight;
-  
 
-     public enum BugType
+    GameObject ICollectableInfo.prefab => throw new NotImplementedException();
+
+    public enum BugType
     {
         TreeBug,
         FlowerBug

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(CharacterController))]
 public class Player : MonoBehaviour
 {
 	private CharacterController characterController;
@@ -11,23 +12,24 @@ public class Player : MonoBehaviour
 	public delegate void ItemCollectedHandler(Item item);
 	public event ItemCollectedHandler OnItemCollected;
 
-    private Vector3 movement;
+	private Vector3 movement;
 
-    // test of input item Player to Inventory
-    public Item i0;
-    public Item i1;
-    public Item t0;
-    public Item t1;
+	// test of input item Player to Inventory
+	public Item i0;
+	public Item i1;
+	public Item t0;
+	public Item t1;
 
-    public Tool CurrentTool;
+	private ITool currentTool;
+
+	[Header("For Debug")]
+	public GameObject debugTool;
 
     private void Start()
-    {
-        characterController = GetComponent<CharacterController>();
-    }
-
-	// test : inventory Open
-	public InventoryUI inventoryUI;
+	{
+		characterController = GetComponent<CharacterController>();
+		EquipTool(debugTool);
+	}
 
 	private void Update()
 	{
@@ -56,7 +58,7 @@ public class Player : MonoBehaviour
 		}
 		else if (Input.GetKeyDown(KeyCode.I))
 		{
-			inventoryUI.InventoryOpen();
+			UIManager.Instance.OpenInventory();
 		}
 	}
 
@@ -65,13 +67,13 @@ public class Player : MonoBehaviour
 		float horizontal = Input.GetAxis("Horizontal");
 		float vertical = Input.GetAxis("Vertical");
 
-        movement = new Vector3(horizontal, 0, vertical);
-        if (movement.magnitude > 0.1f)
-        {
-            characterController.Move(moveSpeed * Time.deltaTime * movement);
-            transform.forward = movement;
-        }
-    }
+		movement = new Vector3(-vertical, 0, horizontal);
+		if (movement.magnitude > 0.1f)
+		{
+			characterController.Move(moveSpeed * Time.deltaTime * movement);
+			transform.forward = movement;
+		}
+	}
 
 	private void HandleCollection()
 	{
@@ -80,38 +82,41 @@ public class Player : MonoBehaviour
 			Collect();
 		}
 	}
-    public void Collect()
-    {
-        if (CurrentTool?.collectCommand != null)
-        {
-            CurrentTool.collectCommand.Execute();
-        }
-        else
-        {
-            Debug.LogWarning("No command set or tool equipped.");
-        }
-    }
 
-    public void EquipTool(GameObject tool)
+	public void Collect()
+	{
+		if (currentTool != null)
+		{
+			currentTool.Execute(transform.position);
+			
+			if (currentTool.ToolInfo.currentDurability <= 0)
+			{
+				OnItemCollected?.Invoke(currentTool.ToolInfo);
+				
+				GameObject toolToDestroy = equippedTool;
+				UnequipTool();
+				Destroy(toolToDestroy);
+				// Inventory.DestroyItem();
+			}
+		}
+	}
+
+	public void EquipTool(GameObject tool)
 	{
 		if (equippedTool != null)
 		{
 			UnequipTool();
 		}
 
-		equippedTool = tool;
-		
+		GameObject toolInstance = Instantiate(tool, handPosition.position, Quaternion.identity);
+		equippedTool = toolInstance;
 		equippedTool.transform.SetParent(handPosition);
 		equippedTool.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
 
-		if (equippedTool.TryGetComponent(out Tool toolComponent))
+		currentTool = equippedTool.GetComponent<ITool>();
+		if (currentTool == null)
 		{
-			CurrentTool = toolComponent;
-		}
-		else
-		{
-			CurrentTool = null;
-			Debug.LogWarning("Equipped object does not have a Tool component.");
+			Debug.LogWarning("Equipped object does not have a valid tool component.");
 		}
 	}
 
@@ -120,8 +125,7 @@ public class Player : MonoBehaviour
 		if (equippedTool != null)
 		{
 			//inventory.AddItem(equippedTool); 
-			equippedTool.transform.SetParent(null);
-			equippedTool.SetActive(false);
+			Destroy(equippedTool);
 			equippedTool = null;
 		}
 	}

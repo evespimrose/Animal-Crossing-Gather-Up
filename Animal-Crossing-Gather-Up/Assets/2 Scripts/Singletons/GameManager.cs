@@ -11,6 +11,6 @@ public class GameManager : SingletonManager<GameManager>
 	{
 		player = FindObjectOfType<Player>();
 		inventory = FindObjectOfType<Inventory>();
-		player.OnItemCollected += inventory.AddItem;
+		//player.OnItemCollected += inventory.AddItem;
 	}
 }
