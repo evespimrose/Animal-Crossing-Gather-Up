@@ -57,8 +57,8 @@ public class DialogController : MonoBehaviour
             EnterDialog(activeDialogTexts, activeDialogIndex);
         }
 
-        //ÇÃ·¹ÀÌ¾î¿Í »óÈ£ÀÛ¿ë ÀÌ·± ½ÄÀ¸·Î ÀÛ¼º ¿¹Á¤
-        //ÀÏÁ¤ °Å¸® ¾È¿¡ ÇÃ·¹ÀÌ¾î°¡ µé¾î¿ÔÀ» ¶§ rÅ°¸¦ ´©¸£¸é ´ëÈ­Ã¢ È°¼ºÈ­ 
+        //ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ ï¿½ï¿½È£ï¿½Û¿ï¿½ ï¿½Ì·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Û¼ï¿½ ï¿½ï¿½ï¿½ï¿½
+        //ï¿½ï¿½ï¿½ï¿½ ï¿½Å¸ï¿½ ï¿½È¿ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ rÅ°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È­Ã¢ È°ï¿½ï¿½È­ 
         //if(Vector3.Distance(player.position, npc.position) < 5f))
         //   {
         //      if(GetKeyDown(KeyCode.R))
@@ -73,6 +73,10 @@ public class DialogController : MonoBehaviour
     {
         if (currentCoroutine == null)
         {
+            if (dialogData.dialogIndex[dialogIndexCount] >= SetdialogTexts.Length)
+            {
+                dialogData.dialogIndex[dialogIndexCount] = 0;
+            }
             string firstText = SetdialogTexts[dialogData.dialogIndex[dialogIndexCount]];
             currentCoroutine = StartCoroutine(TypingDialog(firstText));
             dialogData.dialogIndex[dialogIndexCount]++;
