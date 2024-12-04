@@ -22,8 +22,9 @@ MonoBehaviour:
   - "\uAD6C\uB9E4\uD558\uACE0 \uC2F6\uC740 \uC7A5\uBE44\uB97C \uC120\uD0DD\uD574\uC918!"
   thirdDialogTexts:
   - "\uD310\uB9E4\uD558\uACE0 \uC2F6\uC740 \uCC44\uC9D1\uBB3C\uC744 \uC120\uD0DD\uD574\uC918!"
-  fourthDialogTexts: []
-  dialogIndex: 000000000000000000000000
+  fourthDialogTexts:
+  - "\u3142\u3142"
+  dialogIndex: 03000000000000000000000000000000
   isChooseActive: 0
-  isEnterActive: 0
+  isEnterActive: 1
   currentOption: 
