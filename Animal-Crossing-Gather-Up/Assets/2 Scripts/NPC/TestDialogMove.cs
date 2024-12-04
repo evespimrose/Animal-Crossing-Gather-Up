@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class TestDialogMove : MonoBehaviour
 {
-    MoriController moriCtrl;
+    [Header("Interaction")]
+    public float interactionDistance = 2f; //상호작용 거리
+    private DialogController nearestNPC;
+
     NPCState moriState;
     public float moveSpeed;
-
+    private MoriController moriCtrl;
     private void Start()
     {
         moriCtrl = FindObjectOfType<MoriController>();
@@ -16,6 +19,45 @@ public class TestDialogMove : MonoBehaviour
     private void Update()
     {
         MoveTest();
+        //InteractionNPC();
+        //NearstNPC();
+    }
+
+    private void InteractionNPC()
+    {
+        float minDistance = interactionDistance;
+        nearestNPC = null;
+
+        DialogController[] allNpc = FindObjectsOfType<DialogController>();
+        foreach (DialogController npc in allNpc)
+        {
+            float distance = Vector3.Distance(transform.position, npc.transform.position);
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+                nearestNPC = npc;
+            }
+
+        }
+    }
+
+    private void NearstNPC()
+    {
+        switch (nearestNPC)
+        {
+            case MoriController mori:
+                mori.NPCDialogStart();
+                break;
+            case RoadriController roadri:
+                roadri.NPCDialogStart();
+                break;
+            case TimmyController timmy:
+                timmy.NPCDialogStart();
+                break;
+
+
+
+        }
     }
 
     private void MoveTest()
