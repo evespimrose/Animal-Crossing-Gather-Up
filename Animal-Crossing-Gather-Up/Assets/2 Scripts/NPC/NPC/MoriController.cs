@@ -9,7 +9,6 @@ public class MoriController : DialogController, INPCArea
 {
     public NPCDialogData moriDialogData;
 
-
     private void Awake()
     {
         moriDialogData.isChooseActive = false;
@@ -24,8 +23,6 @@ public class MoriController : DialogController, INPCArea
     {
         base.Start();
         dialogData = moriDialogData;
-        moriDialogData.currentOption = "";
-        optionui.currentOption = moriDialogData.currentOption;
         string[] moriOptions = { "외출할래", "지금은 안할래" };
         optionui.SetOptions(moriOptions);
     }
@@ -35,9 +32,10 @@ public class MoriController : DialogController, INPCArea
         base.Update();
         if (moriDialogData.currentOption != optionui.currentOption && optionui.currentOption != null)
         {
-            moriDialogData.currentOption = optionui.currentOption;
+            optionui.currentOption = moriDialogData.currentOption;
             SelectedOptionAfter();
         }
+        print("모리 업데이트");
     }
 
 
@@ -48,7 +46,7 @@ public class MoriController : DialogController, INPCArea
         optionui.SetOptions(moriOptions);
         uiManager.dialogPanel.SetActive(true);
         DialogStart(moriDialogData.dialogTexts, moriDialogData.dialogIndex[0]);
-
+        print("모리 대화 시작");
     }
 
     public void SelectedOptionAfter()

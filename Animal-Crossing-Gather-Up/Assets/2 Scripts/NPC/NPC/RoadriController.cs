@@ -37,6 +37,9 @@ public class RoadriController : DialogController, INPCArea
             roadriDialogData.currentOption = optionui.currentOption;
             SelectedOptionAfter();
         }
+        print("로드리 업데이트");
+
+
     }
 
     public void NPCDialogStart()
@@ -45,6 +48,7 @@ public class RoadriController : DialogController, INPCArea
         optionui.SetOptions(roadriOptions);
         uiManager.dialogPanel.SetActive(true);
         DialogStart(roadriDialogData.dialogTexts, roadriDialogData.dialogIndex[0]);
+        print("로드리 대화 시작");
     }
 
     public void SelectedOptionAfter()
