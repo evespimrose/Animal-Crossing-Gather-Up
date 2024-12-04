@@ -13,9 +13,11 @@ public class PurchaseUI : MonoBehaviour
 	private int cursorOnSlotIndex = 0;  // Index of the currently selected slot
 	private const int slotsPerRow = 2; // Number of slots per row
 	private const int totalRows = 2;    // Total number of rows
+	private bool isInitialized = false;
 
 	private void Start()
 	{
+		print("PurchaseUI: Starting initializaion");
 		// Initialize lists and set default state
 		purchasePanel.SetActive(false);
 		slotUIs = new List<SlotUI>();
@@ -23,7 +25,7 @@ public class PurchaseUI : MonoBehaviour
 
 	private void Update()
 	{
-		if (purchasePanel.activeSelf)
+		if (purchasePanel.activeSelf && isInitialized)
 		{
 			HandleSlotSelection();
 		}
@@ -32,55 +34,98 @@ public class PurchaseUI : MonoBehaviour
 	// Initialize slots and update UI once
 	public void InitializeShopSlots(List<Slot> shopSlots)
 	{
-		if (shopSlots == null)
+		if (shopSlots == null || shopSlots.Count == 0)
 		{
+			Debug.LogError("PurchaseUI: Received null or empty shop slots");
 			return;
 		}
 
 		// Store reference to shop slots
+		print($"PurchaseUI: Initializing with {shopSlots.Count} shop slots");
 		slots = new List<Slot>(shopSlots);
 
 		// Ensure we have both slots and UI components
 		if (slotUIs.Count == 0)
 		{
+			Debug.LogError("PurchaseUI: No slot UIs available");
+			return;
+		}
+
+		if (slotUIs.Count == 0)
+		{
+			Debug.LogError($"PurchaseUI: Not enough UI slots ({slotUIs.Count})");
 			return;
 		}
 
 		// Update UI components
-		for (int i = 0; i < slots.Count && i < slotUIs.Count; i++)
+		for (int i = 0; i < slots.Count; i++)
 		{
 			if (slots[i] != null && slots[i].Item != null && slotUIs[i] != null)
 			{
 				slotUIs[i].UpdateUI(slots[i].Item, slots[i].stackCount);
+				print($"PurchaseUI: Updated UI for slot {i} with item {slots[i].Item.itemName}");
 			}
 		}
+
+		isInitialized = true;
+		print("PurchaseUI: Initialization complete");
 	}
 
 	public void AddSlotUI(SlotUI slotUI)
 	{
-		if (slotUI != null)
+		if (slotUI == null)
 		{
-			slotUIs.Add(slotUI);
+			Debug.LogError("PurchaseUI: Attempted to add null SlotUI");
+			return;
 		}
+
+		slotUIs.Add(slotUI);
+		print($"PurchaseUI: Added new SlotUI. Total count: {slotUIs.Count}");
 	}
 
 	public void PurchasePanelOpen()
 	{
+		if (isInitialized == false)
+		{
+			Debug.LogWarning("PurchaseUI: Cannot open panel before initializaion");
+			return;
+		}
+
+		if (slotUIs == null || slotUIs.Count == 0)
+		{
+			Debug.LogError("PurchaseUI: No slot UIs available");
+			return;
+		}
+
+		print("PurchaseUI: Opening purchase panel");
 		purchasePanel.SetActive(true);
+
+		// Reset cursor state for all slots
 		foreach (SlotUI slotUI in slotUIs)
 		{
-			slotUI.cursorImage.gameObject.SetActive(false);
+			if (slotUI != null && slotUI.cursorImage != null)
+			{
+				slotUI.cursorImage.gameObject.SetActive(false);
+			}
 		}
+
+		cursorOnSlotIndex = 0;
 		CursorOnSlot(cursorOnSlotIndex);  // Select the first slot by default
 	}
 
 	public void PurchasePanelClose()
 	{
+		print("PurchaseUI: Closing purchase panel");
 		purchasePanel.SetActive(false);
 	}
 
 	private void HandleSlotSelection()
 	{
+		if (isInitialized == false)
+		{
+			return;
+		}
+
 		int previousSlotIndex = cursorOnSlotIndex;  // Store the previous index
 
 		if (Input.GetKeyDown(KeyCode.W) && cursorOnSlotIndex >= slotsPerRow)
@@ -113,18 +158,30 @@ public class PurchaseUI : MonoBehaviour
 
 	private void CursorOnSlot(int index)
 	{
-		// Decursor on all slots
-		foreach (SlotUI slotUI in slotUIs)
+		if (isInitialized == false || slotUIs == null || index >= slotUIs.Count)
 		{
-			slotUI.CursorOnSlotDisplayCursor(false);
-			slotUI.CursorOnSlotDisplayName(false);
+			Debug.LogWarning($"PurchaseUI: Invalid cursor operation. Initialized: {isInitialized}, Index: {index}, SlotUIs count: {(slotUIs != null ? slotUIs.Count : 0)}");
+			return;
 		}
 
-		// Cursor on the current slot
-		slotUIs[index].CursorOnSlotDisplayCursor(true);
-		if (slots[index].Item != null)
+		// Disable cursor and name display for all slots
+		foreach (SlotUI slotUI in slotUIs)
 		{
-			slotUIs[index].CursorOnSlotDisplayName(true);
+			if (slotUI != null)
+			{
+				slotUI.CursorOnSlotDisplayCursor(false);
+				slotUI.CursorOnSlotDisplayName(false);
+			}
+		}
+
+		// Enable cursor and name display for selected slot
+		if (slotUIs[index] != null)
+		{
+			slotUIs[index].CursorOnSlotDisplayCursor(true);
+			if (slots != null && slots.Count > index && slots[index]?.Item != null)
+			{
+				slotUIs[index].CursorOnSlotDisplayName(true);
+			}
 		}
 	}
 }
