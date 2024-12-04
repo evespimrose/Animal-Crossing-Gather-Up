@@ -75,7 +75,7 @@ public class OptionUI : MonoBehaviour
             currentIndex++;
             if (currentIndex >= optionSize)
             {
-                currentIndex = optionSize - 1;
+                currentIndex = optionSize;
             }
         }
         else if (Input.GetKeyDown(KeyCode.Return))
