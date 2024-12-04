@@ -9,6 +9,8 @@ public class MoriController : DialogController, INPCArea
 {
     private NPCState moriState;
     public NPCDialogData moriDialogData;
+
+
     private void Awake()
     {
         moriDialogData.isChooseActive = false;
@@ -31,8 +33,6 @@ public class MoriController : DialogController, INPCArea
     {
         base.Update();
         optionui.CursorMove();
-        moriDialogData.position = gameObject.transform.position;
-
         if (moriDialogData.currentOption != optionui.currentOption && optionui.currentOption != null)
         {
             moriDialogData.currentOption = optionui.currentOption;
@@ -40,12 +40,15 @@ public class MoriController : DialogController, INPCArea
         }
     }
 
+
     public void NPCDialogStart()
     {
-        string[] moriOptions = { "외출할래", "지금은 안할래dodo" };
+
+        string[] moriOptions = { "외출할래", "지금은 안할래" };
         optionui.SetOptions(moriOptions);
         uiManager.dialogPanel.SetActive(true);
         DialogStart(moriDialogData.dialogTexts, moriDialogData.dialogIndex[0]);
+
     }
 
     public void SelectedOptionAfter()
@@ -61,7 +64,7 @@ public class MoriController : DialogController, INPCArea
             optionui.SetOptions(moriOptions);
         }
 
-        if (moriDialogData.currentOption == "지금은 안할래")
+        else if (moriDialogData.currentOption == "지금은 안할래")
         {
             dialogData.isChooseActive = false;
             optionui.PanelActive(moriDialogData.isChooseActive);
@@ -72,17 +75,19 @@ public class MoriController : DialogController, INPCArea
             optionui.SetOptions(moriOptions);
         }
 
-        if (moriDialogData.currentOption == "출발!")
+        else if (moriDialogData.currentOption == "출발!")
         {
             EndDialog();
             print("마일섬으로 출발!");
         }
 
-        if (moriDialogData.currentOption == "대화종료")
+        else if (moriDialogData.currentOption == "대화종료")
         {
             EndDialog();
             print("모리 대화 종료");
         }
-    }
 
+    }
 }
+
+

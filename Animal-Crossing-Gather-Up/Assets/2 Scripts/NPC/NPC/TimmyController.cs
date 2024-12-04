@@ -29,7 +29,6 @@ public class TimmyController : DialogController
     {
         base.Update();
         optionui.CursorMove();
-        timmyDialogData.position = gameObject.transform.position;
 
         if (timmyDialogData.currentOption != optionui.currentOption && optionui.currentOption != null)
         {
@@ -79,7 +78,7 @@ public class TimmyController : DialogController
         if (timmyDialogData.currentOption == "대화종료")
         {
             EndDialog();
-            print("모리 대화 종료");
+            print("티미 대화 종료");
         }
     }
 

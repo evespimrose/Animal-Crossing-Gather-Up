@@ -32,9 +32,6 @@ public class RoadriController : DialogController, INPCArea
 
         base.Update();
         optionui.CursorMove();
-        roadriDialogData.position = gameObject.transform.position;
-
-
         if (roadriDialogData.currentOption != optionui.currentOption && optionui.currentOption != null)
         {
             roadriDialogData.currentOption = optionui.currentOption;
@@ -63,7 +60,7 @@ public class RoadriController : DialogController, INPCArea
             optionui.SetOptions(roadriOptions);
         }
 
-        if (roadriDialogData.currentOption == "섬을 더 돌아볼래")
+        else if (roadriDialogData.currentOption == "섬을 더 돌아볼래")
         {
             dialogData.isChooseActive = false;
             optionui.PanelActive(roadriDialogData.isChooseActive);
@@ -74,13 +71,13 @@ public class RoadriController : DialogController, INPCArea
             optionui.SetOptions(roadriOptions);
         }
 
-        if (roadriDialogData.currentOption == "출발!")
+        else if (roadriDialogData.currentOption == "출발!")
         {
             EndDialog();
             print("마일섬 떠남");
         }
 
-        if (roadriDialogData.currentOption == "대화종료")
+        else if (roadriDialogData.currentOption == "대화종료")
         {
             EndDialog();
             print("로드리 대화 종료");
