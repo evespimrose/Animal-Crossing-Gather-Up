@@ -20,6 +20,6 @@ MonoBehaviour:
   - "\uADFC\uCC98\uC5D0 \uB450\uAE30"
   fullInventoryOptionText:
   - "\uBC14\uAFB8\uAE30"
-  prefab: {fileID: 3182054163324619375, guid: 51f189b487ed13943b2cf58fbe23b9e0, type: 3}
+  prefab: {fileID: 3390164526545962753, guid: 9ce5ceef5a7cd3a4d9950cbd3168bb3c, type: 3}
   type: 1
   spawnWeight: 0.1

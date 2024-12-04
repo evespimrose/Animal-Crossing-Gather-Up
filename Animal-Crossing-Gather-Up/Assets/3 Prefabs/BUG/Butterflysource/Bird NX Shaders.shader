@@ -90,6 +90,11 @@
         {
             UNITY_SETUP_INSTANCE_ID(v);
 
+            // 곡률 효과 계산 (펄럭임과 구부러짐 전에)
+            float worldPosX = mul(unity_ObjectToWorld, v.vertex).x;
+            float distFromCamera = abs(worldPosX - _WorldSpaceCameraPos.x);
+            float curveEffect = _CurveStrength * distFromCamera * distFromCamera * _ProjectionParams.x;
+
             // 날개 펄럭임 기본 계산
             float timeY = _Time.y;
             half xf = abs(v.vertex.x) + _FlappXOffset;
@@ -98,13 +103,9 @@
             // 기본 펄럭임 계산
             float flap = sin(timeY * _FlappingSpeed) * xf * _FlappYPower;
 
-            // 곡률 적용
-            float worldPosX = mul(unity_ObjectToWorld, v.vertex).x;
-            float distFromCamera = abs(worldPosX - _WorldSpaceCameraPos.x);
-            v.vertex.y += _CurveStrength * distFromCamera * distFromCamera * _ProjectionParams.x;
-
-            // Y축 움직임
-            v.vertex.y += flap;
+            // 먼저 곡률을 적용한 뒤 Y축 펄럭임 계산
+            v.vertex.z += curveEffect * 7;
+            v.vertex.z += flap;
 
             // X축 움직임 (날개 구부러짐)
             if (v.vertex.x > _FlappXCenter)
@@ -119,6 +120,8 @@
             // 선택적 Z축 움직임
             v.vertex.z += flap * _FlappZPower * 0.1;
         }
+
+
 
         void surf(Input IN, inout SurfaceOutput o)
         {
