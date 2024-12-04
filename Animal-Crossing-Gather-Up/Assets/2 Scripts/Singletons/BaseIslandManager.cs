@@ -22,6 +22,8 @@ public class BaseIslandManager : SingletonManager<BaseIslandManager>
     private int currentTreeBugs;
     private int currentFlowerBugs;
 
+    [SerializeField] private List<OakTree> oakTrees = new();
+    private const float respawnTime = 86400f;
     protected override void Awake()
     {
         base.Awake();  
@@ -38,17 +40,17 @@ public class BaseIslandManager : SingletonManager<BaseIslandManager>
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // º¯¼ö ÃÊ±âÈ­
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­
         currentFish = 0;
         currentTreeBugs = 0;
         currentFlowerBugs = 0;
 
-        // ¸®½ºÆ® ÃÊ±âÈ­
+        // ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ê±ï¿½È­
         treeSpawners.Clear();
         flowerSpawners.Clear();
         fishSpawners.Clear();
 
-        // ½ºÆ÷³Ê Ã£±â
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½
         FindBugSpawnerByType();
         FindFishSpawnerByType();
     }
@@ -56,16 +58,18 @@ public class BaseIslandManager : SingletonManager<BaseIslandManager>
     private void Start()
     {
         FindBugSpawnerByType();
-        //µ¹ÀÌµç ¹°°í±âµç Å¸ÀÔÀ» °¢°¢ ¿©±â´Ù ³õ±â
+        //ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         FindFishSpawnerByType();
 
+        StartCoroutine(RefillBranchesRoutine());
     }
+
     private void FindBugSpawnerByType()
     {
-        // ¸ðµç ½ºÆ÷³Ê Ã£±â
+        // ï¿½ï¿½ï¿½?ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½
         var allSpawners = FindObjectsOfType<BugSpawner>();
 
-        // ½ºÆ÷³ÊÀÇ BugInfo Å¸ÀÔ¿¡ µû¶ó ºÐ·ù
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ BugInfo Å¸ï¿½Ô¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ð·ï¿½
         foreach (var spawner in allSpawners)
         {
             if (spawner.GetBugType() == BugType.TreeBug)
@@ -95,19 +99,19 @@ public class BaseIslandManager : SingletonManager<BaseIslandManager>
     {
         while (true)
         {
-            // Æ®¸® ¹ö±× ½ºÆù ½Ãµµ
+            // Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ãµï¿½
             if (currentTreeBugs < maxTreeBugs)
             {
                 TrySpawnBugOnRandomSpawner(treeSpawners);
             }
 
-            // ÇÃ¶ó¿ö ¹ö±× ½ºÆù ½Ãµµ
+            // ï¿½Ã¶ï¿½ï¿½?ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ãµï¿½
             if (currentFlowerBugs < maxFlowerBugs)
             {
                 TrySpawnBugOnRandomSpawner(flowerSpawners);
             }
 
-            // ¹°°í±â ½ºÆù ½Ãµµ
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ãµï¿½
             if (currentFish < maxFish)
             {
                 TrySpawnFishOnRandomSpawner(fishSpawners);
@@ -155,4 +159,17 @@ public class BaseIslandManager : SingletonManager<BaseIslandManager>
             currentFlowerBugs = Mathf.Max(0, currentFlowerBugs - 1);
     }
 
+    private IEnumerator RefillBranchesRoutine()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(respawnTime);
+
+            foreach (var oakTree in oakTrees)
+            {
+                int branchesToSpawn = oakTree.maxBranches - oakTree.branchCount;
+                oakTree.RefillBranches(branchesToSpawn);
+            }
+        }
+    }
 }

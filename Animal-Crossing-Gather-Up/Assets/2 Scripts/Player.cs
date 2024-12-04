@@ -20,11 +20,15 @@ public class Player : MonoBehaviour
 	public Item t0;
 	public Item t1;
 
-	public Tool CurrentTool;
+	private ITool currentTool;
 
-	private void Start()
+	[Header("For Debug")]
+	public GameObject debugTool;
+
+    private void Start()
 	{
 		characterController = GetComponent<CharacterController>();
+		EquipTool(debugTool);
 	}
 
 	private void Update()
@@ -63,7 +67,7 @@ public class Player : MonoBehaviour
 		float horizontal = Input.GetAxis("Horizontal");
 		float vertical = Input.GetAxis("Vertical");
 
-		movement = new Vector3(horizontal, 0, vertical);
+		movement = new Vector3(-vertical, 0, horizontal);
 		if (movement.magnitude > 0.1f)
 		{
 			characterController.Move(moveSpeed * Time.deltaTime * movement);
@@ -78,15 +82,22 @@ public class Player : MonoBehaviour
 			Collect();
 		}
 	}
+
 	public void Collect()
 	{
-		if (CurrentTool?.collectCommand != null)
+		if (currentTool != null)
 		{
-			CurrentTool.collectCommand.Execute();
-		}
-		else
-		{
-			Debug.LogWarning("No command set or tool equipped.");
+			currentTool.Execute(transform.position);
+			
+			if (currentTool.ToolInfo.currentDurability <= 0)
+			{
+				OnItemCollected?.Invoke(currentTool.ToolInfo);
+				
+				GameObject toolToDestroy = equippedTool;
+				UnequipTool();
+				Destroy(toolToDestroy);
+				// Inventory.DestroyItem();
+			}
 		}
 	}
 
@@ -97,19 +108,15 @@ public class Player : MonoBehaviour
 			UnequipTool();
 		}
 
-		equippedTool = tool;
-
+		GameObject toolInstance = Instantiate(tool, handPosition.position, Quaternion.identity);
+		equippedTool = toolInstance;
 		equippedTool.transform.SetParent(handPosition);
 		equippedTool.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
 
-		if (equippedTool.TryGetComponent(out Tool toolComponent))
+		currentTool = equippedTool.GetComponent<ITool>();
+		if (currentTool == null)
 		{
-			CurrentTool = toolComponent;
-		}
-		else
-		{
-			CurrentTool = null;
-			Debug.LogWarning("Equipped object does not have a Tool component.");
+			Debug.LogWarning("Equipped object does not have a valid tool component.");
 		}
 	}
 
@@ -118,8 +125,7 @@ public class Player : MonoBehaviour
 		if (equippedTool != null)
 		{
 			//inventory.AddItem(equippedTool); 
-			equippedTool.transform.SetParent(null);
-			equippedTool.SetActive(false);
+			Destroy(equippedTool);
 			equippedTool = null;
 		}
 	}
