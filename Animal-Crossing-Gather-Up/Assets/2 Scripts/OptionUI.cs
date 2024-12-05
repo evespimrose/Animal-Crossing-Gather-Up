@@ -85,7 +85,7 @@ public class OptionUI : MonoBehaviour
 		}
 		else if (Input.GetKeyDown(KeyCode.Escape))
 		{
-			PanelActive(false);
+			SelectCancel();
 		}
 
 		SelecteedOptionPosition();
@@ -100,6 +100,11 @@ public class OptionUI : MonoBehaviour
 		return currentOption;
 	}
 
+	private void SelectCancel()
+	{
+		currentOption = "Cancel";
+		PanelActive(false);
+	}
 
 	private void SelecteedOptionPosition()
 	{
