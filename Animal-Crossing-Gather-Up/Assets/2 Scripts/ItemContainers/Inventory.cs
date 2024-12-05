@@ -15,8 +15,12 @@ public class Inventory : MonoBehaviour
 	public delegate void InventoryFullHandler();
 	public event InventoryFullHandler OnInventoryFull;  // Event for inventory full
 
+	private InventoryUI inventoryUI;
+
 	private void Start()
 	{
+		inventoryUI = FindObjectOfType<InventoryUI>();
+		inventoryUI.OnSlotChoose += SelectEnd;
 		StartCoroutine(InitializeInventory());
 	}
 
@@ -119,5 +123,13 @@ public class Inventory : MonoBehaviour
 		// inventory open
 		//InventoryDisplayer.Instance.InventoryOpen();
 		OnInventoryFull?.Invoke();  // Trigger the event
+	}
+
+	public void SelectEnd()
+	{
+		// option Text, index print
+		string optionText = inventoryUI.GetSelectedOptionText();
+		int index = inventoryUI.GetSelectedOptionSlot();
+		print($"option text: {optionText}, index: {index}");
 	}
 }
