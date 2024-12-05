@@ -135,6 +135,10 @@ public class Inventory : MonoBehaviour
 		{
 			RemoveItemAll(index);
 		}
+		else if (optionText == "가방에 넣기")
+		{
+			UnEquipTool(index);
+		}
 	}
 
 	private void EquipTool(int index)
@@ -148,6 +152,7 @@ public class Inventory : MonoBehaviour
 		{
 			toolInfo.isEquipped = true;
 		}
+		slots[index].Item.optionText[0] = "가방에 넣기";
 		currentEquipIndex = index;
 	}
 
