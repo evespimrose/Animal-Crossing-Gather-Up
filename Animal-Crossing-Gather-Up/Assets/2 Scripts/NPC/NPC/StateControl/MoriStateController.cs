@@ -1,20 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
 using UnityEngine;
 
-public class KickStateController : NPCState
+public class MoriStateController : NPCState
 {
     private void Start()
     {
         base.Start();
-        moveSpeed = 0.3f;
-        currentTarget = RandomWaypoint();
-        SetCurrentState(NPCStateType.Walk);
+        moveSpeed = 0f;
+        SetCurrentState(NPCStateType.Idle);
     }
     private void Update()
     {
         base.Update();
-        //print($"현재 킥 상태: {npcState.ToString()}");
+        //print($"현재 모리 상태: {npcState.ToString()}");
     }
 
     protected override void Talk()
@@ -22,17 +22,13 @@ public class KickStateController : NPCState
         base.Talk();
         if (uiManager.enterPanel!.activeSelf)
         {
-            SetCurrentState(NPCStateType.Walk);
+            SetCurrentState(NPCStateType.Idle);
         }
     }
 
     protected override Vector3 RandomWaypoint()
     {
-        float x = Random.Range(0f, 7f);
-        float z = Random.Range(0f, 10f);
-        Vector3 myWaypoint = new Vector3(x, 0.6f, z);
-
+        Vector3 myWaypoint = transform.position;
         return myWaypoint;
-
     }
 }

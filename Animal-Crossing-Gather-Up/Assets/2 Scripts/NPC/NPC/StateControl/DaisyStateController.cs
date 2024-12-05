@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
 using UnityEngine;
 
-public class KickStateController : NPCState
+public class DaisyStateController : NPCState
 {
     private void Start()
     {
@@ -14,13 +15,13 @@ public class KickStateController : NPCState
     private void Update()
     {
         base.Update();
-        //print($"현재 킥 상태: {npcState.ToString()}");
+        print($"현재 데이지 상태: {npcState.ToString()}");
     }
 
     protected override void Talk()
     {
         base.Talk();
-        if (uiManager.enterPanel!.activeSelf)
+        if (!uiManager.enterPanel.activeSelf)
         {
             SetCurrentState(NPCStateType.Walk);
         }
@@ -28,8 +29,8 @@ public class KickStateController : NPCState
 
     protected override Vector3 RandomWaypoint()
     {
-        float x = Random.Range(0f, 7f);
-        float z = Random.Range(0f, 10f);
+        float x = Random.Range(-12f, -19f);
+        float z = Random.Range(19f, 24f);
         Vector3 myWaypoint = new Vector3(x, 0.6f, z);
 
         return myWaypoint;
