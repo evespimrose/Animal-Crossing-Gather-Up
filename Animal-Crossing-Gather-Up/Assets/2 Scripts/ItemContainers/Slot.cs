@@ -25,7 +25,7 @@ public class Slot : MonoBehaviour
 		stackCount++;
 	}
 
-	public void RemoveItem()
+	public void RemoveItemOne()
 	{
 		stackCount--;
 		print($"Remove {Item.itemName}. Current Stack Count : {stackCount}");
@@ -34,6 +34,12 @@ public class Slot : MonoBehaviour
 			Item = null;
 			print("Item is null");
 		}
+	}
+
+	public void RemoveItemAll()
+	{
+		Item = null;
+		stackCount = 0;
 	}
 
 	// return isEmpty
