@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Assertions.Must;
 using UnityEngine.UI;
 
-public class MoriController : DialogController, INPCArea
+public class MoriController : DialogController, INPCDialog
 {
     public NPCDialogData moriDialogData;
 
@@ -24,7 +24,7 @@ public class MoriController : DialogController, INPCArea
         base.Start();
         dialogData = moriDialogData;
         moriDialogData.currentOption = "";
-        optionui.currentOption = moriDialogData.currentOption;
+        moriDialogData.currentOption = optionui.currentOption;
         string[] moriOptions = { "외출할래", "지금은 안할래" };
         optionui.SetOptions(moriOptions);
     }
@@ -69,7 +69,7 @@ public class MoriController : DialogController, INPCArea
 
             DialogStart(moriDialogData.thirdDialogTexts, moriDialogData.dialogIndex[2]);
 
-            string[] moriOptions = { "대화종료" };
+            string[] moriOptions = { "대화 종료" };
             optionui.SetOptions(moriOptions);
         }
 
@@ -79,7 +79,7 @@ public class MoriController : DialogController, INPCArea
             print("마일섬으로 출발!");
         }
 
-        else if (moriDialogData.currentOption == "대화종료")
+        else if (moriDialogData.currentOption == "대화 종료")
         {
             EndDialog();
             print("모리 대화 종료");

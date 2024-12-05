@@ -5,9 +5,10 @@ using UnityEngine;
 using UnityEngine.Assertions.Must;
 using UnityEngine.UI;
 
-public class RoadriController : DialogController, INPCArea
+public class RoadriController : DialogController, INPCDialog
 {
     public NPCDialogData roadriDialogData;
+
     private void Awake()
     {
         roadriDialogData.isChooseActive = false;
@@ -23,8 +24,8 @@ public class RoadriController : DialogController, INPCArea
         base.Start();
         dialogData = roadriDialogData;
         roadriDialogData.currentOption = "";
-        optionui.currentOption = roadriDialogData.currentOption;
-        string[] roadriOptions = { "µ¹¾Æ°¥·¡", "¼¶À» ´õ ±¸°æÇÒ°Ô" };
+        roadriDialogData.currentOption = optionui.currentOption;
+        string[] roadriOptions = { "ï¿½ï¿½ï¿½Æ°ï¿½ï¿½ï¿½", "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ò°ï¿½" };
         optionui.SetOptions(roadriOptions);
     }
 
@@ -41,47 +42,47 @@ public class RoadriController : DialogController, INPCArea
 
     public void NPCDialogStart()
     {
-        string[] roadriOptions = { "µ¹¾Æ°¥·¡", "¼¶À» ´õ µ¹¾Æº¼·¡" };
+        string[] roadriOptions = { "ï¿½ï¿½ï¿½Æ°ï¿½ï¿½ï¿½", "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Æºï¿½ï¿½ï¿½" };
         optionui.SetOptions(roadriOptions);
         uiManager.dialogPanel.SetActive(true);
         DialogStart(roadriDialogData.dialogTexts, roadriDialogData.dialogIndex[0]);
-        print("·Îµå¸® ´ëÈ­ ½ÃÀÛ");
+        print("ï¿½Îµå¸® ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½");
     }
 
     public void SelectedOptionAfter()
     {
-        if (roadriDialogData.currentOption == "µ¹¾Æ°¥·¡")
+        if (roadriDialogData.currentOption == "ï¿½ï¿½ï¿½Æ°ï¿½ï¿½ï¿½")
         {
             dialogData.isChooseActive = false;
             optionui.PanelActive(roadriDialogData.isChooseActive);
 
             DialogStart(roadriDialogData.nextDialogTexts, roadriDialogData.dialogIndex[1]);
 
-            string[] roadriOptions = { "Ãâ¹ß!" };
+            string[] roadriOptions = { "ï¿½ï¿½ï¿½!" };
             optionui.SetOptions(roadriOptions);
         }
 
-        else if (roadriDialogData.currentOption == "¼¶À» ´õ µ¹¾Æº¼·¡")
+        else if (roadriDialogData.currentOption == "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Æºï¿½ï¿½ï¿½")
         {
             dialogData.isChooseActive = false;
             optionui.PanelActive(roadriDialogData.isChooseActive);
 
             DialogStart(roadriDialogData.thirdDialogTexts, roadriDialogData.dialogIndex[2]);
 
-            string[] roadriOptions = { "´ëÈ­Á¾·á" };
+            string[] roadriOptions = { "ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½" };
             optionui.SetOptions(roadriOptions);
         }
 
-        else if (roadriDialogData.currentOption == "Ãâ¹ß!")
+        else if (roadriDialogData.currentOption == "ï¿½ï¿½ï¿½!")
         {
             EndDialog();
-            print("¸¶ÀÏ¼¶ ¶°³²");
+            print("ï¿½ï¿½ï¿½Ï¼ï¿½ ï¿½ï¿½ï¿½ï¿½");
         }
 
-        else if (roadriDialogData.currentOption == "´ëÈ­Á¾·á")
+        else if (roadriDialogData.currentOption == "ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½")
         {
             EndDialog();
-            print("·Îµå¸® ´ëÈ­ Á¾·á");
+            print("ï¿½Îµå¸® ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½");
         }
     }
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEditor.Progress;
 
-public class TimmyController : DialogController, INPCArea
+public class TimmyController : DialogController, INPCDialog
 {
     public NPCDialogData timmyDialogData;
     private void Awake()
@@ -20,6 +20,7 @@ public class TimmyController : DialogController, INPCArea
     {
         base.Start();
         dialogData = timmyDialogData;
+        timmyDialogData.currentOption = optionui.currentOption;
         string[] moriOptions = { "외출할래", "지금은 안할래" };
         optionui.SetOptions(moriOptions);
     }
