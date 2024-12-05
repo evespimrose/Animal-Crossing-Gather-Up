@@ -6,11 +6,14 @@ public class GameManager : SingletonManager<GameManager>
 {
 	public Player player;
 	public Inventory inventory;
+	public MMFCamera mmfCamera;
 
-	private void Start()
+    private void Start()
 	{
 		player = FindObjectOfType<Player>();
 		inventory = FindObjectOfType<Inventory>();
-		//player.OnItemCollected += inventory.AddItem;
+        mmfCamera = FindAnyObjectByType<MMFCamera>();
+
+        player.OnItemCollected += inventory.AddItem;
 	}
 }

@@ -74,6 +74,7 @@ public class Player : MonoBehaviour
                 EquipTool(debugTool);
             else
                 UnequipTool();
+
     }
 
     private void HandleMovement()
