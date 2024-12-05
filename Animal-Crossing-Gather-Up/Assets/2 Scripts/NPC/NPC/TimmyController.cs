@@ -27,14 +27,11 @@ public class TimmyController : DialogController, INPCArea
     protected override void Update()
     {
         base.Update();
-        optionui.CursorMove();
-
         if (timmyDialogData.currentOption != optionui.currentOption && optionui.currentOption != null)
         {
             timmyDialogData.currentOption = optionui.currentOption;
             SelectedOptionAfter();
         }
-        print("티미 업데이트");
     }
 
     public void NPCDialogStart()
@@ -48,6 +45,7 @@ public class TimmyController : DialogController, INPCArea
 
     public void SelectedOptionAfter()
     {
+
         if (timmyDialogData.currentOption == "장비를 구매할래")
         {
             dialogData.isChooseActive = false;
@@ -72,13 +70,8 @@ public class TimmyController : DialogController, INPCArea
 
         if (timmyDialogData.currentOption == "아무 것도 안할래")
         {
-            dialogData.isChooseActive = false;
-            optionui.PanelActive(timmyDialogData.isChooseActive);
-
-            DialogStart(timmyDialogData.fourthDialogTexts, timmyDialogData.dialogIndex[3]);
-
-            string[] timmyOptions = { "대화종료 " };
-            optionui.SetOptions(timmyOptions);
+            EndDialog();
+            print("티미 대화 종료");
         }
 
         if (timmyDialogData.currentOption == "구매")
@@ -93,11 +86,6 @@ public class TimmyController : DialogController, INPCArea
             print("채집물 판매 완료");
         }
 
-        if (timmyDialogData.currentOption == "대화종료")
-        {
-            EndDialog();
-            print("티미 대화 종료");
-        }
     }
 
 }

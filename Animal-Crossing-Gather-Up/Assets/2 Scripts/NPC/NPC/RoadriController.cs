@@ -37,9 +37,6 @@ public class RoadriController : DialogController, INPCArea
             roadriDialogData.currentOption = optionui.currentOption;
             SelectedOptionAfter();
         }
-        print("로드리 업데이트");
-
-
     }
 
     public void NPCDialogStart()
