@@ -20,7 +20,7 @@ public class Pebble : MonoBehaviour, ICollectable
     {
         if (IsSpawning || pebbleInfo == null) return;
 
-        Debug.Log("Branch collected.");
+        Debug.Log("Pebble collected.");
         GameManager.Instance.inventory.AddItem(pebbleInfo);
         Destroy(gameObject);
     }

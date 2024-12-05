@@ -21,11 +21,12 @@ public class DropAnimator : MonoBehaviour
     private void CalculateTargetPosition()
     {
         float randomAngle = Random.Range(0f, 360f);
-        float randomRadius = Random.Range(0f, bounceRadius);
+        float randomRadius = Random.Range(0.5f, bounceRadius);
         Vector3 randomOffset = new Vector3(Mathf.Cos(randomAngle * Mathf.Deg2Rad) * randomRadius, 0f, Mathf.Sin(randomAngle * Mathf.Deg2Rad) * randomRadius);
-        
+
         targetPosition = groundPosition + randomOffset;
     }
+
 
     public IEnumerator PlayAnimation()
     {
