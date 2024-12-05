@@ -31,6 +31,9 @@ public class TimeManager : SingletonManager<TimeManager>
         currentTime = startHour;
         wasNight = IsNight;
         celestialController = GetComponent<CelestialController>();
+
+        // 씬 전환시에도 유지되도록 추가
+        DontDestroyOnLoad(gameObject);
     }
     private void Start()
     {

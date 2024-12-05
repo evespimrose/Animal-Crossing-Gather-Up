@@ -6,8 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/1 Scenes/MainIsland.unity
-    guid: 37a07e3028337c24cb4bbbc010a4e8ef
+    path: Assets/1 Scenes/GameScene.unity
+    guid: 3fd203de68ae14c4da231c13708f2198
   - enabled: 1
     path: Assets/1 Scenes/MileIsland.unity
     guid: b70356c506fd361478488c611be13f5b
