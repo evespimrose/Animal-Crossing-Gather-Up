@@ -25,7 +25,7 @@ public class RoadriController : DialogController, INPCDialog
         dialogData = roadriDialogData;
         roadriDialogData.currentOption = "";
         roadriDialogData.currentOption = optionui.currentOption;
-        string[] roadriOptions = { "���ư���", "���� �� �����Ұ�" };
+        string[] roadriOptions = { "집에 갈래", "섬을 더 돌아볼래" };
         optionui.SetOptions(roadriOptions);
     }
 
@@ -42,47 +42,47 @@ public class RoadriController : DialogController, INPCDialog
 
     public void NPCDialogStart()
     {
-        string[] roadriOptions = { "���ư���", "���� �� ���ƺ���" };
+        string[] roadriOptions = { "집에 갈래", "섬을 더 돌아볼래" };
         optionui.SetOptions(roadriOptions);
         uiManager.dialogPanel.SetActive(true);
         DialogStart(roadriDialogData.dialogTexts, roadriDialogData.dialogIndex[0]);
-        print("�ε帮 ��ȭ ����");
+        print("로드리 대화 시작");
     }
 
     public void SelectedOptionAfter()
     {
-        if (roadriDialogData.currentOption == "���ư���")
+        if (roadriDialogData.currentOption == "집에 갈래")
         {
             dialogData.isChooseActive = false;
             optionui.PanelActive(roadriDialogData.isChooseActive);
 
             DialogStart(roadriDialogData.nextDialogTexts, roadriDialogData.dialogIndex[1]);
 
-            string[] roadriOptions = { "���!" };
+            string[] roadriOptions = { "출발!" };
             optionui.SetOptions(roadriOptions);
         }
 
-        else if (roadriDialogData.currentOption == "���� �� ���ƺ���")
+        else if (roadriDialogData.currentOption == "섬을 더 돌아볼래")
         {
             dialogData.isChooseActive = false;
             optionui.PanelActive(roadriDialogData.isChooseActive);
 
             DialogStart(roadriDialogData.thirdDialogTexts, roadriDialogData.dialogIndex[2]);
 
-            string[] roadriOptions = { "��ȭ ����" };
+            string[] roadriOptions = { "대화 종료" };
             optionui.SetOptions(roadriOptions);
         }
 
-        else if (roadriDialogData.currentOption == "���!")
+        else if (roadriDialogData.currentOption == "출발!")
         {
             EndDialog();
-            print("���ϼ� ����");
+            print("집으로 출발");
         }
 
-        else if (roadriDialogData.currentOption == "��ȭ ����")
+        else if (roadriDialogData.currentOption == "대화 종료")
         {
             EndDialog();
-            print("�ε帮 ��ȭ ����");
+            print("로드리 대화 종료");
         }
     }
 
