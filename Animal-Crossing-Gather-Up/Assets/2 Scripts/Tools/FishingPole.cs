@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class FishingRod : MonoBehaviour, ITool
+public class FishingPole : MonoBehaviour, ITool
 {
     [SerializeField] private ToolInfo toolInfo;
     private ICollectCommand collectCommand;
@@ -9,7 +9,7 @@ public class FishingRod : MonoBehaviour, ITool
 
     private void Awake()
     {
-        collectCommand = new FishingRodCollectCommand();
+        collectCommand = new FishingPoleCollectCommand();
     }
 
     public void Execute(Vector3 position)

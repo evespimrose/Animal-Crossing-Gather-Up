@@ -23,11 +23,15 @@ public class Bug : MonoBehaviour, ICollectable
 
     public void Collect()
     {
+        Debug.Log("BugNet - Collect");
+
         GetValue();
         Destroy(gameObject);
+        
 
-        BaseIslandManager.Instance.RemoveBug(info); // SingletonManager<> ��ӹ���?�Ŵ���
+        BaseIslandManager.Instance.RemoveBug(info);
         GameManager.Instance.inventory.AddItem(info);
+        // player.bugcollectwithceremony(gameObject); <- Destroy(gameObject);
     }
     public int GetValue() => info.basePrice;
 }

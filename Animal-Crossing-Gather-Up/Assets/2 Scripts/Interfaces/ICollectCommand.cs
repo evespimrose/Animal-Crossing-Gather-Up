@@ -46,6 +46,8 @@ public class HandFlowerCommand : ICollectCommand
                 Debug.Log($"Collected {pebble.name}");
                 return;
             }
+            else
+                Debug.Log($"Didn't collect!");
         }
     }
 }
@@ -72,11 +74,11 @@ public class BugNetCollectCommand : ICollectCommand
     }
 }
 
-public class FishingRodCollectCommand : ICollectCommand
+public class FishingPoleCollectCommand : ICollectCommand
 {
     public void Execute(Vector3 position)
     {
-        Debug.Log("FishingRodCollectCommand");
+        Debug.Log("FishingPoleCollectCommand");
 
         Collider[] hitColliders = Physics.OverlapSphere(position, 1f);
         foreach (var hitCollider in hitColliders)
@@ -85,7 +87,6 @@ public class FishingRodCollectCommand : ICollectCommand
             {
                 fish.Collect();
                 return;
-
             }
         }
     }

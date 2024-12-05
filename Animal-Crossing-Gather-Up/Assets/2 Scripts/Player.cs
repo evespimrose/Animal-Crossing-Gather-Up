@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
     public event ItemCollectedHandler OnItemCollected;
 
     private Vector3 movement;
+    private float gravity = -9.81f;  // 중력 값
+    private Vector3 velocity;
 
     // test of input item Player to Inventory
     public Item i0;
@@ -38,6 +40,7 @@ public class Player : MonoBehaviour
     {
         HandleMovement();
         HandleCollection();
+        ApplyGravity();
         Test();
     }
 
@@ -75,10 +78,12 @@ public class Player : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
-        movement = new Vector3(-vertical, 0, horizontal);
+        movement = new Vector3(-vertical, 0, horizontal).normalized;
         if (movement.magnitude > 0.1f)
         {
             characterController.Move(moveSpeed * Time.deltaTime * movement);
+            //Vector3 currentPosition = transform.position;
+            //transform.position = new Vector3(currentPosition.x, originalY, currentPosition.z);
             transform.forward = movement;
         }
     }
@@ -111,6 +116,18 @@ public class Player : MonoBehaviour
         {
             handcollectCommand.Execute(transform.position);
         }
+    }
+
+    private void ApplyGravity()
+    {
+        // 점프를 위한 예시 (점프할 때 중력 적용을 잠시 멈추고 상승)
+        if (!characterController.isGrounded)
+        {
+            // 땅에 닿지 않으면 중력 적용
+            velocity.y += gravity * Time.deltaTime;
+        }
+
+        characterController.Move(velocity * Time.deltaTime);
     }
 
     public void EquipTool(GameObject tool)
