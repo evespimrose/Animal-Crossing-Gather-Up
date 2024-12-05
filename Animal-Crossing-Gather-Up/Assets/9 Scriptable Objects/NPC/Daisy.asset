@@ -13,11 +13,18 @@ MonoBehaviour:
   m_Name: Daisy
   m_EditorClassIdentifier: 
   npcName: Daisy
-  dialogTexts: []
-  nextDialogTexts: []
-  thirdDialogTexts: []
+  dialogTexts:
+  - "\uB370\uC774\uC9C0 \uB300\uD654\uCC3D \uD14C\uC2A4\uD2B8\uC784\t"
+  - "\uB20C\uB7EC"
+  nextDialogTexts:
+  - "\uB370\uC774\uC9C0 test1 \uD14D\uC2A4\uD2B8"
+  - "\uB370\uC774\uC9C0 test1 \uCCAB\uBC88\uC9F8 1\uBC88\uC9F8 \uD14D\uC2A4\uD2B8\uC784"
+  thirdDialogTexts:
+  - "\uB370\uC774\uC9C0 test2 \uD14D\uC2A4\uD2B8"
+  - "\uB370\uC774\uC9C0 test2 \uB450\uBC88\uC9F8 2\uBC88\uC9F8 \uD14D\uC2A4\uD2B8
+    text"
   fourthDialogTexts: []
-  dialogIndex: 
+  dialogIndex: 000000000000000000000000
   isChooseActive: 0
   isEnterActive: 0
   currentOption: 
