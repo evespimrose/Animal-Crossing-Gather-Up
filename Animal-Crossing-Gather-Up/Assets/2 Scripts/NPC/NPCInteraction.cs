@@ -8,7 +8,7 @@ public class NPCInteraction : MonoBehaviour
     private float interactionDistance = 2f;
 
     private Dictionary<Transform, INPCDialog> npcs = new Dictionary<Transform, INPCDialog>();
-    //private Dictionary<Transform, INPCState> npcStates = new Dictionary<Transform, INPCState>();
+    private Dictionary<Transform, NPCState> npcStates = new Dictionary<Transform, NPCState>();
 
     [HideInInspector]
     public bool isDialogActive = false;
@@ -20,13 +20,13 @@ public class NPCInteraction : MonoBehaviour
             Transform npcTransform = ((MonoBehaviour)npc).transform;
 
             npcs.Add(npcTransform, npc);
-        }
 
-        //foreach (var npc in GetComponentsInChildren<INPCState>())
-        //{
-        //    Transform npcs = ((MonoBehaviour)npc).transform;
-        //    npcStates.Add(npcs, npc);
-        //}
+            NPCState npcState = ((MonoBehaviour)npc).GetComponent<NPCState>();
+            if (npcState != null)
+            {
+                npcStates.Add(npcTransform, npcState);
+            }
+        }
     }
 
     private void Update()
@@ -38,11 +38,15 @@ public class NPCInteraction : MonoBehaviour
 
 
         INPCDialog nearestNPC = FindNearestNPC();
-        INPCState npcState;
         if (Input.GetKeyDown(KeyCode.R) && !isDialogActive)
         {
             if (nearestNPC != null)
             {
+                Transform npcTransform = ((MonoBehaviour)nearestNPC).transform;
+                if (npcStates.TryGetValue(npcTransform, out NPCState npcState))
+                {
+                    npcState.SetCurrentState(NPCStateType.Talk);
+                }
                 isDialogActive = true;
                 nearestNPC.NPCDialogStart();
             }
@@ -67,10 +71,10 @@ public class NPCInteraction : MonoBehaviour
 
         if (nearestNPC != null)
         {
-            print("상호작용 가능 거리");
+            print("상호작용 가능한 거리");
         }
 
-        print(nearestNPC);
+        print($"상호작용 가능한 NPC: {nearestNPC}");
         return nearestNPC;
     }
 }
