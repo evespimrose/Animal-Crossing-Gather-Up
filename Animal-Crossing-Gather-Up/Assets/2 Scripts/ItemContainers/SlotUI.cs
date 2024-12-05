@@ -87,4 +87,9 @@ public class SlotUI : MonoBehaviour
 			UIManager.Instance.ShowOptions(currentSlot.Item.optionText);
 		}
 	}
+
+	public string GetSelectedOption()
+	{
+		return UIManager.Instance.GetSelectedOption();
+	}
 }
