@@ -37,14 +37,6 @@ public class InventoryUI : MonoBehaviour
 
 	private void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.Escape))
-		{
-			if (inventoryPanel.activeSelf)
-			{
-				UIManager.Instance.CloseInventory();
-			}
-		}
-
 		// Handle slot selection with keyboard input
 		if (inventoryPanel.activeSelf && isSelecting == false)
 		{
