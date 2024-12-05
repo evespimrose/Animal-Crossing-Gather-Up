@@ -56,9 +56,17 @@ public class OptionUI : MonoBehaviour
 
 	public void PanelActive(bool isActive)
 	{
+		// Unactive optionPanel
+		if (isActive == false)
+		{
+			UIManager.Instance.CloseOptions();
+		}
 		//option panel È°¼ºÈ­
-		optionPanel.SetActive(isActive);
-		cursor.SetActive(isActive);
+		else
+		{
+			optionPanel.SetActive(true);
+			cursor.SetActive(true);
+		}
 	}
 
 	public void CursorMove()
