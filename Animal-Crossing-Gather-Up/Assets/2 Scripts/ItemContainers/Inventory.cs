@@ -130,14 +130,17 @@ public class Inventory : MonoBehaviour
 		if (optionText == "들기")
 		{
 			EquipTool(index);
+			UIManager.Instance.CloseInventory();
 		}
 		else if (optionText == "근처에 두기")
 		{
 			RemoveItemAll(index);
+			UIManager.Instance.CloseInventory();
 		}
 		else if (optionText == "가방에 넣기")
 		{
 			UnEquipTool(index);
+			UIManager.Instance.CloseInventory();
 		}
 	}
 
@@ -162,6 +165,7 @@ public class Inventory : MonoBehaviour
 		{
 			toolInfo.isEquipped = false;
 		}
+		slots[index].Item.optionText[0] = "들기";
 		currentEquipIndex = -1;
 	}
 
