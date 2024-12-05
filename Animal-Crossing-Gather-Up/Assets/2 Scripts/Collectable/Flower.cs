@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Flower: MonoBehaviour
 {
-    private FlowerInfo _info;
+    private FlowerInfo flowerInfo;
 
     public void Collect()
     {
         Debug.Log("Flower collected.");
-        GameManager.Instance.inventory.AddItem(_info);
+        GameManager.Instance.inventory.AddItem(flowerInfo);
     }
 }

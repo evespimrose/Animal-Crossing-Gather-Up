@@ -23,7 +23,7 @@ public class BaseIslandManager : SingletonManager<BaseIslandManager>
     private int currentFlowerBugs;
 
     [SerializeField] private List<OakTree> oakTrees = new();
-    private const float respawnTime = 86400f;
+    private const float respawnTime = 5f;
     protected override void Awake()
     {
         base.Awake();  
