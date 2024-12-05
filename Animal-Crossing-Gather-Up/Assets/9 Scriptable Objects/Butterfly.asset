@@ -15,11 +15,11 @@ MonoBehaviour:
   itemName: "\uB098\uBE44"
   stackLimit: 0
   basePrice: 100
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 9b9a61ff83c734e45a64f2aedc40dc95, type: 3}
   optionText:
   - "\uADFC\uCC98\uC5D0 \uB450\uAE30"
   fullInventoryOptionText:
   - "\uBC14\uAFB8\uAE30"
-  prefab: {fileID: 3182054163324619375, guid: 51f189b487ed13943b2cf58fbe23b9e0, type: 3}
+  prefab: {fileID: 8598300892780421955, guid: e4e6b899b74985c4092e2f1098bba5ab, type: 3}
   type: 1
-  spawnWeight: 0.1
+  spawnWeight: 0.7
