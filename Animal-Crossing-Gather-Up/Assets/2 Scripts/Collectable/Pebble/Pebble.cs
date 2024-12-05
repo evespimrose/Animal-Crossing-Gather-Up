@@ -21,7 +21,9 @@ public class Pebble : MonoBehaviour, ICollectable
         if (IsSpawning || pebbleInfo == null) return;
 
         Debug.Log("Pebble collected.");
-        GameManager.Instance.inventory.AddItem(pebbleInfo);
+
+        GameManager.Instance.player.Collect(pebbleInfo);
+
         Destroy(gameObject);
     }
 

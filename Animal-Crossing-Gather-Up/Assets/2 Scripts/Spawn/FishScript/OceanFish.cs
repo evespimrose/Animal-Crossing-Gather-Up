@@ -19,10 +19,9 @@ public class OceanFish : MonoBehaviour
     {
         GetValue();
         BaseIslandManager.Instance.RemoveFish();
-        
+        GameManager.Instance.player.CollectWithCeremony(info);
+
         Destroy(gameObject);
-
-
     }
     public int GetValue() => info.basePrice;
 

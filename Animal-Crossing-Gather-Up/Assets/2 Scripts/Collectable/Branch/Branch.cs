@@ -20,7 +20,8 @@ public class Branch : MonoBehaviour, ICollectable
         if (IsSpawning || branchInfo == null) return;
         
         Debug.Log("Branch collected.");
-        GameManager.Instance.inventory.AddItem(branchInfo);
+        //GameManager.Instance.inventory.AddItem(branchInfo);
+        GameManager.Instance.player.Collect(branchInfo);
         Destroy(gameObject);
     }
 
