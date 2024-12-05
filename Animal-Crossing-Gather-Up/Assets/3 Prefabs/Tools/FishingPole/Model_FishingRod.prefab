@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 9179912634153010115}
   - component: {fileID: 332058906496133765}
   - component: {fileID: 4453492707262439908}
+  - component: {fileID: -1310476797997839573}
   m_Layer: 0
   m_Name: Model_FishingRod
   m_TagString: Untagged
@@ -84,6 +85,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-1310476797997839573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2395304561642826316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5100070b22530874faec5e510d3ce99c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toolInfo: {fileID: 11400000, guid: f3c4ae7c258f8234aa2974d5a7e51581, type: 2}
+  fishingChipPrefab: {fileID: 3731047252674127946, guid: 147e69a5db3a60b46867cb8b5a3cbf25, type: 3}
 --- !u!1 &6000958837189642347
 GameObject:
   m_ObjectHideFlags: 0

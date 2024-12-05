@@ -22,7 +22,7 @@ public class FishingPole : MonoBehaviour, ITool
             //collectCommand.Execute(position);
             toolInfo.currentDurability--;
 
-            fishingChipInstantiate = Instantiate(fishingChipPrefab, position + (foward * 3f), Quaternion.identity);
+            fishingChipInstantiate = Instantiate(fishingChipPrefab, position + (foward * 5f), Quaternion.identity);
 
             if(fishingChipInstantiate.TryGetComponent(out FishingChip fishingChip))
                 fishingChip.Execute(Random.Range(1f, 8f));

@@ -42,6 +42,7 @@ public class FishingChip : MonoBehaviour
         else
         {
             Debug.Log("No fish found in range.");
+
             yield break;
         }
     }

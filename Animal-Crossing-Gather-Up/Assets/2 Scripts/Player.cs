@@ -88,6 +88,9 @@ public class Player : MonoBehaviour
             //Vector3 currentPosition = transform.position;
             //transform.position = new Vector3(currentPosition.x, originalY, currentPosition.z);
             transform.forward = movement;
+            if (isFishing && currentTool.ToolInfo.toolType == ToolInfo.ToolType.FishingPole)
+                Debug.Log("Fishing UnExcute!!!!");
+
         }
     }
 
@@ -140,6 +143,8 @@ public class Player : MonoBehaviour
     {
         // CineMachine Active...
         yield return new WaitForSeconds(1f);
+        Debug.Log($"CeremonyCoroutine : {collectableInfo.itemName}");
+
         OnItemCollected?.Invoke(collectableInfo);
         yield break;
     }
@@ -148,7 +153,6 @@ public class Player : MonoBehaviour
     {
         if (!characterController.isGrounded)
         {
-            // 땅에 닿지 않으면 중력 적용
             velocity.y += gravity * Time.deltaTime;
         }
 

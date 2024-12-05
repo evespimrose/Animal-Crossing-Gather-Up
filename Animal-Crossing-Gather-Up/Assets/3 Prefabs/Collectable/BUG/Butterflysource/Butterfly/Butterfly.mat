@@ -84,7 +84,7 @@ Material:
     - _BumpScale: 1
     - _Contrast: 1.1
     - _ContrastRef: 0.8
-    - _CurveStrength: 0.0134
+    - _CurveStrength: 0
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
