@@ -115,8 +115,11 @@ public class PurchaseUI : MonoBehaviour
 
 	public void PurchasePanelClose()
 	{
-		print("PurchaseUI: Closing purchase panel");
-		purchasePanel.SetActive(false);
+		if (purchasePanel.activeSelf)
+		{
+			print("PurchaseUI: Closing purchase panel");
+			purchasePanel.SetActive(false);
+		}
 	}
 
 	private void HandleSlotSelection()
