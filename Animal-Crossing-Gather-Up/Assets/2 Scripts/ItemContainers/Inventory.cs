@@ -17,6 +17,8 @@ public class Inventory : MonoBehaviour
 
 	private InventoryUI inventoryUI;
 
+	private Slot currentEquipSlot = null;
+
 	private void Start()
 	{
 		inventoryUI = FindObjectOfType<InventoryUI>();
@@ -95,11 +97,11 @@ public class Inventory : MonoBehaviour
 		}
 	}
 
-	public void RemoveItem(int index)
+	public void RemoveItemOne(int index)
 	{
 		if (slots[index].IsSlotEmpty() == false)
 		{
-			slots[index].RemoveItem();
+			slots[index].RemoveItemOne();
 		}
 	}
 
@@ -131,5 +133,24 @@ public class Inventory : MonoBehaviour
 		string optionText = inventoryUI.GetSelectedOptionText();
 		int index = inventoryUI.GetSelectedOptionSlot();
 		print($"option text: {optionText}, index: {index}");
+
+		if (optionText == "들기")
+		{
+			EquipTool(index);
+		}
+		else if (optionText == "근처에 두기")
+		{
+			RemoveItemAll(index);
+		}
+	}
+
+	private void EquipTool(int index)
+	{
+		currentEquipSlot = slots[index];
+	}
+
+	private void RemoveItemAll(int index)
+	{
+		slots[index].RemoveItemAll();
 	}
 }
