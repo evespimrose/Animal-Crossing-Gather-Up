@@ -70,23 +70,16 @@ public class Inventory : MonoBehaviour
 		{
 			if (slot.IsAddableItem(item))
 			{
-				slot.AddItem();
-				// test
+				if (slot.IsSlotEmpty())
+				{
+					slot.Initialize(item);
+				}
+				else
+				{
+					slot.AddItem();
+				}
 				isAdded = true;
-				return;
-			}
-		}
-
-		// Add item to an empty slot
-		foreach (Slot slot in slots)
-		{
-			if (slot.IsSlotEmpty())
-			{
-				slot.Initialize(item);  // Initialize the slot with the item
-
-				// test
-				isAdded = true;
-				return;
+				break;
 			}
 		}
 
