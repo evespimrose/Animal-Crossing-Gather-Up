@@ -166,6 +166,9 @@ public class InventoryUI : MonoBehaviour
 		while (isSelecting)
 		{
 			selectedOption = slotUIs[index].GetSelectedOption();
+			print(selectedOption);
+			slotUIs[index].SetSelectedOptionInit();
+
 			if (selectedOption == "")
 			{
 				yield return new WaitForEndOfFrame();
@@ -174,6 +177,7 @@ public class InventoryUI : MonoBehaviour
 			{
 				OnSlotChoose();
 				isSelecting = false;
+				selectedOption = "";
 			}
 		}
 	}
