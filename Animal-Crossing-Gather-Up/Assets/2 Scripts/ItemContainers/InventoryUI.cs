@@ -155,10 +155,13 @@ public class InventoryUI : MonoBehaviour
 
 	private void SelectSlot(int index)
 	{
-		isSelecting = true;
 		// Select the current slot
-		slotUIs[index].SelectSlot(true);
-		StartCoroutine(WaitForSelectEndCoroutine(index));
+		if (slots[index].Item != null)
+		{
+			isSelecting = true;
+			slotUIs[index].SelectSlot(true);
+			StartCoroutine(WaitForSelectEndCoroutine(index));
+		}
 	}
 
 	private IEnumerator WaitForSelectEndCoroutine(int index)
