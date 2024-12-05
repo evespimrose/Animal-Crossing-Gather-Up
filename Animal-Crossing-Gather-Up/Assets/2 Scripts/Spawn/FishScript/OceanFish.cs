@@ -6,6 +6,7 @@ public class OceanFish : MonoBehaviour
 {
     private FishInfo info;
     private Vector3 spawnPoint;
+    public bool isSearched;
 
     public void Initialize(FishInfo fishInfo)
     {

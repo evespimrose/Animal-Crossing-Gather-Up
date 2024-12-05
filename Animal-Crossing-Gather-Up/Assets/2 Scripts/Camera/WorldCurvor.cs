@@ -1,4 +1,5 @@
 using UnityEngine;
+
 [ExecuteInEditMode]
 public class WorldCurver : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class WorldCurver : MonoBehaviour
     private void OnEnable()
     {
         m_CurveStrengthID = Shader.PropertyToID("_CurveStrength");
-        SetCurveStrength(0.0134f); // 기본값 설정
+        SetCurveStrength(0f); // 기본값 설정
     }
 
     private void Update()

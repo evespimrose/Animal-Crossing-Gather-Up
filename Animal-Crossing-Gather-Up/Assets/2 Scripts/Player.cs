@@ -28,12 +28,14 @@ public class Player : MonoBehaviour
     public GameObject debugTool;
 
     private HandFlowerCommand handcollectCommand;
+    private bool isFishing = false;
 
     private void Start()
     {
         characterController = GetComponent<CharacterController>();
         EquipTool(debugTool);
         handcollectCommand = new HandFlowerCommand();
+        isFishing = false;
     }
 
     private void Update()
@@ -100,7 +102,10 @@ public class Player : MonoBehaviour
     {
         if (currentTool != null)
         {
-            currentTool.Execute(transform.position);
+            if(currentTool.ToolInfo.toolType == ToolInfo.ToolType.FishingPole)
+                isFishing = true;
+
+            currentTool.Execute(transform.position, transform.forward);
 
             if (currentTool.ToolInfo.currentDurability <= 0)
             {
@@ -120,7 +125,6 @@ public class Player : MonoBehaviour
 
     private void ApplyGravity()
     {
-        // 점프를 위한 예시 (점프할 때 중력 적용을 잠시 멈추고 상승)
         if (!characterController.isGrounded)
         {
             // 땅에 닿지 않으면 중력 적용

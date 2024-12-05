@@ -7,4 +7,13 @@ public class ToolInfo : Item
     public int currentDurability;
     public bool isEquipped;
     public ICollectCommand collectCommand;
+    public ToolType toolType;
+
+    public enum ToolType
+    {
+        None,
+        Axe,
+        FishingPole,
+        BugNet
+    };
 } 

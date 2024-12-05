@@ -78,17 +78,21 @@ public class FishingPoleCollectCommand : ICollectCommand
 {
     public void Execute(Vector3 position)
     {
-        Debug.Log("FishingPoleCollectCommand");
+        //Debug.Log("FishingPoleCollectCommand");
 
-        Collider[] hitColliders = Physics.OverlapSphere(position, 1f);
-        foreach (var hitCollider in hitColliders)
-        {
-            if (hitCollider.TryGetComponent(out Fish fish))
-            {
-                fish.Collect();
-                return;
-            }
-        }
+        //Collider[] hitColliders = Physics.OverlapSphere(position, 1f);
+        //foreach (var hitCollider in hitColliders)
+        //{
+        //    if (hitCollider.TryGetComponent(out OceanFish fish))
+        //    {
+        //        fish.Collect();
+        //        return;
+        //    }
+        //}
+    }
+    public void UnExcute()
+    {
+
     }
 }
 

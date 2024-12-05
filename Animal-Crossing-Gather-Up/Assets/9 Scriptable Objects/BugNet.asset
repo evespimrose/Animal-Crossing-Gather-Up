@@ -24,3 +24,4 @@ MonoBehaviour:
   maxDurability: 100
   currentDurability: 100
   isEquipped: 0
+  toolType: 3

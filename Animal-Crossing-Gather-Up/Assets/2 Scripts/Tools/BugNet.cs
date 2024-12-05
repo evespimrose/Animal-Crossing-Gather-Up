@@ -12,7 +12,7 @@ public class BugNet : MonoBehaviour, ITool
         collectCommand = new BugNetCollectCommand();
     }
 
-    public void Execute(Vector3 position)
+    public void Execute(Vector3 position, Vector3 foward = default)
     {
         if (toolInfo.currentDurability > 0)
         {
