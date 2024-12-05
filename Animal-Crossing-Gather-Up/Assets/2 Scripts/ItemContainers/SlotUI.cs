@@ -21,7 +21,7 @@ public class SlotUI : MonoBehaviour
 	private bool hasPendingUpdate = false;
 
 	private Color defaultItemColor;
-	private Color equippedItemColor = Color.red;
+	private Color equippedItemColor;
 
 	private void Awake()
 	{
@@ -35,6 +35,7 @@ public class SlotUI : MonoBehaviour
 			hasPendingUpdate = false;
 		}
 		defaultItemColor = itemImage.color;
+		equippedItemColor = new Color(defaultItemColor.r, defaultItemColor.g, defaultItemColor.b, 0.4f);
 	}
 
 	public void UpdateUI(Item item, int stackCount)
