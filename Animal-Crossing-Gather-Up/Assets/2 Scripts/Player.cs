@@ -25,7 +25,7 @@ public class Player : MonoBehaviour
 	[Header("For Debug")]
 	public GameObject debugTool;
 
-    private void Start()
+	private void Start()
 	{
 		characterController = GetComponent<CharacterController>();
 		EquipTool(debugTool);
@@ -58,7 +58,11 @@ public class Player : MonoBehaviour
 		}
 		else if (Input.GetKeyDown(KeyCode.I))
 		{
-			UIManager.Instance.OpenInventory();
+			// only optionPanel is not active
+			if (UIManager.Instance.GetOptionActive() == false)
+			{
+				UIManager.Instance.ToggleInventory();
+			}
 		}
 	}
 
@@ -88,11 +92,11 @@ public class Player : MonoBehaviour
 		if (currentTool != null)
 		{
 			currentTool.Execute(transform.position);
-			
+
 			if (currentTool.ToolInfo.currentDurability <= 0)
 			{
 				OnItemCollected?.Invoke(currentTool.ToolInfo);
-				
+
 				GameObject toolToDestroy = equippedTool;
 				UnequipTool();
 				Destroy(toolToDestroy);
