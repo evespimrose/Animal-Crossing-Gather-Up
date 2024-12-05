@@ -20,6 +20,9 @@ public class SlotUI : MonoBehaviour
 	private int pendingStackCount = 0;
 	private bool hasPendingUpdate = false;
 
+	private Color defaultItemColor;
+	private Color equippedItemColor = Color.red;
+
 	private void Awake()
 	{
 		currentSlot = GetComponent<Slot>();
@@ -31,6 +34,7 @@ public class SlotUI : MonoBehaviour
 			UpdateUI(pendingItem, pendingStackCount);
 			hasPendingUpdate = false;
 		}
+		defaultItemColor = itemImage.color;
 	}
 
 	public void UpdateUI(Item item, int stackCount)
@@ -50,6 +54,16 @@ public class SlotUI : MonoBehaviour
 			itemImage.sprite = item.icon;   // Set the item icon
 			stackCountText.text = stackCount > 1 ? stackCount.ToString() : "";  // Show stackCount if greater than 1
 			choiceBackground?.gameObject.SetActive(true);    // Ensure choice Background is hidden initialy
+
+			if (item is ToolInfo toolInfo)
+			{
+				itemImage.color = toolInfo.isEquipped ? equippedItemColor : defaultItemColor;
+			}
+			else
+			{
+				itemImage.color = defaultItemColor;
+			}
+
 		}
 		else
 		{
