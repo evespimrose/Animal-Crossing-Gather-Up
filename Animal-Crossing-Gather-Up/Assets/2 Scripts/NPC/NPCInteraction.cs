@@ -5,21 +5,28 @@ using UnityEngine;
 public class NPCInteraction : MonoBehaviour
 {
     public Transform player;
-    private float interactionDistance = 4f;
+    private float interactionDistance = 2f;
 
-    private Dictionary<Transform, INPCArea> npcs = new Dictionary<Transform, INPCArea>();
+    private Dictionary<Transform, INPCDialog> npcs = new Dictionary<Transform, INPCDialog>();
+    //private Dictionary<Transform, INPCState> npcStates = new Dictionary<Transform, INPCState>();
 
     [HideInInspector]
     public bool isDialogActive = false;
 
     private void Awake()
     {
-        foreach (var npc in GetComponentsInChildren<INPCArea>())
+        foreach (var npc in GetComponentsInChildren<INPCDialog>())
         {
             Transform npcTransform = ((MonoBehaviour)npc).transform;
 
             npcs.Add(npcTransform, npc);
         }
+
+        //foreach (var npc in GetComponentsInChildren<INPCState>())
+        //{
+        //    Transform npcs = ((MonoBehaviour)npc).transform;
+        //    npcStates.Add(npcs, npc);
+        //}
     }
 
     private void Update()
@@ -30,7 +37,8 @@ public class NPCInteraction : MonoBehaviour
         }
 
 
-        INPCArea nearestNPC = FindNearestNPC();
+        INPCDialog nearestNPC = FindNearestNPC();
+        INPCState npcState;
         if (Input.GetKeyDown(KeyCode.R) && !isDialogActive)
         {
             if (nearestNPC != null)
@@ -42,10 +50,10 @@ public class NPCInteraction : MonoBehaviour
 
     }
 
-    private INPCArea FindNearestNPC()
+    private INPCDialog FindNearestNPC()
     {
         float minDistance = interactionDistance;
-        INPCArea nearestNPC = null;
+        INPCDialog nearestNPC = null;
 
         foreach (var npc in npcs)
         {
@@ -59,7 +67,7 @@ public class NPCInteraction : MonoBehaviour
 
         if (nearestNPC != null)
         {
-            print("ªÛ»£¿€øÎ ∞°¥…«— ∞≈∏Æ");
+            print("ÏÉÅÌò∏ÏûëÏö© Í∞ÄÎä• Í±∞Î¶¨");
         }
 
         print(nearestNPC);
