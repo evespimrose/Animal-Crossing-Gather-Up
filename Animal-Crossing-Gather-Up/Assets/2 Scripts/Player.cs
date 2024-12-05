@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -121,6 +122,26 @@ public class Player : MonoBehaviour
         {
             handcollectCommand.Execute(transform.position);
         }
+    }
+
+    public void Collect(Item item)
+    {
+        OnItemCollected?.Invoke(item);
+    }
+
+    public void CollectWithCeremony(Item collectableInfo)
+    {
+        // CineMachine Active...
+        
+        StartCoroutine(CeremonyCoroutine(collectableInfo));
+    }
+
+    private IEnumerator CeremonyCoroutine(Item collectableInfo)
+    {
+        // CineMachine Active...
+        yield return new WaitForSeconds(1f);
+        OnItemCollected?.Invoke(collectableInfo);
+        yield break;
     }
 
     private void ApplyGravity()
