@@ -80,15 +80,9 @@ public class OptionUI : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Return))
         {
-            if (optionPanel.activeSelf)
-            {
-                SelectOption();
-            }
-            else
-            {
-                return;
-            }
+            SelectOption();
         }
+
         else if (Input.GetKeyDown(KeyCode.Escape))
         {
             PanelActive(false);
