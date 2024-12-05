@@ -135,6 +135,12 @@ public class UIManager : SingletonManager<UIManager>
 	{
 		return optionUI.currentOption;
 	}
+
+	public void SetSelectedOptionInit()
+	{
+		optionUI.currentOption = "";
+	}
+
 	public void CloseOptions()
 	{
 		if (optionUI != null)
