@@ -5,8 +5,8 @@ public class Branch : MonoBehaviour, ICollectable
 {
     [Header("Drop Settings")]
     [SerializeField] private DropAnimator dropAnimator;
-    
-    private BranchInfo branchInfo;
+
+    [SerializeField] private BranchInfo branchInfo;
     
     public bool IsSpawning => dropAnimator.IsAnimating;
 

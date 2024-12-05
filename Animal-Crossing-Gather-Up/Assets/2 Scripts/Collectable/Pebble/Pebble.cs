@@ -7,7 +7,7 @@ public class Pebble : MonoBehaviour, ICollectable
     [Header("Drop Settings")]
     [SerializeField] private DropAnimator dropAnimator;
 
-    private PebbleInfo pebbleInfo;
+    [SerializeField] private PebbleInfo pebbleInfo;
 
     public bool IsSpawning => dropAnimator.IsAnimating;
 

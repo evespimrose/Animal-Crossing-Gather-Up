@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Flower: MonoBehaviour, ICollectable
 {
-    private FlowerInfo flowerInfo;
+    [SerializeField] public FlowerInfo flowerInfo;
 
     public void Initialize(FlowerInfo info)
     {

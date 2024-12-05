@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class OakTree : MonoBehaviour, ICollectable
 {
-    public BranchInfo branchInfo;
+    [SerializeField] private BranchInfo branchInfo;
     public int branchCount = 0;
     public int maxBranches = 3;
 
