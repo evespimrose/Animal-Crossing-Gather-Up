@@ -75,12 +75,19 @@ public class OptionUI : MonoBehaviour
             currentIndex++;
             if (currentIndex >= optionSize)
             {
-                currentIndex = optionSize;
+                currentIndex = optionSize - 1;
             }
         }
         else if (Input.GetKeyDown(KeyCode.Return))
         {
-            SelectOption();
+            if (optionPanel.activeSelf)
+            {
+                SelectOption();
+            }
+            else
+            {
+                return;
+            }
         }
         else if (Input.GetKeyDown(KeyCode.Escape))
         {
