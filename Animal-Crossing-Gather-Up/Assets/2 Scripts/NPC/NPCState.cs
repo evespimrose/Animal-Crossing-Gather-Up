@@ -14,7 +14,7 @@ public enum NPCStateType
     Happy,
     Dance,
 }
-public abstract class NPCState : MonoBehaviour
+public abstract class NPCState : MonoBehaviour//, INPCState
 {
 
     protected List<Vector3> waypoints = new List<Vector3>();
@@ -23,13 +23,16 @@ public abstract class NPCState : MonoBehaviour
     protected float rotateSpeed = 5f;
     public Transform player;
 
-    private NPCStateType npcState;
+    private IDialogState dialogState;
+    protected NPCStateType npcState;
     protected Vector3 currentTarget;
     protected float moveSpeed;
 
     protected virtual void Awake()
     {
         anim = GetComponent<Animator>();
+        dialogState = GetComponent<IDialogState>();
+        npcState = NPCStateType.Idle; //idle로 기본 설정
     }
 
     protected virtual void Update()
@@ -55,7 +58,8 @@ public abstract class NPCState : MonoBehaviour
     }
 
     protected virtual void Idle()
-    { }
+    {
+    }
 
     protected virtual void Walk()
     {
@@ -63,28 +67,40 @@ public abstract class NPCState : MonoBehaviour
         anim.SetFloat("Speed", 1f);
     }
 
-    protected virtual void LookAtPlayer()
+    protected virtual void Talk()
     {
-        Vector3 direction = player.position - transform.position;
-        direction.y = 0;
+        if (dialogState.currentCoroutine != null)
+        {
+            anim.SetBool("Talk", true);
 
-        Quaternion targetRotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
-
+        }
+        else
+        {
+            anim.SetBool("Talk", false);
+        }
     }
 
-    //protected abstract void Wander();
+    //protected virtual void LookAtPlayer()
+    //{
+    //    Vector3 direction = player.position - transform.position;
+    //    direction.y = 0.68f;
+
+    //    Quaternion targetRotation = Quaternion.LookRotation(direction);
+    //    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+
+    //}
 
     protected abstract Vector3 RandomWaypoint();
 
-    protected abstract void StartNPCDialog();
-
-    protected virtual void Wander()
+    public virtual void Wander()
     {
-        if (Vector3.Distance(transform.position, currentTarget) < 0.5f)
+        if (currentTarget == Vector3.zero || Vector3.Distance(transform.position, currentTarget) < 0.5f)
         {
             currentTarget = RandomWaypoint();
         }
+
+        print($"wayPoint: {currentTarget}");
+        print($"현재 위치: {transform.position}");
 
         Vector3 direction = (currentTarget - transform.position).normalized;
         if (direction != Vector3.zero)
@@ -96,49 +112,45 @@ public abstract class NPCState : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, currentTarget, moveSpeed * Time.deltaTime);
 
         float currentSpeed;
-        if (Vector3.Distance(transform.position, currentTarget) > 0.1f) //목표 지점까지의 거리가 0.1 보다 크면 걷기
+        if (Vector3.Distance(transform.position, currentTarget) > 0.1f)
         {
-            currentSpeed = 1f;
+            currentSpeed = 0.5f;
         }
-        else //목표 지점까지 거의 도착했으면 멈추기
+        else
         {
-            currentSpeed = 0f;
+            currentSpeed = 0.1f;
         }
 
         anim.SetFloat("Speed", currentSpeed);
     }
 
-    protected virtual IEnumerator InteractionSequence()
-    {
-        SetState(NPCStateType.Idle);
+    //protected virtual IEnumerator InteractionSequence()
+    //{
+    //    SetState(NPCStateType.Idle);
 
-        // 플레이어를 향해 회전
-        while (true)
-        {
-            Vector3 direction = player.position - transform.position;
-            direction.y = 0;
+    //    // 플레이어를 향해 회전
+    //    while (true)
+    //    {
+    //        Vector3 direction = player.position - transform.position;
+    //        direction.y = 0.68f;
 
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+    //        Quaternion targetRotation = Quaternion.LookRotation(direction);
+    //        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
 
-            if (Quaternion.Angle(transform.rotation, targetRotation) < 5f)
-            {
-                SetState(NPCStateType.Talk);
-                break;
-            }
-            yield return null;
-        }
+    //        if (Quaternion.Angle(transform.rotation, targetRotation) < 2f)
+    //        {
+    //            SetState(NPCStateType.Talk);
+    //            break;
+    //        }
 
-    }
+    //        yield return null;
+    //    }
 
-    protected virtual void Talk()
-    {
-        anim.SetBool("Talk", true); // -> Bool ����
-    }
+    //}
 
     protected virtual void Happy()
     {
-        anim.SetTrigger("Happy"); // �ѹ����� ������ Trigger�� ����
+        anim.SetTrigger("Happy");
 
     }
 
@@ -148,7 +160,7 @@ public abstract class NPCState : MonoBehaviour
 
     }
 
-    protected virtual void SetState(NPCStateType newState)
+    public void SetState(NPCStateType newState)
     {
         npcState = newState;
     }
