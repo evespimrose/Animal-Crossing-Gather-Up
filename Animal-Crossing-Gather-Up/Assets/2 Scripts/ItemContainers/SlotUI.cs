@@ -92,4 +92,9 @@ public class SlotUI : MonoBehaviour
 	{
 		return UIManager.Instance.GetSelectedOption();
 	}
+
+	public void SetSelectedOptionInit()
+	{
+		UIManager.Instance.SetSelectedOptionInit();
+	}
 }
