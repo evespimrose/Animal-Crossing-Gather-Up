@@ -15,15 +15,15 @@ public class TestDori : MonoBehaviour
 	{
 		if (Input.GetKeyDown(KeyCode.Keypad0))
 		{
-			inventory.RemoveItem(0);
+			inventory.RemoveItemOne(0);
 		}
 		else if (Input.GetKeyDown(KeyCode.Keypad1))
 		{
-			inventory.RemoveItem(1);
+			inventory.RemoveItemOne(1);
 		}
 		else if (Input.GetKeyDown(KeyCode.Keypad2))
 		{
-			inventory.RemoveItem(2);
+			inventory.RemoveItemOne(2);
 		}
 	}
 }
