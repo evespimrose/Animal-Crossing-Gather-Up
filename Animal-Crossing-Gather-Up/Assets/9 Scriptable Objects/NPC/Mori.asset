@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1299f8a28cba43d4c818fd955c90c18a, type: 3}
   m_Name: Mori
   m_EditorClassIdentifier: 
-  position: {x: 0, y: 0, z: 0}
   npcName: Mori
   dialogTexts:
   - "\uC138\uACC4\uB85C \uD1B5\uD558\uB294 \uD558\uB298\uC758 \uC785\uAD6C\n\uBA38\uC9C0
@@ -36,7 +35,8 @@ MonoBehaviour:
     \uC12C\uC5D0 \uC774\uB3D9\uD558\uACE0 \uC2F6\uC73C\uC2DC\uBA74 \uC5B8\uC81C\uB4E0
     \uC800 \uBAA8\uB9AC\uB97C \uCC3E\uC544\uC8FC\uC138\uC694!"
   - "\uAD7F \uB7ED!"
-  dialogIndex: 010000000000000000000000
+  fourthDialogTexts: []
+  dialogIndex: 000000000000000000000000
   isChooseActive: 0
   isEnterActive: 0
-  currentOption: "\uCD9C\uBC1C!"
+  currentOption: 
