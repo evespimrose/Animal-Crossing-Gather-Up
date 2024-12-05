@@ -4,8 +4,6 @@ using UnityEngine;
 
 public interface INPCState
 {
-
     void Wander();
 
-    void SetState();
 }
