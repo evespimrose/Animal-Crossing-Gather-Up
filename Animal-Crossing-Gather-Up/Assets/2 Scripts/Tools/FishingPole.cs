@@ -23,9 +23,10 @@ public class FishingPole : MonoBehaviour, ITool
             toolInfo.currentDurability--;
 
             fishingChipInstantiate = Instantiate(fishingChipPrefab, position + (foward * 5f), Quaternion.identity);
-
-            if(fishingChipInstantiate.TryGetComponent(out FishingChip fishingChip))
-                fishingChip.Execute(Random.Range(1f, 8f));
+            float destroyTime = Random.Range(1f, 8f);
+            if (fishingChipInstantiate.TryGetComponent(out FishingChip fishingChip))
+                fishingChip.Execute(destroyTime);
+            Destroy(fishingChipInstantiate, destroyTime + 0.1f);
         }
     }
     public void UnExecute()
