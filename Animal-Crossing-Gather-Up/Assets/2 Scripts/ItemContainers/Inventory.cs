@@ -17,7 +17,7 @@ public class Inventory : MonoBehaviour
 
 	private InventoryUI inventoryUI;
 
-	private Slot currentEquipSlot = null;
+	public Slot currentEquipSlot = null;
 
 	private void Start()
 	{
@@ -146,6 +146,11 @@ public class Inventory : MonoBehaviour
 
 	private void EquipTool(int index)
 	{
+		if (slots[index].Item is ToolInfo toolInfo)
+		{
+			toolInfo.isEquipped = true;
+			print(toolInfo.isEquipped);
+		}
 		currentEquipSlot = slots[index];
 	}
 
