@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class SlotUI : MonoBehaviour
 {
+	[Header("UI Settings")]
+	public bool isShopSlot = false; // Set at Inspector
 	public Image itemImage; // Reference to the UI Image for the item
 	public TextMeshProUGUI stackCountText;  // Reference to the UI Text for the stackCount
 	public Image choiceBackground;  // Reference to the choice background image
@@ -34,7 +36,16 @@ public class SlotUI : MonoBehaviour
 			UpdateUI(pendingItem, pendingStackCount);
 			hasPendingUpdate = false;
 		}
-		defaultItemColor = itemImage.color;
+
+		// set color only shop slot
+		if (isShopSlot)
+		{
+			defaultItemColor = new Color(1, 1, 1, 1);
+		}
+		else
+		{
+			defaultItemColor = itemImage.color;
+		}
 		equippedItemColor = new Color(defaultItemColor.r, defaultItemColor.g, defaultItemColor.b, 0.4f);
 	}
 
@@ -54,9 +65,13 @@ public class SlotUI : MonoBehaviour
 			itemImage.gameObject.SetActive(true);
 			itemImage.sprite = item.icon;   // Set the item icon
 			stackCountText.text = stackCount > 1 ? stackCount.ToString() : "";  // Show stackCount if greater than 1
-			choiceBackground?.gameObject.SetActive(true);    // Ensure choice Background is hidden initialy
 
-			if (item is ToolInfo toolInfo)
+			// Set color based on slot type and item type
+			if (isShopSlot)
+			{
+				itemImage.color = new Color(0, 0, 0, 1);
+			}
+			else if (item is ToolInfo toolInfo)
 			{
 				itemImage.color = toolInfo.isEquipped ? equippedItemColor : defaultItemColor;
 			}
@@ -65,6 +80,7 @@ public class SlotUI : MonoBehaviour
 				itemImage.color = defaultItemColor;
 			}
 
+			choiceBackground?.gameObject.SetActive(true);    // Ensure choice Background is hidden initialy
 		}
 		else
 		{
