@@ -17,6 +17,12 @@ public class InventoryUI : MonoBehaviour
 	private const int slotsPerRow = 10; // Number of slots per row
 	private const int totalRows = 2;    // Total number of rows
 
+	private bool isSelecting = false;
+	private string selectedOption = "";
+
+	public delegate void SlotChooseHandler();
+	public event SlotChooseHandler OnSlotChoose;
+
 	private void Start()
 	{
 		// Find component
@@ -40,7 +46,7 @@ public class InventoryUI : MonoBehaviour
 		}
 
 		// Handle slot selection with keyboard input
-		if (inventoryPanel.activeSelf)
+		if (inventoryPanel.activeSelf && isSelecting == false)
 		{
 			HandleSlotSelection();
 		}
@@ -149,7 +155,36 @@ public class InventoryUI : MonoBehaviour
 
 	private void SelectSlot(int index)
 	{
+		isSelecting = true;
 		// Select the current slot
 		slotUIs[index].SelectSlot(true);
+		StartCoroutine(WaitForSelectEndCoroutine(index));
+	}
+
+	private IEnumerator WaitForSelectEndCoroutine(int index)
+	{
+		while (isSelecting)
+		{
+			selectedOption = slotUIs[index].GetSelectedOption();
+			if (selectedOption == "")
+			{
+				yield return new WaitForEndOfFrame();
+			}
+			else
+			{
+				OnSlotChoose();
+				isSelecting = false;
+			}
+		}
+	}
+
+	public string GetSelectedOptionText()
+	{
+		return selectedOption;
+	}
+
+	public int GetSelectedOptionSlot()
+	{
+		return cursorOnSlotIndex;
 	}
 }
