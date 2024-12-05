@@ -2,6 +2,7 @@ Shader "Polygonmaker/Basic-Glass"
 {
 	Properties
 	{
+        _CurveStrength ("Curve Strength", Range(0,0.15)) = 0.001
 		_MainTex("Diffuse", 2D) = "white" {}
 		_Opaque("Opaque ", Range( 0 , 1)) = 0
 		_Opacity("Opacity", Range( 0 , 1)) = 1
