@@ -16,6 +16,7 @@ public class DialogController : MonoBehaviour
     protected Coroutine currentCoroutine;
 
     protected NPCDialogData dialogData;
+    protected NPCInteraction interactionNPC;
 
     protected string[] activeDialogTexts;
     protected int activeDialogIndex;
@@ -25,6 +26,7 @@ public class DialogController : MonoBehaviour
     {
         uiManager = FindObjectOfType<NPCPanelUI>();
         optionui = FindObjectOfType<OptionUI>();
+        interactionNPC = FindObjectOfType<NPCInteraction>();
         uiManager.dialogPanel.SetActive(false);
         optionui.optionPanel.SetActive(false);
         uiManager.enterPanel.SetActive(false);
@@ -42,6 +44,7 @@ public class DialogController : MonoBehaviour
 
     public void EndDialog()
     {
+        interactionNPC.isDialogActive = false;
         dialogData.isChooseActive = false;
         for (int i = 0; i < dialogData.dialogIndex.Length; i++)
         {
