@@ -8,12 +8,12 @@ using Unity.Android.Types;
 
 
 
-public class DialogController : MonoBehaviour
+public class DialogController : MonoBehaviour, IDialogState
 {
     protected NPCPanelUI uiManager;
     protected OptionUI optionui;
 
-    protected Coroutine currentCoroutine;
+    public Coroutine currentCoroutine { get; private set; }
 
     protected NPCDialogData dialogData;
     protected NPCInteraction interactionNPC;
