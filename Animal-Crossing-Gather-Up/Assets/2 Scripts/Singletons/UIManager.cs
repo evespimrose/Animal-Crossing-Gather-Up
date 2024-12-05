@@ -17,6 +17,8 @@ public class UIManager : SingletonManager<UIManager>
 	private bool isPurchaseOpen = false;
 	private bool isDialogOpen = false;
 
+	public string currentOption = "";
+
 	protected override void Awake()
 	{
 		base.Awake();
@@ -128,6 +130,10 @@ public class UIManager : SingletonManager<UIManager>
 			optionUI.PanelActive(true);
 			optionUI.SetOptions(options);
 		}
+	}
+	public string GetSelectedOption()
+	{
+		return optionUI.currentOption;
 	}
 	public void CloseOptions()
 	{
