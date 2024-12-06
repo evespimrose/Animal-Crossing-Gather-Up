@@ -26,7 +26,7 @@ public class Bug : MonoBehaviour, ICollectable
         GetValue();
         Destroy(gameObject);
 
-        BaseIslandManager.Instance.RemoveBug(info); // SingletonManager<> ��ӹ���?�Ŵ���
+        GameManager.Instance.RemoveBug(info); // SingletonManager<> ��ӹ���?�Ŵ���
         GameManager.Instance.inventory.AddItem(info);
     }
     public int GetValue() => info.basePrice;

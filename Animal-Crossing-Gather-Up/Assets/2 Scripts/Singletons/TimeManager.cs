@@ -14,7 +14,6 @@ public class TimeManager : SingletonManager<TimeManager>
     private bool wasNight;
 
     [Header("Time Settings")]
-    [SerializeField] private float timeMultiplier = 1f;
     [SerializeField] private float startHour = 6f;
     [SerializeField][Range(1f, 60f)] private float timeScale = 60f;
     [SerializeField][Range(0f, 24f)] private float currentTime;

@@ -62,7 +62,7 @@ public class BugSpawner : MonoBehaviour
 
         CurrentBug = bug;
         CurrentBug.Initialize(buginfo);
-        BaseIslandManager.Instance.AddBug(buginfo);
+        GameManager.Instance.AddBug(buginfo);
     }
 
 

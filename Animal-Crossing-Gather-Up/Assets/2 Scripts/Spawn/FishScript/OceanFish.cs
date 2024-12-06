@@ -17,7 +17,7 @@ public class OceanFish : MonoBehaviour
     public void Collect()
     {
         GetValue();
-        BaseIslandManager.Instance.RemoveFish();
+        GameManager.Instance.RemoveFish();
         
         Destroy(gameObject);
 
