@@ -30,7 +30,24 @@ public class CelestialController : MonoBehaviour
         }
         InitializeCelestialBodies();
     }
-
+    public void SetNewPivot(Transform newPivot)
+    {
+        CleanupCelestialObjects();
+        celestialPivot = newPivot;
+        // 피봇이 바뀔 때 라이트도 찾기
+        FindDirectionalLight();
+        InitializeCelestialBodies();
+        // 현재 시간에 맞게 회전 업데이트
+        UpdateRotation(TimeManager.Instance.CurrentTime, TimeManager.Instance.sunriseHour, TimeManager.Instance.sunsetHour);
+    }
+    private void FindDirectionalLight()
+    {
+        directionalLight = GameObject.FindGameObjectWithTag("DirectionalLight")?.GetComponent<Light>();
+        if (directionalLight == null)
+        {
+            Debug.LogError("not found!");
+        }
+    }
     private void InitializeCelestialBodies()
     {
         if (celestialPivot)
@@ -58,10 +75,11 @@ public class CelestialController : MonoBehaviour
     {
         float rotation = 0f;
 
-        if (currentTime >= sunriseHour && currentTime <= sunsetHour) // 낮
+        if (currentTime >= TimeManager.Instance.sunriseHour &&
+            currentTime <= TimeManager.Instance.sunsetHour) // 낮
         {
-            float dayDuration = sunsetHour - sunriseHour;
-            rotation = -(currentTime - sunriseHour) * 180f / dayDuration;
+            float dayDuration = TimeManager.Instance.sunsetHour - TimeManager.Instance.sunriseHour;
+            rotation = -(currentTime - TimeManager.Instance.sunriseHour) * 180f / dayDuration;
 
             if (celestialPivot)
             {
@@ -72,7 +90,7 @@ public class CelestialController : MonoBehaviour
         }
         else // 밤
         {
-            float nightDuration = 24f - sunsetHour + sunriseHour;
+            float nightDuration = 24f - TimeManager.Instance.sunsetHour + TimeManager.Instance.sunriseHour;
             float nightTime;
 
             if (currentTime > sunsetHour)
@@ -133,10 +151,15 @@ public class CelestialController : MonoBehaviour
             directionalLight.color = lightColor;
         }
     }
-
-    private void OnDestroy()
+    private void CleanupCelestialObjects()
     {
         if (sunObject) Destroy(sunObject);
         if (moonObject) Destroy(moonObject);
+    }
+
+
+    private void OnDestroy()
+    {
+        CleanupCelestialObjects();
     }
 }
