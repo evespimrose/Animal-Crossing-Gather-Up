@@ -52,13 +52,7 @@ public class InventoryUI : MonoBehaviour
 	public void InventoryOpen()
 	{
 		inventoryPanel.SetActive(true); // Open the inventory UI
-
-		// key input and cursor move
-
-		// if choose, delegate call
-
-		// but if full, call another delegate
-
+		UIManager.Instance.ShowMoney();
 		UpdateAllSlotUIs(); // Update all slots when opening the inventory
 		CursorOnSlot(cursorOnSlotIndex);  // Select the first slot by default
 		foreach (SlotUI slotUI in slotUIs)
@@ -69,6 +63,7 @@ public class InventoryUI : MonoBehaviour
 
 	public void InventoryClose()
 	{
+		UIManager.Instance.HideMoney();
 		inventoryPanel.SetActive(false);
 	}
 
