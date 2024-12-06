@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
     public event ItemCollectedHandler OnItemCollected;
 
     private Vector3 movement;
-    private float gravity = -9.81f;  // Áß·Â °ª
+    private float gravity = -9.81f;  // ï¿½ß·ï¿½ ï¿½ï¿½
     private Vector3 velocity;
 
     // test of input item Player to Inventory
@@ -37,7 +37,8 @@ public class Player : MonoBehaviour
     private void Start()
     {
         characterController = GetComponent<CharacterController>();
-        EquipTool(debugTool);
+        if(debugTool != null)
+            EquipTool(debugTool);
         handcollectCommand = new HandFlowerCommand();
         isFishing = false;
     }
@@ -69,15 +70,21 @@ public class Player : MonoBehaviour
             CollectItem(t1);
         }
         else if (Input.GetKeyDown(KeyCode.I))
-        {
-            UIManager.Instance.OpenInventory();
-        }
+		{
+			// only optionPanel is not active
+			if (UIManager.Instance.GetOptionActive() == false)
+			{
+				UIManager.Instance.ToggleInventory();
+			}
+		}
         else if (Input.GetKeyDown(KeyCode.M))
             if (currentTool == null)
                 EquipTool(debugTool);
             else
                 StartCoroutine(UnequipTool());
     }
+	
+		
 
     private void HandleMovement()
     {

@@ -11,4 +11,5 @@ public class Item : ScriptableObject
 	public Sprite icon;
 	public string[] optionText = { "근처에 두기" };
 	public string[] fullInventoryOptionText = { "바꾸기" };
+	public string[] purchaseOptionText = { "살래!", "그만둘래" };
 }

@@ -4,40 +4,47 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Unity.VisualScripting;
-using Unity.Android.Types;
+//using Unity.Android.Types;
 
 
 
-public class DialogController : MonoBehaviour
+public class DialogController : MonoBehaviour, IDialogState
 {
-    protected NPCPanelUI uiManager;
+    protected DialogUI uiManager;
     protected OptionUI optionui;
-    protected Coroutine currentCoroutine;
+
+    public Coroutine currentCoroutine { get; private set; }
 
     protected NPCDialogData dialogData;
+    protected NPCInteraction interactionNPC;
+
     protected string[] activeDialogTexts;
     protected int activeDialogIndex;
 
+
     protected virtual void Start()
     {
-        uiManager = FindObjectOfType<NPCPanelUI>();
+        uiManager = FindObjectOfType<DialogUI>();
         optionui = FindObjectOfType<OptionUI>();
+        interactionNPC = FindObjectOfType<NPCInteraction>();
         uiManager.dialogPanel.SetActive(false);
         optionui.optionPanel.SetActive(false);
         uiManager.enterPanel.SetActive(false);
 
-    }
+	}
+
 
     public void DialogStart(string[] setDialogTexts, int dialogIndexCount)
     {
         dialogData.isChooseActive = false;
         activeDialogTexts = setDialogTexts;
         activeDialogIndex = dialogIndexCount;
-        FirstTextStart(setDialogTexts, dialogIndexCount);
+        FirstText(setDialogTexts, dialogIndexCount);
     }
 
     public void EndDialog()
     {
+        interactionNPC.isDialogActive = false;
         dialogData.isChooseActive = false;
         for (int i = 0; i < dialogData.dialogIndex.Length; i++)
         {
@@ -50,43 +57,53 @@ public class DialogController : MonoBehaviour
 
     protected virtual void Update()
     {
-        uiManager.enterPanel.SetActive(dialogData.isEnterActive);
+        //if (uiManager != null && uiManager.enterPanel != null)
+        //{
+        //    print($"isEnterActive: {dialogData.isEnterActive}");
+        //    uiManager.enterPanel.SetActive(dialogData.isEnterActive);
+        //}
 
         if (uiManager.dialogPanel.activeSelf && activeDialogTexts != null)
         {
             EnterDialog(activeDialogTexts, activeDialogIndex);
         }
-
-        //플레이어와 상호작용 이런 식으로 작성 예정
-        //일정 거리 안에 플레이어가 들어왔을 때 r키를 누르면 대화창 활성화 
-        //if(Vector3.Distance(player.position, npc.position) < 5f))
-        //   {
-        //      if(GetKeyDown(KeyCode.R))
-        //      {
-        //          DialogStart();
-        //      }
-        //   }
-
     }
 
-    public void FirstTextStart(string[] SetdialogTexts, int dialogIndexCount)
+    public void FirstText(string[] SetdialogTexts, int dialogIndexCount)
     {
         if (currentCoroutine == null)
         {
+            if (dialogData.dialogIndex[dialogIndexCount] >= SetdialogTexts.Length)
+            {
+                dialogData.dialogIndex[dialogIndexCount] = 0;
+            }
             string firstText = SetdialogTexts[dialogData.dialogIndex[dialogIndexCount]];
             currentCoroutine = StartCoroutine(TypingDialog(firstText));
             dialogData.dialogIndex[dialogIndexCount]++;
         }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+
+            interactionNPC.isDialogActive = false;
+            dialogData.isChooseActive = false;
+            for (int i = 0; i < dialogData.dialogIndex.Length; i++)
+            {
+                dialogData.dialogIndex[i] = 0;
+            }
+            activeDialogTexts = null;
+            optionui.optionPanel.SetActive(false);
+            uiManager.dialogPanel.SetActive(false);
+        }
     }
 
-    public void EnterDialog(string[] setDialogTexts, int dialogIndexCount)
-    {
-        if (dialogData.dialogIndex[dialogIndexCount] >= setDialogTexts.Length)
-        {
-            dialogData.isChooseActive = true;
-            activeDialogTexts = null;
-            return;
-        }
+	public void EnterDialog(string[] setDialogTexts, int dialogIndexCount)
+	{
+		if (dialogData.dialogIndex[dialogIndexCount] >= setDialogTexts.Length)
+		{
+			dialogData.isChooseActive = true;
+			activeDialogTexts = null;
+			return;
+		}
 
         if (dialogData.dialogIndex[dialogIndexCount] < setDialogTexts.Length && currentCoroutine == null)
         {
@@ -96,12 +113,25 @@ public class DialogController : MonoBehaviour
                 currentCoroutine = StartCoroutine(TypingDialog(text));
                 dialogData.dialogIndex[dialogIndexCount]++;
             }
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                interactionNPC.isDialogActive = false;
+                dialogData.isChooseActive = false;
+                for (int i = 0; i < dialogData.dialogIndex.Length; i++)
+                {
+                    dialogData.dialogIndex[i] = 0;
+                }
+                activeDialogTexts = null;
+                optionui.optionPanel.SetActive(false);
+                uiManager.dialogPanel.SetActive(false);
+            }
         }
     }
 
     private IEnumerator TypingDialog(string text)
     {
         dialogData.isEnterActive = false;
+        uiManager.enterPanel.SetActive(false);
         uiManager.dialogText.text = "";
         foreach (char letter in text.ToCharArray())
         {
@@ -111,11 +141,12 @@ public class DialogController : MonoBehaviour
                 break;
             }
 
-            uiManager.dialogText.text += letter;
-            yield return new WaitForSeconds(0.1f);
-        }
+			uiManager.dialogText.text += letter;
+			yield return new WaitForSeconds(0.1f);
+		}
 
         dialogData.isEnterActive = true;
+        uiManager.enterPanel.SetActive(true);
         optionui.PanelActive(dialogData.isChooseActive);
         currentCoroutine = null;
     }

@@ -12,7 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1299f8a28cba43d4c818fd955c90c18a, type: 3}
   m_Name: Kicks
   m_EditorClassIdentifier: 
-  npcName: 
-  dialogTexts: []
-  isChooseActive: 0
-  isEnterActive: 0
+  npcName: Kicks
+  dialogTexts:
+  - "\uC548\uB155"
+  - "\uB098\uB97C \uC65C \uCC3E\uC544\uC654\uC5B4?"
+  nextDialogTexts:
+  - "\uB09C @@\uB791 ##\uC774 \uC788\uC5B4"
+  - "\uAC70\uB798\uD560\uB798?\ndialogTexts \uCD94\uAC00 or \uAC70\uB798\uC6A9 UI
+    \uAD6C\uD604"
+  thirdDialogTexts:
+  - "\u3147\u314B"
+  fourthDialogTexts: []
+  dialogIndex: 020000000000000000000000
+  isChooseActive: 1
+  isEnterActive: 1
+  currentOption: 

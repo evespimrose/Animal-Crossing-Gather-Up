@@ -5,78 +5,85 @@ using Unity.VisualScripting;
 using UnityEditor.ShaderGraph.Serialization;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 
 public class TimeManager : SingletonManager<TimeManager>
 {
-    public event Action OnDayNightChanged;
+    public event Action OnSunrise;  // 일출 이벤트
+    public event Action OnSunset;   // 일몰 이벤트
     private bool wasNight;
 
     [Header("Time Settings")]
-    [SerializeField] private float timeMultiplier = 1f;  // 1분(현실) = 1시간(게임)
-    [SerializeField] private float startHour = 6f;        // 시작 시간
-    [SerializeField][Range(1f, 60f)] private float timeScale = 60f;  // 시간 배속
+    [SerializeField] private float startHour = 6f;
+    [SerializeField][Range(1f, 60f)] private float timeScale = 60f;
+    [SerializeField][Range(0f, 24f)] private float currentTime;
+    [SerializeField] public float sunriseHour = 6f;
+    [SerializeField] public float sunsetHour = 18f;
 
-    [Header("Celestial Bodies")]
-    [SerializeField] private Transform celestialPivot;    // 하나의 회전축
-    [SerializeField] private Light directionalLight;      // 하나의 디렉셔널 라이트
-    [SerializeField] private GameObject sunPrefab;        // 태양 비주얼
-    [SerializeField] private GameObject moonPrefab;       // 달 비주얼
 
-    [Header("Light Settings")]
-    [SerializeField] private float sunriseHour = 6f;
-    [SerializeField] private float sunsetHour = 18f;
-    [SerializeField] private float maxSunIntensity = 1f;
-    [SerializeField] private float maxMoonIntensity = 0.5f;
-    [SerializeField] private Color sunColor = Color.white;
-    [SerializeField] private Color moonColor = new Color(0.6f, 0.6f, 0.8f, 1f);
-    
-    private GameObject sunObject;    // 생성된 태양 오브젝트
-    private GameObject moonObject;   // 생성된 달 오브젝트
-    private float currentTime;       // 현재 시간
-  
+    private float previousTime;  // Inspector 시간 변경 체크용
+    private CelestialController celestialController;
 
     public bool IsNight => currentTime < sunriseHour || currentTime > sunsetHour;
     public float CurrentTime => currentTime;
-
+    public float SunriseHour => sunriseHour;
+    public float SunsetHour => sunsetHour;
     protected override void Awake()
     {
-        base.Awake();
-        currentTime = startHour;
-        wasNight = IsNight;
-        InitializeCelestialBodies();
-    }
-
-    private void Start()
-    {
-        if (!directionalLight)
+        // 먼저 싱글톤 체크
+        if (Instance != null && Instance != this)
         {
-            Debug.LogError("TimeManager: Directional Light not assigned!");
+            Destroy(gameObject);
             return;
         }
-        UpdateEnvironment();
-    }
 
-    private void InitializeCelestialBodies()
+        // 이 인스턴스를 싱글톤으로 설정
+        base.Awake();
+
+        // DontDestroyOnLoad 설정
+        DontDestroyOnLoad(gameObject);
+
+        // 나머지 초기화
+        currentTime = startHour;
+        wasNight = IsNight;
+        celestialController = GetComponent<CelestialController>();
+
+        // 씬 로드 이벤트 구독
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    private void Start()
     {
-        if (celestialPivot)
+        previousTime = currentTime;
+    }
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // 새 씬에서 CelestialPivot 찾아서 연결
+        Transform newPivot = GameObject.FindGameObjectWithTag("CelestialPivot")?.transform;
+        
+        if (newPivot != null)
         {
-            if (sunPrefab)
-            {
-                sunObject = Instantiate(sunPrefab, celestialPivot);
-                sunObject.transform.localPosition = Vector3.forward * 20f;
-            }
-            if (moonPrefab)
-            {
-                moonObject = Instantiate(moonPrefab, celestialPivot);
-                moonObject.transform.localPosition = Vector3.forward * 20f;
-            }
+            celestialController.SetNewPivot(newPivot);
         }
     }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
 
     private void Update()
     {
+        // Inspector에서 시간 변경 체크
+        if (previousTime != currentTime)
+        {
+            celestialController.UpdateCelestialBodies(currentTime, sunriseHour, sunsetHour);
+            CheckDayNightTransition();
+            previousTime = currentTime;
+        }
+
         UpdateTime();
-        UpdateEnvironment();
+        celestialController.UpdateCelestialBodies(currentTime, sunriseHour, sunsetHour);
         CheckDayNightTransition();
     }
 
@@ -84,115 +91,27 @@ public class TimeManager : SingletonManager<TimeManager>
     {
         currentTime += (Time.deltaTime / 60f) * timeScale;
         if (currentTime >= 24f) currentTime = 0f;
+        previousTime = currentTime; // 수동 조정 후에도 시간이 계속 흐르도록
     }
-
     
-
-    private void UpdateEnvironment()
-    {
-        float rotation = 0f;
-
-        if (currentTime >= sunriseHour && currentTime <= sunsetHour) // 낮
-        {
-            // 해가 동쪽(0도)에서 서쪽(180도)으로
-            float dayDuration = sunsetHour - sunriseHour;  // 낮의 길이
-            rotation = -(currentTime - sunriseHour) * 180f / dayDuration;
-
-            if (celestialPivot)
-            {
-                celestialPivot.rotation = Quaternion.Euler(rotation, 0f, 0f);
-                if (sunObject) sunObject.SetActive(true);
-                if (moonObject) moonObject.SetActive(false);
-            }
-        }
-        else // 밤
-        {
-           
-            if (currentTime > sunsetHour)
-            {
-                // 해의 이동 시간과 동일하게 설정
-                float dayDuration = sunsetHour - sunriseHour;  // 낮의 길이
-                float nightProgress = (currentTime - sunsetHour) / dayDuration;
-                rotation = -nightProgress * 180f;
-
-                // 회전이 180도를 넘어가면 180도로 고정
-                rotation = Mathf.Clamp(rotation, -180f, 0f);
-            }
-            else // 자정~일출
-            {
-                rotation = 0f; // 동쪽 위치 유지
-            }
-
-            if (celestialPivot)
-            {
-                celestialPivot.rotation = Quaternion.Euler(rotation, 0f, 0f);
-                if (sunObject) sunObject.SetActive(false);
-                if (moonObject) moonObject.SetActive(true);
-            }
-        }
-        // 빛 강도와 색상 업데이트
-        float lightIntensity = 0f;
-        Color lightColor;
-
-        if (currentTime >= sunriseHour && currentTime <= sunsetHour)
-        {
-            if (currentTime <= sunriseHour + 2f) // 일출
-            {
-                float t = (currentTime - sunriseHour) / 2f;
-                lightIntensity = Mathf.Lerp(maxMoonIntensity, maxSunIntensity, t);
-                lightColor = Color.Lerp(moonColor, sunColor, t);
-            }
-            else if (currentTime >= sunsetHour - 2f) // 일몰
-            {
-                float t = (currentTime - (sunsetHour - 2f)) / 2f;
-                lightIntensity = Mathf.Lerp(maxSunIntensity, maxMoonIntensity, t);
-                lightColor = Color.Lerp(sunColor, moonColor, t);
-
-                // 일몰 시 초기 위치로 리셋
-                if (t >= 1f && celestialPivot)
-                {
-                    celestialPivot.rotation = Quaternion.Euler(0f, 0f, 0f);
-                }
-            }
-            else // 낮
-            {
-                lightIntensity = maxSunIntensity;
-                lightColor = sunColor;
-            }
-        }
-        else // 밤
-        {
-            lightIntensity = maxMoonIntensity;
-            lightColor = moonColor;
-            RenderSettings.ambientLight = moonColor * 1.2f;
-        }
-
-        // 디렉셔널 라이트 업데이트
-        if (directionalLight)
-        {
-            directionalLight.intensity = lightIntensity;
-            directionalLight.color = lightColor;
-        }
-
-    }
 
     private void CheckDayNightTransition()
     {
         bool isNight = IsNight;
         if (wasNight != isNight)
         {
+            if (isNight)
+            {
+                OnSunset?.Invoke();  // 일몰 시점
+               
+            }
+            else
+            {
+                OnSunrise?.Invoke(); // 일출 시점
+               
+            }
             wasNight = isNight;
-            OnDayNightChanged?.Invoke();
         }
     }
- 
-
-    private void OnDestroy()
-    {
-        if (sunObject) Destroy(sunObject);
-        if (moonObject) Destroy(moonObject);
-    }
-
    
-
 }

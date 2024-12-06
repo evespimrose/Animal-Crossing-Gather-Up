@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b11d5932a96c7364ba2e1dba961e0ebd, type: 3}
+  m_Name: SandSpider
+  m_EditorClassIdentifier: 
+  itemName: "\uBAA8\uB798\uC0C9\uAC70\uBBF8"
+  stackLimit: 1
+  basePrice: 300
+  icon: {fileID: 21300000, guid: b8218c9e608969f499a5e5bcc456ac08, type: 3}
+  optionText:
+  - "\uADFC\uCC98\uC5D0 \uB450\uAE30"
+  fullInventoryOptionText:
+  - "\uBC14\uAFB8\uAE30"
+  prefab: {fileID: 7947612661106244870, guid: 575a860ec535b494598db3b12c8e8f7c, type: 3}
+  type: 0
+  spawnWeight: 0.1

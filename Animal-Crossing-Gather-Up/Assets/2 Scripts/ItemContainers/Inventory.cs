@@ -15,8 +15,18 @@ public class Inventory : MonoBehaviour
 	public delegate void InventoryFullHandler();
 	public event InventoryFullHandler OnInventoryFull;  // Event for inventory full
 
+	private InventoryUI inventoryUI;
+	private PurchaseUI purchaseUI;
+	private int currentEquipIndex = -1;
+
+	public int money = 1000;
+
 	private void Start()
 	{
+		inventoryUI = FindObjectOfType<InventoryUI>();
+		inventoryUI.OnSlotChoose += InventorySelectEnd;
+		purchaseUI = FindObjectOfType<PurchaseUI>();
+		purchaseUI.OnSlotChoose += PurchaseSelectEnd;
 		StartCoroutine(InitializeInventory());
 	}
 
@@ -64,23 +74,16 @@ public class Inventory : MonoBehaviour
 		{
 			if (slot.IsAddableItem(item))
 			{
-				slot.AddItem();
-				// test
+				if (slot.IsSlotEmpty())
+				{
+					slot.Initialize(item);
+				}
+				else
+				{
+					slot.AddItem();
+				}
 				isAdded = true;
-				return;
-			}
-		}
-
-		// Add item to an empty slot
-		foreach (Slot slot in slots)
-		{
-			if (slot.IsSlotEmpty())
-			{
-				slot.Initialize(item);  // Initialize the slot with the item
-
-				// test
-				isAdded = true;
-				return;
+				break;
 			}
 		}
 
@@ -88,6 +91,14 @@ public class Inventory : MonoBehaviour
 		if (isAdded == false)
 		{
 			InventoryFull();
+		}
+	}
+
+	public void RemoveItemOne(int index)
+	{
+		if (slots[index].IsSlotEmpty() == false)
+		{
+			slots[index].RemoveItemOne();
 		}
 	}
 
@@ -111,5 +122,79 @@ public class Inventory : MonoBehaviour
 		// inventory open
 		//InventoryDisplayer.Instance.InventoryOpen();
 		OnInventoryFull?.Invoke();  // Trigger the event
+	}
+
+	public void InventorySelectEnd()
+	{
+		// option Text, index print
+		string optionText = inventoryUI.GetSelectedOptionText();
+		int index = inventoryUI.GetSelectedOptionSlotIndex();
+		print($"option text: {optionText}, index: {index}");
+
+		if (optionText == "들기")
+		{
+			EquipTool(index);
+			UIManager.Instance.CloseInventory();
+		}
+		else if (optionText == "근처에 두기")
+		{
+			RemoveItemAll(index);
+			UIManager.Instance.CloseInventory();
+		}
+		else if (optionText == "가방에 넣기")
+		{
+			UnEquipTool(index);
+			UIManager.Instance.CloseInventory();
+		}
+	}
+
+	public void PurchaseSelectEnd()
+	{
+		string optionText = purchaseUI.GetSelectedOptionText();
+		Slot slot = purchaseUI.GetSelectedOptionSlot();
+
+		if (optionText == "살래!")
+		{
+			// check money
+			if (money >= slot.Item.basePrice)
+			{
+				money -= slot.Item.basePrice;
+				AddItem(slot.Item);
+			}
+			else
+			{
+				print("Not Enough Money!");
+			}
+		}
+	}
+
+	private void EquipTool(int index)
+	{
+		if (currentEquipIndex != -1)
+		{
+			// UnEquipSlot
+			UnEquipTool(currentEquipIndex);
+		}
+		if (slots[index].Item is ToolInfo toolInfo)
+		{
+			toolInfo.isEquipped = true;
+		}
+		slots[index].Item.optionText[0] = "가방에 넣기";
+		currentEquipIndex = index;
+	}
+
+	private void UnEquipTool(int index)
+	{
+		if (slots[index].Item is ToolInfo toolInfo)
+		{
+			toolInfo.isEquipped = false;
+		}
+		slots[index].Item.optionText[0] = "들기";
+		currentEquipIndex = -1;
+	}
+
+	private void RemoveItemAll(int index)
+	{
+		slots[index].RemoveItemAll();
 	}
 }

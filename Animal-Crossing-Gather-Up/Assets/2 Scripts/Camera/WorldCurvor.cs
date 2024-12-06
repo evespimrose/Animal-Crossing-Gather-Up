@@ -14,7 +14,7 @@ public class WorldCurver : MonoBehaviour
     private void OnEnable()
     {
         m_CurveStrengthID = Shader.PropertyToID("_CurveStrength");
-        SetCurveStrength(0f); // ±âº»°ª ¼³Á¤
+        SetCurveStrength(0f); // ï¿½âº»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     }
 
     private void Update()
@@ -24,12 +24,12 @@ public class WorldCurver : MonoBehaviour
 
     private void OnDisable()
     {
-        ResetCurveStrength(); // Play ¸ðµå Á¾·á ½Ã º¹±¸
+        ResetCurveStrength(); // Play ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     }
 
     private void OnApplicationQuit()
     {
-        ResetCurveStrength(); // ¾ÖÇÃ¸®ÄÉÀÌ¼Ç Á¾·á ½Ã º¹±¸
+        ResetCurveStrength(); // ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     }
 
     private void UpdateMaterialsCurveStrength()

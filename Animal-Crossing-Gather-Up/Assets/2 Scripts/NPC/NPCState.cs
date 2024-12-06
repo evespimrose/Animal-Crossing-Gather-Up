@@ -9,27 +9,34 @@ using UnityEngine.AI;
 public enum NPCStateType
 {
     Idle,
+    LookAround,
     Walk,
     Talk,
     Happy,
     Dance,
 }
-public abstract class NPCState : MonoBehaviour
+public abstract class NPCState : MonoBehaviour, INPCState
 {
 
     protected List<Vector3> waypoints = new List<Vector3>();
     protected int currentWaypointIndex = 0;
     protected Animator anim;
-    protected float rotateSpeed = 5f;
+    protected float rotateSpeed = 1.5f;
+    protected float rotateToPlayerSpeed = 5f;
     public Transform player;
 
-    private NPCStateType npcState;
+    protected DialogUI uiManager;
+    protected IDialogState dialogState;
+    protected NPCStateType npcState;
     protected Vector3 currentTarget;
     protected float moveSpeed;
 
-    protected virtual void Awake()
+    protected virtual void Start()
     {
+        uiManager = FindObjectOfType<DialogUI>();
         anim = GetComponent<Animator>();
+        dialogState = GetComponent<IDialogState>();
+        npcState = NPCStateType.Idle; //idle로 기본 설정
     }
 
     protected virtual void Update()
@@ -38,6 +45,9 @@ public abstract class NPCState : MonoBehaviour
         {
             case NPCStateType.Idle:
                 Idle();
+                break;
+            case NPCStateType.LookAround:
+                LookAround();
                 break;
             case NPCStateType.Walk:
                 Walk();
@@ -54,36 +64,54 @@ public abstract class NPCState : MonoBehaviour
         }
     }
 
-    protected virtual void Idle()
-    { }
+    private void Idle()
+    {
+        anim.Play("Idle");
+        anim.SetFloat("Speed", 0f);
+    }
 
-    protected virtual void Walk()
+    private void LookAround()
+    {
+        anim.Play("LookAround");
+        anim.SetFloat("Speed", 0f);
+    }
+    private void Walk()
     {
         Wander();
-        anim.SetFloat("Speed", 1f);
     }
 
-    protected virtual void LookAtPlayer()
+    protected virtual void Talk()
     {
-        Vector3 direction = player.position - transform.position;
-        direction.y = 0;
+        anim.SetFloat("Speed", 0f);
+        Vector3 direction = (player.position - transform.position).normalized;
+        direction.y = 0f;
 
-        Quaternion targetRotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+        if (direction != player.position)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateToPlayerSpeed * Time.deltaTime);
 
+            if (dialogState.currentCoroutine != null && uiManager.dialogPanel.activeSelf)
+            {
+                anim.SetBool("Talk", true);
+            }
+            else if (dialogState.currentCoroutine == null && uiManager.dialogPanel.activeSelf)
+            {
+                anim.SetBool("Talk", false);
+            }
+        }
     }
-
-    //protected abstract void Wander();
 
     protected abstract Vector3 RandomWaypoint();
 
-    protected abstract void StartNPCDialog();
-
-    protected virtual void Wander()
+    public void Wander()
     {
-        if (Vector3.Distance(transform.position, currentTarget) < 0.5f)
+        if (currentTarget == Vector3.zero || Vector3.Distance(transform.position, currentTarget) < 0.5f)
         {
-            currentTarget = RandomWaypoint();
+            if (Vector3.Distance(transform.position, currentTarget) < 6f)
+            {
+                currentTarget = RandomWaypoint();
+            }
         }
 
         Vector3 direction = (currentTarget - transform.position).normalized;
@@ -96,61 +124,34 @@ public abstract class NPCState : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, currentTarget, moveSpeed * Time.deltaTime);
 
         float currentSpeed;
-        if (Vector3.Distance(transform.position, currentTarget) > 0.1f) //목표 지점까지의 거리가 0.1 보다 크면 걷기
+        if (Vector3.Distance(transform.position, currentTarget) > 0.1f)
         {
-            currentSpeed = 1f;
+            currentSpeed = 0.3f;
         }
-        else //목표 지점까지 거의 도착했으면 멈추기
+        else
         {
-            currentSpeed = 0f;
+            currentSpeed = 0.05f;
         }
 
         anim.SetFloat("Speed", currentSpeed);
     }
 
-    protected virtual IEnumerator InteractionSequence()
+    private void Happy()
     {
-        SetState(NPCStateType.Idle);
-
-        // 플레이어를 향해 회전
-        while (true)
-        {
-            Vector3 direction = player.position - transform.position;
-            direction.y = 0;
-
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
-
-            if (Quaternion.Angle(transform.rotation, targetRotation) < 5f)
-            {
-                SetState(NPCStateType.Talk);
-                break;
-            }
-            yield return null;
-        }
+        anim.SetTrigger("Happy");
 
     }
 
-    protected virtual void Talk()
-    {
-        anim.SetBool("Talk", true); // -> Bool ����
-    }
-
-    protected virtual void Happy()
-    {
-        anim.SetTrigger("Happy"); // �ѹ����� ������ Trigger�� ����
-
-    }
-
-    protected virtual void Dance()
+    private void Dance()
     {
         anim.SetTrigger("Dance");
 
     }
 
-    protected virtual void SetState(NPCStateType newState)
+    public void SetCurrentState(NPCStateType newState)
     {
         npcState = newState;
+        print($"상태변경 {newState}");
     }
 
 

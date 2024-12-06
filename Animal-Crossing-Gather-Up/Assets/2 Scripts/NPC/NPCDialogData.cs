@@ -16,8 +16,8 @@ public class NPCDialogData : ScriptableObject
     [TextArea]
     public string[] thirdDialogTexts;
 
-    //[TextArea]
-    //public string[] nextDialogTexts; // 선택패널 후 두번째 대화 -> 필요하다면 계속 생성
+    [TextArea]
+    public string[] fourthDialogTexts;
 
     [Header("talkCount")]
     public int[] dialogIndex;
