@@ -22,7 +22,7 @@ public class GameManager : SingletonManager<GameManager>
     private int currentTreeBugs;
     private int currentFlowerBugs;
 
-    private Player player;
+    public Player player;
     public Inventory inventory;
 
     [SerializeField] private List<OakTree> oakTrees = new();
