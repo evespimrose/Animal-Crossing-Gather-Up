@@ -116,6 +116,7 @@ public class PurchaseUI : MonoBehaviour
 		}
 
 		cursorOnSlotIndex = 0;
+		UIManager.Instance.ShowMoney();
 		CursorOnSlot(cursorOnSlotIndex);  // Select the first slot by default
 	}
 
@@ -124,6 +125,7 @@ public class PurchaseUI : MonoBehaviour
 		if (purchasePanel.activeSelf)
 		{
 			print("PurchaseUI: Closing purchase panel");
+			UIManager.Instance.HideMoney();
 			purchasePanel.SetActive(false);
 		}
 	}
