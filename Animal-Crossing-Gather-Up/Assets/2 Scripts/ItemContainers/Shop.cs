@@ -123,14 +123,14 @@ public class Shop : MonoBehaviour
 			return;
 		}
 
-		purchaseUI.PurchasePanelOpen();
+		UIManager.Instance.OpenPurchasePanel();
 	}
 
 	public void PurchasePanelClose()
 	{
 		if (purchaseUI != null)
 		{
-			purchaseUI.PurchasePanelClose();
+			UIManager.Instance.ClosePurchasePanel();
 		}
 	}
 }
