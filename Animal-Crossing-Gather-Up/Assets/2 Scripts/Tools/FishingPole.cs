@@ -7,8 +7,11 @@ public class FishingPole : MonoBehaviour, ITool
 
     [SerializeField] private GameObject fishingChipPrefab;
     [SerializeField] private GameObject fishingChipInstantiate;
+    private bool isDoneFishing;
 
     public ToolInfo ToolInfo => toolInfo;
+    public bool IsDoneFishing => isDoneFishing;
+
 
     private void Awake()
     {

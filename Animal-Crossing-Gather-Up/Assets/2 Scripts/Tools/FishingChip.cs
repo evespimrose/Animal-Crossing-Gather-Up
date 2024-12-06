@@ -47,4 +47,7 @@ public class FishingChip : MonoBehaviour
         }
     }
 
+        if(other.gameObject.TryGetComponent(out Player player))
+            if(player.EquippedTool.TryGetComponent(out FishingPole fishingPole))
+                fishingPole.UnExecute();
 }

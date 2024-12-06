@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 [RequireComponent(typeof(CharacterController))]
 public class Player : MonoBehaviour
@@ -30,6 +31,8 @@ public class Player : MonoBehaviour
 
     private HandFlowerCommand handcollectCommand;
     private bool isFishing = false;
+
+    public GameObject EquippedTool => equippedTool;
 
     private void Start()
     {
@@ -73,8 +76,7 @@ public class Player : MonoBehaviour
             if (currentTool == null)
                 EquipTool(debugTool);
             else
-                UnequipTool();
-
+                StartCoroutine(UnequipTool());
     }
 
     private void HandleMovement()
@@ -89,9 +91,6 @@ public class Player : MonoBehaviour
             //Vector3 currentPosition = transform.position;
             //transform.position = new Vector3(currentPosition.x, originalY, currentPosition.z);
             transform.forward = movement;
-            if (isFishing && currentTool.ToolInfo.toolType == ToolInfo.ToolType.FishingPole)
-                Debug.Log("Fishing UnExcute!!!!");
-
         }
     }
 
@@ -117,7 +116,7 @@ public class Player : MonoBehaviour
                 OnItemCollected?.Invoke(currentTool.ToolInfo);
 
                 GameObject toolToDestroy = equippedTool;
-                UnequipTool();
+                StartCoroutine(UnequipTool());
                 Destroy(toolToDestroy);
                 // Inventory.DestroyItem();
             }
@@ -162,9 +161,13 @@ public class Player : MonoBehaviour
 
     public void EquipTool(GameObject tool)
     {
+        StartCoroutine(EquipToolCoroutine(tool));
+    }
+    private IEnumerator EquipToolCoroutine(GameObject tool)
+    {
         if (equippedTool != null)
         {
-            UnequipTool();
+            yield return StartCoroutine(UnequipTool());
         }
 
         GameObject toolInstance = Instantiate(tool, handPosition.position, Quaternion.identity);
@@ -172,23 +175,33 @@ public class Player : MonoBehaviour
         equippedTool.transform.SetParent(handPosition);
         equippedTool.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
 
-        currentTool = equippedTool.GetComponent<ITool>();
-        if (currentTool == null)
+        if (!equippedTool.TryGetComponent(out currentTool))
         {
             Debug.LogWarning("Equipped object does not have a valid tool component.");
         }
     }
 
-    public void UnequipTool()
+
+    public IEnumerator UnequipTool()
     {
         if (equippedTool != null)
         {
-            //inventory.AddItem(equippedTool); 
+            if (isFishing && equippedTool.TryGetComponent(out FishingPole fishingPole))
+            {
+                fishingPole.UnExecute();
+                yield return new WaitUntil(() => fishingPole.IsDoneFishing);
+            }
+
+            ToolInfo toolInfoCopy = currentTool.ToolInfo;
+            OnItemCollected?.Invoke(toolInfoCopy); 
+
             Destroy(equippedTool);
             equippedTool = null;
             currentTool = null;
+            toolInfoCopy = null;
         }
     }
+
 
     public void CollectItem(Item item)
     {
