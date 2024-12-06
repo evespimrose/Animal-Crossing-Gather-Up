@@ -151,7 +151,7 @@ public class InventoryUI : MonoBehaviour
 		if (slots[index].Item != null)
 		{
 			isSelecting = true;
-			slotUIs[index].SelectSlot(true);
+			slotUIs[index].SelectSlotAtInventory(true);
 			StartCoroutine(WaitForSelectEndCoroutine(index));
 		}
 	}
@@ -182,7 +182,7 @@ public class InventoryUI : MonoBehaviour
 		return selectedOption;
 	}
 
-	public int GetSelectedOptionSlot()
+	public int GetSelectedOptionSlotIndex()
 	{
 		return cursorOnSlotIndex;
 	}
