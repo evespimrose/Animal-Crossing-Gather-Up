@@ -10,7 +10,7 @@ public class UIManager : SingletonManager<UIManager>
 	public InventoryUI inventoryUI;
 	public PurchaseUI purchaseUI;
 	public OptionUI optionUI;
-	public NPCPanelUI npcPanelUI;
+	public DialogUI dialogUI;
 
 	// UI States
 	private bool isInventoryOpen = false;
@@ -61,7 +61,7 @@ public class UIManager : SingletonManager<UIManager>
 		inventoryUI = FindAnyObjectByType<InventoryUI>();
 		purchaseUI = FindAnyObjectByType<PurchaseUI>();
 		optionUI = FindAnyObjectByType<OptionUI>();
-		npcPanelUI = FindAnyObjectByType<NPCPanelUI>();
+		dialogUI = FindAnyObjectByType<DialogUI>();
 	}
 
 	#region Inventory Management
@@ -121,20 +121,20 @@ public class UIManager : SingletonManager<UIManager>
 	#region Dialog System Management
 	public void ShowDialog(string[] dialogTexts, int talkCount)
 	{
-		if (npcPanelUI != null)
+		if (dialogUI != null)
 		{
 			isDialogOpen = true;
-			npcPanelUI.dialogPanel.SetActive(true);
-			npcPanelUI.dialogText.text = dialogTexts[talkCount];
+			dialogUI.dialogPanel.SetActive(true);
+			dialogUI.dialogText.text = dialogTexts[talkCount];
 		}
 	}
 	public void CloseDialog()
 	{
-		if (npcPanelUI != null)
+		if (dialogUI != null)
 		{
 			isDialogOpen = false;
-			npcPanelUI.dialogPanel.SetActive(false);
-			npcPanelUI.enterPanel.SetActive(false);
+			dialogUI.dialogPanel.SetActive(false);
+			dialogUI.enterPanel.SetActive(false);
 		}
 	}
 	#endregion
