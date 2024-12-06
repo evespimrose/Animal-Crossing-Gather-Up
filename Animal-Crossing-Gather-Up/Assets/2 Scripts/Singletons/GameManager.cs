@@ -22,7 +22,7 @@ public class GameManager : SingletonManager<GameManager>
     private int currentTreeBugs;
     private int currentFlowerBugs;
 
-    private Player player;
+    public Player player;
     public Inventory inventory;
 
     [SerializeField] private List<OakTree> oakTrees = new();
@@ -61,7 +61,7 @@ public class GameManager : SingletonManager<GameManager>
     private void Start()
     {
         FindBugSpawnerByType();
-        //���̵� ������ Ÿ���� ���� ����� ����
+        //���̵� ������ Ÿ���� ���� �����?����
         FindFishSpawnerByType();
 
         StartCoroutine(RefillBranchesRoutine());
@@ -73,7 +73,7 @@ public class GameManager : SingletonManager<GameManager>
 
     private void FindBugSpawnerByType()
     {
-        // ���?������ ã��
+        // ���?������ ã��
         var allSpawners = FindObjectsOfType<BugSpawner>();
 
         // �������� BugInfo Ÿ�Կ� ���� �з�
@@ -112,13 +112,13 @@ public class GameManager : SingletonManager<GameManager>
                 TrySpawnBugOnRandomSpawner(treeSpawners);
             }
 
-            // �ö��?���� ���� �õ�
+            // �ö��?���� ���� �õ�
             if (currentFlowerBugs < maxFlowerBugs)
             {
                 TrySpawnBugOnRandomSpawner(flowerSpawners);
             }
 
-            // ����� ���� �õ�
+            // �����?���� �õ�
             if (currentFish < maxFish)
             {
                 TrySpawnFishOnRandomSpawner(fishSpawners);
