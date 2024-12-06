@@ -10,7 +10,7 @@ using Unity.VisualScripting;
 
 public class DialogController : MonoBehaviour, IDialogState
 {
-    protected NPCPanelUI uiManager;
+    protected DialogUI uiManager;
     protected OptionUI optionui;
 
     public Coroutine currentCoroutine { get; private set; }
@@ -24,7 +24,7 @@ public class DialogController : MonoBehaviour, IDialogState
 
     protected virtual void Start()
     {
-        uiManager = FindObjectOfType<NPCPanelUI>();
+        uiManager = FindObjectOfType<DialogUI>();
         optionui = FindObjectOfType<OptionUI>();
         interactionNPC = FindObjectOfType<NPCInteraction>();
         uiManager.dialogPanel.SetActive(false);
