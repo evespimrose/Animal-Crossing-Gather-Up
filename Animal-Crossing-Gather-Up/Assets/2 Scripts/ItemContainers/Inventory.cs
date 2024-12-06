@@ -155,7 +155,16 @@ public class Inventory : MonoBehaviour
 
 		if (optionText == "»ì·¡!")
 		{
-			AddItem(slot.Item);
+			// check money
+			if (money >= slot.Item.basePrice)
+			{
+				money -= slot.Item.basePrice;
+				AddItem(slot.Item);
+			}
+			else
+			{
+				print("Not Enough Money!");
+			}
 		}
 	}
 
