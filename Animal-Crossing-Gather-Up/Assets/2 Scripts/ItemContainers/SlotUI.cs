@@ -110,7 +110,7 @@ public class SlotUI : MonoBehaviour
 		itemInfo.gameObject.SetActive(isCursorOn);
 	}
 
-	public void SelectSlot(bool isSelect)
+	public void SelectSlotAtInventory(bool isSelect)
 	{
 		//optionUI.SetActive(isSelect);
 		//OptionUI optionUI;
@@ -119,6 +119,14 @@ public class SlotUI : MonoBehaviour
 		if (currentSlot.Item != null)
 		{
 			UIManager.Instance.ShowOptions(currentSlot.Item.optionText);
+		}
+	}
+
+	public void SelectSlotAtPurchase(bool isSelect)
+	{
+		if (currentSlot.Item != null)
+		{
+			UIManager.Instance.ShowOptions(currentSlot.Item.purchaseOptionText);
 		}
 	}
 
