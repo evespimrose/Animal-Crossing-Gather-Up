@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e663573ea880e8c45a619976f5da2c28, type: 3}
+  m_Name: Crab
+  m_EditorClassIdentifier: 
+  itemName: "\uAC8C"
+  stackLimit: 2
+  basePrice: 200
+  icon: {fileID: 21300000, guid: b89bf72ea7b02ef4aa9f324227809ae6, type: 3}
+  optionText:
+  - "\uADFC\uCC98\uC5D0 \uB450\uAE30"
+  fullInventoryOptionText:
+  - "\uBC14\uAFB8\uAE30"
+  prefab: {fileID: 7893974801881764390, guid: 27d6a72fdc9f82a43bf4ba0a4c1a73ba, type: 3}
+  spawnWeight: 0.3
+  moveSpeed: 1
+  wanderRadius: 4

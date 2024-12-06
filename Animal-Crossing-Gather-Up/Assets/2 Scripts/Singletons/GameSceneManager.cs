@@ -39,13 +39,13 @@ public class GameSceneManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F))
         {
             string currentScene = SceneManager.GetActiveScene().name;
-            if (currentScene == "MainIsland")
+            if (currentScene == "GameScene")
             {
                 LoadScene("MileIsland");
             }
             else
             {
-                LoadScene("MainIsland");
+                LoadScene("GameScene");
             }
         }
     }

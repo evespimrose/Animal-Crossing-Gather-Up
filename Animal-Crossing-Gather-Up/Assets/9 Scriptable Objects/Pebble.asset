@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93b5982fe6042ff4d814bc390b57b3bb, type: 3}
+  m_Name: Pebble
+  m_EditorClassIdentifier: 
+  itemName: pebble
+  stackLimit: 10
+  basePrice: 50
+  icon: {fileID: 0}
+  optionText:
+  - "\uADFC\uCC98\uC5D0 \uB450\uAE30"
+  fullInventoryOptionText:
+  - "\uBC14\uAFB8\uAE30"
+  prefab: {fileID: 4737943069727976570, guid: 1df37cbfb8f010c499762810e1beeee6, type: 3}

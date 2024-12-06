@@ -1,6 +1,6 @@
 using UnityEngine;
 
-//[ExecuteInEditMode]
+[ExecuteInEditMode]
 public class WorldCurver : MonoBehaviour
 {
     [Range(-0.1f, 0.1f)]
@@ -14,12 +14,22 @@ public class WorldCurver : MonoBehaviour
     private void OnEnable()
     {
         m_CurveStrengthID = Shader.PropertyToID("_CurveStrength");
-        SetCurveStrength(0.0134f);
+        SetCurveStrength(0f); // ï¿½âº»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     }
 
     private void Update()
     {
         UpdateMaterialsCurveStrength();
+    }
+
+    private void OnDisable()
+    {
+        ResetCurveStrength(); // Play ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    }
+
+    private void OnApplicationQuit()
+    {
+        ResetCurveStrength(); // ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     }
 
     private void UpdateMaterialsCurveStrength()
@@ -36,10 +46,24 @@ public class WorldCurver : MonoBehaviour
         }
     }
 
-    // ?¸ë??ì„œ ?‘ê·¼ ê°€?¥í•œ ë©”ì„œ??
     public void SetCurveStrength(float newStrength)
     {
         curveStrength = newStrength;
         UpdateMaterialsCurveStrength();
+    }
+
+    private void ResetCurveStrength()
+    {
+        curveStrength = 0f;
+        if (materialsToAffect != null)
+        {
+            foreach (Material mat in materialsToAffect)
+            {
+                if (mat != null)
+                {
+                    mat.SetFloat(m_CurveStrengthID, 0f);
+                }
+            }
+        }
     }
 }

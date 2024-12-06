@@ -12,7 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1299f8a28cba43d4c818fd955c90c18a, type: 3}
   m_Name: Pascal
   m_EditorClassIdentifier: 
-  npcName: 
+  npcName: Pascal
   dialogTexts: []
+  nextDialogTexts: []
+  thirdDialogTexts: []
+  fourthDialogTexts: []
+  dialogIndex: 
   isChooseActive: 0
   isEnterActive: 0
+  currentOption: 

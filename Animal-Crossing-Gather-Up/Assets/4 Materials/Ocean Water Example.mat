@@ -56,7 +56,7 @@ Material:
     - _GlintSpeed: 0.01
     - _ReflectionPower: 0.4
     - _SunSpecularPower: 30
-    - _WaterDepth: 0.278
+    - _WaterDepth: 0.014
     - _Wave1Amps: 0.1
     - _Wave1Dir: 0.65
     - _Wave1Length: 1.5
