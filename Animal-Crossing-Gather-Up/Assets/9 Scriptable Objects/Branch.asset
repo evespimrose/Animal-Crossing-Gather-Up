@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Branch
   stackLimit: 10
-  basePrice: 1
+  basePrice: 50
   icon: {fileID: 0}
   optionText:
   - "\uADFC\uCC98\uC5D0 \uB450\uAE30"

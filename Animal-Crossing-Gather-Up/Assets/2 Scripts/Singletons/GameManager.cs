@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class GameManager : SingletonManager<GameManager>
 {
-	private Player player;
+	public Player player;
 	public Inventory inventory;
+	public MMFCamera mmfCamera;
 
-	private void Start()
+    private void Start()
 	{
 		player = FindObjectOfType<Player>();
 		inventory = FindObjectOfType<Inventory>();
-		//player.OnItemCollected += inventory.AddItem;
+        mmfCamera = FindAnyObjectByType<MMFCamera>();
+
+        player.OnItemCollected += inventory.AddItem;
 	}
 }

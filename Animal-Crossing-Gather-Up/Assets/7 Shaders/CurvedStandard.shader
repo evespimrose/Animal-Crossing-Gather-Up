@@ -6,7 +6,7 @@ Shader "Custom/CurvedStandard"
         _MainTex ("Albedo (RGB)", 2D) = "white" {}
         _Glossiness ("Smoothness", Range(0,1)) = 0.5
         _Metallic ("Metallic", Range(0,1)) = 0.0
-        _CurveStrength ("Curve Strength", Range(0,01)) = 0.001
+        _CurveStrength ("Curve Strength", Range(0,015)) = 0.001
         _AlphaCutoff ("Alpha Cutoff", Range(0,1)) = 0.5
     }
     SubShader
