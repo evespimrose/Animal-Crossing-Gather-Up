@@ -11,6 +11,7 @@ public class SlotUI : MonoBehaviour
 	public Image itemImage; // Reference to the UI Image for the item
 	public TextMeshProUGUI stackCountText;  // Reference to the UI Text for the stackCount
 	public Image choiceBackground;  // Reference to the choice background image
+	public Image multiChoiceBackground;
 	public Image cursorImage;
 	public GameObject itemInfo;
 	private TextMeshProUGUI itemNameText;
@@ -50,6 +51,8 @@ public class SlotUI : MonoBehaviour
 			defaultItemColor = itemImage.color;
 		}
 		equippedItemColor = new Color(defaultItemColor.r, defaultItemColor.g, defaultItemColor.b, 0.4f);
+
+		multiChoiceBackground?.gameObject.SetActive(false);
 	}
 
 	public void UpdateUI(Item item, int stackCount)
@@ -127,6 +130,14 @@ public class SlotUI : MonoBehaviour
 		if (currentSlot.Item != null)
 		{
 			UIManager.Instance.ShowOptions(currentSlot.Item.purchaseOptionText);
+		}
+	}
+
+	public void SelectSlotAtSell(bool isSelect)
+	{
+		if (currentSlot.Item != null)
+		{
+			multiChoiceBackground.gameObject.SetActive(isSelect);
 		}
 	}
 
