@@ -73,7 +73,7 @@ public class UIManager : SingletonManager<UIManager>
 	#region Inventory Management
 	public void OpenInventory()
 	{
-		if (inventoryUI != null)
+		if (inventoryUI != null && isPurchaseOpen == false)
 		{
 			isInventoryOpen = true;
 			inventoryUI.InventoryOpen();
@@ -96,7 +96,7 @@ public class UIManager : SingletonManager<UIManager>
 				isInventoryOpen = false;
 				inventoryUI.InventoryClose();
 			}
-			else
+			else if (isPurchaseOpen == false)
 			{
 				isInventoryOpen = true;
 				inventoryUI.InventoryOpen();
@@ -108,7 +108,7 @@ public class UIManager : SingletonManager<UIManager>
 	#region PurchaseUI Management
 	public void OpenPurchasePanel()
 	{
-		if (purchaseUI != null)
+		if (purchaseUI != null && isInventoryOpen == false)
 		{
 			isPurchaseOpen = true;
 			purchaseUI.PurchasePanelOpen();
