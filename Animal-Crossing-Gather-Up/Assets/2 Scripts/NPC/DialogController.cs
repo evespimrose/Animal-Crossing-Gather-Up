@@ -81,6 +81,19 @@ public class DialogController : MonoBehaviour, IDialogState
             currentCoroutine = StartCoroutine(TypingDialog(firstText));
             dialogData.dialogIndex[dialogIndexCount]++;
         }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+
+            interactionNPC.isDialogActive = false;
+            dialogData.isChooseActive = false;
+            for (int i = 0; i < dialogData.dialogIndex.Length; i++)
+            {
+                dialogData.dialogIndex[i] = 0;
+            }
+            activeDialogTexts = null;
+            optionui.optionPanel.SetActive(false);
+            uiManager.dialogPanel.SetActive(false);
+        }
     }
 
     public void EnterDialog(string[] setDialogTexts, int dialogIndexCount)
@@ -99,6 +112,18 @@ public class DialogController : MonoBehaviour, IDialogState
                 string text = setDialogTexts[dialogData.dialogIndex[dialogIndexCount]];
                 currentCoroutine = StartCoroutine(TypingDialog(text));
                 dialogData.dialogIndex[dialogIndexCount]++;
+            }
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                interactionNPC.isDialogActive = false;
+                dialogData.isChooseActive = false;
+                for (int i = 0; i < dialogData.dialogIndex.Length; i++)
+                {
+                    dialogData.dialogIndex[i] = 0;
+                }
+                activeDialogTexts = null;
+                optionui.optionPanel.SetActive(false);
+                uiManager.dialogPanel.SetActive(false);
             }
         }
     }
