@@ -55,6 +55,6 @@ public class FishSpawner : MonoBehaviour
 
         CurrentFish = oceanFish;
         CurrentFish.Initialize(fishInfo);
-        BaseIslandManager.Instance.AddFish();
+        GameManager.Instance.AddFish();
     }
 }

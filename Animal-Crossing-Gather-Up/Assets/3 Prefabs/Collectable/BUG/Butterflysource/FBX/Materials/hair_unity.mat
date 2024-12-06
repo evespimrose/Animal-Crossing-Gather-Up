@@ -15,6 +15,7 @@ Material:
   m_InvalidKeywords:
   - _ALPHABLEND_ON
   - _EMISSION
+  m_InvalidKeywords: []
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0

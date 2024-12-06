@@ -29,7 +29,7 @@ public class Bug : MonoBehaviour, ICollectable
         Destroy(gameObject);
         
 
-        BaseIslandManager.Instance.RemoveBug(info);
+        GameManager.Instance.RemoveBug(info); // SingletonManager<> ��ӹ���?�Ŵ���
         GameManager.Instance.inventory.AddItem(info);
         // player.bugcollectwithceremony(gameObject); <- Destroy(gameObject);
     }
