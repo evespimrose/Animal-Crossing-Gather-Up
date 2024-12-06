@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class NPCPanelUI : MonoBehaviour
+public class DialogUI : MonoBehaviour
 {
     [Header("Panel UI")]
     public GameObject dialogPanel;
