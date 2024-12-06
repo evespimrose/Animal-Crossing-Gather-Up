@@ -8,6 +8,7 @@ public class Flower: MonoBehaviour, ICollectable
     [SerializeField] public FlowerInfo flowerInfo;
     public int flowerCount = 3;
     public int maxFlowers = 3;
+
     public void Initialize(FlowerInfo info)
     {
         flowerInfo = info;
@@ -21,7 +22,11 @@ public class Flower: MonoBehaviour, ICollectable
 
         flowerCount--;
 
-        GameManager.Instance.player.Collect(flowerInfo);
+        FlowerInfo fInfo = flowerInfo;
+
+        fInfo.basePrice += Random.Range(-1, flowerInfo.basePrice);
+
+        GameManager.Instance.player.CollectItem(fInfo);
     }
 
     public void RefillBranches(int amount)

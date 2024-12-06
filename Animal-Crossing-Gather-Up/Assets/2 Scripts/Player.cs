@@ -134,12 +134,12 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void Collect(Item item)
+    public void CollectItem(Item item)
     {
         OnItemCollected?.Invoke(item);
     }
 
-    public void CollectWithCeremony(Item collectableInfo)
+    public void CollectItemWithCeremony(Item collectableInfo)
     {
         // CineMachine Active...
         
@@ -207,14 +207,6 @@ public class Player : MonoBehaviour
             currentTool = null;
             toolInfoCopy = null;
         }
-    }
-
-
-    public void CollectItem(Item item)
-    {
-        OnItemCollected?.Invoke(item);
-        //invetory.OnItemCollected?.Invoke(item);
-        //Debug.Log($"Collected {item.itemName}!");
     }
 
     // 
