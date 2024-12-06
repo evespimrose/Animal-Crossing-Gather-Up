@@ -47,9 +47,15 @@ public class FishingChip : MonoBehaviour
 
             yield break;
         }
+
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.TryGetComponent(out Player player))
+            if (player.EquippedTool.TryGetComponent(out FishingPole fishingPole))
+                fishingPole.UnExecute();
     }
 
-        if(other.gameObject.TryGetComponent(out Player player))
-            if(player.EquippedTool.TryGetComponent(out FishingPole fishingPole))
-                fishingPole.UnExecute();
+
+
 }
