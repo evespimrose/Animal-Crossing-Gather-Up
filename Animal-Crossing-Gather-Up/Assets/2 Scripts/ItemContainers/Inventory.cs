@@ -7,10 +7,10 @@ public class Inventory : MonoBehaviour
 	public GameObject slotPrefab;   // Prefab for the slot
 
 	// This can be extended later
-	private List<Slot> slots;   // List of slots
+	protected List<Slot> slots;   // List of slots
 
 	public GameObject[] horizontalLayoutObjects;
-	private bool isInitialized = false;
+	protected bool isInitialized = false;
 
 	public delegate void InventoryFullHandler();
 	public event InventoryFullHandler OnInventoryFull;  // Event for inventory full
@@ -30,7 +30,7 @@ public class Inventory : MonoBehaviour
 		StartCoroutine(InitializeInventory());
 	}
 
-	private IEnumerator InitializeInventory()
+	protected IEnumerator InitializeInventory()
 	{
 		// Waiting until UIManager is ready
 		while (UIManager.Instance == null || UIManager.Instance.inventoryUI == null)
@@ -49,7 +49,7 @@ public class Inventory : MonoBehaviour
 		isInitialized = true;
 	}
 
-	private void AddSlot(int horizontalCount)
+	protected virtual void AddSlot(int horizontalCount)
 	{
 		GameObject slotObject = Instantiate(slotPrefab, horizontalLayoutObjects[horizontalCount].transform); // Instantiate the slot prefab
 		Slot slot = slotObject.GetComponent<Slot>();  // Get the Slot component
