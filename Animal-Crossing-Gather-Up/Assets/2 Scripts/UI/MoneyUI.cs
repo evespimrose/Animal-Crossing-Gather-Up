@@ -10,12 +10,12 @@ public class MoneyUI : MonoBehaviour
 
 	private void Start()
 	{
-		money = FindObjectOfType<Inventory>().money;
 		moneyText = GetComponentInChildren<TextMeshProUGUI>();
 	}
 
 	private void Update()
 	{
+		money = FindObjectOfType<Inventory>().money;
 		moneyText.text = money.ToString();
 	}
 }
