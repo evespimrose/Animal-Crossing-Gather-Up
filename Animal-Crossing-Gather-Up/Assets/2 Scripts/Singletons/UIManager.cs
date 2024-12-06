@@ -108,7 +108,7 @@ public class UIManager : SingletonManager<UIManager>
 	#region PurchaseUI Management
 	public void OpenPurchasePanel()
 	{
-		if (purchaseUI != null && isInventoryOpen == false)
+		if (purchaseUI != null && isInventoryOpen == false && isPurchaseOpen == false)
 		{
 			isPurchaseOpen = true;
 			purchaseUI.PurchasePanelOpen();
@@ -116,7 +116,7 @@ public class UIManager : SingletonManager<UIManager>
 	}
 	public void ClosePurchasePanel()
 	{
-		if (purchaseUI != null)
+		if (purchaseUI != null && isPurchaseOpen)
 		{
 			isPurchaseOpen = false;
 			purchaseUI.PurchasePanelClose();
