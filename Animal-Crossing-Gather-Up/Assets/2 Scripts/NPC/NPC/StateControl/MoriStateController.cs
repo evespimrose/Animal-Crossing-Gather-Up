@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class MoriStateController : NPCState
@@ -27,8 +28,9 @@ public class MoriStateController : NPCState
         if (!uiManager.dialogPanel.activeSelf)
         {
             Quaternion.LookRotation(Vector3.forward, Vector3.up);
+            anim.SetBool("Talk", false);
+            Task.Delay(2000);
             SetCurrentState(NPCStateType.LookAround);
-
         }
     }
 
