@@ -5,24 +5,30 @@ using UnityEngine;
 
 public class MoriStateController : NPCState
 {
+
+    private void Awake()
+    {
+    }
     private void Start()
     {
         base.Start();
         moveSpeed = 0f;
-        SetCurrentState(NPCStateType.Idle);
+        SetCurrentState(NPCStateType.LookAround);
     }
     private void Update()
     {
         base.Update();
-        //print($"현재 모리 상태: {npcState.ToString()}");
+        print($"현재 모리 상태: {npcState.ToString()}");
     }
 
     protected override void Talk()
     {
         base.Talk();
-        if (uiManager.enterPanel!.activeSelf)
+        if (!uiManager.dialogPanel.activeSelf)
         {
-            SetCurrentState(NPCStateType.Idle);
+            Quaternion.LookRotation(Vector3.forward, Vector3.up);
+            SetCurrentState(NPCStateType.LookAround);
+
         }
     }
 

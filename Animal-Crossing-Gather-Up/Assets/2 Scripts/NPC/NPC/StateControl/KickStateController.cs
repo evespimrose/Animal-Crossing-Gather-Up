@@ -20,7 +20,7 @@ public class KickStateController : NPCState
     protected override void Talk()
     {
         base.Talk();
-        if (uiManager.enterPanel!.activeSelf)
+        if (!uiManager.dialogPanel.activeSelf)
         {
             SetCurrentState(NPCStateType.Walk);
         }

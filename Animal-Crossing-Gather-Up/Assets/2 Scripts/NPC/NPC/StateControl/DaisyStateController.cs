@@ -15,13 +15,13 @@ public class DaisyStateController : NPCState
     private void Update()
     {
         base.Update();
-        print($"현재 데이지 상태: {npcState.ToString()}");
+        //print($"현재 데이지 상태: {npcState.ToString()}");
     }
 
     protected override void Talk()
     {
         base.Talk();
-        if (!uiManager.enterPanel.activeSelf)
+        if (!uiManager.dialogPanel.activeSelf)
         {
             SetCurrentState(NPCStateType.Walk);
         }
