@@ -23,6 +23,7 @@ public abstract class NPCState : MonoBehaviour, INPCState
     protected Animator anim;
     protected float rotateSpeed = 1.5f;
     protected float rotateToPlayerSpeed = 5f;
+    protected float rotateToOriginalSpeed = 3f;
     public Transform player;
 
     protected IDialogState dialogState;
@@ -68,11 +69,12 @@ public abstract class NPCState : MonoBehaviour, INPCState
         anim.SetFloat("Speed", 0f);
     }
 
-    private void LookAround()
+    protected virtual void LookAround()
     {
-        anim.Play("LookAround");
+        anim.SetTrigger("ChangeLook");
         anim.SetFloat("Speed", 0f);
     }
+
     private void Walk()
     {
         Wander();
@@ -82,7 +84,7 @@ public abstract class NPCState : MonoBehaviour, INPCState
     {
         anim.SetFloat("Speed", 0f);
         Vector3 direction = (player.position - transform.position).normalized;
-        direction.y = 0f;
+        direction.y = 0f; //y값 제외하고 회전
 
         if (direction != player.position)
         {
