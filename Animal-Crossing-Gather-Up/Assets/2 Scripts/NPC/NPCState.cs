@@ -25,7 +25,7 @@ public abstract class NPCState : MonoBehaviour, INPCState
     protected float rotateToPlayerSpeed = 5f;
     public Transform player;
 
-    protected NPCPanelUI uiManager;
+    protected DialogUI uiManager;
     protected IDialogState dialogState;
     protected NPCStateType npcState;
     protected Vector3 currentTarget;
@@ -33,7 +33,7 @@ public abstract class NPCState : MonoBehaviour, INPCState
 
     protected virtual void Start()
     {
-        uiManager = FindObjectOfType<NPCPanelUI>();
+        uiManager = FindObjectOfType<DialogUI>();
         anim = GetComponent<Animator>();
         dialogState = GetComponent<IDialogState>();
         npcState = NPCStateType.Idle; //idle로 기본 설정
