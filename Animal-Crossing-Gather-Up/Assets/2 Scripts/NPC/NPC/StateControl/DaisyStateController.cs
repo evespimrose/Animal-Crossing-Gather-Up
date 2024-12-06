@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class DaisyStateController : NPCState
 {
-    private void Start()
+    protected override void Start()
     {
         base.Start();
         moveSpeed = 0.3f;
         currentTarget = RandomWaypoint();
         SetCurrentState(NPCStateType.Walk);
     }
-    private void Update()
+    protected override void Update()
     {
         base.Update();
         //print($"현재 데이지 상태: {npcState.ToString()}");
