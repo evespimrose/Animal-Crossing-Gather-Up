@@ -9,8 +9,9 @@ public class UIManager : SingletonManager<UIManager>
 	public Canvas mainCanvas;
 	public InventoryUI inventoryUI;
 	public PurchaseUI purchaseUI;
-	public OptionUI optionUI;
 	public DialogUI dialogUI;
+	public OptionUI optionUI;
+	public MoneyUI moneyUI;
 
 	// UI States
 	private bool isInventoryOpen = false;
@@ -19,6 +20,10 @@ public class UIManager : SingletonManager<UIManager>
 	private bool isOptionOpen = false;
 
 	public string currentOption = "";
+
+	[Header("Money UI Position")]
+	public Vector2 moneyPanelOnInventory = new Vector2(-400, 50);
+	public Vector2 moneyPanelOnShop = new Vector2(750, 400);
 
 	protected override void Awake()
 	{
@@ -60,8 +65,9 @@ public class UIManager : SingletonManager<UIManager>
 		// Find all UI components in the scene
 		inventoryUI = FindAnyObjectByType<InventoryUI>();
 		purchaseUI = FindAnyObjectByType<PurchaseUI>();
-		optionUI = FindAnyObjectByType<OptionUI>();
 		dialogUI = FindAnyObjectByType<DialogUI>();
+		optionUI = FindAnyObjectByType<OptionUI>();
+		moneyUI = FindAnyObjectByType<MoneyUI>();
 	}
 
 	#region Inventory Management
@@ -169,6 +175,24 @@ public class UIManager : SingletonManager<UIManager>
 	public bool GetOptionActive()
 	{
 		return isOptionOpen;
+	}
+	#endregion
+
+	#region MoneyUI Management
+	public void ShowMoney()
+	{
+		if (isInventoryOpen)
+		{
+			moneyUI.ShowMoney(moneyPanelOnInventory);
+		}
+		else if (isPurchaseOpen)
+		{
+			moneyUI.ShowMoney(moneyPanelOnShop);
+		}
+	}
+	public void HideMoney()
+	{
+		moneyUI.HideMoney();
 	}
 	#endregion
 
