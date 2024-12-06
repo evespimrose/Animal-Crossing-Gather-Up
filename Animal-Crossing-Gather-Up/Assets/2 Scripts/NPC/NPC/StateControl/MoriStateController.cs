@@ -10,13 +10,13 @@ public class MoriStateController : NPCState
     private void Awake()
     {
     }
-    private void Start()
+    protected override void Start()
     {
         base.Start();
         moveSpeed = 0f;
         SetCurrentState(NPCStateType.LookAround);
     }
-    private void Update()
+    protected override void Update()
     {
         base.Update();
         print($"현재 모리 상태: {npcState.ToString()}");

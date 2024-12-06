@@ -37,7 +37,8 @@ public class Player : MonoBehaviour
     private void Start()
     {
         characterController = GetComponent<CharacterController>();
-        EquipTool(debugTool);
+        if(debugTool != null)
+            EquipTool(debugTool);
         handcollectCommand = new HandFlowerCommand();
         isFishing = false;
     }

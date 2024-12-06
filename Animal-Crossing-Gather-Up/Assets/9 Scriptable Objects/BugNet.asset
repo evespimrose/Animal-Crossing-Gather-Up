@@ -15,12 +15,15 @@ MonoBehaviour:
   itemName: BugNet
   stackLimit: 1
   basePrice: 100
-  icon: {fileID: 21300000, guid: 9b9a61ff83c734e45a64f2aedc40dc95, type: 3}
+  icon: {fileID: 21300000, guid: 2bc45c253f20fdc498607c468be9e0d4, type: 3}
   optionText:
   - "\uB4E4\uAE30"
   - "\uADFC\uCC98\uC5D0 \uB450\uAE30"
   fullInventoryOptionText:
   - "\uBC14\uAFB8\uAE30"
+  purchaseOptionText:
+  - "\uC0B4\uB798!"
+  - "\uADF8\uB9CC\uB458\uB798"
   maxDurability: 100
   currentDurability: 100
   isEquipped: 0
