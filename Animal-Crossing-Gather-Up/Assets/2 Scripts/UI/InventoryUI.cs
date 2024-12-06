@@ -12,12 +12,12 @@ public class InventoryUI : MonoBehaviour
 	[Header("UI Elements")]
 	// UI에 띄우기 위한 slot들?
 	public List<SlotUI> slotUIs = new List<SlotUI>();   // List of SlotUI components
-	private List<Slot> slots;
-	private int cursorOnSlotIndex = 0;  // Index of the currently selected slot
-	private const int slotsPerRow = 10; // Number of slots per row
-	private const int totalRows = 2;    // Total number of rows
+	protected List<Slot> slots;
+	protected int cursorOnSlotIndex = 0;  // Index of the currently selected slot
+	protected const int slotsPerRow = 10; // Number of slots per row
+	protected const int totalRows = 2;    // Total number of rows
 
-	private bool isSelecting = false;
+	protected bool isSelecting = false;
 	private string selectedOption = "";
 
 	public delegate void SlotChooseHandler();
@@ -26,7 +26,6 @@ public class InventoryUI : MonoBehaviour
 	private void Start()
 	{
 		// Find component
-		inventory = FindObjectOfType<Inventory>();
 		inventory.OnInventoryFull += OnInventoryFull; // Subscribe to the event
 
 		if (inventoryPanel != null)
@@ -86,7 +85,7 @@ public class InventoryUI : MonoBehaviour
 		}
 	}
 
-	private void HandleSlotSelection()
+	protected void HandleSlotSelection()
 	{
 		int previousSlotIndex = cursorOnSlotIndex;  // Store the previous index
 
@@ -123,7 +122,7 @@ public class InventoryUI : MonoBehaviour
 		}
 	}
 
-	private void CursorOnSlot(int index)
+	protected void CursorOnSlot(int index)
 	{
 		// Decursor on all slots
 		foreach (SlotUI slotUI in slotUIs)
@@ -140,7 +139,7 @@ public class InventoryUI : MonoBehaviour
 		}
 	}
 
-	private void SelectSlot(int index)
+	protected virtual void SelectSlot(int index)
 	{
 		// Select the current slot
 		if (slots[index].Item != null)
