@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     private Vector3 movement;
     private float gravity = -9.81f;  // �߷� ��
     private Vector3 velocity;
+    private bool isRun = false;
 
     // test of input item Player to Inventory
     public Item i0;
@@ -32,12 +33,16 @@ public class Player : MonoBehaviour
     private HandFlowerCommand handcollectCommand;
     public bool isFishing = false;
 
+    private bool isUIOpen => UIManager.Instance.IsAnyUIOpen();
+
     public GameObject EquippedTool => equippedTool;
+    private Animator animator;
 
     private void Start()
     {
         characterController = GetComponent<CharacterController>();
-        if(debugTool != null)
+        animator = GetComponentInChildren<Animator>();
+        if (debugTool != null)
             EquipTool(debugTool);
         handcollectCommand = new HandFlowerCommand();
         isFishing = false;
@@ -91,19 +96,26 @@ public class Player : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
-        movement = new Vector3(-vertical, 0, horizontal).normalized;
-        if (movement.magnitude > 0.1f)
+        isRun = Input.GetKey(KeyCode.LeftShift);
+        animator.SetBool("Run", isRun);
+
+        movement = new Vector3(-vertical, 0, horizontal).normalized * (isRun? 2f : 1f);
+
+        if (!isUIOpen)
         {
-            characterController.Move(moveSpeed * Time.deltaTime * movement);
-            //Vector3 currentPosition = transform.position;
-            //transform.position = new Vector3(currentPosition.x, originalY, currentPosition.z);
-            transform.forward = movement;
+            animator.SetFloat("speed", movement.magnitude);
+            if (movement.magnitude > 0.1f)
+            {
+                characterController.Move(moveSpeed * Time.deltaTime * movement);
+
+                transform.forward = movement;
+            }
         }
     }
 
     private void HandleCollection()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (!isUIOpen && Input.GetKeyDown(KeyCode.Space))
         {
             Collect();
         }
@@ -131,6 +143,7 @@ public class Player : MonoBehaviour
         else
         {
             handcollectCommand.Execute(transform.position);
+
         }
     }
 
