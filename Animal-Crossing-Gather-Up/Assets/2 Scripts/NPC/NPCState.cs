@@ -25,7 +25,6 @@ public abstract class NPCState : MonoBehaviour, INPCState
     protected float rotateToPlayerSpeed = 5f;
     public Transform player;
 
-    protected NPCPanelUI uiManager;
     protected IDialogState dialogState;
     protected NPCStateType npcState;
     protected Vector3 currentTarget;
@@ -33,7 +32,6 @@ public abstract class NPCState : MonoBehaviour, INPCState
 
     protected virtual void Start()
     {
-        uiManager = FindObjectOfType<NPCPanelUI>();
         anim = GetComponent<Animator>();
         dialogState = GetComponent<IDialogState>();
         npcState = NPCStateType.Idle; //idle로 기본 설정
@@ -91,11 +89,11 @@ public abstract class NPCState : MonoBehaviour, INPCState
             Quaternion targetRotation = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateToPlayerSpeed * Time.deltaTime);
 
-            if (dialogState.currentCoroutine != null && uiManager.dialogPanel.activeSelf)
+            if (dialogState.currentCoroutine != null && UIManager.Instance.dialogUI.dialogPanel.activeSelf)
             {
                 anim.SetBool("Talk", true);
             }
-            else if (dialogState.currentCoroutine == null && uiManager.dialogPanel.activeSelf)
+            else if (dialogState.currentCoroutine == null && UIManager.Instance.dialogUI.dialogPanel.activeSelf)
             {
                 anim.SetBool("Talk", false);
             }

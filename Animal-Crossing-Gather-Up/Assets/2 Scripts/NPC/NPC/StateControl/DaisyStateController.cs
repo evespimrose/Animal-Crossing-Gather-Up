@@ -21,7 +21,7 @@ public class DaisyStateController : NPCState
     protected override void Talk()
     {
         base.Talk();
-        if (!uiManager.dialogPanel.activeSelf)
+        if (!UIManager.Instance.dialogUI.dialogPanel.activeSelf)
         {
             SetCurrentState(NPCStateType.Walk);
         }

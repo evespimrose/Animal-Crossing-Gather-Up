@@ -10,9 +10,6 @@ using Unity.VisualScripting;
 
 public class DialogController : MonoBehaviour, IDialogState
 {
-    protected NPCPanelUI uiManager;
-    protected OptionUI optionui;
-
     public Coroutine currentCoroutine { get; private set; }
 
     protected NPCDialogData dialogData;
@@ -24,14 +21,11 @@ public class DialogController : MonoBehaviour, IDialogState
 
     protected virtual void Start()
     {
-        uiManager = FindObjectOfType<NPCPanelUI>();
-        optionui = FindObjectOfType<OptionUI>();
         interactionNPC = FindObjectOfType<NPCInteraction>();
-        uiManager.dialogPanel.SetActive(false);
-        optionui.optionPanel.SetActive(false);
-        uiManager.enterPanel.SetActive(false);
-
-	}
+        UIManager.Instance.dialogUI.dialogPanel.SetActive(false);
+        UIManager.Instance.optionUI.optionPanel.SetActive(false);
+        UIManager.Instance.dialogUI.enterPanel.SetActive(false);
+    }
 
 
     public void DialogStart(string[] setDialogTexts, int dialogIndexCount)
@@ -51,8 +45,8 @@ public class DialogController : MonoBehaviour, IDialogState
             dialogData.dialogIndex[i] = 0;
         }
         activeDialogTexts = null;
-        optionui.optionPanel.SetActive(false);
-        uiManager.dialogPanel.SetActive(false);
+        UIManager.Instance.optionUI.optionPanel.SetActive(false);
+        UIManager.Instance.dialogUI.dialogPanel.SetActive(false);
     }
 
     protected virtual void Update()
@@ -63,7 +57,7 @@ public class DialogController : MonoBehaviour, IDialogState
         //    uiManager.enterPanel.SetActive(dialogData.isEnterActive);
         //}
 
-        if (uiManager.dialogPanel.activeSelf && activeDialogTexts != null)
+        if (UIManager.Instance.dialogUI.dialogPanel.activeSelf && activeDialogTexts != null)
         {
             EnterDialog(activeDialogTexts, activeDialogIndex);
         }
@@ -91,19 +85,19 @@ public class DialogController : MonoBehaviour, IDialogState
                 dialogData.dialogIndex[i] = 0;
             }
             activeDialogTexts = null;
-            optionui.optionPanel.SetActive(false);
-            uiManager.dialogPanel.SetActive(false);
+            UIManager.Instance.optionUI.optionPanel.SetActive(false);
+            UIManager.Instance.dialogUI.dialogPanel.SetActive(false);
         }
     }
 
-	public void EnterDialog(string[] setDialogTexts, int dialogIndexCount)
-	{
-		if (dialogData.dialogIndex[dialogIndexCount] >= setDialogTexts.Length)
-		{
-			dialogData.isChooseActive = true;
-			activeDialogTexts = null;
-			return;
-		}
+    public void EnterDialog(string[] setDialogTexts, int dialogIndexCount)
+    {
+        if (dialogData.dialogIndex[dialogIndexCount] >= setDialogTexts.Length)
+        {
+            dialogData.isChooseActive = true;
+            activeDialogTexts = null;
+            return;
+        }
 
         if (dialogData.dialogIndex[dialogIndexCount] < setDialogTexts.Length && currentCoroutine == null)
         {
@@ -122,8 +116,8 @@ public class DialogController : MonoBehaviour, IDialogState
                     dialogData.dialogIndex[i] = 0;
                 }
                 activeDialogTexts = null;
-                optionui.optionPanel.SetActive(false);
-                uiManager.dialogPanel.SetActive(false);
+                UIManager.Instance.optionUI.optionPanel.SetActive(false);
+                UIManager.Instance.dialogUI.dialogPanel.SetActive(false);
             }
         }
     }
@@ -131,23 +125,23 @@ public class DialogController : MonoBehaviour, IDialogState
     private IEnumerator TypingDialog(string text)
     {
         dialogData.isEnterActive = false;
-        uiManager.enterPanel.SetActive(false);
-        uiManager.dialogText.text = "";
+        UIManager.Instance.dialogUI.enterPanel.SetActive(false);
+        UIManager.Instance.dialogUI.dialogText.text = "";
         foreach (char letter in text.ToCharArray())
         {
             if (Input.GetKeyDown(KeyCode.T))
             {
-                uiManager.dialogText.text = text;
+                UIManager.Instance.dialogUI.dialogText.text = text;
                 break;
             }
 
-			uiManager.dialogText.text += letter;
-			yield return new WaitForSeconds(0.1f);
-		}
+            UIManager.Instance.dialogUI.dialogText.text += letter;
+            yield return new WaitForSeconds(0.1f);
+        }
 
         dialogData.isEnterActive = true;
-        uiManager.enterPanel.SetActive(true);
-        optionui.PanelActive(dialogData.isChooseActive);
+        UIManager.Instance.dialogUI.enterPanel.SetActive(true);
+        UIManager.Instance.optionUI.PanelActive(dialogData.isChooseActive);
         currentCoroutine = null;
     }
 

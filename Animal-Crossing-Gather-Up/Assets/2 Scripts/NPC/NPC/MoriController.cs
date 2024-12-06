@@ -24,17 +24,17 @@ public class MoriController : DialogController, INPCDialog
         base.Start();
         dialogData = moriDialogData;
         moriDialogData.currentOption = "";
-        moriDialogData.currentOption = optionui.currentOption;
+        moriDialogData.currentOption = UIManager.Instance.optionUI.currentOption;
         string[] moriOptions = { "외출할래", "지금은 안할래" };
-        optionui.SetOptions(moriOptions);
+        UIManager.Instance.optionUI.SetOptions(moriOptions);
     }
 
     protected override void Update()
     {
         base.Update();
-        if (moriDialogData.currentOption != optionui.currentOption && optionui.currentOption != null)
+        if (moriDialogData.currentOption != UIManager.Instance.optionUI.currentOption && UIManager.Instance.optionUI.currentOption != null)
         {
-            moriDialogData.currentOption = optionui.currentOption;
+            moriDialogData.currentOption = UIManager.Instance.optionUI.currentOption;
             SelectedOptionAfter();
         }
     }
@@ -43,8 +43,8 @@ public class MoriController : DialogController, INPCDialog
     public void NPCDialogStart()
     {
         string[] moriOptions = { "외출할래", "지금은 안할래" };
-        optionui.SetOptions(moriOptions);
-        uiManager.dialogPanel.SetActive(true);
+        UIManager.Instance.optionUI.SetOptions(moriOptions);
+        UIManager.Instance.dialogUI.dialogPanel.SetActive(true);
         DialogStart(moriDialogData.dialogTexts, moriDialogData.dialogIndex[0]);
         print("모리 대화 시작");
     }
@@ -54,23 +54,23 @@ public class MoriController : DialogController, INPCDialog
         if (moriDialogData.currentOption == "외출할래")
         {
             dialogData.isChooseActive = false;
-            optionui.PanelActive(moriDialogData.isChooseActive);
+            UIManager.Instance.optionUI.PanelActive(moriDialogData.isChooseActive);
 
             DialogStart(moriDialogData.nextDialogTexts, moriDialogData.dialogIndex[1]);
 
             string[] moriOptions = { "마일섬 출발!" };
-            optionui.SetOptions(moriOptions);
+            UIManager.Instance.optionUI.SetOptions(moriOptions);
         }
 
         else if (moriDialogData.currentOption == "지금은 안할래")
         {
             dialogData.isChooseActive = false;
-            optionui.PanelActive(moriDialogData.isChooseActive);
+            UIManager.Instance.optionUI.PanelActive(moriDialogData.isChooseActive);
 
             DialogStart(moriDialogData.thirdDialogTexts, moriDialogData.dialogIndex[2]);
 
             string[] moriOptions = { "대화 종료" };
-            optionui.SetOptions(moriOptions);
+            UIManager.Instance.optionUI.SetOptions(moriOptions);
         }
 
         else if (moriDialogData.currentOption == "마일섬 출발!")

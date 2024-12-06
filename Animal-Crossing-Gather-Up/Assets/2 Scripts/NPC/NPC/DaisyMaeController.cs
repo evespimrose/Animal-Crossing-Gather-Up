@@ -22,18 +22,18 @@ public class DaisyMaeController : DialogController, INPCDialog
         base.Start();
         dialogData = daisyDailogData;
         daisyDailogData.currentOption = "";
-        daisyDailogData.currentOption = optionui.currentOption;
+        daisyDailogData.currentOption = UIManager.Instance.optionUI.currentOption;
         string[] roadriOptions = { "test1", "test2" };
-        optionui.SetOptions(roadriOptions);
+        UIManager.Instance.optionUI.SetOptions(roadriOptions);
     }
 
     protected override void Update()
     {
 
         base.Update();
-        if (daisyDailogData.currentOption != optionui.currentOption && optionui.currentOption != null)
+        if (daisyDailogData.currentOption != UIManager.Instance.optionUI.currentOption && UIManager.Instance.optionUI.currentOption != null)
         {
-            daisyDailogData.currentOption = optionui.currentOption;
+            daisyDailogData.currentOption = UIManager.Instance.optionUI.currentOption;
             SelectedOptionAfter();
         }
     }
@@ -41,8 +41,8 @@ public class DaisyMaeController : DialogController, INPCDialog
     public void NPCDialogStart()
     {
         string[] timmyOptions = { "test1", "test2" };
-        optionui.SetOptions(timmyOptions);
-        uiManager.dialogPanel.SetActive(true);
+        UIManager.Instance.optionUI.SetOptions(timmyOptions);
+        UIManager.Instance.dialogUI.dialogPanel.SetActive(true);
         DialogStart(daisyDailogData.dialogTexts, daisyDailogData.dialogIndex[0]);
         print("데이지 대화 시작");
     }
@@ -52,23 +52,23 @@ public class DaisyMaeController : DialogController, INPCDialog
         if (daisyDailogData.currentOption == "test1")
         {
             dialogData.isChooseActive = false;
-            optionui.PanelActive(daisyDailogData.isChooseActive);
+            UIManager.Instance.optionUI.PanelActive(daisyDailogData.isChooseActive);
 
             DialogStart(daisyDailogData.nextDialogTexts, daisyDailogData.dialogIndex[1]);
 
             string[] roadriOptions = { "테스트 1 끝" };
-            optionui.SetOptions(roadriOptions);
+            UIManager.Instance.optionUI.SetOptions(roadriOptions);
         }
 
         else if (daisyDailogData.currentOption == "test2")
         {
             dialogData.isChooseActive = false;
-            optionui.PanelActive(daisyDailogData.isChooseActive);
+            UIManager.Instance.optionUI.PanelActive(daisyDailogData.isChooseActive);
 
             DialogStart(daisyDailogData.thirdDialogTexts, daisyDailogData.dialogIndex[2]);
 
             string[] roadriOptions = { "테스트 2 끝" };
-            optionui.SetOptions(roadriOptions);
+            UIManager.Instance.optionUI.SetOptions(roadriOptions);
         }
 
         else if (daisyDailogData.currentOption == "테스트 1 끝")

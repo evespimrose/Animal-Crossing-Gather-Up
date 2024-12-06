@@ -25,7 +25,7 @@ public class MoriStateController : NPCState
     protected override void Talk()
     {
         base.Talk();
-        if (!uiManager.dialogPanel.activeSelf)
+        if (!UIManager.Instance.dialogUI.dialogPanel.activeSelf)
         {
             Quaternion.LookRotation(Vector3.forward, Vector3.up);
             anim.SetBool("Talk", false);
