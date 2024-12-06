@@ -12,12 +12,14 @@ public class UIManager : SingletonManager<UIManager>
 	public DialogUI dialogUI;
 	public OptionUI optionUI;
 	public MoneyUI moneyUI;
+	public SellUI sellUI;
 
 	// UI States
 	private bool isInventoryOpen = false;
 	private bool isPurchaseOpen = false;
 	private bool isDialogOpen = false;
 	private bool isOptionOpen = false;
+	private bool isSellOpen = false;
 
 	public string currentOption = "";
 
@@ -63,7 +65,7 @@ public class UIManager : SingletonManager<UIManager>
 		}
 
 		// Find all UI components in the scene
-		inventoryUI = FindAnyObjectByType<InventoryUI>();
+		//inventoryUI = FindAnyObjectByType<InventoryUI>();
 		purchaseUI = FindAnyObjectByType<PurchaseUI>();
 		dialogUI = FindAnyObjectByType<DialogUI>();
 		optionUI = FindAnyObjectByType<OptionUI>();
@@ -73,7 +75,7 @@ public class UIManager : SingletonManager<UIManager>
 	#region Inventory Management
 	public void OpenInventory()
 	{
-		if (inventoryUI != null && isPurchaseOpen == false)
+		if (inventoryUI != null && isPurchaseOpen == false && !isSellOpen)
 		{
 			isInventoryOpen = true;
 			inventoryUI.InventoryOpen();
@@ -105,10 +107,29 @@ public class UIManager : SingletonManager<UIManager>
 	}
 	#endregion
 
+	#region SellUI Management
+	public void OpenSellPanel()
+	{
+		if (!IsAnyUIOpen())
+		{
+			isSellOpen = true;
+			sellUI.SellPanelOpen();
+		}
+	}
+	public void CloseSellPanel()
+	{
+		if (isSellOpen)
+		{
+			isSellOpen = false;
+			sellUI.SellPanelClose();
+		}
+	}
+	#endregion
+
 	#region PurchaseUI Management
 	public void OpenPurchasePanel()
 	{
-		if (purchaseUI != null && isInventoryOpen == false && isPurchaseOpen == false)
+		if (purchaseUI != null && isInventoryOpen == false && isPurchaseOpen == false && !isSellOpen)
 		{
 			isPurchaseOpen = true;
 			purchaseUI.PurchasePanelOpen();
@@ -199,6 +220,6 @@ public class UIManager : SingletonManager<UIManager>
 	// General UI State Check
 	public bool IsAnyUIOpen()
 	{
-		return isInventoryOpen || isPurchaseOpen || isDialogOpen;
+		return isInventoryOpen || isPurchaseOpen || isDialogOpen || isOptionOpen || isSellOpen;
 	}
 }
