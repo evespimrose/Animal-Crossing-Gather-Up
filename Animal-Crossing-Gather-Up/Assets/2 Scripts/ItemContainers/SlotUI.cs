@@ -25,6 +25,8 @@ public class SlotUI : MonoBehaviour
 	private Color defaultItemColor;
 	private Color equippedItemColor;
 
+	public TextMeshProUGUI priceText;
+
 	private void Awake()
 	{
 		currentSlot = GetComponent<Slot>();
@@ -41,6 +43,7 @@ public class SlotUI : MonoBehaviour
 		if (isShopSlot)
 		{
 			defaultItemColor = new Color(1, 1, 1, 1);
+			priceText.text = currentSlot.Item.basePrice.ToString();
 		}
 		else
 		{
