@@ -19,6 +19,8 @@ public class Inventory : MonoBehaviour
 	private PurchaseUI purchaseUI;
 	private int currentEquipIndex = -1;
 
+	public int money = 1000;
+
 	private void Start()
 	{
 		inventoryUI = FindObjectOfType<InventoryUI>();
@@ -153,7 +155,16 @@ public class Inventory : MonoBehaviour
 
 		if (optionText == "»ì·¡!")
 		{
-			AddItem(slot.Item);
+			// check money
+			if (money >= slot.Item.basePrice)
+			{
+				money -= slot.Item.basePrice;
+				AddItem(slot.Item);
+			}
+			else
+			{
+				print("Not Enough Money!");
+			}
 		}
 	}
 
