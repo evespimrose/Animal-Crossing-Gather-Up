@@ -19,6 +19,8 @@ public class Inventory : MonoBehaviour
 	private PurchaseUI purchaseUI;
 	private int currentEquipIndex = -1;
 
+	public int money = 1000;
+
 	private void Start()
 	{
 		inventoryUI = FindObjectOfType<InventoryUI>();
