@@ -12,8 +12,8 @@ public enum NPCStateType
     LookAround,
     Walk,
     Talk,
-    Happy,
-    Dance,
+    //Happy,
+    //Dance,
 }
 public abstract class NPCState : MonoBehaviour, INPCState
 {
@@ -54,12 +54,12 @@ public abstract class NPCState : MonoBehaviour, INPCState
             case NPCStateType.Talk:
                 Talk();
                 break;
-            case NPCStateType.Happy:
-                Happy();
-                break;
-            case NPCStateType.Dance:
-                Dance();
-                break;
+                //case NPCStateType.Happy:
+                //    Happy();
+                //    break;
+                //case NPCStateType.Dance:
+                //    Dance();
+                //    break;
         }
     }
 
@@ -136,17 +136,17 @@ public abstract class NPCState : MonoBehaviour, INPCState
         anim.SetFloat("Speed", currentSpeed);
     }
 
-    private void Happy()
-    {
-        anim.SetTrigger("Happy");
+    //private void Happy()
+    //{
+    //    anim.SetTrigger("Happy");
 
-    }
+    //}
 
-    private void Dance()
-    {
-        anim.SetTrigger("Dance");
+    //private void Dance()
+    //{
+    //    anim.SetTrigger("Dance");
 
-    }
+    //}
 
     public void SetCurrentState(NPCStateType newState)
     {
