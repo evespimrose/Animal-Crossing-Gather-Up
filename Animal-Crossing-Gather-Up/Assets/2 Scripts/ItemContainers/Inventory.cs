@@ -16,13 +16,15 @@ public class Inventory : MonoBehaviour
 	public event InventoryFullHandler OnInventoryFull;  // Event for inventory full
 
 	private InventoryUI inventoryUI;
-
+	private PurchaseUI purchaseUI;
 	private int currentEquipIndex = -1;
 
 	private void Start()
 	{
 		inventoryUI = FindObjectOfType<InventoryUI>();
-		inventoryUI.OnSlotChoose += SelectEnd;
+		inventoryUI.OnSlotChoose += InventorySelectEnd;
+		purchaseUI = FindObjectOfType<PurchaseUI>();
+		purchaseUI.OnSlotChoose += PurchaseSelectEnd;
 		StartCoroutine(InitializeInventory());
 	}
 
@@ -120,11 +122,11 @@ public class Inventory : MonoBehaviour
 		OnInventoryFull?.Invoke();  // Trigger the event
 	}
 
-	public void SelectEnd()
+	public void InventorySelectEnd()
 	{
 		// option Text, index print
 		string optionText = inventoryUI.GetSelectedOptionText();
-		int index = inventoryUI.GetSelectedOptionSlot();
+		int index = inventoryUI.GetSelectedOptionSlotIndex();
 		print($"option text: {optionText}, index: {index}");
 
 		if (optionText == "들기")
@@ -141,6 +143,17 @@ public class Inventory : MonoBehaviour
 		{
 			UnEquipTool(index);
 			UIManager.Instance.CloseInventory();
+		}
+	}
+
+	public void PurchaseSelectEnd()
+	{
+		string optionText = purchaseUI.GetSelectedOptionText();
+		Slot slot = purchaseUI.GetSelectedOptionSlot();
+
+		if (optionText == "살래!")
+		{
+			AddItem(slot.Item);
 		}
 	}
 
