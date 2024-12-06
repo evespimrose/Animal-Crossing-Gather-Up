@@ -53,8 +53,10 @@ public class Shop : MonoBehaviour
 		{
 			if (items[i] != null && purchaseSlots[i] != null)
 			{
-				purchaseSlots[i].Initialize(items[i]);  // slot initialize
-				print($"Shop: Initialized slot {i} with item {items[i].itemName}");
+				// Create a new instance of the item for each slot
+				Item newItem = Instantiate(items[i]);
+				purchaseSlots[i].Initialize(newItem); // Slot initialize
+				print($"Shop: Initialized slot {i} with item {newItem.itemName}");
 			}
 		}
 
@@ -93,6 +95,7 @@ public class Shop : MonoBehaviour
 		GameObject slotObject = Instantiate(slotPrefab, horizontalLayoutObjects[horizontalCount].transform); // Instantiate the slotPrefab
 		Slot slot = slotObject.GetComponent<Slot>();    // Get the slot component
 		SlotUI slotUI = slotObject.GetComponent<SlotUI>();
+		slotUI.isShopSlot = true; // display isShopSlots
 
 		// Ensure SlotUI is properly initialized before adding
 		if (slot == null || slotUI == null)

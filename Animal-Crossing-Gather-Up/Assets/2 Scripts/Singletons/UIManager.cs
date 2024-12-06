@@ -16,6 +16,9 @@ public class UIManager : SingletonManager<UIManager>
 	private bool isInventoryOpen = false;
 	private bool isPurchaseOpen = false;
 	private bool isDialogOpen = false;
+	private bool isOptionOpen = false;
+
+	public string currentOption = "";
 
 	protected override void Awake()
 	{
@@ -78,6 +81,22 @@ public class UIManager : SingletonManager<UIManager>
 			inventoryUI.InventoryClose();
 		}
 	}
+	public void ToggleInventory()
+	{
+		if (inventoryUI != null)
+		{
+			if (isInventoryOpen)
+			{
+				isInventoryOpen = false;
+				inventoryUI.InventoryClose();
+			}
+			else
+			{
+				isInventoryOpen = true;
+				inventoryUI.InventoryOpen();
+			}
+		}
+	}
 	#endregion
 
 	#region PurchaseUI Management
@@ -125,16 +144,31 @@ public class UIManager : SingletonManager<UIManager>
 	{
 		if (optionUI != null)
 		{
+			isOptionOpen = true;
 			optionUI.PanelActive(true);
 			optionUI.SetOptions(options);
 		}
+	}
+	public string GetSelectedOption()
+	{
+		return optionUI.currentOption;
+	}
+	public void SetSelectedOptionInit()
+	{
+		optionUI.currentOption = "";
 	}
 	public void CloseOptions()
 	{
 		if (optionUI != null)
 		{
-			optionUI.PanelActive(false);
+			isOptionOpen = false;
+			optionUI.optionPanel.SetActive(false);
+			optionUI.cursor.SetActive(false);
 		}
+	}
+	public bool GetOptionActive()
+	{
+		return isOptionOpen;
 	}
 	#endregion
 

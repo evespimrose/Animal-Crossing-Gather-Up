@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Unity.VisualScripting;
-using Unity.Android.Types;
+//using Unity.Android.Types;
 
 
 
@@ -31,7 +31,7 @@ public class DialogController : MonoBehaviour, IDialogState
         optionui.optionPanel.SetActive(false);
         uiManager.enterPanel.SetActive(false);
 
-    }
+	}
 
 
     public void DialogStart(string[] setDialogTexts, int dialogIndexCount)
@@ -96,14 +96,14 @@ public class DialogController : MonoBehaviour, IDialogState
         }
     }
 
-    public void EnterDialog(string[] setDialogTexts, int dialogIndexCount)
-    {
-        if (dialogData.dialogIndex[dialogIndexCount] >= setDialogTexts.Length)
-        {
-            dialogData.isChooseActive = true;
-            activeDialogTexts = null;
-            return;
-        }
+	public void EnterDialog(string[] setDialogTexts, int dialogIndexCount)
+	{
+		if (dialogData.dialogIndex[dialogIndexCount] >= setDialogTexts.Length)
+		{
+			dialogData.isChooseActive = true;
+			activeDialogTexts = null;
+			return;
+		}
 
         if (dialogData.dialogIndex[dialogIndexCount] < setDialogTexts.Length && currentCoroutine == null)
         {
@@ -141,9 +141,9 @@ public class DialogController : MonoBehaviour, IDialogState
                 break;
             }
 
-            uiManager.dialogText.text += letter;
-            yield return new WaitForSeconds(0.1f);
-        }
+			uiManager.dialogText.text += letter;
+			yield return new WaitForSeconds(0.1f);
+		}
 
         dialogData.isEnterActive = true;
         uiManager.enterPanel.SetActive(true);

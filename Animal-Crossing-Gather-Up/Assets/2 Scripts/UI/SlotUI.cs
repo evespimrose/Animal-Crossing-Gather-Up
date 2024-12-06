@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class SlotUI : MonoBehaviour
 {
+	[Header("UI Settings")]
+	public bool isShopSlot = false; // Set at Inspector
 	public Image itemImage; // Reference to the UI Image for the item
 	public TextMeshProUGUI stackCountText;  // Reference to the UI Text for the stackCount
 	public Image choiceBackground;  // Reference to the choice background image
@@ -20,6 +22,11 @@ public class SlotUI : MonoBehaviour
 	private int pendingStackCount = 0;
 	private bool hasPendingUpdate = false;
 
+	private Color defaultItemColor;
+	private Color equippedItemColor;
+
+	public TextMeshProUGUI priceText;
+
 	private void Awake()
 	{
 		currentSlot = GetComponent<Slot>();
@@ -31,6 +38,18 @@ public class SlotUI : MonoBehaviour
 			UpdateUI(pendingItem, pendingStackCount);
 			hasPendingUpdate = false;
 		}
+
+		// set color only shop slot
+		if (isShopSlot)
+		{
+			defaultItemColor = new Color(1, 1, 1, 1);
+			priceText.text = currentSlot.Item.basePrice.ToString();
+		}
+		else
+		{
+			defaultItemColor = itemImage.color;
+		}
+		equippedItemColor = new Color(defaultItemColor.r, defaultItemColor.g, defaultItemColor.b, 0.4f);
 	}
 
 	public void UpdateUI(Item item, int stackCount)
@@ -49,6 +68,21 @@ public class SlotUI : MonoBehaviour
 			itemImage.gameObject.SetActive(true);
 			itemImage.sprite = item.icon;   // Set the item icon
 			stackCountText.text = stackCount > 1 ? stackCount.ToString() : "";  // Show stackCount if greater than 1
+
+			// Set color based on slot type and item type
+			if (isShopSlot)
+			{
+				itemImage.color = new Color(0, 0, 0, 1);
+			}
+			else if (item is ToolInfo toolInfo)
+			{
+				itemImage.color = toolInfo.isEquipped ? equippedItemColor : defaultItemColor;
+			}
+			else
+			{
+				itemImage.color = defaultItemColor;
+			}
+
 			choiceBackground?.gameObject.SetActive(true);    // Ensure choice Background is hidden initialy
 		}
 		else
@@ -76,7 +110,7 @@ public class SlotUI : MonoBehaviour
 		itemInfo.gameObject.SetActive(isCursorOn);
 	}
 
-	public void SelectSlot(bool isSelect)
+	public void SelectSlotAtInventory(bool isSelect)
 	{
 		//optionUI.SetActive(isSelect);
 		//OptionUI optionUI;
@@ -86,5 +120,23 @@ public class SlotUI : MonoBehaviour
 		{
 			UIManager.Instance.ShowOptions(currentSlot.Item.optionText);
 		}
+	}
+
+	public void SelectSlotAtPurchase(bool isSelect)
+	{
+		if (currentSlot.Item != null)
+		{
+			UIManager.Instance.ShowOptions(currentSlot.Item.purchaseOptionText);
+		}
+	}
+
+	public string GetSelectedOption()
+	{
+		return UIManager.Instance.GetSelectedOption();
+	}
+
+	public void SetSelectedOptionInit()
+	{
+		UIManager.Instance.SetSelectedOptionInit();
 	}
 }

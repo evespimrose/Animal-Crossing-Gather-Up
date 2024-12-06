@@ -15,6 +15,12 @@ public class PurchaseUI : MonoBehaviour
 	private const int totalRows = 2;    // Total number of rows
 	private bool isInitialized = false;
 
+	private bool isSelecting = false;
+	private string selectedOption = "";
+
+	public delegate void SlotChooseHandler();
+	public event SlotChooseHandler OnSlotChoose;
+
 	private void Start()
 	{
 		print("PurchaseUI: Starting initializaion");
@@ -25,7 +31,7 @@ public class PurchaseUI : MonoBehaviour
 
 	private void Update()
 	{
-		if (purchasePanel.activeSelf && isInitialized)
+		if (purchasePanel.activeSelf && isInitialized && isSelecting == false)
 		{
 			HandleSlotSelection();
 		}
@@ -115,8 +121,11 @@ public class PurchaseUI : MonoBehaviour
 
 	public void PurchasePanelClose()
 	{
-		print("PurchaseUI: Closing purchase panel");
-		purchasePanel.SetActive(false);
+		if (purchasePanel.activeSelf)
+		{
+			print("PurchaseUI: Closing purchase panel");
+			purchasePanel.SetActive(false);
+		}
 	}
 
 	private void HandleSlotSelection()
@@ -147,6 +156,10 @@ public class PurchaseUI : MonoBehaviour
 		{
 			// Move cursor right
 			cursorOnSlotIndex++;    // Move right by one slot
+		}
+		else if (Input.GetKeyDown(KeyCode.Return))
+		{
+			SelectSlot(cursorOnSlotIndex);
 		}
 
 		// Only update the selection if it has changed
@@ -183,5 +196,47 @@ public class PurchaseUI : MonoBehaviour
 				slotUIs[index].CursorOnSlotDisplayName(true);
 			}
 		}
+	}
+
+	private void SelectSlot(int index)
+	{
+		// Select the current slot
+		if (slots[index].Item != null)
+		{
+			isSelecting = true;
+			slotUIs[index].SelectSlotAtPurchase(true);
+			StartCoroutine(WaitForSelectEndCoroutine(index));
+		}
+	}
+
+	private IEnumerator WaitForSelectEndCoroutine(int index)
+	{
+		while (isSelecting)
+		{
+			selectedOption = slotUIs[index].GetSelectedOption();
+			print(selectedOption);
+			slotUIs[index].SetSelectedOptionInit();
+
+			if (selectedOption == "")
+			{
+				yield return new WaitForEndOfFrame();
+			}
+			else
+			{
+				OnSlotChoose();
+				isSelecting = false;
+				selectedOption = "";
+			}
+		}
+	}
+
+	public string GetSelectedOptionText()
+	{
+		return selectedOption;
+	}
+
+	public Slot GetSelectedOptionSlot()
+	{
+		return slots[cursorOnSlotIndex];
 	}
 }
