@@ -23,6 +23,8 @@ public class BaseIslandManager : SingletonManager<BaseIslandManager>
     private int currentFlowerBugs;
 
     [SerializeField] private List<OakTree> oakTrees = new();
+    [SerializeField] private List<Flower> flowers = new();
+
     private const float respawnTime = 5f;
     protected override void Awake()
     {
@@ -40,17 +42,14 @@ public class BaseIslandManager : SingletonManager<BaseIslandManager>
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // ���� �ʱ�ȭ
         currentFish = 0;
         currentTreeBugs = 0;
         currentFlowerBugs = 0;
 
-        // ����Ʈ �ʱ�ȭ
         treeSpawners.Clear();
         flowerSpawners.Clear();
         fishSpawners.Clear();
 
-        // ������ ã��
         FindBugSpawnerByType();
         FindFishSpawnerByType();
     }
@@ -58,7 +57,6 @@ public class BaseIslandManager : SingletonManager<BaseIslandManager>
     private void Start()
     {
         FindBugSpawnerByType();
-        //���̵� ������ Ÿ���� ���� ����� ����
         FindFishSpawnerByType();
 
         StartCoroutine(RefillBranchesRoutine());
@@ -111,7 +109,7 @@ public class BaseIslandManager : SingletonManager<BaseIslandManager>
                 TrySpawnBugOnRandomSpawner(flowerSpawners);
             }
 
-            // ����� ���� �õ�
+            // �����?���� �õ�
             if (currentFish < maxFish)
             {
                 TrySpawnFishOnRandomSpawner(fishSpawners);
