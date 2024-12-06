@@ -7,176 +7,176 @@ using static BugInfo;
 
 public class GameManager : SingletonManager<GameManager>
 {
-    [SerializeField] private int maxTreeBugs = 2;
-    [SerializeField] private int maxFlowerBugs = 2;
-    [SerializeField] protected float spawnInterval = 5f;
+	[SerializeField] private int maxTreeBugs = 2;
+	[SerializeField] private int maxFlowerBugs = 2;
+	[SerializeField] protected float spawnInterval = 5f;
 
-    [SerializeField] private int maxFish = 3;
-    [SerializeField] protected float FishspawnInterval = 5f;
+	[SerializeField] private int maxFish = 3;
+	[SerializeField] protected float FishspawnInterval = 5f;
 
-    private List<BugSpawner> treeSpawners = new List<BugSpawner>();
-    private List<BugSpawner> flowerSpawners = new List<BugSpawner>();
-    private List<FishSpawner> fishSpawners = new List<FishSpawner>();
-    
-    private int currentFish;
-    private int currentTreeBugs;
-    private int currentFlowerBugs;
+	private List<BugSpawner> treeSpawners = new List<BugSpawner>();
+	private List<BugSpawner> flowerSpawners = new List<BugSpawner>();
+	private List<FishSpawner> fishSpawners = new List<FishSpawner>();
 
-    private Player player;
-    public Inventory inventory;
+	private int currentFish;
+	private int currentTreeBugs;
+	private int currentFlowerBugs;
 
-    [SerializeField] private List<OakTree> oakTrees = new();
-    private const float respawnTime = 86400f;
-    protected override void Awake()
-    {
-        base.Awake();  
-    }
-    private void OnEnable()
-    {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
+	public Player player;
+	public Inventory inventory;
 
-    private void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
+	[SerializeField] private List<OakTree> oakTrees = new();
+	private const float respawnTime = 86400f;
+	protected override void Awake()
+	{
+		base.Awake();
+	}
+	private void OnEnable()
+	{
+		SceneManager.sceneLoaded += OnSceneLoaded;
+	}
 
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        // ���� �ʱ�ȭ
-        currentFish = 0;
-        currentTreeBugs = 0;
-        currentFlowerBugs = 0;
+	private void OnDisable()
+	{
+		SceneManager.sceneLoaded -= OnSceneLoaded;
+	}
 
-        // ����Ʈ �ʱ�ȭ
-        treeSpawners.Clear();
-        flowerSpawners.Clear();
-        fishSpawners.Clear();
+	private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+	{
+		// ���� �ʱ�ȭ
+		currentFish = 0;
+		currentTreeBugs = 0;
+		currentFlowerBugs = 0;
 
-        // ������ ã��
-        FindBugSpawnerByType();
-        FindFishSpawnerByType();
-    }
+		// ����Ʈ �ʱ�ȭ
+		treeSpawners.Clear();
+		flowerSpawners.Clear();
+		fishSpawners.Clear();
 
-    private void Start()
-    {
-        FindBugSpawnerByType();
-        //���̵� ������ Ÿ���� ���� ����� ����
-        FindFishSpawnerByType();
+		// ������ ã��
+		FindBugSpawnerByType();
+		FindFishSpawnerByType();
+	}
 
-        StartCoroutine(RefillBranchesRoutine());
+	private void Start()
+	{
+		FindBugSpawnerByType();
+		//���̵� ������ Ÿ���� ���� ����� ����
+		FindFishSpawnerByType();
 
-        player = FindObjectOfType<Player>();
-        inventory = FindObjectOfType<Inventory>();
-        player.OnItemCollected += inventory.AddItem;
-    }
+		StartCoroutine(RefillBranchesRoutine());
 
-    private void FindBugSpawnerByType()
-    {
-        // ���?������ ã��
-        var allSpawners = FindObjectsOfType<BugSpawner>();
+		player = FindObjectOfType<Player>();
+		inventory = FindObjectOfType<Inventory>();
+		player.OnItemCollected += inventory.AddItem;
+	}
 
-        // �������� BugInfo Ÿ�Կ� ���� �з�
-        foreach (var spawner in allSpawners)
-        {
-            if (spawner.GetBugType() == BugType.TreeBug)
-                treeSpawners.Add(spawner);
-            else
-                flowerSpawners.Add(spawner);
+	private void FindBugSpawnerByType()
+	{
+		// ���?������ ã��
+		var allSpawners = FindObjectsOfType<BugSpawner>();
 
-            spawner.Initialize();
-        }
+		// �������� BugInfo Ÿ�Կ� ���� �з�
+		foreach (var spawner in allSpawners)
+		{
+			if (spawner.GetBugType() == BugType.TreeBug)
+				treeSpawners.Add(spawner);
+			else
+				flowerSpawners.Add(spawner);
 
-        StartCoroutine(SpawnRoutine());
-    }
+			spawner.Initialize();
+		}
 
-
-    private void FindFishSpawnerByType()
-    {
-        fishSpawners.AddRange(FindObjectsOfType<FishSpawner>());
-        foreach (var spawner in fishSpawners)
-        {
-            spawner.Initialize();
-        }
-    }
+		StartCoroutine(SpawnRoutine());
+	}
 
 
+	private void FindFishSpawnerByType()
+	{
+		fishSpawners.AddRange(FindObjectsOfType<FishSpawner>());
+		foreach (var spawner in fishSpawners)
+		{
+			spawner.Initialize();
+		}
+	}
 
-    public IEnumerator SpawnRoutine()
-    {
-        while (true)
-        {
-            // Ʈ�� ���� ���� �õ�
-            if (currentTreeBugs < maxTreeBugs)
-            {
-                TrySpawnBugOnRandomSpawner(treeSpawners);
-            }
 
-            // �ö��?���� ���� �õ�
-            if (currentFlowerBugs < maxFlowerBugs)
-            {
-                TrySpawnBugOnRandomSpawner(flowerSpawners);
-            }
 
-            // ����� ���� �õ�
-            if (currentFish < maxFish)
-            {
-                TrySpawnFishOnRandomSpawner(fishSpawners);
-            }
+	public IEnumerator SpawnRoutine()
+	{
+		while (true)
+		{
+			// Ʈ�� ���� ���� �õ�
+			if (currentTreeBugs < maxTreeBugs)
+			{
+				TrySpawnBugOnRandomSpawner(treeSpawners);
+			}
 
-            yield return new WaitForSeconds(spawnInterval);
-        }
-    }
+			// �ö��?���� ���� �õ�
+			if (currentFlowerBugs < maxFlowerBugs)
+			{
+				TrySpawnBugOnRandomSpawner(flowerSpawners);
+			}
 
-    public void TrySpawnBugOnRandomSpawner(List<BugSpawner> spawnerList)
-    {
-        var availableSpawners = spawnerList.Where(s => s.CurrentBug == null).ToList();
-        if (availableSpawners.Count == 0) return;
+			// ����� ���� �õ�
+			if (currentFish < maxFish)
+			{
+				TrySpawnFishOnRandomSpawner(fishSpawners);
+			}
 
-        int randomIndex = Random.Range(0, availableSpawners.Count);
-        availableSpawners[randomIndex].TrySpawnBug();
-    }
+			yield return new WaitForSeconds(spawnInterval);
+		}
+	}
 
-    private void TrySpawnFishOnRandomSpawner(List<FishSpawner> spawnerList)
-    {
-        var availableSpawners = spawnerList.Where(s => s.CurrentFish == null).ToList();
-        if (availableSpawners.Count == 0) return;
+	public void TrySpawnBugOnRandomSpawner(List<BugSpawner> spawnerList)
+	{
+		var availableSpawners = spawnerList.Where(s => s.CurrentBug == null).ToList();
+		if (availableSpawners.Count == 0) return;
 
-        int randomIndex = Random.Range(0, availableSpawners.Count);
-        availableSpawners[randomIndex].TrySpawnFish();
-    }
+		int randomIndex = Random.Range(0, availableSpawners.Count);
+		availableSpawners[randomIndex].TrySpawnBug();
+	}
 
-    
-    public void AddFish() => currentFish++;
-    public void RemoveFish() => currentFish = Mathf.Max(0, currentFish - 1);
+	private void TrySpawnFishOnRandomSpawner(List<FishSpawner> spawnerList)
+	{
+		var availableSpawners = spawnerList.Where(s => s.CurrentFish == null).ToList();
+		if (availableSpawners.Count == 0) return;
 
-    public void AddBug(BugInfo bugInfo)
-    {
-        if (bugInfo.type == BugType.TreeBug)
-            currentTreeBugs++;
-        else
-            currentFlowerBugs++;
-    }
+		int randomIndex = Random.Range(0, availableSpawners.Count);
+		availableSpawners[randomIndex].TrySpawnFish();
+	}
 
-    public void RemoveBug(BugInfo bugInfo)
-    {
-        if (bugInfo.type == BugType.TreeBug)
-            currentTreeBugs = Mathf.Max(0, currentTreeBugs - 1);
-        else
-            currentFlowerBugs = Mathf.Max(0, currentFlowerBugs - 1);
-    }
 
-    private IEnumerator RefillBranchesRoutine()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(respawnTime);
+	public void AddFish() => currentFish++;
+	public void RemoveFish() => currentFish = Mathf.Max(0, currentFish - 1);
 
-            foreach (var oakTree in oakTrees)
-            {
-                int branchesToSpawn = oakTree.maxBranches - oakTree.branchCount;
-                oakTree.RefillBranches(branchesToSpawn);
-            }
-        }
-    }
+	public void AddBug(BugInfo bugInfo)
+	{
+		if (bugInfo.type == BugType.TreeBug)
+			currentTreeBugs++;
+		else
+			currentFlowerBugs++;
+	}
+
+	public void RemoveBug(BugInfo bugInfo)
+	{
+		if (bugInfo.type == BugType.TreeBug)
+			currentTreeBugs = Mathf.Max(0, currentTreeBugs - 1);
+		else
+			currentFlowerBugs = Mathf.Max(0, currentFlowerBugs - 1);
+	}
+
+	private IEnumerator RefillBranchesRoutine()
+	{
+		while (true)
+		{
+			yield return new WaitForSeconds(respawnTime);
+
+			foreach (var oakTree in oakTrees)
+			{
+				int branchesToSpawn = oakTree.maxBranches - oakTree.branchCount;
+				oakTree.RefillBranches(branchesToSpawn);
+			}
+		}
+	}
 }
