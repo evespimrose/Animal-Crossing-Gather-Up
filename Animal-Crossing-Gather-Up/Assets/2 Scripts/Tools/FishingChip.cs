@@ -8,6 +8,7 @@ public class FishingChip : MonoBehaviour
     private Coroutine enumerator;
     public void Execute(float castingTime)
     {
+        GameManager.Instance.player.isFishing = false;
         enumerator = StartCoroutine(SearchFishCoroutine(castingTime));
     }
 
@@ -37,6 +38,7 @@ public class FishingChip : MonoBehaviour
         {
             OceanFish randomFish = fishInRange[Random.Range(0, fishInRange.Count)];
             randomFish.Collect();
+            GameManager.Instance.player.isFishing = false;
             yield break;
         }
         else

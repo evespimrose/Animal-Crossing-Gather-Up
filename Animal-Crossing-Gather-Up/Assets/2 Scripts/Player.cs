@@ -30,7 +30,7 @@ public class Player : MonoBehaviour
     public GameObject debugTool;
 
     private HandFlowerCommand handcollectCommand;
-    private bool isFishing = false;
+    public bool isFishing = false;
 
     public GameObject EquippedTool => equippedTool;
 
