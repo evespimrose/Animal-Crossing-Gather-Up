@@ -17,19 +17,19 @@ public class GameManager : SingletonManager<GameManager>
     private List<BugSpawner> treeSpawners = new List<BugSpawner>();
     private List<BugSpawner> flowerSpawners = new List<BugSpawner>();
     private List<FishSpawner> fishSpawners = new List<FishSpawner>();
-    
+
     private int currentFish;
     private int currentTreeBugs;
     private int currentFlowerBugs;
 
-    private Player player;
+    public Player player;
     public Inventory inventory;
 
     [SerializeField] private List<OakTree> oakTrees = new();
     private const float respawnTime = 86400f;
     protected override void Awake()
     {
-        base.Awake();  
+        base.Awake();
     }
     private void OnEnable()
     {
@@ -146,7 +146,7 @@ public class GameManager : SingletonManager<GameManager>
         availableSpawners[randomIndex].TrySpawnFish();
     }
 
-    
+
     public void AddFish() => currentFish++;
     public void RemoveFish() => currentFish = Mathf.Max(0, currentFish - 1);
 
