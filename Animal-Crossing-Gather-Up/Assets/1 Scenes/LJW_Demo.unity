@@ -525,6 +525,7 @@ MonoBehaviour:
   t0: {fileID: 11400000, guid: cadb0224b7c4d2845b874ef3f521ba6f, type: 2}
   t1: {fileID: 11400000, guid: f3c4ae7c258f8234aa2974d5a7e51581, type: 2}
   debugTool: {fileID: 0}
+  isFishing: 0
 --- !u!4 &472297919
 Transform:
   m_ObjectHideFlags: 0
@@ -704,10 +705,10 @@ RectTransform:
   - {fileID: 867594232}
   m_Father: {fileID: 1332998432}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -400, y: 50}
+  m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &617681836
 GameObject:
@@ -1014,7 +1015,7 @@ GameObject:
   - component: {fileID: 963473936}
   - component: {fileID: 963473935}
   m_Layer: 5
-  m_Name: NPCPanelUI
+  m_Name: DialogUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1029,7 +1030,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 963473934}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80f56345360ce7849949c990b3cff460, type: 3}
+  m_Script: {fileID: 11500000, guid: 3ac20eaa182a5c14c8b72a9131a2cabd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   dialogPanel: {fileID: 1675256871}
@@ -1141,10 +1142,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1068292802}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0b10c1c48df51e4781b54486df883d5, type: 3}
+  m_Script: {fileID: 11500000, guid: 925dfd874c900ea42859ed0571f768ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxTreeBugs: 2
+  maxFlowerBugs: 2
+  spawnInterval: 5
+  maxFish: 3
+  FishspawnInterval: 5
+  player: {fileID: 0}
   inventory: {fileID: 0}
+  oakTrees: []
 --- !u!4 &1068292804
 Transform:
   m_ObjectHideFlags: 0
@@ -1688,8 +1696,8 @@ RectTransform:
   - {fileID: 477040787}
   m_Father: {fileID: 476664268}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.85, y: 0.8}
-  m_AnchorMax: {x: 0.95, y: 0.9}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1705,6 +1713,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c562fce4afb57ee4b8a87f77e8cd8800, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moneyPanel: {fileID: 477040786}
   moneyText: {fileID: 0}
 --- !u!1 &1397823315
 GameObject:
@@ -2033,9 +2042,12 @@ MonoBehaviour:
   mainCanvas: {fileID: 476664267}
   inventoryUI: {fileID: 1425451245}
   purchaseUI: {fileID: 1071412698}
+  dialogUI: {fileID: 963473935}
   optionUI: {fileID: 988093162}
-  npcPanelUI: {fileID: 963473935}
+  moneyUI: {fileID: 1332998433}
   currentOption: 
+  moneyPanelOnInventory: {x: -400, y: 50}
+  moneyPanelOnShop: {x: 750, y: 400}
 --- !u!4 &1417250579
 Transform:
   m_ObjectHideFlags: 0
