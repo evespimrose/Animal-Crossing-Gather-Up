@@ -31,7 +31,7 @@ public class PurchaseUI : MonoBehaviour
 
 	private void Update()
 	{
-		if (purchasePanel.activeSelf && isInitialized)
+		if (purchasePanel.activeSelf && isInitialized && isSelecting == false)
 		{
 			HandleSlotSelection();
 		}
