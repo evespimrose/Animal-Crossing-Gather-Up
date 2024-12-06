@@ -45,7 +45,7 @@ public class TestDori : MonoBehaviour
 			}
 			else if (selectedOption == "ÆÈ°í ½Í¾î!")
 			{
-				//UIManager.Instance.OpenSellPanel();
+				UIManager.Instance.OpenSellPanel();
 				isSelecting = false;
 				selectedOption = "";
 			}
