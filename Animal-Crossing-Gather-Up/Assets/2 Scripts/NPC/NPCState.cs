@@ -9,6 +9,7 @@ using UnityEngine.AI;
 public enum NPCStateType
 {
     Idle,
+    LookAround,
     Walk,
     Talk,
     Happy,
@@ -21,11 +22,11 @@ public abstract class NPCState : MonoBehaviour, INPCState
     protected int currentWaypointIndex = 0;
     protected Animator anim;
     protected float rotateSpeed = 1.5f;
-    protected float rotateToPlayerSpeed = 3f;
+    protected float rotateToPlayerSpeed = 5f;
     public Transform player;
 
     protected NPCPanelUI uiManager;
-    private IDialogState dialogState;
+    protected IDialogState dialogState;
     protected NPCStateType npcState;
     protected Vector3 currentTarget;
     protected float moveSpeed;
@@ -45,6 +46,9 @@ public abstract class NPCState : MonoBehaviour, INPCState
             case NPCStateType.Idle:
                 Idle();
                 break;
+            case NPCStateType.LookAround:
+                LookAround();
+                break;
             case NPCStateType.Walk:
                 Walk();
                 break;
@@ -60,34 +64,47 @@ public abstract class NPCState : MonoBehaviour, INPCState
         }
     }
 
-    protected virtual void Idle()
+    private void Idle()
     {
         anim.Play("Idle");
         anim.SetFloat("Speed", 0f);
     }
 
-    protected virtual void Walk()
+    private void LookAround()
+    {
+        anim.Play("LookAround");
+        anim.SetFloat("Speed", 0f);
+    }
+    private void Walk()
     {
         Wander();
     }
 
     protected virtual void Talk()
     {
-        LookAtPlayer();
+        anim.SetFloat("Speed", 0f);
+        Vector3 direction = (player.position - transform.position).normalized;
+        direction.y = 0f;
 
-        if (dialogState.currentCoroutine != null && uiManager.dialogPanel.activeSelf)
+        if (direction != player.position)
         {
-            anim.SetBool("Talking", true);
-        }
-        else if (dialogState.currentCoroutine == null && uiManager.dialogPanel.activeSelf)
-        {
-            anim.SetBool("Talking", false);
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateToPlayerSpeed * Time.deltaTime);
+
+            if (dialogState.currentCoroutine != null && uiManager.dialogPanel.activeSelf)
+            {
+                anim.SetBool("Talk", true);
+            }
+            else if (dialogState.currentCoroutine == null && uiManager.dialogPanel.activeSelf)
+            {
+                anim.SetBool("Talk", false);
+            }
         }
     }
 
     protected abstract Vector3 RandomWaypoint();
 
-    public virtual void Wander()
+    public void Wander()
     {
         if (currentTarget == Vector3.zero || Vector3.Distance(transform.position, currentTarget) < 0.5f)
         {
@@ -119,32 +136,13 @@ public abstract class NPCState : MonoBehaviour, INPCState
         anim.SetFloat("Speed", currentSpeed);
     }
 
-    public void LookAtPlayer()
-    {
-        anim.SetFloat("Speed", 0f);
-        Vector3 direction = (player.position - transform.position).normalized;
-        direction.y = 0f;
-
-
-        if (direction != player.position)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
-        }
-
-        //if (Quaternion.Angle(transform.rotation, player.rotation) < 1f)
-        //{
-        //    SetCurrentState(NPCStateType.Talk);
-        //}
-    }
-
-    protected virtual void Happy()
+    private void Happy()
     {
         anim.SetTrigger("Happy");
 
     }
 
-    protected virtual void Dance()
+    private void Dance()
     {
         anim.SetTrigger("Dance");
 
