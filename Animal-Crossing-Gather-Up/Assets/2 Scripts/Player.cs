@@ -137,19 +137,16 @@ public class Player : MonoBehaviour
                 switch (currentTool.ToolInfo.toolType)
                 {
                     case ToolInfo.ToolType.Axe:
-                        animReciever.isActing = true;
-                        animator.SetTrigger("UseAxe");
+                        ActivateAnimation("UseAxe");
                         break;
                     case ToolInfo.ToolType.FishingPole:
-                        animReciever.isActing = true;
-                        //animator.SetTrigger("UseFishingPole");
+                        ActivateAnimation("UseFishingPole");
                         break;
                     case ToolInfo.ToolType.BugNet:
-                        animReciever.isActing = true;
-                        animator.SetTrigger("UseBugNet");
+                        ActivateAnimation("UseBugNet");
                         break;
                     default:
-                        animator.SetTrigger("Idle");
+                        ActivateAnimation("Idle");
                         break;
                 }
             }
@@ -176,8 +173,7 @@ public class Player : MonoBehaviour
             if (animator != null && !animReciever.isActing)
             {
                 handcollectCommand.Execute(transform.position);
-                animReciever.isActing = true;
-                animator.SetTrigger("ItemPickUp");
+                ActivateAnimation("ItemPickUp");
             }
         }
     }
@@ -209,8 +205,7 @@ public class Player : MonoBehaviour
     public void CollectItemWithCeremony(Item itemInfo = null)
     {
         StartCoroutine(RotateToFaceDirection(Vector3.right)); // X축 +방향으로 회전 시작
-        animReciever.isActing = true;
-        animator.SetTrigger("ShowOff");
+        ActivateAnimation("ShowOff");
 
         // CineMachine Coroutine Active...
         StartCoroutine(CeremonyCoroutine(itemInfo));
@@ -249,6 +244,8 @@ public class Player : MonoBehaviour
             yield return StartCoroutine(UnequipToolCoroutine());
         }
 
+        ActivateAnimation("Arm");
+
         GameObject toolInstance = Instantiate(tool, handPosition.position, Quaternion.identity);
         equippedTool = toolInstance;
         equippedTool.transform.SetParent(handPosition);
@@ -259,6 +256,7 @@ public class Player : MonoBehaviour
             Debug.LogWarning("Equipped object does not have a valid tool component.");
         }
     }
+
 
     public void UnequipTool()
     {
@@ -274,8 +272,10 @@ public class Player : MonoBehaviour
                 yield return new WaitUntil(() => fishingPole.isDoneFishing);
             }
 
+            ActivateAnimation("UnArm");
+
             ToolInfo toolInfoCopy = currentTool.ToolInfo;
-            OnItemCollected?.Invoke(toolInfoCopy); 
+            OnItemCollected?.Invoke(toolInfoCopy);
 
             Destroy(equippedTool);
             equippedTool = null;
@@ -295,5 +295,11 @@ public class Player : MonoBehaviour
         //{
         //    Debug.Log("Item not found in inventory.");
         //}
+    }
+
+    private void ActivateAnimation(string str)
+    {
+        animReciever.isActing = true;
+        animator.SetTrigger(str);
     }
 }
