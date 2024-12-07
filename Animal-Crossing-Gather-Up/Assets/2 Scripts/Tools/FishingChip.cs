@@ -8,7 +8,7 @@ public class FishingChip : MonoBehaviour
     private Coroutine enumerator;
     public void Execute(float castingTime)
     {
-        GameManager.Instance.player.isFishing = false;
+        GameManager.Instance.player.isFishing = true;
         enumerator = StartCoroutine(SearchFishCoroutine(castingTime));
     }
 
