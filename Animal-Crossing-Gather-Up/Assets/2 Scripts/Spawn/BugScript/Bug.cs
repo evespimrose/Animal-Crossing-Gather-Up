@@ -26,12 +26,18 @@ public class Bug : MonoBehaviour, ICollectable
         Debug.Log("BugNet - Collect");
 
         GetValue();
-        Destroy(gameObject);
+
         
 
-        GameManager.Instance.RemoveBug(info); // SingletonManager<> ��ӹ���?�Ŵ���
-        GameManager.Instance.inventory.AddItem(info);
-        // player.bugcollectwithceremony(gameObject); <- Destroy(gameObject);
+        GameManager.Instance.RemoveBug(info); // SingletonManager<> ��ӹ���?�Ŵ���
+
+        BugInfo bInfo = info;
+
+        bInfo.basePrice += Random.Range(-1, info.basePrice);
+
+        GameManager.Instance.player.CollectItemWithCeremony(bInfo);
+
+        Destroy(gameObject);
     }
     public int GetValue() => info.basePrice;
 }

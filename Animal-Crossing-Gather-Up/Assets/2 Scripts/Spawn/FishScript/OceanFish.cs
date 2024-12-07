@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OceanFish : MonoBehaviour
+public class OceanFish : MonoBehaviour, ICollectable
 {
     private FishInfo info;
     private Vector3 spawnPoint;
@@ -10,6 +10,7 @@ public class OceanFish : MonoBehaviour
 
     public void Initialize(FishInfo fishInfo)
     {
+
         info = fishInfo;
         spawnPoint = transform.position;
         StartCoroutine(WanderingRoutine());
@@ -19,9 +20,12 @@ public class OceanFish : MonoBehaviour
     {
         GetValue();
         GameManager.Instance.RemoveFish();
-        
-       
-        GameManager.Instance.player.CollectWithCeremony(info);
+
+        FishInfo fishInfo = info;
+
+        fishInfo.basePrice += Random.Range(-1, info.basePrice);
+
+        GameManager.Instance.player.CollectItemWithCeremony(fishInfo);
 
         Destroy(gameObject);
     }

@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     private Vector3 movement;
     private float gravity = -9.81f;  // �߷� ��
     private Vector3 velocity;
+    private bool isRun = false;
 
     // test of input item Player to Inventory
     public Item i0;
@@ -32,12 +33,18 @@ public class Player : MonoBehaviour
     private HandFlowerCommand handcollectCommand;
     public bool isFishing = false;
 
+    private bool IsUIOpen => UIManager.Instance.IsAnyUIOpen();
+
     public GameObject EquippedTool => equippedTool;
+    private Animator animator;
+    private AnimReciever animReciever;
 
     private void Start()
     {
         characterController = GetComponent<CharacterController>();
-        if(debugTool != null)
+        animator = GetComponentInChildren<Animator>();
+        animReciever = GetComponentInChildren<AnimReciever>();
+        if (debugTool != null)
             EquipTool(debugTool);
         handcollectCommand = new HandFlowerCommand();
         isFishing = false;
@@ -82,6 +89,10 @@ public class Player : MonoBehaviour
                 EquipTool(debugTool);
             else
                 StartCoroutine(UnequipTool());
+        else if (Input.GetKeyDown(KeyCode.L))
+        {
+            CollectItemWithCeremony();
+        }
     }
 	
 		
@@ -91,19 +102,27 @@ public class Player : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
-        movement = new Vector3(-vertical, 0, horizontal).normalized;
-        if (movement.magnitude > 0.1f)
+        isRun = Input.GetKey(KeyCode.LeftShift);
+        animator.SetBool("Run", isRun);
+
+        movement = new Vector3(-vertical, 0, horizontal).normalized * (isRun? 2f : 1f);
+
+        if (!IsUIOpen && !animReciever.isActing)
         {
-            characterController.Move(moveSpeed * Time.deltaTime * movement);
-            //Vector3 currentPosition = transform.position;
-            //transform.position = new Vector3(currentPosition.x, originalY, currentPosition.z);
-            transform.forward = movement;
+            animator.SetFloat("speed", movement.magnitude);
+
+            if (movement.magnitude > 0.1f)
+            {
+                characterController.Move(moveSpeed * Time.deltaTime * movement);
+
+                transform.forward = movement;
+            }
         }
     }
 
     private void HandleCollection()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (!IsUIOpen && !animReciever.isActing && Input.GetKeyDown(KeyCode.Space))
         {
             Collect();
         }
@@ -113,46 +132,99 @@ public class Player : MonoBehaviour
     {
         if (currentTool != null)
         {
-            if(currentTool.ToolInfo.toolType == ToolInfo.ToolType.FishingPole)
+            if (animator != null && !animReciever.isActing)
+            {
+                switch (currentTool.ToolInfo.toolType)
+                {
+                    case ToolInfo.ToolType.Axe:
+                        animReciever.isActing = true;
+                        animator.SetTrigger("UseAxe");
+                        break;
+                    case ToolInfo.ToolType.FishingPole:
+                        animReciever.isActing = true;
+                        //animator.SetTrigger("UseFishingPole");
+                        break;
+                    case ToolInfo.ToolType.BugNet:
+                        animReciever.isActing = true;
+                        animator.SetTrigger("UseBugNet");
+                        break;
+                    default:
+                        animator.SetTrigger("Idle");
+                        break;
+                }
+            }
+
+            if (currentTool.ToolInfo.toolType == ToolInfo.ToolType.FishingPole)
                 isFishing = true;
 
             currentTool.Execute(transform.position, transform.forward);
 
             if (currentTool.ToolInfo.currentDurability <= 0)
             {
-                OnItemCollected?.Invoke(currentTool.ToolInfo);
+                if (currentTool.ToolInfo.toolType == ToolInfo.ToolType.FishingPole && equippedTool.TryGetComponent(out FishingPole fishingPole))
+                {
+                    isFishing = false;
+                    fishingPole.UnExecute();
+                }
 
-                GameObject toolToDestroy = equippedTool;
-                StartCoroutine(UnequipTool());
-                Destroy(toolToDestroy);
-                // Inventory.DestroyItem();
+                OnItemCollected?.Invoke(currentTool.ToolInfo);
+                StartCoroutine(UnequipAndDestroyTool(equippedTool));
             }
         }
         else
         {
-            handcollectCommand.Execute(transform.position);
+            if (animator != null && !animReciever.isActing)
+            {
+                handcollectCommand.Execute(transform.position);
+                animReciever.isActing = true;
+                animator.SetTrigger("ItemPickUp");
+            }
         }
     }
 
-    public void Collect(Item item)
+    private IEnumerator UnequipAndDestroyTool(GameObject toolToDestroy)
+    {
+        yield return StartCoroutine(UnequipTool());
+        Destroy(toolToDestroy);
+    }
+    public void CollectItem(Item item)
     {
         OnItemCollected?.Invoke(item);
     }
 
-    public void CollectWithCeremony(Item collectableInfo)
+    private IEnumerator RotateToFaceDirection(Vector3 targetDirection)
     {
-        // CineMachine Active...
-        
-        StartCoroutine(CeremonyCoroutine(collectableInfo));
+        float rotationSpeed = 5f;
+        Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+
+        while (Quaternion.Angle(transform.rotation, targetRotation) > 0.1f)
+        {
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+            yield return null;
+        }
+
+        transform.rotation = targetRotation;
     }
 
-    private IEnumerator CeremonyCoroutine(Item collectableInfo)
+    public void CollectItemWithCeremony(Item itemInfo = null)
+    {
+        StartCoroutine(RotateToFaceDirection(Vector3.right)); // X축 +방향으로 회전 시작
+        animReciever.isActing = true;
+        animator.SetTrigger("ShowOff");
+
+        // CineMachine Coroutine Active...
+        StartCoroutine(CeremonyCoroutine(itemInfo));
+    }
+
+    private IEnumerator CeremonyCoroutine(Item itemInfo = null)
     {
         // CineMachine Active...
-        yield return new WaitForSeconds(1f);
-        Debug.Log($"CeremonyCoroutine : {collectableInfo.itemName}");
+        yield return new WaitForSeconds(1f);        // Wait for CineMachine's Playtime
+        yield return new WaitUntil(() => !animReciever.isActing); // Wait for Animation's End
+        Debug.Log($"CeremonyCoroutine : {itemInfo.itemName}");
 
-        OnItemCollected?.Invoke(collectableInfo);
+        //Send itemInfo to inventory
+        OnItemCollected?.Invoke(itemInfo);
         yield break;
     }
 
@@ -196,7 +268,7 @@ public class Player : MonoBehaviour
             if (isFishing && equippedTool.TryGetComponent(out FishingPole fishingPole))
             {
                 fishingPole.UnExecute();
-                yield return new WaitUntil(() => fishingPole.IsDoneFishing);
+                yield return new WaitUntil(() => fishingPole.isDoneFishing);
             }
 
             ToolInfo toolInfoCopy = currentTool.ToolInfo;
@@ -207,14 +279,6 @@ public class Player : MonoBehaviour
             currentTool = null;
             toolInfoCopy = null;
         }
-    }
-
-
-    public void CollectItem(Item item)
-    {
-        OnItemCollected?.Invoke(item);
-        //invetory.OnItemCollected?.Invoke(item);
-        //Debug.Log($"Collected {item.itemName}!");
     }
 
     // 

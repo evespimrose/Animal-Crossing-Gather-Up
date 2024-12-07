@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static BugInfo;
+using System.Linq;
 
 public class GameManager : SingletonManager<GameManager>
 {
@@ -64,10 +64,6 @@ public class GameManager : SingletonManager<GameManager>
         //���̵� ������ Ÿ���� ���� �����?����
         FindFishSpawnerByType();
 
-        StartCoroutine(RefillBranchesRoutine());
-
-        player = FindObjectOfType<Player>();
-        inventory = FindObjectOfType<Inventory>();
         player.OnItemCollected += inventory.AddItem;
     }
 
