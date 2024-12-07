@@ -77,18 +77,18 @@ public class Player : MonoBehaviour
             CollectItem(t1);
         }
         else if (Input.GetKeyDown(KeyCode.I))
-		{
-			// only optionPanel is not active
-			if (UIManager.Instance.GetOptionActive() == false)
-			{
-				UIManager.Instance.ToggleInventory();
-			}
-		}
+        {
+            // only optionPanel is not active
+            if (UIManager.Instance.GetOptionActive() == false)
+            {
+                UIManager.Instance.ToggleInventory();
+            }
+        }
         else if (Input.GetKeyDown(KeyCode.M))
             if (currentTool == null)
                 EquipTool(debugTool);
             else
-                StartCoroutine(UnequipTool());
+                UnequipTool();
         else if (Input.GetKeyDown(KeyCode.L))
         {
             CollectItemWithCeremony();
@@ -184,7 +184,7 @@ public class Player : MonoBehaviour
 
     private IEnumerator UnequipAndDestroyTool(GameObject toolToDestroy)
     {
-        yield return StartCoroutine(UnequipTool());
+        yield return StartCoroutine(UnequipToolCoroutine());
         Destroy(toolToDestroy);
     }
     public void CollectItem(Item item)
@@ -246,7 +246,7 @@ public class Player : MonoBehaviour
     {
         if (equippedTool != null)
         {
-            yield return StartCoroutine(UnequipTool());
+            yield return StartCoroutine(UnequipToolCoroutine());
         }
 
         GameObject toolInstance = Instantiate(tool, handPosition.position, Quaternion.identity);
@@ -260,8 +260,11 @@ public class Player : MonoBehaviour
         }
     }
 
-
-    public IEnumerator UnequipTool()
+    public void UnequipTool()
+    {
+        StartCoroutine(UnequipToolCoroutine());
+    }
+    public IEnumerator UnequipToolCoroutine()
     {
         if (equippedTool != null)
         {
