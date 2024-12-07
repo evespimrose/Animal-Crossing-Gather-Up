@@ -12,16 +12,19 @@ public class InventoryUI : MonoBehaviour
 	[Header("UI Elements")]
 	// UI에 띄우기 위한 slot들?
 	public List<SlotUI> slotUIs = new List<SlotUI>();   // List of SlotUI components
-	protected List<Slot> slots;
-	protected int cursorOnSlotIndex = 0;  // Index of the currently selected slot
-	protected const int slotsPerRow = 10; // Number of slots per row
-	protected const int totalRows = 2;    // Total number of rows
+	private List<Slot> slots;
+	private int cursorOnSlotIndex = 0;  // Index of the currently selected slot
+	private const int slotsPerRow = 10; // Number of slots per row
+	private const int totalRows = 2;    // Total number of rows
 
-	protected bool isSelecting = false;
+	private bool isSelecting = false;
 	private string selectedOption = "";
 
 	public delegate void SlotChooseHandler();
 	public event SlotChooseHandler OnSlotChoose;
+
+	private bool isProcessingSelection = false; // Flag to prevent multiple processing
+	private bool hasProcessedCurrentSelection = false;  // Flag to track if current selection was processed
 
 	private void Start()
 	{
@@ -50,6 +53,8 @@ public class InventoryUI : MonoBehaviour
 
 	public void InventoryOpen()
 	{
+		isProcessingSelection = false;
+		hasProcessedCurrentSelection = false;
 		inventoryPanel.SetActive(true); // Open the inventory UI
 		UIManager.Instance.ShowMoney();
 		UpdateAllSlotUIs(); // Update all slots when opening the inventory
@@ -85,7 +90,7 @@ public class InventoryUI : MonoBehaviour
 		}
 	}
 
-	protected void HandleSlotSelection()
+	private void HandleSlotSelection()
 	{
 		int previousSlotIndex = cursorOnSlotIndex;  // Store the previous index
 
@@ -122,7 +127,7 @@ public class InventoryUI : MonoBehaviour
 		}
 	}
 
-	protected void CursorOnSlot(int index)
+	private void CursorOnSlot(int index)
 	{
 		// Decursor on all slots
 		foreach (SlotUI slotUI in slotUIs)
@@ -139,7 +144,7 @@ public class InventoryUI : MonoBehaviour
 		}
 	}
 
-	protected virtual void SelectSlot(int index)
+	private void SelectSlot(int index)
 	{
 		// Select the current slot
 		if (slots[index].Item != null)
@@ -154,21 +159,29 @@ public class InventoryUI : MonoBehaviour
 	{
 		while (isSelecting)
 		{
-			selectedOption = slotUIs[index].GetSelectedOption();
-			print(selectedOption);
-			slotUIs[index].SetSelectedOptionInit();
+			// Get selected option only if we haven't processed current selection
+			if (!hasProcessedCurrentSelection)
+			{
+				selectedOption = UIManager.Instance.GetSelectedOption();
 
-			if (selectedOption == "")
-			{
-				yield return new WaitForEndOfFrame();
+				// Process only valid selections
+				if (!string.IsNullOrEmpty(selectedOption))
+				{
+					isProcessingSelection = true;
+					inventory.InventorySelectEnd();
+					isSelecting = false;
+					selectedOption = "";
+					UIManager.Instance.SetSelectedOptionInit();
+					hasProcessedCurrentSelection = true;  // Mark as processed
+					isProcessingSelection = false;
+				}
 			}
-			else
-			{
-				OnSlotChoose();
-				isSelecting = false;
-				selectedOption = "";
-			}
+			yield return new WaitForEndOfFrame();
 		}
+
+		// Reset flags when coroutine ends
+		hasProcessedCurrentSelection = false;
+		isProcessingSelection = false;
 	}
 
 	public string GetSelectedOptionText()
