@@ -195,7 +195,7 @@ public class Player : MonoBehaviour
     public void CollectItemWithCeremony(Item itemInfo = null)
     {
         animReciever.isActing = true;
-        animator.SetTrigger("ItemPickUp");
+        animator.SetTrigger("ShowOff");
 
         // CineMachine Coroutine Active...
         StartCoroutine(CeremonyCoroutine(itemInfo));
