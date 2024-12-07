@@ -110,6 +110,7 @@ public class Player : MonoBehaviour
         if (!IsUIOpen && !animReciever.isActing)
         {
             animator.SetFloat("speed", movement.magnitude);
+
             if (movement.magnitude > 0.1f)
             {
                 characterController.Move(moveSpeed * Time.deltaTime * movement);
@@ -131,7 +132,6 @@ public class Player : MonoBehaviour
     {
         if (currentTool != null)
         {
-            Animator animator = GetComponentInChildren<Animator>();
             if (animator != null && !animReciever.isActing)
             {
                 switch (currentTool.ToolInfo.toolType)
@@ -146,7 +146,7 @@ public class Player : MonoBehaviour
                         break;
                     case ToolInfo.ToolType.BugNet:
                         animReciever.isActing = true;
-                        //animator.SetTrigger("UseBugNet");
+                        animator.SetTrigger("UseBugNet");
                         break;
                     default:
                         animator.SetTrigger("Idle");
@@ -192,8 +192,23 @@ public class Player : MonoBehaviour
         OnItemCollected?.Invoke(item);
     }
 
+    private IEnumerator RotateToFaceDirection(Vector3 targetDirection)
+    {
+        float rotationSpeed = 5f;
+        Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+
+        while (Quaternion.Angle(transform.rotation, targetRotation) > 0.1f)
+        {
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+            yield return null;
+        }
+
+        transform.rotation = targetRotation;
+    }
+
     public void CollectItemWithCeremony(Item itemInfo = null)
     {
+        StartCoroutine(RotateToFaceDirection(Vector3.right)); // X축 +방향으로 회전 시작
         animReciever.isActing = true;
         animator.SetTrigger("ShowOff");
 
