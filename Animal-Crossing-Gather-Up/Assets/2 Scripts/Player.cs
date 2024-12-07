@@ -91,8 +91,7 @@ public class Player : MonoBehaviour
                 StartCoroutine(UnequipTool());
         else if (Input.GetKeyDown(KeyCode.L))
         {
-            animReciever.isActing = true;
-            animator.SetTrigger("ShowOff");
+            CollectItemWithCeremony();
         }
     }
 	
@@ -193,7 +192,7 @@ public class Player : MonoBehaviour
         OnItemCollected?.Invoke(item);
     }
 
-    public void CollectItemWithCeremony(Item itemInfo)
+    public void CollectItemWithCeremony(Item itemInfo = null)
     {
         animReciever.isActing = true;
         animator.SetTrigger("ItemPickUp");
@@ -202,7 +201,7 @@ public class Player : MonoBehaviour
         StartCoroutine(CeremonyCoroutine(itemInfo));
     }
 
-    private IEnumerator CeremonyCoroutine(Item itemInfo)
+    private IEnumerator CeremonyCoroutine(Item itemInfo = null)
     {
         // CineMachine Active...
         yield return new WaitForSeconds(1f);        // Wait for CineMachine's Playtime
