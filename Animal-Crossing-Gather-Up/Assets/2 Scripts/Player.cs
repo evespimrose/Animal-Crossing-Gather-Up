@@ -37,12 +37,13 @@ public class Player : MonoBehaviour
 
     public GameObject EquippedTool => equippedTool;
     private Animator animator;
-    public bool isActing;
+    private AnimReciever animReciever;
 
     private void Start()
     {
         characterController = GetComponent<CharacterController>();
         animator = GetComponentInChildren<Animator>();
+        animReciever = GetComponentInChildren<AnimReciever>();
         if (debugTool != null)
             EquipTool(debugTool);
         handcollectCommand = new HandFlowerCommand();
@@ -88,6 +89,11 @@ public class Player : MonoBehaviour
                 EquipTool(debugTool);
             else
                 StartCoroutine(UnequipTool());
+        else if (Input.GetKeyDown(KeyCode.L))
+        {
+            animReciever.isActing = true;
+            animator.SetTrigger("ShowOff");
+        }
     }
 	
 		
@@ -102,7 +108,7 @@ public class Player : MonoBehaviour
 
         movement = new Vector3(-vertical, 0, horizontal).normalized * (isRun? 2f : 1f);
 
-        if (!IsUIOpen)
+        if (!IsUIOpen && !animReciever.isActing)
         {
             animator.SetFloat("speed", movement.magnitude);
             if (movement.magnitude > 0.1f)
@@ -116,7 +122,7 @@ public class Player : MonoBehaviour
 
     private void HandleCollection()
     {
-        if (!IsUIOpen && !isActing && Input.GetKeyDown(KeyCode.Space))
+        if (!IsUIOpen && !animReciever.isActing && Input.GetKeyDown(KeyCode.Space))
         {
             Collect();
         }
@@ -126,24 +132,22 @@ public class Player : MonoBehaviour
     {
         if (currentTool != null)
         {
-            // Animator 가져오기
             Animator animator = GetComponentInChildren<Animator>();
-            if (animator != null && !isActing)
+            if (animator != null && !animReciever.isActing)
             {
-                // 도구 타입에 따라 트리거 및 bool 파라미터 설정
                 switch (currentTool.ToolInfo.toolType)
                 {
                     case ToolInfo.ToolType.Axe:
-                        isActing = true;
+                        animReciever.isActing = true;
                         animator.SetTrigger("UseAxe");
                         break;
                     case ToolInfo.ToolType.FishingPole:
-                        isActing = true;
-                        animator.SetTrigger("UseFishingPole");
+                        animReciever.isActing = true;
+                        //animator.SetTrigger("UseFishingPole");
                         break;
                     case ToolInfo.ToolType.BugNet:
-                        isActing = true;
-                        animator.SetTrigger("UseBugNet");
+                        animReciever.isActing = true;
+                        //animator.SetTrigger("UseBugNet");
                         break;
                     default:
                         animator.SetTrigger("Idle");
@@ -170,10 +174,10 @@ public class Player : MonoBehaviour
         }
         else
         {
-            if (animator != null && !isActing)
+            if (animator != null && !animReciever.isActing)
             {
                 handcollectCommand.Execute(transform.position);
-                isActing = true;
+                animReciever.isActing = true;
                 animator.SetTrigger("ItemPickUp");
             }
         }
@@ -187,23 +191,26 @@ public class Player : MonoBehaviour
     public void CollectItem(Item item)
     {
         OnItemCollected?.Invoke(item);
-        
     }
 
-    public void CollectItemWithCeremony(Item collectableInfo)
+    public void CollectItemWithCeremony(Item itemInfo)
     {
-        // CineMachine Active...
-        
-        StartCoroutine(CeremonyCoroutine(collectableInfo));
+        animReciever.isActing = true;
+        animator.SetTrigger("ItemPickUp");
+
+        // CineMachine Coroutine Active...
+        StartCoroutine(CeremonyCoroutine(itemInfo));
     }
 
-    private IEnumerator CeremonyCoroutine(Item collectableInfo)
+    private IEnumerator CeremonyCoroutine(Item itemInfo)
     {
         // CineMachine Active...
-        yield return new WaitForSeconds(1f);
-        Debug.Log($"CeremonyCoroutine : {collectableInfo.itemName}");
+        yield return new WaitForSeconds(1f);        // Wait for CineMachine's Playtime
+        yield return new WaitUntil(() => !animReciever.isActing); // Wait for Animation's End
+        Debug.Log($"CeremonyCoroutine : {itemInfo.itemName}");
 
-        OnItemCollected?.Invoke(collectableInfo);
+        //Send itemInfo to inventory
+        OnItemCollected?.Invoke(itemInfo);
         yield break;
     }
 
@@ -247,7 +254,7 @@ public class Player : MonoBehaviour
             if (isFishing && equippedTool.TryGetComponent(out FishingPole fishingPole))
             {
                 fishingPole.UnExecute();
-                yield return new WaitUntil(() => fishingPole.IsDoneFishing);
+                yield return new WaitUntil(() => fishingPole.isDoneFishing);
             }
 
             ToolInfo toolInfoCopy = currentTool.ToolInfo;
@@ -271,10 +278,5 @@ public class Player : MonoBehaviour
         //{
         //    Debug.Log("Item not found in inventory.");
         //}
-    }
-
-    public void OnToolAnimationEnd()
-    {
-        isActing = false;
     }
 }
