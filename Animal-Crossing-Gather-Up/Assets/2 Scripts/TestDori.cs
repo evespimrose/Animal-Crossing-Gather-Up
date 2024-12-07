@@ -30,6 +30,10 @@ public class TestDori : MonoBehaviour
 		{
 			UIManager.Instance.ClosePurchasePanel();
 		}
+		else if (Input.GetKeyDown(KeyCode.Escape))
+		{
+			UIManager.Instance.CloseSellPanel();
+		}
 	}
 
 	private IEnumerator WaitForSelectEndCoroutine()
