@@ -33,10 +33,11 @@ public class Player : MonoBehaviour
     private HandFlowerCommand handcollectCommand;
     public bool isFishing = false;
 
-    private bool isUIOpen => UIManager.Instance.IsAnyUIOpen();
+    private bool IsUIOpen => UIManager.Instance.IsAnyUIOpen();
 
     public GameObject EquippedTool => equippedTool;
     private Animator animator;
+    public bool isActing;
 
     private void Start()
     {
@@ -101,7 +102,7 @@ public class Player : MonoBehaviour
 
         movement = new Vector3(-vertical, 0, horizontal).normalized * (isRun? 2f : 1f);
 
-        if (!isUIOpen)
+        if (!IsUIOpen)
         {
             animator.SetFloat("speed", movement.magnitude);
             if (movement.magnitude > 0.1f)
@@ -115,7 +116,7 @@ public class Player : MonoBehaviour
 
     private void HandleCollection()
     {
-        if (!isUIOpen && Input.GetKeyDown(KeyCode.Space))
+        if (!IsUIOpen && !isActing && Input.GetKeyDown(KeyCode.Space))
         {
             Collect();
         }
@@ -125,31 +126,68 @@ public class Player : MonoBehaviour
     {
         if (currentTool != null)
         {
-            if(currentTool.ToolInfo.toolType == ToolInfo.ToolType.FishingPole)
+            // Animator 가져오기
+            Animator animator = GetComponentInChildren<Animator>();
+            if (animator != null && !isActing)
+            {
+                // 도구 타입에 따라 트리거 및 bool 파라미터 설정
+                switch (currentTool.ToolInfo.toolType)
+                {
+                    case ToolInfo.ToolType.Axe:
+                        isActing = true;
+                        animator.SetTrigger("UseAxe");
+                        break;
+                    case ToolInfo.ToolType.FishingPole:
+                        isActing = true;
+                        animator.SetTrigger("UseFishingPole");
+                        break;
+                    case ToolInfo.ToolType.BugNet:
+                        isActing = true;
+                        animator.SetTrigger("UseBugNet");
+                        break;
+                    default:
+                        animator.SetTrigger("Idle");
+                        break;
+                }
+            }
+
+            if (currentTool.ToolInfo.toolType == ToolInfo.ToolType.FishingPole)
                 isFishing = true;
 
             currentTool.Execute(transform.position, transform.forward);
 
             if (currentTool.ToolInfo.currentDurability <= 0)
             {
-                OnItemCollected?.Invoke(currentTool.ToolInfo);
+                if (currentTool.ToolInfo.toolType == ToolInfo.ToolType.FishingPole && equippedTool.TryGetComponent(out FishingPole fishingPole))
+                {
+                    isFishing = false;
+                    fishingPole.UnExecute();
+                }
 
-                GameObject toolToDestroy = equippedTool;
-                StartCoroutine(UnequipTool());
-                Destroy(toolToDestroy);
-                // Inventory.DestroyItem();
+                OnItemCollected?.Invoke(currentTool.ToolInfo);
+                StartCoroutine(UnequipAndDestroyTool(equippedTool));
             }
         }
         else
         {
-            handcollectCommand.Execute(transform.position);
-
+            if (animator != null && !isActing)
+            {
+                handcollectCommand.Execute(transform.position);
+                isActing = true;
+                animator.SetTrigger("ItemPickUp");
+            }
         }
     }
 
+    private IEnumerator UnequipAndDestroyTool(GameObject toolToDestroy)
+    {
+        yield return StartCoroutine(UnequipTool());
+        Destroy(toolToDestroy);
+    }
     public void CollectItem(Item item)
     {
         OnItemCollected?.Invoke(item);
+        
     }
 
     public void CollectItemWithCeremony(Item collectableInfo)
@@ -233,5 +271,10 @@ public class Player : MonoBehaviour
         //{
         //    Debug.Log("Item not found in inventory.");
         //}
+    }
+
+    public void OnToolAnimationEnd()
+    {
+        isActing = false;
     }
 }
