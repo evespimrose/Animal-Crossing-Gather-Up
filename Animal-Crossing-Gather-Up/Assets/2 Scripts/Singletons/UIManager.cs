@@ -206,7 +206,7 @@ public class UIManager : SingletonManager<UIManager>
 		{
 			moneyUI.ShowMoney(moneyPanelOnInventory);
 		}
-		else if (isPurchaseOpen)
+		else if (isPurchaseOpen || isSellOpen)
 		{
 			moneyUI.ShowMoney(moneyPanelOnShop);
 		}
