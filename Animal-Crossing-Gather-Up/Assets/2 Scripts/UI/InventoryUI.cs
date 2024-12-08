@@ -20,9 +20,6 @@ public class InventoryUI : MonoBehaviour
 	private bool isSelecting = false;
 	private string selectedOption = "";
 
-	public delegate void SlotChooseHandler();
-	public event SlotChooseHandler OnSlotChoose;
-
 	private bool isProcessingSelection = false; // Flag to prevent multiple processing
 	private bool hasProcessedCurrentSelection = false;  // Flag to track if current selection was processed
 

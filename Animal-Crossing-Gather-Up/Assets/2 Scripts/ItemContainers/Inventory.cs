@@ -24,7 +24,6 @@ public class Inventory : MonoBehaviour
 	private void Start()
 	{
 		inventoryUI = FindObjectOfType<InventoryUI>();
-		inventoryUI.OnSlotChoose += InventorySelectEnd;
 		purchaseUI = FindObjectOfType<PurchaseUI>();
 		purchaseUI.OnSlotChoose += PurchaseSelectEnd;
 		StartCoroutine(InitializeInventory());
