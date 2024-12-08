@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SellUI : MonoBehaviour
 {
@@ -11,10 +12,13 @@ public class SellUI : MonoBehaviour
 	private const int totalRows = 2;    // Total number of rows
 	private Sell sell;
 
+	public Image cursorImage;
+
 	private void Start()
 	{
 		sell = FindObjectOfType<Sell>();
 		sellPanel.SetActive(false);
+		cursorImage.gameObject.SetActive(false);
 	}
 
 	private void Update()
@@ -108,11 +112,22 @@ public class SellUI : MonoBehaviour
 
 	private void CursorOnConfirm()
 	{
+		List<Slot> slots = sell.GetSlots();
+		// Reset all slots
+		foreach (SlotUI slotUI in slotUIs)
+		{
+			slotUI.CursorOnSlotDisplayBackground(false);
+			slotUI.CursorOnSlotDisplayName(false);
+			slotUI.cursorImage.gameObject.SetActive(false);
+		}
+
+		cursorImage.gameObject.SetActive(true);
 		print("Cursor is on confirm panel");
 	}
 
 	private void CursorOnSlot(int index)
 	{
+		cursorImage.gameObject.SetActive(false);
 		List<Slot> slots = sell.GetSlots();
 		// Reset all slots
 		foreach (SlotUI slotUI in slotUIs)
