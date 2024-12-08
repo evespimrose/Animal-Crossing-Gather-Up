@@ -105,4 +105,17 @@ public class Sell : MonoBehaviour
 	{
 		return slots;
 	}
+
+	public List<int> GetSelectedSlotIndex()
+	{
+		List<int> slotIndex = new List<int>();
+		for (int i = 0; i < slots.Count; i++)
+		{
+			if (slots[i].isSelected)
+			{
+				slotIndex.Add(i);
+			}
+		}
+		return slotIndex;
+	}
 }
