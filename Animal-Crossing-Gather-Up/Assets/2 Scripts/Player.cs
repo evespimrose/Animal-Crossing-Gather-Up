@@ -39,11 +39,13 @@ public class Player : MonoBehaviour
     private Animator animator;
     private AnimReciever animReciever;
 
+    private ChangeCamera changeCamera;
     private void Start()
     {
         characterController = GetComponent<CharacterController>();
         animator = GetComponentInChildren<Animator>();
         animReciever = GetComponentInChildren<AnimReciever>();
+        changeCamera = FindObjectOfType<ChangeCamera>();
         if (debugTool != null)
             EquipTool(debugTool);
         handcollectCommand = new HandFlowerCommand();
@@ -219,8 +221,10 @@ public class Player : MonoBehaviour
     private IEnumerator CeremonyCoroutine(Item itemInfo = null)
     {
         // CineMachine Active...
+        changeCamera.ZoomIn(transform);
         yield return new WaitForSeconds(1f);        // Wait for CineMachine's Playtime
         yield return new WaitUntil(() => !animReciever.isActing); // Wait for Animation's End
+        changeCamera.ZoomOut(transform);
         Debug.Log($"CeremonyCoroutine : {itemInfo.itemName}");
 
         //Send itemInfo to inventory
