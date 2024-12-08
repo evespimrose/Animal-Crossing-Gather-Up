@@ -65,7 +65,7 @@ public class UIManager : SingletonManager<UIManager>
 		}
 
 		// Find all UI components in the scene
-		//inventoryUI = FindAnyObjectByType<InventoryUI>();
+		inventoryUI = FindAnyObjectByType<InventoryUI>();
 		purchaseUI = FindAnyObjectByType<PurchaseUI>();
 		dialogUI = FindAnyObjectByType<DialogUI>();
 		optionUI = FindAnyObjectByType<OptionUI>();
@@ -75,7 +75,7 @@ public class UIManager : SingletonManager<UIManager>
 	#region Inventory Management
 	public void OpenInventory()
 	{
-		if (inventoryUI != null && isPurchaseOpen == false && !isSellOpen)
+		if (!isInventoryOpen && !isPurchaseOpen && !isSellOpen)
 		{
 			isInventoryOpen = true;
 			inventoryUI.InventoryOpen();
@@ -83,7 +83,7 @@ public class UIManager : SingletonManager<UIManager>
 	}
 	public void CloseInventory()
 	{
-		if (inventoryUI != null)
+		if (isInventoryOpen)
 		{
 			isInventoryOpen = false;
 			inventoryUI.InventoryClose();
@@ -91,18 +91,13 @@ public class UIManager : SingletonManager<UIManager>
 	}
 	public void ToggleInventory()
 	{
-		if (inventoryUI != null)
+		if (isInventoryOpen)
 		{
-			if (isInventoryOpen)
-			{
-				isInventoryOpen = false;
-				inventoryUI.InventoryClose();
-			}
-			else if (isPurchaseOpen == false)
-			{
-				isInventoryOpen = true;
-				inventoryUI.InventoryOpen();
-			}
+			CloseInventory();
+		}
+		else
+		{
+			OpenInventory();
 		}
 	}
 	#endregion
@@ -129,7 +124,7 @@ public class UIManager : SingletonManager<UIManager>
 	#region PurchaseUI Management
 	public void OpenPurchasePanel()
 	{
-		if (purchaseUI != null && isInventoryOpen == false && isPurchaseOpen == false && !isSellOpen)
+		if (!isInventoryOpen && !isPurchaseOpen && !isSellOpen)
 		{
 			isPurchaseOpen = true;
 			purchaseUI.PurchasePanelOpen();
@@ -137,7 +132,7 @@ public class UIManager : SingletonManager<UIManager>
 	}
 	public void ClosePurchasePanel()
 	{
-		if (purchaseUI != null && isPurchaseOpen)
+		if (isPurchaseOpen)
 		{
 			isPurchaseOpen = false;
 			purchaseUI.PurchasePanelClose();
@@ -148,33 +143,24 @@ public class UIManager : SingletonManager<UIManager>
 	#region Dialog System Management
 	public void ShowDialog(string[] dialogTexts, int talkCount)
 	{
-		if (dialogUI != null)
-		{
-			isDialogOpen = true;
-			dialogUI.dialogPanel.SetActive(true);
-			dialogUI.dialogText.text = dialogTexts[talkCount];
-		}
+		isDialogOpen = true;
+		dialogUI.dialogPanel.SetActive(true);
+		dialogUI.dialogText.text = dialogTexts[talkCount];
 	}
 	public void CloseDialog()
 	{
-		if (dialogUI != null)
-		{
-			isDialogOpen = false;
-			dialogUI.dialogPanel.SetActive(false);
-			dialogUI.enterPanel.SetActive(false);
-		}
+		isDialogOpen = false;
+		dialogUI.dialogPanel.SetActive(false);
+		dialogUI.enterPanel.SetActive(false);
 	}
 	#endregion
 
 	#region OptionUI Management
 	public void ShowOptions(string[] options)
 	{
-		if (optionUI != null)
-		{
-			isOptionOpen = true;
-			optionUI.PanelActive(true);
-			optionUI.SetOptions(options);
-		}
+		isOptionOpen = true;
+		optionUI.PanelActive(true);
+		optionUI.SetOptions(options);
 	}
 	public string GetSelectedOption()
 	{
@@ -186,12 +172,9 @@ public class UIManager : SingletonManager<UIManager>
 	}
 	public void CloseOptions()
 	{
-		if (optionUI != null)
-		{
-			isOptionOpen = false;
-			optionUI.optionPanel.SetActive(false);
-			optionUI.cursor.SetActive(false);
-		}
+		isOptionOpen = false;
+		optionUI.optionPanel.SetActive(false);
+		optionUI.cursor.SetActive(false);
 	}
 	public bool GetOptionActive()
 	{
