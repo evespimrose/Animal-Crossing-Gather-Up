@@ -30,6 +30,7 @@ public class SlotUI : MonoBehaviour
 
 	private void Awake()
 	{
+		print("SlotUI: Awake");
 		currentSlot = GetComponent<Slot>();
 		itemNameText = itemInfo.GetComponentInChildren<TextMeshProUGUI>();
 		isInitialized = true;
@@ -55,9 +56,14 @@ public class SlotUI : MonoBehaviour
 		multiChoiceBackground?.gameObject.SetActive(false);
 	}
 
+	public void InitializeSlot(Slot slot)
+	{
+		currentSlot = slot;
+	}
+
 	public void UpdateUI(Item item, int stackCount)
 	{
-		if (isInitialized == false)
+		if (!isInitialized)
 		{
 			pendingItem = item;
 			pendingStackCount = stackCount;

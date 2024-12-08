@@ -4,18 +4,16 @@ using UnityEngine;
 
 public class SellUI : MonoBehaviour
 {
-	public Inventory inventory;
 	public GameObject sellPanel;
-
-	private List<Slot> slots;
 	private List<SlotUI> slotUIs = new List<SlotUI>();
 	private int cursorOnSlotIndex = 0;
 	private const int slotsPerRow = 10; // Number of slots per row
 	private const int totalRows = 2;    // Total number of rows
+	private Sell sell;
 
 	private void Start()
 	{
-		inventory = FindObjectOfType<Inventory>();
+		sell = FindObjectOfType<Sell>();
 		sellPanel.SetActive(false);
 	}
 
@@ -29,6 +27,17 @@ public class SellUI : MonoBehaviour
 
 	private void HandleSlotSelection()
 	{
+		if (sell == null || slotUIs.Count == 0)
+		{
+			return;
+		}
+
+		List<Slot> slots = sell.GetSlots();
+		if (slots == null || slots.Count == 0)
+		{
+			return;
+		}
+
 		int previousSlotIndex = cursorOnSlotIndex;  // Store the previous index
 
 		if (Input.GetKeyDown(KeyCode.W) && cursorOnSlotIndex >= slotsPerRow)
@@ -66,24 +75,30 @@ public class SellUI : MonoBehaviour
 
 	private void CursorOnSlot(int index)
 	{
-		// Decursor on all slots
+		List<Slot> slots = sell.GetSlots();
+		// Reset all slots
 		foreach (SlotUI slotUI in slotUIs)
 		{
 			slotUI.CursorOnSlotDisplayBackground(false);
 			slotUI.CursorOnSlotDisplayName(false);
+			slotUI.cursorImage.gameObject.SetActive(false);
 		}
 
-		// Cursor on the current slot
-		slotUIs[index].CursorOnSlotDisplayBackground(true);
+		// Update current slot
+		SlotUI currentSlotUI = slotUIs[index];
+		currentSlotUI.CursorOnSlotDisplayBackground(true);
+		currentSlotUI.cursorImage.gameObject.SetActive(true);
+
 		if (slots[index].Item != null)
 		{
-			slotUIs[index].CursorOnSlotDisplayName(true);
+			currentSlotUI.CursorOnSlotDisplayName(true);
 		}
 	}
 
 	private void SelectSlot(int index)
 	{
-		slots[index].isSelected = true != false;
+		List<Slot> slots = sell.GetSlots();
+		slots[index].isSelected = !slots[index].isSelected;
 		slotUIs[index].SelectSlotAtSell(slots[index].isSelected);
 	}
 
@@ -92,17 +107,57 @@ public class SellUI : MonoBehaviour
 		slotUIs.Add(slotUI);
 	}
 
+	public void UpdateUI()
+	{
+		if (sell == null || slotUIs == null)
+		{
+			return;
+		}
+
+		List<Slot> slots = sell.GetSlots();
+		if (slots != null)
+		{
+			for (int i = 0; i < slots.Count && i < slotUIs.Count; i++)
+			{
+				SlotUI slotUI = slotUIs[i];
+				Slot slot = slots[i];
+
+				// Update item and count
+				slotUIs[i].UpdateUI(slots[i].Item, slots[i].stackCount);
+
+				// Update UI states
+				if (slot.Item == null)
+				{
+					slotUI.itemImage.gameObject.SetActive(false);
+					slotUI.choiceBackground.gameObject.SetActive(false);
+					slotUI.multiChoiceBackground.gameObject.SetActive(false);
+					slotUI.itemInfo.SetActive(false);
+				}
+				else
+				{
+					slotUI.itemImage.gameObject.SetActive(true);
+				}
+			}
+
+			// Update cursor position
+			if (slotUIs.Count > 0)
+			{
+				CursorOnSlot(cursorOnSlotIndex);
+			}
+		}
+	}
+
 	public void SellPanelOpen()
 	{
 		if (!sellPanel.activeSelf)
 		{
 			sellPanel.SetActive(true);
 			UIManager.Instance.ShowMoney();
-			UpdateAllSlotUIs();
-			CursorOnSlot(cursorOnSlotIndex);
-			foreach (SlotUI slotUI in slotUIs)
+			cursorOnSlotIndex = 0;
+
+			if (sell != null)
 			{
-				slotUI.cursorImage.gameObject.SetActive(false);
+				sell.UpdateFromInventory();
 			}
 		}
 	}
@@ -114,17 +169,14 @@ public class SellUI : MonoBehaviour
 			UIManager.Instance.HideMoney();
 			sellPanel.SetActive(false);
 		}
-	}
 
-	public void UpdateAllSlotUIs()
-	{
-		// 인벤토리의 Slot의 정보들을 새로 할당받아서 받아옴
-		// 이 slots를 변경해도 Inventory의 slot에 담긴 아이템이 바뀌지는 않음
-		slots = inventory.GetSlotInfo();
-		// 인벤토리의 Slot의 정보를 토대로 slotUIs를 업데이트
-		for (int i = 0; i < slots.Count; i++)
+		// Reset all UI states
+		foreach (SlotUI slotUI in slotUIs)
 		{
-			slotUIs[i].UpdateUI(slots[i].Item, slots[i].stackCount);
+			slotUI.cursorImage.gameObject.SetActive(false);
+			slotUI.choiceBackground.gameObject.SetActive(false);
+			slotUI.multiChoiceBackground.gameObject.SetActive(false);
+			slotUI.itemInfo.SetActive(false);
 		}
 	}
 }
