@@ -40,37 +40,75 @@ public class SellUI : MonoBehaviour
 
 		int previousSlotIndex = cursorOnSlotIndex;  // Store the previous index
 
-		if (Input.GetKeyDown(KeyCode.W) && cursorOnSlotIndex >= slotsPerRow)
+		if (Input.GetKeyDown(KeyCode.W))
 		{
-			// Move cursor up
-			cursorOnSlotIndex -= slotsPerRow;   // Move up by one row
+			if (cursorOnSlotIndex >= slotsPerRow)
+			{
+				// Move cursor up
+				cursorOnSlotIndex -= slotsPerRow;   // Move up by one row
+			}
+			else if (cursorOnSlotIndex == -1)
+			{
+				cursorOnSlotIndex = slotsPerRow * totalRows - 1;  // 19
+			}
 		}
-		else if (Input.GetKeyDown(KeyCode.S) && cursorOnSlotIndex < slotsPerRow * (totalRows - 1))
+		else if (Input.GetKeyDown(KeyCode.S))
 		{
-			// Move cursor down
-			cursorOnSlotIndex += slotsPerRow;   // Move down by one row
+			if (cursorOnSlotIndex < slotsPerRow * (totalRows - 1) && cursorOnSlotIndex >= 0)
+			{
+				// Move cursor down
+				cursorOnSlotIndex += slotsPerRow;   // Move down by one row
+			}
+			else if (cursorOnSlotIndex >= slotsPerRow * (totalRows - 1))
+			{
+				cursorOnSlotIndex = -1;
+			}
 		}
 		else if (Input.GetKeyDown(KeyCode.A) && cursorOnSlotIndex % slotsPerRow > 0)
 		{
 			// Move cursor left
 			cursorOnSlotIndex--;    // Move left by one slot
 		}
-		else if (Input.GetKeyDown(KeyCode.D) && cursorOnSlotIndex % slotsPerRow < slotsPerRow - 1)
+		else if (Input.GetKeyDown(KeyCode.D) && cursorOnSlotIndex % slotsPerRow < slotsPerRow - 1 && cursorOnSlotIndex >= 0)
 		{
 			// Move cursor right
 			cursorOnSlotIndex++;    // Move right by one slot
 		}
 		else if (Input.GetKeyDown(KeyCode.Return))
 		{
-			// Select CursorOnSlot
-			SelectSlot(cursorOnSlotIndex);
+			if (cursorOnSlotIndex >= 0)
+			{
+				// Select CursorOnSlot
+				SelectSlot(cursorOnSlotIndex);
+			}
+			else
+			{
+				SelectConfirm();
+			}
 		}
 
 		// Only update the selection if it has changed
 		if (previousSlotIndex != cursorOnSlotIndex)
 		{
-			CursorOnSlot(cursorOnSlotIndex);
+			if (cursorOnSlotIndex >= 0)
+			{
+				CursorOnSlot(cursorOnSlotIndex);
+			}
+			else
+			{
+				CursorOnConfirm();
+			}
 		}
+	}
+
+	private void SelectConfirm()
+	{
+		print("Selected confirm panel");
+	}
+
+	private void CursorOnConfirm()
+	{
+		print("Cursor is on confirm panel");
 	}
 
 	private void CursorOnSlot(int index)
