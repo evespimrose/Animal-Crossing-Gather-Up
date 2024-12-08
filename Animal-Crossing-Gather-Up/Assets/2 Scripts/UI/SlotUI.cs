@@ -44,14 +44,14 @@ public class SlotUI : MonoBehaviour
 		// set color only shop slot
 		if (isShopSlot)
 		{
-			defaultItemColor = new Color(1, 1, 1, 1);
+			defaultItemColor = new Color(0, 0, 0, 1);
 			priceText.text = currentSlot.Item.basePrice.ToString();
 		}
 		else
 		{
 			defaultItemColor = itemImage.color;
 		}
-		equippedItemColor = new Color(defaultItemColor.r, defaultItemColor.g, defaultItemColor.b, 0.4f);
+		equippedItemColor = new Color(defaultItemColor.r, defaultItemColor.g, defaultItemColor.b, 0.5f);
 
 		multiChoiceBackground?.gameObject.SetActive(false);
 	}
@@ -83,6 +83,7 @@ public class SlotUI : MonoBehaviour
 			{
 				itemImage.color = new Color(0, 0, 0, 1);
 			}
+			// Check if the item is a tool and update transparency based on equipped state
 			else if (item is ToolInfo toolInfo)
 			{
 				itemImage.color = toolInfo.isEquipped ? equippedItemColor : defaultItemColor;
