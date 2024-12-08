@@ -87,7 +87,20 @@ public class Sell : MonoBehaviour
 			{
 				if (inventorySlots[i].Item != null)
 				{
-					slots[i].Initialize(inventorySlots[i].Item);
+					// If the item is a tool, copy its equipped state
+					if (inventorySlots[i].Item is ToolInfo toolInfo)
+					{
+						if (slots[i].Item == null || !(slots[i].Item is ToolInfo))
+						{
+							slots[i].Initialize(toolInfo);
+						}
+						// Copy the equipped state
+						((ToolInfo)slots[i].Item).isEquipped = toolInfo.isEquipped;
+					}
+					else
+					{
+						slots[i].Initialize(inventorySlots[i].Item);
+					}
 					slots[i].stackCount = inventorySlots[i].stackCount;
 				}
 				else
@@ -95,7 +108,6 @@ public class Sell : MonoBehaviour
 					slots[i].RemoveItemAll();
 				}
 			}
-
 			// Update UI
 			UIManager.Instance.sellUI.UpdateUI();
 		}

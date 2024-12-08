@@ -184,6 +184,9 @@ public class Inventory : MonoBehaviour
 		}
 		slots[index].Item.optionText[0] = "가방에 넣기";
 		currentEquipIndex = index;
+
+		// Update SellUI to reflect equipped state
+		FindObjectOfType<Sell>()?.UpdateFromInventory();
 	}
 
 	private void UnEquipTool(int index)
@@ -194,6 +197,9 @@ public class Inventory : MonoBehaviour
 		}
 		slots[index].Item.optionText[0] = "들기";
 		currentEquipIndex = -1;
+
+		// Update SellUI to reflect unequipped state
+		FindObjectOfType<Sell>()?.UpdateFromInventory();
 	}
 
 	private void RemoveItemAll(int index)
