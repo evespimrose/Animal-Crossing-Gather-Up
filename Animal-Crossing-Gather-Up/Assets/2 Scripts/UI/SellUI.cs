@@ -189,11 +189,7 @@ public class SellUI : MonoBehaviour
 				}
 			}
 
-			// Update cursor position
-			if (slotUIs.Count > 0)
-			{
-				CursorOnSlot(cursorOnSlotIndex);
-			}
+			CursorOnSlot(cursorOnSlotIndex);
 		}
 	}
 
