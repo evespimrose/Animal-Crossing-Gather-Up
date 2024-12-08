@@ -31,13 +31,13 @@ public class Player : MonoBehaviour
     public GameObject debugTool;
 
     private HandFlowerCommand handcollectCommand;
-    public bool isFishing = false;
+    //public bool isFishing = false;
 
     private bool IsUIOpen => UIManager.Instance.IsAnyUIOpen();
 
     public GameObject EquippedTool => equippedTool;
     private Animator animator;
-    private AnimReciever animReciever;
+    public AnimReciever animReciever;
 
     private void Start()
     {
@@ -47,7 +47,7 @@ public class Player : MonoBehaviour
         if (debugTool != null)
             EquipTool(debugTool);
         handcollectCommand = new HandFlowerCommand();
-        isFishing = false;
+        animReciever.isFishing = false;
     }
 
     private void Update()
@@ -103,7 +103,7 @@ public class Player : MonoBehaviour
         float vertical = Input.GetAxis("Vertical");
 
         isRun = Input.GetKey(KeyCode.LeftShift);
-        animator.SetBool("Run", isRun);
+        animator.SetBool("isRun", isRun);
 
         movement = new Vector3(-vertical, 0, horizontal).normalized * (isRun? 2f : 1f);
 
@@ -140,7 +140,7 @@ public class Player : MonoBehaviour
                         ActivateAnimation("UseAxe");
                         break;
                     case ToolInfo.ToolType.FishingPole:
-                        ActivateAnimation("UseFishingPole");
+                        ActivateAnimation("UseFishingPole", true, 0);
                         break;
                     case ToolInfo.ToolType.BugNet:
                         ActivateAnimation("UseBugNet");
@@ -151,16 +151,13 @@ public class Player : MonoBehaviour
                 }
             }
 
-            if (currentTool.ToolInfo.toolType == ToolInfo.ToolType.FishingPole)
-                isFishing = true;
-
             currentTool.Execute(transform.position, transform.forward);
 
             if (currentTool.ToolInfo.currentDurability <= 0)
             {
                 if (currentTool.ToolInfo.toolType == ToolInfo.ToolType.FishingPole && equippedTool.TryGetComponent(out FishingPole fishingPole))
                 {
-                    isFishing = false;
+                    ActivateAnimation(null, false, 3);
                     fishingPole.UnExecute();
                 }
 
@@ -190,6 +187,10 @@ public class Player : MonoBehaviour
 
     private IEnumerator RotateToFaceDirection(Vector3 targetDirection)
     {
+        /* DO NOT DELETE!!!*/
+        //ActivateAnimation(null, true, 2);
+        //yield return new WaitUntil(() => !animReciever.isActing);
+
         float rotationSpeed = 5f;
         Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
 
@@ -200,12 +201,13 @@ public class Player : MonoBehaviour
         }
 
         transform.rotation = targetRotation;
+        ActivateAnimation("ShowOff");
+        yield break;
     }
 
     public void CollectItemWithCeremony(Item itemInfo = null)
     {
         StartCoroutine(RotateToFaceDirection(Vector3.right)); // X축 +방향으로 회전 시작
-        ActivateAnimation("ShowOff");
 
         // CineMachine Coroutine Active...
         StartCoroutine(CeremonyCoroutine(itemInfo));
@@ -214,7 +216,7 @@ public class Player : MonoBehaviour
     private IEnumerator CeremonyCoroutine(Item itemInfo = null)
     {
         // CineMachine Active...
-        yield return new WaitForSeconds(1f);        // Wait for CineMachine's Playtime
+        yield return new WaitForSeconds(2.1f);        // Wait for CineMachine's Playtime
         yield return new WaitUntil(() => !animReciever.isActing); // Wait for Animation's End
         Debug.Log($"CeremonyCoroutine : {itemInfo.itemName}");
 
@@ -266,7 +268,7 @@ public class Player : MonoBehaviour
     {
         if (equippedTool != null)
         {
-            if (isFishing && equippedTool.TryGetComponent(out FishingPole fishingPole))
+            if (animReciever.isFishing && equippedTool.TryGetComponent(out FishingPole fishingPole))
             {
                 fishingPole.UnExecute();
                 yield return new WaitUntil(() => fishingPole.isDoneFishing);
@@ -297,9 +299,14 @@ public class Player : MonoBehaviour
         //}
     }
 
-    private void ActivateAnimation(string str)
+    public void ActivateAnimation(string str = null, bool isFishing = false, int fishingTaskCount = 0)
     {
         animReciever.isActing = true;
+        animReciever.isFishing = isFishing;
+        animReciever.fishingTaskCount = fishingTaskCount;
+        animator.SetBool("isFishing", isFishing);
+        animator.SetInteger("FishingTaskCount", fishingTaskCount);
         animator.SetTrigger(str);
     }
+
 }
