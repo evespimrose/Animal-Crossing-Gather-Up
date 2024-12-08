@@ -21,11 +21,15 @@ public class Inventory : MonoBehaviour
 
 	public int money = 1000;
 
+	private Sell sell;
+
 	private void Start()
 	{
 		inventoryUI = FindObjectOfType<InventoryUI>();
 		purchaseUI = FindObjectOfType<PurchaseUI>();
 		purchaseUI.OnSlotChoose += PurchaseSelectEnd;
+		sell = FindAnyObjectByType<Sell>();
+		FindObjectOfType<SellUI>().OnSell += SelectConfirm;
 		StartCoroutine(InitializeInventory());
 	}
 
@@ -195,5 +199,16 @@ public class Inventory : MonoBehaviour
 	private void RemoveItemAll(int index)
 	{
 		slots[index].RemoveItemAll();
+	}
+
+	public void SelectConfirm()
+	{
+		List<int> selectedSlotIndex = sell.GetSelectedSlotIndex();
+		for (int i = 0; i < selectedSlotIndex.Count; i++)
+		{
+			money += slots[selectedSlotIndex[i]].Item.basePrice * slots[selectedSlotIndex[i]].stackCount;
+			RemoveItemAll(selectedSlotIndex[i]);
+		}
+		UIManager.Instance.CloseSellPanel();
 	}
 }

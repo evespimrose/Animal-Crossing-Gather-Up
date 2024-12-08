@@ -13,6 +13,8 @@ public class SellUI : MonoBehaviour
 	private Sell sell;
 
 	public Image cursorImage;
+	public delegate void SellHandler();
+	public event SellHandler OnSell;
 
 	private void Start()
 	{
@@ -87,7 +89,7 @@ public class SellUI : MonoBehaviour
 			}
 			else
 			{
-				SelectConfirm();
+				OnSell?.Invoke();
 			}
 		}
 
@@ -103,11 +105,6 @@ public class SellUI : MonoBehaviour
 				CursorOnConfirm();
 			}
 		}
-	}
-
-	private void SelectConfirm()
-	{
-		print("Selected confirm panel");
 	}
 
 	private void CursorOnConfirm()
