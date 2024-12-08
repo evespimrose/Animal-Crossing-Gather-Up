@@ -204,11 +204,14 @@ public class Inventory : MonoBehaviour
 	public void SelectConfirm()
 	{
 		List<int> selectedSlotIndex = sell.GetSelectedSlotIndex();
-		for (int i = 0; i < selectedSlotIndex.Count; i++)
+		if (selectedSlotIndex.Count > 0)
 		{
-			money += slots[selectedSlotIndex[i]].Item.basePrice * slots[selectedSlotIndex[i]].stackCount;
-			RemoveItemAll(selectedSlotIndex[i]);
+			for (int i = 0; i < selectedSlotIndex.Count; i++)
+			{
+				money += slots[selectedSlotIndex[i]].Item.basePrice * slots[selectedSlotIndex[i]].stackCount;
+				RemoveItemAll(selectedSlotIndex[i]);
+			}
+			UIManager.Instance.CloseSellPanel();
 		}
-		UIManager.Instance.CloseSellPanel();
 	}
 }
