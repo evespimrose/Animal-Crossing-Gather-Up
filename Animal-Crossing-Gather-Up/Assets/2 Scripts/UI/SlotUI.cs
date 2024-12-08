@@ -115,13 +115,18 @@ public class SlotUI : MonoBehaviour
 
 	public void SelectSlotAtInventory(bool isSelect)
 	{
-		//optionUI.SetActive(isSelect);
-		//OptionUI optionUI;
-		//optionUI.SetOptions(currentSlot.item.optionText);
-		// Ȱ��ȭ �ϰ�, �ٸ� Ű ������ �ٽ� ��Ȱ��ȭ
 		if (currentSlot.Item != null)
 		{
-			UIManager.Instance.ShowOptions(currentSlot.Item.optionText);
+			// if item is tool and has equipped, only "put into bag" option exist
+			if (currentSlot.Item is ToolInfo toolInfo && toolInfo.isEquipped)
+			{
+				string[] option = { "가방에 넣기" };
+				UIManager.Instance.ShowOptions(option);
+			}
+			else
+			{
+				UIManager.Instance.ShowOptions(currentSlot.Item.optionText);
+			}
 		}
 	}
 
