@@ -16,23 +16,17 @@ public class TestDori : MonoBehaviour
 
 	private void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.U))
+		if (Input.GetKeyDown(KeyCode.U) && !UIManager.Instance.IsAnyUIOpen())
 		{
 			isSelecting = true;
 			UIManager.Instance.ShowOptions(shopOptionTexts);
 			StartCoroutine(WaitForSelectEndCoroutine());
 		}
-		else if (Input.GetKeyDown(KeyCode.J))
-		{
-			UIManager.Instance.OpenPurchasePanel();
-		}
-		else if (Input.GetKeyDown(KeyCode.K))
-		{
-			UIManager.Instance.ClosePurchasePanel();
-		}
 		else if (Input.GetKeyDown(KeyCode.Escape))
 		{
 			UIManager.Instance.CloseSellPanel();
+			UIManager.Instance.ClosePurchasePanel();
+			//UIManager.Instance.CloseOptions();
 		}
 	}
 
