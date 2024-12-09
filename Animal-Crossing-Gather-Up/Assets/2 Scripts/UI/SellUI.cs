@@ -12,7 +12,8 @@ public class SellUI : MonoBehaviour
 	private const int totalRows = 2;    // Total number of rows
 	private Sell sell;
 
-	public Image cursorImage;
+	public Image confirmCursorImage;
+	public Image cancelCursorImage;
 	public delegate void SellHandler();
 	public event SellHandler OnSell;
 
@@ -20,7 +21,8 @@ public class SellUI : MonoBehaviour
 	{
 		sell = FindObjectOfType<Sell>();
 		sellPanel.SetActive(false);
-		cursorImage.gameObject.SetActive(false);
+		confirmCursorImage.gameObject.SetActive(false);
+		cancelCursorImage.gameObject.SetActive(false);
 	}
 
 	private void Update()
@@ -55,6 +57,10 @@ public class SellUI : MonoBehaviour
 			}
 			else if (cursorOnSlotIndex == -1)
 			{
+				cursorOnSlotIndex = slotsPerRow * totalRows - 3;  // 17
+			}
+			else if (cursorOnSlotIndex == -2)
+			{
 				cursorOnSlotIndex = slotsPerRow * totalRows - 1;  // 19
 			}
 		}
@@ -67,18 +73,39 @@ public class SellUI : MonoBehaviour
 			}
 			else if (cursorOnSlotIndex >= slotsPerRow * (totalRows - 1))
 			{
+				if (cursorOnSlotIndex <= slotsPerRow * totalRows - 3)
+				{
+					cursorOnSlotIndex = -1;
+				}
+				else
+				{
+					cursorOnSlotIndex = -2;
+				}
+			}
+		}
+		else if (Input.GetKeyDown(KeyCode.A))
+		{
+			if (cursorOnSlotIndex % slotsPerRow > 0)
+			{
+				// Move cursor left
+				cursorOnSlotIndex--;    // Move left by one slot
+			}
+			else if (cursorOnSlotIndex == -2)
+			{
 				cursorOnSlotIndex = -1;
 			}
 		}
-		else if (Input.GetKeyDown(KeyCode.A) && cursorOnSlotIndex % slotsPerRow > 0)
+		else if (Input.GetKeyDown(KeyCode.D))
 		{
-			// Move cursor left
-			cursorOnSlotIndex--;    // Move left by one slot
-		}
-		else if (Input.GetKeyDown(KeyCode.D) && cursorOnSlotIndex % slotsPerRow < slotsPerRow - 1 && cursorOnSlotIndex >= 0)
-		{
-			// Move cursor right
-			cursorOnSlotIndex++;    // Move right by one slot
+			if (cursorOnSlotIndex % slotsPerRow < slotsPerRow - 1 && cursorOnSlotIndex >= 0)
+			{
+				// Move cursor right
+				cursorOnSlotIndex++;    // Move right by one slot
+			}
+			else if (cursorOnSlotIndex == -1)
+			{
+				cursorOnSlotIndex = -2;
+			}
 		}
 		else if (Input.GetKeyDown(KeyCode.Return))
 		{
@@ -87,9 +114,13 @@ public class SellUI : MonoBehaviour
 				// Select CursorOnSlot
 				SelectSlot(cursorOnSlotIndex);
 			}
-			else
+			else if (cursorOnSlotIndex == -2)
 			{
 				OnSell?.Invoke();
+			}
+			else if (cursorOnSlotIndex == -1)
+			{
+				UIManager.Instance.CloseSellPanel();
 			}
 		}
 
@@ -102,12 +133,12 @@ public class SellUI : MonoBehaviour
 			}
 			else
 			{
-				CursorOnConfirm();
+				CursorOnOption();
 			}
 		}
 	}
 
-	private void CursorOnConfirm()
+	private void CursorOnOption()
 	{
 		List<Slot> slots = sell.GetSlots();
 		// Reset all slots
@@ -115,16 +146,26 @@ public class SellUI : MonoBehaviour
 		{
 			slotUI.CursorOnSlotDisplayBackground(false);
 			slotUI.CursorOnSlotDisplayName(false);
-			slotUI.cursorImage.gameObject.SetActive(false);
+			slotUI.CursorOnSlotDisplayCursor(false);
 		}
 
-		cursorImage.gameObject.SetActive(true);
-		print("Cursor is on confirm panel");
+		if (cursorOnSlotIndex == -2)
+		{
+			confirmCursorImage.gameObject.SetActive(true);
+			cancelCursorImage.gameObject.SetActive(false);
+		}
+		else if (cursorOnSlotIndex == -1)
+		{
+			confirmCursorImage.gameObject.SetActive(false);
+			cancelCursorImage.gameObject.SetActive(true);
+		}
 	}
 
 	private void CursorOnSlot(int index)
 	{
-		cursorImage.gameObject.SetActive(false);
+		confirmCursorImage.gameObject.SetActive(false);
+		cancelCursorImage.gameObject.SetActive(false);
+
 		List<Slot> slots = sell.GetSlots();
 		// Reset all slots
 		foreach (SlotUI slotUI in slotUIs)
@@ -135,7 +176,6 @@ public class SellUI : MonoBehaviour
 		}
 
 		// Update current slot
-		print(index);
 		SlotUI currentSlotUI = slotUIs[index];
 		currentSlotUI.CursorOnSlotDisplayBackground(true);
 		currentSlotUI.cursorImage.gameObject.SetActive(true);
