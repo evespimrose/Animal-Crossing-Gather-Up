@@ -16,22 +16,28 @@ public class Bug : MonoBehaviour, ICollectable
       
     }
 
-    private void OnMouseDown()
-    {
-        Collect();
-    }
-
     public void Collect()
     {
         Debug.Log("BugNet - Collect");
 
         GetValue();
-        Destroy(gameObject);
-        
 
-        GameManager.Instance.RemoveBug(info); // SingletonManager<> ��ӹ���?�Ŵ���
-        GameManager.Instance.inventory.AddItem(info);
-        // player.bugcollectwithceremony(gameObject); <- Destroy(gameObject);
+        GameManager.Instance.RemoveBug(info); // SingletonManager<> ��ӹ���?�Ŵ���
+
+        BugInfo bInfo = info;
+
+        bInfo.basePrice += Random.Range(-1, info.basePrice);
+
+        StartCoroutine(WaitForActingAndCollectCoroutine(bInfo));
+
+        Destroy(gameObject);
     }
     public int GetValue() => info.basePrice;
+
+    private IEnumerator WaitForActingAndCollectCoroutine(BugInfo bInfo)
+    {
+        yield return new WaitUntil(() => !GameManager.Instance.player.animReciever.isActing);
+
+        GameManager.Instance.player.CollectItemWithCeremony(bInfo);
+    }
 }

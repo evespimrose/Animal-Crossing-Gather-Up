@@ -22,18 +22,16 @@ public class KicksController : DialogController, INPCDialog
         base.Start();
         dialogData = timmyDialogData;
         timmyDialogData.currentOption = "";
-        timmyDialogData.currentOption = optionui.currentOption;
-        string[] roadriOptions = { "거래", "그냥" };
-        optionui.SetOptions(roadriOptions);
+        timmyDialogData.currentOption = UIManager.Instance.optionUI.currentOption;
     }
 
     protected override void Update()
     {
 
         base.Update();
-        if (timmyDialogData.currentOption != optionui.currentOption && optionui.currentOption != null)
+        if (timmyDialogData.currentOption != UIManager.Instance.optionUI.currentOption && UIManager.Instance.optionUI.currentOption != null)
         {
-            timmyDialogData.currentOption = optionui.currentOption;
+            timmyDialogData.currentOption = UIManager.Instance.optionUI.currentOption;
             SelectedOptionAfter();
         }
     }
@@ -41,8 +39,8 @@ public class KicksController : DialogController, INPCDialog
     public void NPCDialogStart()
     {
         string[] timmyOptions = { "거래", "그냥" };
-        optionui.SetOptions(timmyOptions);
-        uiManager.dialogPanel.SetActive(true);
+        UIManager.Instance.optionUI.SetOptions(timmyOptions);
+        UIManager.Instance.dialogUI.dialogPanel.SetActive(true);
         DialogStart(timmyDialogData.dialogTexts, timmyDialogData.dialogIndex[0]);
         print("킥 대화 시작");
     }
@@ -52,23 +50,23 @@ public class KicksController : DialogController, INPCDialog
         if (timmyDialogData.currentOption == "거래")
         {
             dialogData.isChooseActive = false;
-            optionui.PanelActive(timmyDialogData.isChooseActive);
+            UIManager.Instance.optionUI.PanelActive(timmyDialogData.isChooseActive);
 
             DialogStart(timmyDialogData.nextDialogTexts, timmyDialogData.dialogIndex[1]);
 
             string[] roadriOptions = { "거래할래!" };
-            optionui.SetOptions(roadriOptions);
+            UIManager.Instance.optionUI.SetOptions(roadriOptions);
         }
 
         else if (timmyDialogData.currentOption == "그냥")
         {
             dialogData.isChooseActive = false;
-            optionui.PanelActive(timmyDialogData.isChooseActive);
+            UIManager.Instance.optionUI.PanelActive(timmyDialogData.isChooseActive);
 
             DialogStart(timmyDialogData.thirdDialogTexts, timmyDialogData.dialogIndex[2]);
 
             string[] roadriOptions = { "안녕" };
-            optionui.SetOptions(roadriOptions);
+            UIManager.Instance.optionUI.SetOptions(roadriOptions);
         }
 
         else if (timmyDialogData.currentOption == "거래할래!")

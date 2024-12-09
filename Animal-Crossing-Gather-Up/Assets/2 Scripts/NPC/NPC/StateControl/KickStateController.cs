@@ -20,7 +20,7 @@ public class KickStateController : NPCState
     protected override void Talk()
     {
         base.Talk();
-        if (!uiManager.dialogPanel.activeSelf)
+        if (!UIManager.Instance.dialogUI.dialogPanel.activeSelf)
         {
             SetCurrentState(NPCStateType.Walk);
         }
@@ -28,9 +28,9 @@ public class KickStateController : NPCState
 
     protected override Vector3 RandomWaypoint()
     {
-        float x = Random.Range(0f, 7f);
-        float z = Random.Range(0f, 10f);
-        Vector3 myWaypoint = new Vector3(x, 0.6f, z);
+        float x = Random.Range(115f, 123f);
+        float z = Random.Range(-19f, -29f);
+        Vector3 myWaypoint = new Vector3(x, 0.7f, z);
 
         return myWaypoint;
 

@@ -20,3 +20,6 @@ MonoBehaviour:
   - "\uADFC\uCC98\uC5D0 \uB450\uAE30"
   fullInventoryOptionText:
   - "\uBC14\uAFB8\uAE30"
+  purchaseOptionText:
+  - "\uC0B4\uB798!"
+  - "\uADF8\uB9CC\uB458\uB798"

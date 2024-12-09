@@ -21,6 +21,10 @@ MonoBehaviour:
   - "\uADFC\uCC98\uC5D0 \uB450\uAE30"
   fullInventoryOptionText:
   - "\uBC14\uAFB8\uAE30"
+  purchaseOptionText:
+  - "\uC0B4\uB798!"
+  - "\uADF8\uB9CC\uB458\uB798"
+  prefab: {fileID: 3690448061760608477, guid: 4c6ed8bd70bcc974bb8a3e6433a629d5, type: 3}
   maxDurability: 100
   currentDurability: 100
   isEquipped: 0

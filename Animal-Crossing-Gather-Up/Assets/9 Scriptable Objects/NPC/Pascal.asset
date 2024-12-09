@@ -13,11 +13,17 @@ MonoBehaviour:
   m_Name: Pascal
   m_EditorClassIdentifier: 
   npcName: Pascal
-  dialogTexts: []
-  nextDialogTexts: []
-  thirdDialogTexts: []
+  dialogTexts:
+  - "\uB9C8\uC77C\uC12C \uC8FC\uBBFC \uD30C\uC2A4\uCE7C\uC785\uB2C8\uB2E4\t"
+  - "\uD30C\uC2A4\uCE7C \uD14C\uC2A4\uD2B8 \uC911"
+  nextDialogTexts:
+  - "\uD30C\uC2A4\uCE7C \uCCAB\uBC88\uC9F8 1\uBC88 first \uC635\uC158 \uC120\uD0DD"
+  - "\uD30C\uC2A4\uCE7C \uD14C\u3150\uC2A4\uD2B8 \uCCAB\uBC88\uCA30 \uC635\uC158
+    \uC120\uD0DD \uD6C4 \uD14C\uC2A4\uD2B8"
+  thirdDialogTexts:
+  - "\uD30C\uC2A4\uCE7C \uB450\uBC88\uCA30 2\uBC88 second \uC635\uC158 \uC120\uD0DD"
   fourthDialogTexts: []
-  dialogIndex: 
+  dialogIndex: 000000000000000000000000
   isChooseActive: 0
   isEnterActive: 0
-  currentOption: 
+  currentOption: "\uB300\uD654 \uC885\uB8CC"

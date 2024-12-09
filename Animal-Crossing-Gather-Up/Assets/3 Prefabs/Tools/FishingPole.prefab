@@ -48,6 +48,7 @@ MonoBehaviour:
   toolInfo: {fileID: 11400000, guid: f3c4ae7c258f8234aa2974d5a7e51581, type: 2}
   fishingChipPrefab: {fileID: 3731047252674127946, guid: 147e69a5db3a60b46867cb8b5a3cbf25, type: 3}
   fishingChipInstantiate: {fileID: 0}
+  isDoneFishing: 0
 --- !u!1001 &8391761956651389525
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -66,11 +67,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9179912634153010115, guid: b6893d5d531ecca4ebd99ce333b49eee, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.152
       objectReference: {fileID: 0}
     - target: {fileID: 9179912634153010115, guid: b6893d5d531ecca4ebd99ce333b49eee, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.024
       objectReference: {fileID: 0}
     - target: {fileID: 9179912634153010115, guid: b6893d5d531ecca4ebd99ce333b49eee, type: 3}
       propertyPath: m_LocalRotation.w

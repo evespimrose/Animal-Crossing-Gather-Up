@@ -8,7 +8,7 @@ public class FishingChip : MonoBehaviour
     private Coroutine enumerator;
     public void Execute(float castingTime)
     {
-        GameManager.Instance.player.isFishing = false;
+        GameManager.Instance.player.animReciever.isFishing = true;
         enumerator = StartCoroutine(SearchFishCoroutine(castingTime));
     }
 
@@ -19,7 +19,6 @@ public class FishingChip : MonoBehaviour
 
     private IEnumerator SearchFishCoroutine(float castingTime)
     {
-        Debug.Log($"SearchFishCoroutine......castingTime : {castingTime}");
         yield return new WaitForSeconds(castingTime);
 
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, 5f);
@@ -38,13 +37,13 @@ public class FishingChip : MonoBehaviour
         {
             OceanFish randomFish = fishInRange[Random.Range(0, fishInRange.Count)];
             randomFish.Collect();
-            GameManager.Instance.player.isFishing = false;
+            
             yield break;
         }
         else
         {
             Debug.Log("No fish found in range.");
-
+            GameManager.Instance.player.ActivateAnimation(null, true, 3);
             yield break;
         }
     }
@@ -53,7 +52,9 @@ public class FishingChip : MonoBehaviour
     {
         if (other.gameObject.TryGetComponent(out Player player))
             if (player.EquippedTool.TryGetComponent(out FishingPole fishingPole))
+            {
                 fishingPole.UnExecute();
+            }
     }
         
 }

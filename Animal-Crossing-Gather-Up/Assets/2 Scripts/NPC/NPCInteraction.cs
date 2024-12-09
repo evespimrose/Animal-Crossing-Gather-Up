@@ -5,7 +5,7 @@ using UnityEngine;
 public class NPCInteraction : MonoBehaviour
 {
     public Transform player;
-    private float interactionDistance = 2f;
+    private float interactionDistance = 3f;
 
     private Dictionary<Transform, INPCDialog> npcs = new Dictionary<Transform, INPCDialog>();
     private Dictionary<Transform, NPCState> npcStates = new Dictionary<Transform, NPCState>();

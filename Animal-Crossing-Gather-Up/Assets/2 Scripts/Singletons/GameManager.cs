@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static BugInfo;
+using System.Linq;
 
 public class GameManager : SingletonManager<GameManager>
 {
@@ -17,7 +17,7 @@ public class GameManager : SingletonManager<GameManager>
     private List<BugSpawner> treeSpawners = new List<BugSpawner>();
     private List<BugSpawner> flowerSpawners = new List<BugSpawner>();
     private List<FishSpawner> fishSpawners = new List<FishSpawner>();
-    
+
     private int currentFish;
     private int currentTreeBugs;
     private int currentFlowerBugs;
@@ -26,10 +26,13 @@ public class GameManager : SingletonManager<GameManager>
     public Inventory inventory;
 
     [SerializeField] private List<OakTree> oakTrees = new();
+    [SerializeField] private List<Stone> stones = new();
+    [SerializeField] private List<Flower> flowers = new();
+
     private const float respawnTime = 86400f;
     protected override void Awake()
     {
-        base.Awake();  
+        base.Awake();
     }
     private void OnEnable()
     {
@@ -64,11 +67,8 @@ public class GameManager : SingletonManager<GameManager>
         //���̵� ������ Ÿ���� ���� �����?����
         FindFishSpawnerByType();
 
-        StartCoroutine(RefillBranchesRoutine());
-
-        player = FindObjectOfType<Player>();
-        inventory = FindObjectOfType<Inventory>();
         player.OnItemCollected += inventory.AddItem;
+        TimeManager.Instance.OnSunrise += RefillCollactables;
     }
 
     private void FindBugSpawnerByType()
@@ -146,7 +146,7 @@ public class GameManager : SingletonManager<GameManager>
         availableSpawners[randomIndex].TrySpawnFish();
     }
 
-    
+
     public void AddFish() => currentFish++;
     public void RemoveFish() => currentFish = Mathf.Max(0, currentFish - 1);
 
@@ -166,17 +166,22 @@ public class GameManager : SingletonManager<GameManager>
             currentFlowerBugs = Mathf.Max(0, currentFlowerBugs - 1);
     }
 
-    private IEnumerator RefillBranchesRoutine()
+    private void RefillCollactables()
     {
-        while (true)
+        foreach (var oakTree in oakTrees)
         {
-            yield return new WaitForSeconds(respawnTime);
-
-            foreach (var oakTree in oakTrees)
-            {
-                int branchesToSpawn = oakTree.maxBranches - oakTree.branchCount;
-                oakTree.RefillBranches(branchesToSpawn);
-            }
+            int branchesToSpawn = oakTree.maxBranches - oakTree.branchCount;
+            oakTree.RefillBranches(branchesToSpawn);
+        }
+        foreach (var stone in stones)
+        {
+            int pebblesToSpawn = stone.maxPebbles - stone.pebbleCount;
+            stone.RefillPebbles(pebblesToSpawn);
+        }
+        foreach (var flower in flowers)
+        {
+            int flowersToSpawn = flower.maxFlowers - flower.flowerCount;
+            flower.RefillFlowers(flowersToSpawn);
         }
     }
 }

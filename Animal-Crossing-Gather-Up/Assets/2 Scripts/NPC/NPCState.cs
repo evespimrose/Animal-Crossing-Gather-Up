@@ -12,8 +12,8 @@ public enum NPCStateType
     LookAround,
     Walk,
     Talk,
-    Happy,
-    Dance,
+    //Happy,
+    //Dance,
 }
 public abstract class NPCState : MonoBehaviour, INPCState
 {
@@ -23,9 +23,9 @@ public abstract class NPCState : MonoBehaviour, INPCState
     protected Animator anim;
     protected float rotateSpeed = 1.5f;
     protected float rotateToPlayerSpeed = 5f;
+    protected float rotateToOriginalSpeed = 3f;
     public Transform player;
 
-    protected DialogUI uiManager;
     protected IDialogState dialogState;
     protected NPCStateType npcState;
     protected Vector3 currentTarget;
@@ -33,7 +33,6 @@ public abstract class NPCState : MonoBehaviour, INPCState
 
     protected virtual void Start()
     {
-        uiManager = FindObjectOfType<DialogUI>();
         anim = GetComponent<Animator>();
         dialogState = GetComponent<IDialogState>();
         npcState = NPCStateType.Idle; //idle로 기본 설정
@@ -55,12 +54,12 @@ public abstract class NPCState : MonoBehaviour, INPCState
             case NPCStateType.Talk:
                 Talk();
                 break;
-            case NPCStateType.Happy:
-                Happy();
-                break;
-            case NPCStateType.Dance:
-                Dance();
-                break;
+                //case NPCStateType.Happy:
+                //    Happy();
+                //    break;
+                //case NPCStateType.Dance:
+                //    Dance();
+                //    break;
         }
     }
 
@@ -70,11 +69,12 @@ public abstract class NPCState : MonoBehaviour, INPCState
         anim.SetFloat("Speed", 0f);
     }
 
-    private void LookAround()
+    protected virtual void LookAround()
     {
-        anim.Play("LookAround");
+        anim.SetTrigger("ChangeLook");
         anim.SetFloat("Speed", 0f);
     }
+
     private void Walk()
     {
         Wander();
@@ -84,18 +84,18 @@ public abstract class NPCState : MonoBehaviour, INPCState
     {
         anim.SetFloat("Speed", 0f);
         Vector3 direction = (player.position - transform.position).normalized;
-        direction.y = 0f;
+        direction.y = 0f; //y값 제외하고 회전
 
         if (direction != player.position)
         {
             Quaternion targetRotation = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateToPlayerSpeed * Time.deltaTime);
 
-            if (dialogState.currentCoroutine != null && uiManager.dialogPanel.activeSelf)
+            if (dialogState.currentCoroutine != null && UIManager.Instance.dialogUI.dialogPanel.activeSelf)
             {
                 anim.SetBool("Talk", true);
             }
-            else if (dialogState.currentCoroutine == null && uiManager.dialogPanel.activeSelf)
+            else if (dialogState.currentCoroutine == null && UIManager.Instance.dialogUI.dialogPanel.activeSelf)
             {
                 anim.SetBool("Talk", false);
             }
@@ -136,22 +136,22 @@ public abstract class NPCState : MonoBehaviour, INPCState
         anim.SetFloat("Speed", currentSpeed);
     }
 
-    private void Happy()
-    {
-        anim.SetTrigger("Happy");
+    //private void Happy()
+    //{
+    //    anim.SetTrigger("Happy");
 
-    }
+    //}
 
-    private void Dance()
-    {
-        anim.SetTrigger("Dance");
+    //private void Dance()
+    //{
+    //    anim.SetTrigger("Dance");
 
-    }
+    //}
 
     public void SetCurrentState(NPCStateType newState)
     {
         npcState = newState;
-        print($"상태변경 {newState}");
+        print($"{gameObject.name} 상태변경: {newState}");
     }
 
 

@@ -21,7 +21,7 @@ public class Branch : MonoBehaviour, ICollectable
         
         Debug.Log("Branch collected.");
         //GameManager.Instance.inventory.AddItem(branchInfo);
-        GameManager.Instance.player.Collect(branchInfo);
+        GameManager.Instance.player.CollectItem(branchInfo);
         Destroy(gameObject);
     }
 

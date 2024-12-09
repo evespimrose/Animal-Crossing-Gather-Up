@@ -20,17 +20,15 @@ public class TimmyController : DialogController, INPCDialog
     {
         base.Start();
         dialogData = timmyDialogData;
-        timmyDialogData.currentOption = optionui.currentOption;
-        string[] moriOptions = { "외출할래", "지금은 안할래" };
-        optionui.SetOptions(moriOptions);
+        timmyDialogData.currentOption = UIManager.Instance.optionUI.currentOption;
     }
 
     protected override void Update()
     {
         base.Update();
-        if (timmyDialogData.currentOption != optionui.currentOption && optionui.currentOption != null)
+        if (timmyDialogData.currentOption != UIManager.Instance.optionUI.currentOption && UIManager.Instance.optionUI.currentOption != null)
         {
-            timmyDialogData.currentOption = optionui.currentOption;
+            timmyDialogData.currentOption = UIManager.Instance.optionUI.currentOption;
             SelectedOptionAfter();
         }
     }
@@ -38,8 +36,8 @@ public class TimmyController : DialogController, INPCDialog
     public void NPCDialogStart()
     {
         string[] moriOptions = { "장비를 구매할래", "채집물을 판매할래", "아무 것도 안할래" };
-        optionui.SetOptions(moriOptions);
-        uiManager.dialogPanel.SetActive(true);
+        UIManager.Instance.optionUI.SetOptions(moriOptions);
+        UIManager.Instance.dialogUI.dialogPanel.SetActive(true);
         DialogStart(timmyDialogData.dialogTexts, timmyDialogData.dialogIndex[0]);
         print("티미 대화 시작");
     }
@@ -50,23 +48,23 @@ public class TimmyController : DialogController, INPCDialog
         if (timmyDialogData.currentOption == "장비를 구매할래")
         {
             dialogData.isChooseActive = false;
-            optionui.PanelActive(timmyDialogData.isChooseActive);
+            UIManager.Instance.optionUI.PanelActive(timmyDialogData.isChooseActive);
 
             DialogStart(timmyDialogData.nextDialogTexts, timmyDialogData.dialogIndex[1]);
 
             string[] moriOptions = { "구매" };
-            optionui.SetOptions(moriOptions);
+            UIManager.Instance.optionUI.SetOptions(moriOptions);
         }
 
         if (timmyDialogData.currentOption == "채집물을 판매할래")
         {
             dialogData.isChooseActive = false;
-            optionui.PanelActive(timmyDialogData.isChooseActive);
+            UIManager.Instance.optionUI.PanelActive(timmyDialogData.isChooseActive);
 
             DialogStart(timmyDialogData.thirdDialogTexts, timmyDialogData.dialogIndex[2]);
 
             string[] moriOptions = { "판매" };
-            optionui.SetOptions(moriOptions);
+            UIManager.Instance.optionUI.SetOptions(moriOptions);
         }
 
         if (timmyDialogData.currentOption == "아무 것도 안할래")

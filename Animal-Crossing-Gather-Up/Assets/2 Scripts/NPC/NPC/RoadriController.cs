@@ -24,18 +24,16 @@ public class RoadriController : DialogController, INPCDialog
         base.Start();
         dialogData = roadriDialogData;
         roadriDialogData.currentOption = "";
-        roadriDialogData.currentOption = optionui.currentOption;
-        string[] roadriOptions = { "집에 갈래", "섬을 더 돌아볼래" };
-        optionui.SetOptions(roadriOptions);
+        roadriDialogData.currentOption = UIManager.Instance.optionUI.currentOption; ;
     }
 
     protected override void Update()
     {
 
         base.Update();
-        if (roadriDialogData.currentOption != optionui.currentOption && optionui.currentOption != null)
+        if (roadriDialogData.currentOption != UIManager.Instance.optionUI.currentOption && UIManager.Instance.optionUI.currentOption != null)
         {
-            roadriDialogData.currentOption = optionui.currentOption;
+            roadriDialogData.currentOption = UIManager.Instance.optionUI.currentOption;
             SelectedOptionAfter();
         }
     }
@@ -43,8 +41,8 @@ public class RoadriController : DialogController, INPCDialog
     public void NPCDialogStart()
     {
         string[] roadriOptions = { "집에 갈래", "섬을 더 돌아볼래" };
-        optionui.SetOptions(roadriOptions);
-        uiManager.dialogPanel.SetActive(true);
+        UIManager.Instance.optionUI.SetOptions(roadriOptions);
+        UIManager.Instance.dialogUI.dialogPanel.SetActive(true);
         DialogStart(roadriDialogData.dialogTexts, roadriDialogData.dialogIndex[0]);
         print("로드리 대화 시작");
     }
@@ -54,23 +52,23 @@ public class RoadriController : DialogController, INPCDialog
         if (roadriDialogData.currentOption == "집에 갈래")
         {
             dialogData.isChooseActive = false;
-            optionui.PanelActive(roadriDialogData.isChooseActive);
+            UIManager.Instance.optionUI.PanelActive(roadriDialogData.isChooseActive);
 
             DialogStart(roadriDialogData.nextDialogTexts, roadriDialogData.dialogIndex[1]);
 
             string[] roadriOptions = { "출발!" };
-            optionui.SetOptions(roadriOptions);
+            UIManager.Instance.optionUI.SetOptions(roadriOptions);
         }
 
         else if (roadriDialogData.currentOption == "섬을 더 돌아볼래")
         {
             dialogData.isChooseActive = false;
-            optionui.PanelActive(roadriDialogData.isChooseActive);
+            UIManager.Instance.optionUI.PanelActive(roadriDialogData.isChooseActive);
 
             DialogStart(roadriDialogData.thirdDialogTexts, roadriDialogData.dialogIndex[2]);
 
             string[] roadriOptions = { "대화 종료" };
-            optionui.SetOptions(roadriOptions);
+            UIManager.Instance.optionUI.SetOptions(roadriOptions);
         }
 
         else if (roadriDialogData.currentOption == "출발!")

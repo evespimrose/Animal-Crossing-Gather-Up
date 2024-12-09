@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shop : MonoBehaviour
+public class Purchase : MonoBehaviour
 {
 	[Header("Shop Items")]
 	private List<Slot> purchaseSlots = new List<Slot>();
@@ -66,23 +66,6 @@ public class Shop : MonoBehaviour
 		print("Shop: Initialization complete!");
 	}
 
-	private void Update()
-	{
-		if (isInitialized == false)
-		{
-			return;
-		}
-
-		if (Input.GetKeyDown(KeyCode.J))
-		{
-			PurchasePanelOpen();
-		}
-		else if (Input.GetKeyDown(KeyCode.Escape))
-		{
-			PurchasePanelClose();
-		}
-	}
-
 	private void AddSlot(int horizontalCount)
 	{
 		if (horizontalCount >= horizontalLayoutObjects.Length)
@@ -107,30 +90,5 @@ public class Shop : MonoBehaviour
 		// Add the slot UI to PurchaseUI
 		purchaseUI.AddSlotUI(slotUI);    // Add SlotUI to PurchaseUI
 		purchaseSlots.Add(slot);
-	}
-
-	public void PurchasePanelOpen()
-	{
-		if (isInitialized == false)
-		{
-			Debug.LogWarning("Shop: Trying to open purchase panel before initialization");
-			return;
-		}
-
-		if (purchaseUI == null)
-		{
-			Debug.LogError("Shop: PurchaseUI reference is null");
-			return;
-		}
-
-		purchaseUI.PurchasePanelOpen();
-	}
-
-	public void PurchasePanelClose()
-	{
-		if (purchaseUI != null)
-		{
-			purchaseUI.PurchasePanelClose();
-		}
 	}
 }
