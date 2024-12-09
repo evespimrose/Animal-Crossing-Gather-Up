@@ -25,8 +25,6 @@ public class MoriController : DialogController, INPCDialog
         dialogData = moriDialogData;
         moriDialogData.currentOption = "";
         moriDialogData.currentOption = UIManager.Instance.optionUI.currentOption;
-        string[] moriOptions = { "외출할래", "지금은 안할래" };
-        UIManager.Instance.optionUI.SetOptions(moriOptions);
     }
 
     protected override void Update()

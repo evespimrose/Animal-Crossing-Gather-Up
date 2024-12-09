@@ -20,8 +20,6 @@ public class PascalController : DialogController, INPCDialog
         base.Start();
         dialogData = pascalDialogData;
         pascalDialogData.currentOption = UIManager.Instance.optionUI.currentOption;
-        string[] moriOptions = { "¸¶ÀÏ¼¶ ÁÖ¹Î ÆÄ½ºÄ®", "ÆÄ½ºÄ® Å×½ºÆ® Áß" };
-        UIManager.Instance.optionUI.SetOptions(moriOptions);
     }
 
     protected override void Update()

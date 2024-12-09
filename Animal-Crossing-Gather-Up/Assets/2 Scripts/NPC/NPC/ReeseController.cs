@@ -20,8 +20,6 @@ public class ReeseController : DialogController, INPCDialog
         base.Start();
         dialogData = reeseDialogData;
         reeseDialogData.currentOption = UIManager.Instance.optionUI.currentOption;
-        string[] moriOptions = { "리즈 상점 테스트", "하는 중" };
-        UIManager.Instance.optionUI.SetOptions(moriOptions);
     }
 
     protected override void Update()
