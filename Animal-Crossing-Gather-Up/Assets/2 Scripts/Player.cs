@@ -16,7 +16,8 @@ public class Player : MonoBehaviour
     public event ItemCollectedHandler OnItemCollected;
 
     private Vector3 movement;
-    private float gravity = -9.81f;  // �߷� ��
+    private const float V = -9.81f;
+    private readonly float gravity = V;
     private Vector3 velocity;
     private bool isRun = false;
 
@@ -143,6 +144,8 @@ public class Player : MonoBehaviour
         {
             Collect();
         }
+        //if(!IsUIOpen && !animReciever.isActing && !animReciever.isFishing && !isMoving && Input.GetKeyDown(KeyCode.Escape))
+
     }
 
     public void Collect()
