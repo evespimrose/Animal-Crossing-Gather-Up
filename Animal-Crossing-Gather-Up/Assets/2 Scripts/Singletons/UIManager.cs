@@ -14,6 +14,7 @@ public class UIManager : SingletonManager<UIManager>
 	public OptionUI optionUI;
 	public MoneyUI moneyUI;
 	public SellUI sellUI;
+	public DateTimeUI dateTimeUI;
 
 	// UI States
 	private bool isInventoryOpen = false;
