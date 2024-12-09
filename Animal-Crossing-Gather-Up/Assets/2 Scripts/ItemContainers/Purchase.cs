@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shop : MonoBehaviour
+public class Purchase : MonoBehaviour
 {
 	[Header("Shop Items")]
 	private List<Slot> purchaseSlots = new List<Slot>();
@@ -13,7 +13,6 @@ public class Shop : MonoBehaviour
 	public GameObject slotPrefab;   // Prefab for the slot
 	private PurchaseUI purchaseUI;
 	private const int slotsPerRow = 2; // Number of slots per row
-	private bool isInitialized = false;
 
 	private void Start()
 	{
@@ -23,8 +22,6 @@ public class Shop : MonoBehaviour
 
 	private IEnumerator InitializeShop()
 	{
-		print("Shop: Starting initialization...");
-
 		// Wait for UIManager initialization
 		while (UIManager.Instance == null || UIManager.Instance.purchaseUI == null)
 		{
@@ -33,7 +30,6 @@ public class Shop : MonoBehaviour
 
 		// Set shop items to PurchaseUI
 		purchaseUI = UIManager.Instance.purchaseUI;
-		print("Shop: PurchaseUI reference obtained");
 
 		// Wait for PurchaseUI to be fully initialized
 		yield return new WaitForSeconds(0.1f);
@@ -43,7 +39,6 @@ public class Shop : MonoBehaviour
 		{
 			AddSlot(i < slotsPerRow ? 0 : 1); // Add empty slots based on index
 		}
-		print($"Shop: Created {purchaseSlots.Count} slots");
 
 		// Wait for slot creation to complete
 		yield return new WaitForEndOfFrame();
@@ -56,81 +51,23 @@ public class Shop : MonoBehaviour
 				// Create a new instance of the item for each slot
 				Item newItem = Instantiate(items[i]);
 				purchaseSlots[i].Initialize(newItem); // Slot initialize
-				print($"Shop: Initialized slot {i} with item {newItem.itemName}");
 			}
 		}
 
 		// Initialize PurchaseUI with the slots
 		purchaseUI.InitializeShopSlots(purchaseSlots);
-		isInitialized = true;
-		print("Shop: Initialization complete!");
-	}
-
-	private void Update()
-	{
-		if (isInitialized == false)
-		{
-			return;
-		}
-
-		if (Input.GetKeyDown(KeyCode.J))
-		{
-			PurchasePanelOpen();
-		}
-		else if (Input.GetKeyDown(KeyCode.Escape))
-		{
-			PurchasePanelClose();
-		}
 	}
 
 	private void AddSlot(int horizontalCount)
 	{
-		if (horizontalCount >= horizontalLayoutObjects.Length)
-		{
-			Debug.LogError($"Shop: Invalid horizontal count: {horizontalCount}");
-			return;
-		}
-
 		// Create slot object and initialize it
 		GameObject slotObject = Instantiate(slotPrefab, horizontalLayoutObjects[horizontalCount].transform); // Instantiate the slotPrefab
 		Slot slot = slotObject.GetComponent<Slot>();    // Get the slot component
 		SlotUI slotUI = slotObject.GetComponent<SlotUI>();
 		slotUI.isShopSlot = true; // display isShopSlots
 
-		// Ensure SlotUI is properly initialized before adding
-		if (slot == null || slotUI == null)
-		{
-			Debug.LogError("Shop: Slot or SlotUI component missing from prefab");
-			return;
-		}
-
 		// Add the slot UI to PurchaseUI
 		purchaseUI.AddSlotUI(slotUI);    // Add SlotUI to PurchaseUI
 		purchaseSlots.Add(slot);
-	}
-
-	public void PurchasePanelOpen()
-	{
-		if (isInitialized == false)
-		{
-			Debug.LogWarning("Shop: Trying to open purchase panel before initialization");
-			return;
-		}
-
-		if (purchaseUI == null)
-		{
-			Debug.LogError("Shop: PurchaseUI reference is null");
-			return;
-		}
-
-		purchaseUI.PurchasePanelOpen();
-	}
-
-	public void PurchasePanelClose()
-	{
-		if (purchaseUI != null)
-		{
-			purchaseUI.PurchasePanelClose();
-		}
 	}
 }

@@ -11,5 +11,19 @@ public class FishInfo : Item
     public float spawnWeight;
     public float moveSpeed;
     public float wanderRadius = 3f;
-    
+    public FishType type = FishType.None;
+
+    public enum FishType
+    {
+        None,
+        ClownFish,
+        Lobster,
+        Dolphin,
+        Crab,
+        Orca,
+        SeaHorse,
+        SeaOtter,
+        Pelican,
+        Squid
+    }
 }

@@ -7,10 +7,6 @@ public class ReeseStateController : NPCState
 {
     private Quaternion originalRotation;
 
-    private void Awake()
-    {
-
-    }
     protected override void Start()
     {
         base.Start();
@@ -22,6 +18,7 @@ public class ReeseStateController : NPCState
     {
         base.Update();
         print($"현재 리즈 상태: {npcState.ToString()}");
+
     }
 
     protected override void Talk()

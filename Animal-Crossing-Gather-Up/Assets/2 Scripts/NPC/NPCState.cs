@@ -151,7 +151,7 @@ public abstract class NPCState : MonoBehaviour, INPCState
     public void SetCurrentState(NPCStateType newState)
     {
         npcState = newState;
-        print($"상태변경 {newState}");
+        print($"{gameObject.name} 상태변경: {newState}");
     }
 
 

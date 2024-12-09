@@ -1,15 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
 using UnityEngine;
 
 public class RoadriStateController : NPCState
 {
     private Quaternion originalRotation;
-
-    private void Awake()
-    {
-
-    }
     protected override void Start()
     {
         base.Start();
@@ -21,6 +17,7 @@ public class RoadriStateController : NPCState
     {
         base.Update();
         print($"현재 로드리 상태: {npcState.ToString()}");
+
     }
 
     protected override void Talk()

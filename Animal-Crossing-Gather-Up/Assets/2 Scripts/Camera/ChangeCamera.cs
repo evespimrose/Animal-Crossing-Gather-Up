@@ -1,36 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Cinemachine;
 
 public class ChangeCamera : MonoBehaviour
 {
-    public Camera mainCamera; //메인 카메라
-    private MMFCamera mmfCamera;
-    private float changeFOV = 15f; //확대할 FOV
-    private float originalFOV = 40f; //기존 FOV
+    public Camera mainCamera;
+    private MMFCamera mmf;
+    private float changeFOV = 15f;
+    private float originalFOV = 40f;
     private float duration = 0.5f;
 
     private void Start()
     {
-        mmfCamera = GetComponent<MMFCamera>();
-        mmfCamera.currentY = mmfCamera.transform.position.y;
+        mmf = GetComponent<MMFCamera>();
     }
 
-    public void ZoomIn(Transform playerTransform)
+    public void ZoonIn(Transform transform)
     {
-        StartCoroutine(ZoomCoroutine(changeFOV, 8f, playerTransform));
+        StartCoroutine(ZoomCoroutine(changeFOV, 10f, transform));
     }
 
-    public void ZoomOut(Transform playerTransform)
+    public void ZoomOut(Transform transform)
     {
-        StartCoroutine(ZoomCoroutine(originalFOV, -8f, playerTransform)); //y값 조정 안되는 중
+        StartCoroutine(ZoomCoroutine(originalFOV, -10f, transform));
     }
 
-    private IEnumerator ZoomCoroutine(float targetFOV, float yValue, Transform playerTransform)
+    private IEnumerator ZoomCoroutine(float targetFOV, float Y, Transform playerTransform)
     {
-        float currentFOV = mainCamera.fieldOfView; 
-        Vector3 currentPos = mainCamera.transform.position; 
+        float currentFOV = mainCamera.fieldOfView;
+
+        Vector3 currentPOS = mainCamera.transform.position;
 
         float elapsedTime = 0f;
 
@@ -39,13 +38,13 @@ public class ChangeCamera : MonoBehaviour
             elapsedTime += Time.deltaTime;
             mainCamera.fieldOfView = Mathf.Lerp(currentFOV, targetFOV, elapsedTime / duration);
 
-            mainCamera.transform.position = new Vector3(currentPos.x, mainCamera.transform.position.y + yValue * (elapsedTime / duration), currentPos.z);
-            mmfCamera.currentY += yValue * (Time.deltaTime / duration);
+            mainCamera.transform.position = new Vector3(currentPOS.x, playerTransform.position.y + Y * (elapsedTime / duration), currentPOS.z);
+
+            mmf.currentY += Y * Time.deltaTime;
             yield return null;
         }
 
         mainCamera.fieldOfView = targetFOV;
-        mainCamera.transform.position = new Vector3(currentPos.x, mainCamera.transform.position.y + yValue, currentPos.z); 
+        mainCamera.transform.position = new Vector3(currentPOS.x, playerTransform.position.y, currentPOS.z);
     }
-
 }

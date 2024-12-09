@@ -1,15 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
 using UnityEngine;
 
 public class TimmyStateController : NPCState
 {
     private Quaternion originalRotation;
-
-    private void Awake()
-    {
-
-    }
     protected override void Start()
     {
         base.Start();

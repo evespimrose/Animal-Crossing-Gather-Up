@@ -11,6 +11,7 @@ public class SlotUI : MonoBehaviour
 	public Image itemImage; // Reference to the UI Image for the item
 	public TextMeshProUGUI stackCountText;  // Reference to the UI Text for the stackCount
 	public Image choiceBackground;  // Reference to the choice background image
+	public Image multiChoiceBackground;
 	public Image cursorImage;
 	public GameObject itemInfo;
 	private TextMeshProUGUI itemNameText;
@@ -29,6 +30,7 @@ public class SlotUI : MonoBehaviour
 
 	private void Awake()
 	{
+		print("SlotUI: Awake");
 		currentSlot = GetComponent<Slot>();
 		itemNameText = itemInfo.GetComponentInChildren<TextMeshProUGUI>();
 		isInitialized = true;
@@ -42,19 +44,26 @@ public class SlotUI : MonoBehaviour
 		// set color only shop slot
 		if (isShopSlot)
 		{
-			defaultItemColor = new Color(1, 1, 1, 1);
+			defaultItemColor = new Color(0, 0, 0, 1);
 			priceText.text = currentSlot.Item.basePrice.ToString();
 		}
 		else
 		{
 			defaultItemColor = itemImage.color;
 		}
-		equippedItemColor = new Color(defaultItemColor.r, defaultItemColor.g, defaultItemColor.b, 0.4f);
+		equippedItemColor = new Color(defaultItemColor.r, defaultItemColor.g, defaultItemColor.b, 0.5f);
+
+		multiChoiceBackground?.gameObject.SetActive(false);
+	}
+
+	public void InitializeSlot(Slot slot)
+	{
+		currentSlot = slot;
 	}
 
 	public void UpdateUI(Item item, int stackCount)
 	{
-		if (isInitialized == false)
+		if (!isInitialized)
 		{
 			pendingItem = item;
 			pendingStackCount = stackCount;
@@ -74,6 +83,7 @@ public class SlotUI : MonoBehaviour
 			{
 				itemImage.color = new Color(0, 0, 0, 1);
 			}
+			// Check if the item is a tool and update transparency based on equipped state
 			else if (item is ToolInfo toolInfo)
 			{
 				itemImage.color = toolInfo.isEquipped ? equippedItemColor : defaultItemColor;
@@ -112,13 +122,18 @@ public class SlotUI : MonoBehaviour
 
 	public void SelectSlotAtInventory(bool isSelect)
 	{
-		//optionUI.SetActive(isSelect);
-		//OptionUI optionUI;
-		//optionUI.SetOptions(currentSlot.item.optionText);
-		// Ȱ��ȭ �ϰ�, �ٸ� Ű ������ �ٽ� ��Ȱ��ȭ
 		if (currentSlot.Item != null)
 		{
-			UIManager.Instance.ShowOptions(currentSlot.Item.optionText);
+			// if item is tool and has equipped, only "put into bag" option exist
+			if (currentSlot.Item is ToolInfo toolInfo && toolInfo.isEquipped)
+			{
+				string[] option = { "가방에 넣기" };
+				UIManager.Instance.ShowOptions(option);
+			}
+			else
+			{
+				UIManager.Instance.ShowOptions(currentSlot.Item.optionText);
+			}
 		}
 	}
 
@@ -127,6 +142,14 @@ public class SlotUI : MonoBehaviour
 		if (currentSlot.Item != null)
 		{
 			UIManager.Instance.ShowOptions(currentSlot.Item.purchaseOptionText);
+		}
+	}
+
+	public void SelectSlotAtSell(bool isSelect)
+	{
+		if (currentSlot.Item != null)
+		{
+			multiChoiceBackground.gameObject.SetActive(isSelect);
 		}
 	}
 

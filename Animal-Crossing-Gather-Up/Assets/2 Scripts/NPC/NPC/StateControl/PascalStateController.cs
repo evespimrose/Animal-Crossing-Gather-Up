@@ -28,11 +28,11 @@ public class PascalStateController : NPCState
 
     protected override Vector3 RandomWaypoint()
     {
-        float x = Random.Range(0f, 5f);
-        float z = Random.Range(-9f, -14f);
-        Vector3 myWaypoint = new Vector3(x, 0.6f, z);
+        float x = Random.Range(107f, 115f);
+        float z = Random.Range(-42f, -51f);
+        Vector3 myWaypoint = new Vector3(x, 0.7f, z);
 
         return myWaypoint;
 
     }
-} 
+}

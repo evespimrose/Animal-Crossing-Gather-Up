@@ -5,7 +5,6 @@ using UnityEngine;
 public class PascalController : DialogController, INPCDialog
 {
     public NPCDialogData pascalDialogData;
-
     private void Awake()
     {
         pascalDialogData.isChooseActive = false;
@@ -20,15 +19,11 @@ public class PascalController : DialogController, INPCDialog
     {
         base.Start();
         dialogData = pascalDialogData;
-        pascalDialogData.currentOption = "";
         pascalDialogData.currentOption = UIManager.Instance.optionUI.currentOption;
-        string[] pascalOptions = { "파스칼 테스트" };
-        UIManager.Instance.optionUI.SetOptions(pascalOptions);
     }
 
     protected override void Update()
     {
-
         base.Update();
         if (pascalDialogData.currentOption != UIManager.Instance.optionUI.currentOption && UIManager.Instance.optionUI.currentOption != null)
         {
@@ -39,8 +34,8 @@ public class PascalController : DialogController, INPCDialog
 
     public void NPCDialogStart()
     {
-        string[] pascalOptions = { "파스칼 테스트" };
-        UIManager.Instance.optionUI.SetOptions(pascalOptions);
+        string[] moriOptions = { "마일섬 주민 파스칼", "파스칼 테스트 중" };
+        UIManager.Instance.optionUI.SetOptions(moriOptions);
         UIManager.Instance.dialogUI.dialogPanel.SetActive(true);
         DialogStart(pascalDialogData.dialogTexts, pascalDialogData.dialogIndex[0]);
         print("파스칼 대화 시작");
@@ -48,38 +43,46 @@ public class PascalController : DialogController, INPCDialog
 
     public void SelectedOptionAfter()
     {
-        if (pascalDialogData.currentOption == "파스칼 테스트")
+
+        if (pascalDialogData.currentOption == "마일섬 주민 파스칼")
         {
             dialogData.isChooseActive = false;
             UIManager.Instance.optionUI.PanelActive(pascalDialogData.isChooseActive);
 
             DialogStart(pascalDialogData.nextDialogTexts, pascalDialogData.dialogIndex[1]);
 
-            string[] pascalOptions = { "파스칼 테스트 끝" };
-            UIManager.Instance.optionUI.SetOptions(pascalOptions);
+            string[] moriOptions = { "파스칼 테스트 완료" };
+            UIManager.Instance.optionUI.SetOptions(moriOptions);
         }
 
-        //else if (pascalDialogData.currentOption == "test2")
-        //{
-        //    dialogData.isChooseActive = false;
-        //    UIManager.Instance.optionUI.PanelActive(pascalDialogData.isChooseActive);
+        if (pascalDialogData.currentOption == "파스칼 테스트 중")
+        {
+            dialogData.isChooseActive = false;
+            UIManager.Instance.optionUI.PanelActive(pascalDialogData.isChooseActive);
 
-        //    DialogStart(pascalDialogData.thirdDialogTexts, pascalDialogData.dialogIndex[2]);
+            DialogStart(pascalDialogData.thirdDialogTexts, pascalDialogData.dialogIndex[2]);
 
-        //    string[] roadriOptions = { "테스트 2 끝" };
-        //    UIManager.Instance.optionUI.SetOptions(roadriOptions);
-        //}
+            string[] moriOptions = { "완료입니다" };
+            UIManager.Instance.optionUI.SetOptions(moriOptions);
+        }
 
-        else if (pascalDialogData.currentOption == "파스칼 테스트 끝")
+        if (pascalDialogData.currentOption == "파스칼 테스트 완료")
         {
             EndDialog();
-            print("파스칼 테스트 완료");
+            print("파스칼 테스트 끝났습니다");
         }
 
-        //else if (pascalDialogData.currentOption == "테스트 2 끝")
-        //{
-        //    EndDialog();
-        //    print("데이지 2 옵션 테스트 완료");
-        //}
+        if (pascalDialogData.currentOption == "완료입니다")
+        {
+            EndDialog();
+            print("파스칼 테스트 완료입니다");
+        }
+
+        if (pascalDialogData.currentOption == "판매")
+        {
+            EndDialog();
+            print("채집물 판매 완료");
+        }
+
     }
 }

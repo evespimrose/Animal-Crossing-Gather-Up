@@ -26,6 +26,9 @@ public class GameManager : SingletonManager<GameManager>
     public Inventory inventory;
 
     [SerializeField] private List<OakTree> oakTrees = new();
+    [SerializeField] private List<Stone> stones = new();
+    [SerializeField] private List<Flower> flowers = new();
+
     private const float respawnTime = 86400f;
     protected override void Awake()
     {
@@ -65,6 +68,7 @@ public class GameManager : SingletonManager<GameManager>
         FindFishSpawnerByType();
 
         player.OnItemCollected += inventory.AddItem;
+        TimeManager.Instance.OnSunrise += RefillCollactables;
     }
 
     private void FindBugSpawnerByType()
@@ -162,17 +166,22 @@ public class GameManager : SingletonManager<GameManager>
             currentFlowerBugs = Mathf.Max(0, currentFlowerBugs - 1);
     }
 
-    private IEnumerator RefillBranchesRoutine()
+    private void RefillCollactables()
     {
-        while (true)
+        foreach (var oakTree in oakTrees)
         {
-            yield return new WaitForSeconds(respawnTime);
-
-            foreach (var oakTree in oakTrees)
-            {
-                int branchesToSpawn = oakTree.maxBranches - oakTree.branchCount;
-                oakTree.RefillBranches(branchesToSpawn);
-            }
+            int branchesToSpawn = oakTree.maxBranches - oakTree.branchCount;
+            oakTree.RefillBranches(branchesToSpawn);
+        }
+        foreach (var stone in stones)
+        {
+            int pebblesToSpawn = stone.maxPebbles - stone.pebbleCount;
+            stone.RefillPebbles(pebblesToSpawn);
+        }
+        foreach (var flower in flowers)
+        {
+            int flowersToSpawn = flower.maxFlowers - flower.flowerCount;
+            flower.RefillFlowers(flowersToSpawn);
         }
     }
 }

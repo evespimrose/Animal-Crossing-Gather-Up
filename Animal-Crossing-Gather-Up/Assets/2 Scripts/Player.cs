@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using UnityEngine;
 using static UnityEditor.Progress;
 
@@ -15,102 +16,93 @@ public class Player : MonoBehaviour
     public event ItemCollectedHandler OnItemCollected;
 
     private Vector3 movement;
-    private float gravity = -9.81f;  // �߷� ��
+    private const float V = -9.81f;
+    private readonly float gravity = V;
     private Vector3 velocity;
     private bool isRun = false;
 
-    // test of input item Player to Inventory
-    public Item i0;
-    public Item i1;
-    public Item t0;
-    public Item t1;
-
     private ITool currentTool;
 
-    [Header("For Debug")]
-    public GameObject debugTool;
+    //[Header("For Debug")]
+    //public ToolInfo debugTool;
 
     private HandFlowerCommand handcollectCommand;
-    public bool isFishing = false;
+    public bool isMoving = false;
 
     private bool IsUIOpen => UIManager.Instance.IsAnyUIOpen();
 
     public GameObject EquippedTool => equippedTool;
     private Animator animator;
-    private AnimReciever animReciever;
+    public AnimReciever animReciever;
 
     private ChangeCamera changeCamera;
+
+    [SerializeField] private GameObject squidPrefab;
+    [SerializeField] private GameObject clownFishPrefab;
+    [SerializeField] private GameObject lobsterPrefab;
+    [SerializeField] private GameObject seaHorsePrefab;
+
+
+
     private void Start()
     {
         characterController = GetComponent<CharacterController>();
-        animator = GetComponentInChildren<Animator>();
-        animReciever = GetComponentInChildren<AnimReciever>();
-        changeCamera = FindObjectOfType<ChangeCamera>();
-        if (debugTool != null)
-            EquipTool(debugTool);
+
+        if(animator == null)
+            animator = GetComponentInChildren<Animator>();
+
+        if(animReciever == null )
+            animReciever = GetComponentInChildren<AnimReciever>();
+
+        //if (debugTool != null)
+        //    EquipTool(debugTool);
+
         handcollectCommand = new HandFlowerCommand();
-        isFishing = false;
+        animReciever.isFishing = false;
     }
 
     private void Update()
     {
-        HandleMovement();
+        Move();
         HandleCollection();
         ApplyGravity();
-        Test();
+        HandleKeyInput();
     }
 
-    private void Test()
+    private void HandleKeyInput()
     {
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.I))
         {
-            CollectItem(i0);
+            // only optionPanel is not active
+            if (UIManager.Instance.GetOptionActive() == false)
+            {
+                UIManager.Instance.ToggleInventory();
+            }
         }
-        else if (Input.GetKeyDown(KeyCode.X))
-        {
-            CollectItem(i1);
-        }
-        else if (Input.GetKeyDown(KeyCode.C))
-        {
-            CollectItem(t0);
-        }
-        else if (Input.GetKeyDown(KeyCode.V))
-        {
-            CollectItem(t1);
-        }
-        else if (Input.GetKeyDown(KeyCode.I))
-		{
-			// only optionPanel is not active
-			if (UIManager.Instance.GetOptionActive() == false)
-			{
-				UIManager.Instance.ToggleInventory();
-			}
-		}
-        else if (Input.GetKeyDown(KeyCode.M))
-            if (currentTool == null)
-                EquipTool(debugTool);
-            else
-                StartCoroutine(UnequipTool());
+        //else if (Input.GetKeyDown(KeyCode.M))
+        //    if (currentTool == null)
+        //        EquipTool(debugTool);
+        //    else
+        //        UnequipTool();
         else if (Input.GetKeyDown(KeyCode.L))
         {
             CollectItemWithCeremony();
         }
     }
-	
-		
 
-    private void HandleMovement()
+    private void Move()
     {
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
         isRun = Input.GetKey(KeyCode.LeftShift);
-        animator.SetBool("Run", isRun);
+        animator.SetBool("isRun", isRun);
 
-        movement = new Vector3(-vertical, 0, horizontal).normalized * (isRun? 2f : 1f);
+        movement = new Vector3(-vertical, 0, horizontal).normalized * (isRun ? 2f : 1f);
 
-        if (!IsUIOpen && !animReciever.isActing)
+        if (!IsUIOpen && !animReciever.isActing && !animReciever.isFishing)
         {
+            isMoving = true;
             animator.SetFloat("speed", movement.magnitude);
 
             if (movement.magnitude > 0.1f)
@@ -119,7 +111,10 @@ public class Player : MonoBehaviour
 
                 transform.forward = movement;
             }
+            else if(movement.magnitude <= 0f)
+                isMoving = false;
         }
+        animReciever.gameObject.transform.localPosition = Vector3.zero;
     }
 
     private void HandleCollection()
@@ -128,36 +123,34 @@ public class Player : MonoBehaviour
         {
             Collect();
         }
+        //if(!IsUIOpen && !animReciever.isActing && !animReciever.isFishing && !isMoving && Input.GetKeyDown(KeyCode.Escape))
+
     }
 
     public void Collect()
     {
+        if (isMoving || animReciever.isActing) return;
+
         if (currentTool != null)
         {
-            if (animator != null && !animReciever.isActing)
+            if (animator != null && !animReciever.isActing && !isMoving)
             {
                 switch (currentTool.ToolInfo.toolType)
                 {
                     case ToolInfo.ToolType.Axe:
-                        animReciever.isActing = true;
-                        animator.SetTrigger("UseAxe");
+                        ActivateAnimation("UseAxe");
                         break;
                     case ToolInfo.ToolType.FishingPole:
-                        animReciever.isActing = true;
-                        //animator.SetTrigger("UseFishingPole");
+                        ActivateAnimation("UseFishingPole", true, 0);
                         break;
                     case ToolInfo.ToolType.BugNet:
-                        animReciever.isActing = true;
-                        animator.SetTrigger("UseBugNet");
+                        ActivateAnimation("UseBugNet");
                         break;
                     default:
-                        animator.SetTrigger("Idle");
+                        ActivateAnimation("Idle");
                         break;
                 }
             }
-
-            if (currentTool.ToolInfo.toolType == ToolInfo.ToolType.FishingPole)
-                isFishing = true;
 
             currentTool.Execute(transform.position, transform.forward);
 
@@ -165,12 +158,9 @@ public class Player : MonoBehaviour
             {
                 if (currentTool.ToolInfo.toolType == ToolInfo.ToolType.FishingPole && equippedTool.TryGetComponent(out FishingPole fishingPole))
                 {
-                    isFishing = false;
+                    ActivateAnimation(null, false, 3);
                     fishingPole.UnExecute();
                 }
-
-                OnItemCollected?.Invoke(currentTool.ToolInfo);
-                StartCoroutine(UnequipAndDestroyTool(equippedTool));
             }
         }
         else
@@ -178,26 +168,31 @@ public class Player : MonoBehaviour
             if (animator != null && !animReciever.isActing)
             {
                 handcollectCommand.Execute(transform.position);
-                animReciever.isActing = true;
-                animator.SetTrigger("ItemPickUp");
+                ActivateAnimation("ItemPickUp");
             }
         }
     }
 
-    private IEnumerator UnequipAndDestroyTool(GameObject toolToDestroy)
+    public IEnumerator UnequipAndDestroyTool()
     {
-        yield return StartCoroutine(UnequipTool());
-        Destroy(toolToDestroy);
+        yield return StartCoroutine(UnequipToolCoroutine());
+        Destroy(equippedTool);
     }
     public void CollectItem(Item item)
     {
         OnItemCollected?.Invoke(item);
     }
 
-    private IEnumerator RotateToFaceDirection(Vector3 targetDirection)
+    private IEnumerator RotateToFaceDirection(Vector3 targetDirection, Item itemInfo)
     {
+        /* DO NOT DELETE!!!*/
+        //ActivateAnimation(null, true, 2);
+        //yield return new WaitUntil(() => !animReciever.isActing);
+
         float rotationSpeed = 5f;
         Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+
+        JudgeActivationOfPrefabs(itemInfo, true);
 
         while (Quaternion.Angle(transform.rotation, targetRotation) > 0.1f)
         {
@@ -206,13 +201,13 @@ public class Player : MonoBehaviour
         }
 
         transform.rotation = targetRotation;
+        ActivateAnimation("ShowOff");
+        yield break;
     }
 
     public void CollectItemWithCeremony(Item itemInfo = null)
     {
-        StartCoroutine(RotateToFaceDirection(Vector3.right)); // X축 +방향으로 회전 시작
-        animReciever.isActing = true;
-        animator.SetTrigger("ShowOff");
+        StartCoroutine(RotateToFaceDirection(Vector3.right, itemInfo)); // X�?+방향?�로 ?�전 ?�작
 
         // CineMachine Coroutine Active...
         StartCoroutine(CeremonyCoroutine(itemInfo));
@@ -221,14 +216,17 @@ public class Player : MonoBehaviour
     private IEnumerator CeremonyCoroutine(Item itemInfo = null)
     {
         // CineMachine Active...
-        changeCamera.ZoomIn(transform);
-        yield return new WaitForSeconds(1f);        // Wait for CineMachine's Playtime
+        changeCamera.ZoonIn(transform);
+        yield return new WaitForSeconds(2.1f);        // Wait for CineMachine's Playtime
         yield return new WaitUntil(() => !animReciever.isActing); // Wait for Animation's End
         changeCamera.ZoomOut(transform);
         Debug.Log($"CeremonyCoroutine : {itemInfo.itemName}");
 
         //Send itemInfo to inventory
-        OnItemCollected?.Invoke(itemInfo);
+        JudgeActivationOfPrefabs(itemInfo, false);
+
+        OnItemCollected?.Invoke(itemInfo);       
+
         yield break;
     }
 
@@ -242,18 +240,20 @@ public class Player : MonoBehaviour
         characterController.Move(velocity * Time.deltaTime);
     }
 
-    public void EquipTool(GameObject tool)
+    public void EquipTool(ToolInfo tool)
     {
         StartCoroutine(EquipToolCoroutine(tool));
     }
-    private IEnumerator EquipToolCoroutine(GameObject tool)
+    private IEnumerator EquipToolCoroutine(ToolInfo tool)
     {
         if (equippedTool != null)
         {
-            yield return StartCoroutine(UnequipTool());
+            yield return StartCoroutine(UnequipToolCoroutine());
         }
 
-        GameObject toolInstance = Instantiate(tool, handPosition.position, Quaternion.identity);
+        ActivateAnimation("Arm");
+
+        GameObject toolInstance = Instantiate(tool.prefab, handPosition.position, Quaternion.identity);
         equippedTool = toolInstance;
         equippedTool.transform.SetParent(handPosition);
         equippedTool.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
@@ -263,25 +263,25 @@ public class Player : MonoBehaviour
             Debug.LogWarning("Equipped object does not have a valid tool component.");
         }
     }
-
-
-    public IEnumerator UnequipTool()
+    public void UnequipTool()
+    {
+        StartCoroutine(UnequipToolCoroutine());
+    }
+    public IEnumerator UnequipToolCoroutine()
     {
         if (equippedTool != null)
         {
-            if (isFishing && equippedTool.TryGetComponent(out FishingPole fishingPole))
+            if (animReciever.isFishing && equippedTool.TryGetComponent(out FishingPole fishingPole))
             {
                 fishingPole.UnExecute();
                 yield return new WaitUntil(() => fishingPole.isDoneFishing);
             }
 
-            ToolInfo toolInfoCopy = currentTool.ToolInfo;
-            OnItemCollected?.Invoke(toolInfoCopy); 
+            ActivateAnimation("UnArm");
 
             Destroy(equippedTool);
             equippedTool = null;
             currentTool = null;
-            toolInfoCopy = null;
         }
     }
 
@@ -296,5 +296,69 @@ public class Player : MonoBehaviour
         //{
         //    Debug.Log("Item not found in inventory.");
         //}
+    }
+
+    public void ActivateAnimation(string str = null, bool isFishing = false, int fishingTaskCount = 0)
+    {
+        animReciever.isActing = true;
+        animReciever.isFishing = isFishing;
+        animReciever.fishingTaskCount = fishingTaskCount;
+        animator.SetBool("isFishing", isFishing);
+        animator.SetInteger("FishingTaskCount", fishingTaskCount);
+        animator.SetTrigger(str);
+    }
+    private void JudgeActivationOfPrefabs(Item itemInfo, bool activation)
+    {
+        //Debug.Log($"JudgeActivationOfPrefabs : {itemInfo.name}, {activation}");
+        if (itemInfo == null) return;
+
+        if (itemInfo is BugInfo bugInfo)
+        {
+            Debug.Log($"BugInfo");
+
+            switch (bugInfo.type)
+            {
+                case BugInfo.BugType.TreeBug:
+                    break;
+                case BugInfo.BugType.FlowerBug:
+                    break;
+            }
+        }
+        else if (itemInfo is FishInfo fishInfo)
+        {
+            Debug.Log($"FishInfo, {fishInfo.type}");
+
+            switch (fishInfo.type)
+            {
+                case FishInfo.FishType.ClownFish:
+                    clownFishPrefab.SetActive(activation);
+                    break;
+                case FishInfo.FishType.Pelican:
+                    break;
+                case FishInfo.FishType.Lobster:
+                    lobsterPrefab.SetActive(activation);
+                    break;
+                case FishInfo.FishType.Dolphin:
+                    break;
+                case FishInfo.FishType.Orca:
+                    break;
+                case FishInfo.FishType.SeaHorse:
+                    seaHorsePrefab.SetActive(activation);
+                    break;
+                case FishInfo.FishType.SeaOtter:
+                    break;
+                case FishInfo.FishType.Squid:
+                    squidPrefab.SetActive(activation);
+                    break;
+                case FishInfo.FishType.Crab:
+                    break;
+            }
+        }
+        else
+        {
+            Debug.Log($"{itemInfo.GetType()}");
+        }
+
+        equippedTool.SetActive(!activation);
     }
 }

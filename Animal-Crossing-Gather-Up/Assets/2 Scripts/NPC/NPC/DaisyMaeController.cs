@@ -23,8 +23,6 @@ public class DaisyMaeController : DialogController, INPCDialog
         dialogData = daisyDailogData;
         daisyDailogData.currentOption = "";
         daisyDailogData.currentOption = UIManager.Instance.optionUI.currentOption;
-        string[] roadriOptions = { "test1", "test2" };
-        UIManager.Instance.optionUI.SetOptions(roadriOptions);
     }
 
     protected override void Update()

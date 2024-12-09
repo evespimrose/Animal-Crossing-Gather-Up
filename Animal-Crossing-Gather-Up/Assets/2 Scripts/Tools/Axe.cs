@@ -20,6 +20,8 @@ public class Axe : MonoBehaviour, ITool
             collectCommand.Execute(position);
             
             toolInfo.currentDurability--;
+            GameManager.Instance.inventory.UpdateToolDurability(toolInfo);
+            Debug.Log($"toolInfo.currentDurability : {toolInfo.currentDurability}");
         }
     }
 }

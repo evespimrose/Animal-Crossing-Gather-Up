@@ -24,9 +24,7 @@ public class RoadriController : DialogController, INPCDialog
         base.Start();
         dialogData = roadriDialogData;
         roadriDialogData.currentOption = "";
-        roadriDialogData.currentOption = UIManager.Instance.optionUI.currentOption;
-        string[] roadriOptions = { "집에 갈래", "섬을 더 돌아볼래" };
-        UIManager.Instance.optionUI.SetOptions(roadriOptions);
+        roadriDialogData.currentOption = UIManager.Instance.optionUI.currentOption; ;
     }
 
     protected override void Update()

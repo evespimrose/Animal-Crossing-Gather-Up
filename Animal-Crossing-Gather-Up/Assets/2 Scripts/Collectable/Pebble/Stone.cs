@@ -38,7 +38,7 @@ public class Stone : MonoBehaviour, ICollectable
         pebbleCount = Mathf.Max(0, pebbleCount - 1);
     }
 
-    public void RefillBranches(int amount)
+    public void RefillPebbles(int amount)
     {
         pebbleCount = Mathf.Min(maxPebbles, pebbleCount + amount);
     }

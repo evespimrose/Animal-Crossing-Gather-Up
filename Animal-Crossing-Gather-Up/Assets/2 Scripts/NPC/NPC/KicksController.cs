@@ -23,8 +23,6 @@ public class KicksController : DialogController, INPCDialog
         dialogData = timmyDialogData;
         timmyDialogData.currentOption = "";
         timmyDialogData.currentOption = UIManager.Instance.optionUI.currentOption;
-        string[] roadriOptions = { "거래", "그냥" };
-        UIManager.Instance.optionUI.SetOptions(roadriOptions);
     }
 
     protected override void Update()
