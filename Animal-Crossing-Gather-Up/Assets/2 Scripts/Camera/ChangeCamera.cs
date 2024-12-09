@@ -17,17 +17,18 @@ public class ChangeCamera : MonoBehaviour
 
     public void ZoonIn(Transform transform)
     {
-        StartCoroutine(ZoomCoroutine(changeFOV, 8f, transform));
+        StartCoroutine(ZoomCoroutine(changeFOV, 10f, transform));
     }
 
     public void ZoomOut(Transform transform)
     {
-        StartCoroutine(ZoomCoroutine(originalFOV, -8f, transform));
+        StartCoroutine(ZoomCoroutine(originalFOV, -10f, transform));
     }
 
     private IEnumerator ZoomCoroutine(float targetFOV, float Y, Transform playerTransform)
     {
         float currentFOV = mainCamera.fieldOfView;
+
         Vector3 currentPOS = mainCamera.transform.position;
 
         float elapsedTime = 0f;
@@ -37,13 +38,13 @@ public class ChangeCamera : MonoBehaviour
             elapsedTime += Time.deltaTime;
             mainCamera.fieldOfView = Mathf.Lerp(currentFOV, targetFOV, elapsedTime / duration);
 
-            mainCamera.transform.position = new Vector3(currentPOS.x, Y, currentPOS.z);
+            mainCamera.transform.position = new Vector3(currentPOS.x, playerTransform.position.y + Y * (elapsedTime / duration), currentPOS.z);
 
-            mmf.currentY = mainCamera.transform.position.y;
+            mmf.currentY += Y * Time.deltaTime;
             yield return null;
         }
 
         mainCamera.fieldOfView = targetFOV;
-        mainCamera.transform.position = new Vector3(currentPOS.x, Y, currentPOS.z);
+        mainCamera.transform.position = new Vector3(currentPOS.x, playerTransform.position.y, currentPOS.z);
     }
 }

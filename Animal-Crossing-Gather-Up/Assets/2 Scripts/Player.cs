@@ -209,19 +209,19 @@ public class Player : MonoBehaviour
 
     public void CollectItemWithCeremony(Item itemInfo = null)
     {
-        changeCamera.ZoonIn(this.transform);
         StartCoroutine(RotateToFaceDirection(Vector3.right)); // X축 +방향으로 회전 시작
 
         // CineMachine Coroutine Active...
-        changeCamera.ZoomOut(this.transform);
         StartCoroutine(CeremonyCoroutine(itemInfo));
     }
 
     private IEnumerator CeremonyCoroutine(Item itemInfo = null)
     {
         // CineMachine Active...
+        changeCamera.ZoonIn(transform);
         yield return new WaitForSeconds(2.1f);        // Wait for CineMachine's Playtime
         yield return new WaitUntil(() => !animReciever.isActing); // Wait for Animation's End
+        changeCamera.ZoomOut(transform);
         Debug.Log($"CeremonyCoroutine : {itemInfo.itemName}");
 
         //Send itemInfo to inventory
