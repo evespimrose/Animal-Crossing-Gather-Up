@@ -7,6 +7,8 @@ using UnityEngine;
 public class NPCDialogData : ScriptableObject
 {
     public string npcName; //npc 이름
+
+    [Header("Dialog")]
     [TextArea]
     public string[] dialogTexts; //ncp 대화
 
@@ -19,7 +21,7 @@ public class NPCDialogData : ScriptableObject
     [TextArea]
     public string[] fourthDialogTexts;
 
-    [Header("talkCount")]
+    [Header("DialogIndex")]
     public int[] dialogIndex;
 
     [Header("bool")]

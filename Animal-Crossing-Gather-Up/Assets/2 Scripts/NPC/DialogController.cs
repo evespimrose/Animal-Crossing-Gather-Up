@@ -21,19 +21,18 @@ public class DialogController : MonoBehaviour, IDialogState
 
     protected virtual void Start()
     {
-        interactionNPC = FindObjectOfType<NPCInteraction>();
-        UIManager.Instance.dialogUI.dialogPanel.SetActive(false);
+        interactionNPC = GetComponentInParent<NPCInteraction>();
         UIManager.Instance.optionUI.optionPanel.SetActive(false);
-        UIManager.Instance.dialogUI.enterPanel.SetActive(false);
+        UIManager.Instance.DialogPanelOff();
     }
 
 
-    public void DialogStart(string[] setDialogTexts, int dialogIndexCount)
+    public void DialogStart(string[] dialogTexts, int dialogIndexCount)
     {
         dialogData.isChooseActive = false;
-        activeDialogTexts = setDialogTexts;
+        activeDialogTexts = dialogTexts;
         activeDialogIndex = dialogIndexCount;
-        FirstText(setDialogTexts, dialogIndexCount);
+        FirstText(dialogTexts, dialogIndexCount);
     }
 
     public void EndDialog()
@@ -51,12 +50,6 @@ public class DialogController : MonoBehaviour, IDialogState
 
     protected virtual void Update()
     {
-        //if (uiManager != null && uiManager.enterPanel != null)
-        //{
-        //    print($"isEnterActive: {dialogData.isEnterActive}");
-        //    uiManager.enterPanel.SetActive(dialogData.isEnterActive);
-        //}
-
         if (UIManager.Instance.dialogUI.dialogPanel.activeSelf && activeDialogTexts != null)
         {
             EnterDialog(activeDialogTexts, activeDialogIndex);
@@ -75,6 +68,7 @@ public class DialogController : MonoBehaviour, IDialogState
             currentCoroutine = StartCoroutine(TypingDialog(firstText));
             dialogData.dialogIndex[dialogIndexCount]++;
         }
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
 
