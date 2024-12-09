@@ -10,18 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1299f8a28cba43d4c818fd955c90c18a, type: 3}
-  m_Name: Pascal
+  m_Name: Reese
   m_EditorClassIdentifier: 
-  npcName: Pascal
+  npcName: Reese
   dialogTexts:
-  - "\uB9C8\uC77C\uC12C \uC8FC\uBBFC \uD30C\uC2A4\uCE7C\uC785\uB2C8\uB2E4\t"
-  - "\uD30C\uC2A4\uCE7C \uD14C\uC2A4\uD2B8 \uC911"
+  - "\uB9C8\uC77C\uC12C \uB9AC\uC988 \uC0C1\uC810"
+  - "\uD14C\uC2A4\uD2B8\uC6A9\uC785\u3134\uB2C8\uB2E4~"
   nextDialogTexts:
-  - "\uD30C\uC2A4\uCE7C \uCCAB\uBC88\uC9F8 1\uBC88 first \uC635\uC158 \uC120\uD0DD"
-  - "\uD30C\uC2A4\uCE7C \uD14C\u3150\uC2A4\uD2B8 \uCCAB\uBC88\uCA30 \uC635\uC158
-    \uC120\uD0DD \uD6C4 \uD14C\uC2A4\uD2B8"
+  - "1\uBC88 first \uCCAB\uBC88\uC9F8 \uC635\uC158 \uC120\uD0DD"
   thirdDialogTexts:
-  - "\uD30C\uC2A4\uCE7C \uB450\uBC88\uCA30 2\uBC88 second \uC635\uC158 \uC120\uD0DD"
+  - "2\uBC88 second \uB450\uBC88\uC9F8 \uC635\uC158 \u3145\uB108\uD0DD"
   fourthDialogTexts: []
   dialogIndex: 000000000000000000000000
   isChooseActive: 0
