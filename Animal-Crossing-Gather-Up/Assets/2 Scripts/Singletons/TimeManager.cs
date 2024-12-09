@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 
 public class TimeManager : SingletonManager<TimeManager>
 {
+    public event Action<float> OnTimeChanged;
     public event Action OnSunrise;  // 일출 이벤트
     public event Action OnSunset;   // 일몰 이벤트
     private bool wasNight;
@@ -79,12 +80,14 @@ public class TimeManager : SingletonManager<TimeManager>
         {
             celestialController.UpdateCelestialBodies(currentTime, sunriseHour, sunsetHour);
             CheckDayNightTransition();
+            OnTimeChanged?.Invoke(currentTime);  // 시간 변경 이벤트 발생
             previousTime = currentTime;
         }
 
         UpdateTime();
         celestialController.UpdateCelestialBodies(currentTime, sunriseHour, sunsetHour);
         CheckDayNightTransition();
+        OnTimeChanged?.Invoke(currentTime);  // 시간 변경 이벤트 발생
     }
 
     private void UpdateTime()
