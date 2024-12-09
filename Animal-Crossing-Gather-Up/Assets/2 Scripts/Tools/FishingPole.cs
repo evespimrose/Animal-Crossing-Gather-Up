@@ -25,7 +25,7 @@ public class FishingPole : MonoBehaviour, ITool
             toolInfo.currentDurability--;
 
             fishingChipInstantiate = Instantiate(fishingChipPrefab, position + (foward * 5f), Quaternion.identity);
-            float destroyTime = Random.Range(1f, 8f);
+            float destroyTime = Random.Range(3f, 8f);
             if (fishingChipInstantiate.TryGetComponent(out FishingChip fishingChip))
                 fishingChip.Execute(destroyTime);
             Destroy(fishingChipInstantiate, destroyTime + 0.1f);
@@ -35,6 +35,8 @@ public class FishingPole : MonoBehaviour, ITool
     {
         if (fishingChipInstantiate.TryGetComponent(out FishingChip fishingChip))
             fishingChip.UnExecute();
+
+        GameManager.Instance.player.ActivateAnimation(null, true, 3);
 
         Destroy(fishingChipInstantiate);
     }

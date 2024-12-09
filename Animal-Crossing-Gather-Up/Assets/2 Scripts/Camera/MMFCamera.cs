@@ -29,7 +29,6 @@ public class MMFCamera : MonoBehaviour
     private Vector3 velocity = Vector3.zero;
     [SerializeField] private Vector3 currentOffset;
 
-    // Added for adjustable Y position
     public float currentY;
 
     private bool isTransitioning = false;
@@ -46,7 +45,7 @@ public class MMFCamera : MonoBehaviour
         lookAtOffset = 0f;
         Vector3 desiredPosition = target.position + offset;
         currentXPosition = desiredPosition.x;
-        currentY = target.position.y + offset.y; // Initialize currentY
+        currentY = target.position.y + offset.y;
         transform.position = desiredPosition;
     }
 
@@ -135,7 +134,6 @@ public class MMFCamera : MonoBehaviour
 
         Vector3 newPosition = new Vector3(currentXPosition, currentY, target.position.z) + currentOffset;
 
-        // Allow `currentY` to be controlled externally without clamping
         newPosition.y = currentY;
 
         transform.position = newPosition;
