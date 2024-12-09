@@ -55,4 +55,10 @@ public class SeasonSystem : MonoBehaviour
         // 환경 설정 적용
         RenderSettings.ambientLight = settings.ambientColor;
     }
+    public void Initialize(Season season)
+    {
+        currentSeason = season;
+        ApplySeasonSettings();
+        OnSeasonChanged?.Invoke(currentSeason);
+    }
 }

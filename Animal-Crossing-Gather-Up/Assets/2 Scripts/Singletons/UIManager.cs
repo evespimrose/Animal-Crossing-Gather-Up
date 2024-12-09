@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,9 +12,10 @@ public class UIManager : SingletonManager<UIManager>
 	public PurchaseUI purchaseUI;
 	public OptionUI optionUI;
 	public DialogUI dialogUI;
+    public DateTimeUI dateTimeUI;
 
-	// UI States
-	private bool isInventoryOpen = false;
+    // UI States
+    private bool isInventoryOpen = false;
 	private bool isPurchaseOpen = false;
 	private bool isDialogOpen = false;
 	private bool isOptionOpen = false;

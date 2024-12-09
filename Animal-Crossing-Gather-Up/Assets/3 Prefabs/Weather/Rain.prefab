@@ -674,7 +674,7 @@ ParticleSystem:
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: -90, y: 0, z: 0}
-    m_Scale: {x: 50, y: 50, z: 15}
+    m_Scale: {x: 90, y: 90, z: 15}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
@@ -872,7 +872,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 200
+      scalar: 800
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -3800,7 +3800,7 @@ ParticleSystem:
     radiusScale: 0.15
     collidesWith:
       serializedVersion: 2
-      m_Bits: 4294967295
+      m_Bits: 23
     maxCollisionShapes: 256
     quality: 1
     voxelSize: 0.5
@@ -4797,7 +4797,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 93fd84ea7999dc34fa4ea88ed213e86a, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9697,8 +9696,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f0e0ec5f4124bd44ba4d6c1c4a1ed763, type: 2}
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 93fd84ea7999dc34fa4ea88ed213e86a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -14598,8 +14596,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f0e0ec5f4124bd44ba4d6c1c4a1ed763, type: 2}
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 93fd84ea7999dc34fa4ea88ed213e86a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
