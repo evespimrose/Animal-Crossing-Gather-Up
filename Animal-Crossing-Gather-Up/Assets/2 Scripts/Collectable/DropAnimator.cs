@@ -30,6 +30,7 @@ public class DropAnimator : MonoBehaviour
 
     public IEnumerator PlayAnimation()
     {
+        yield return new WaitUntil(() => !GameManager.Instance.player.animReciever.isActing);
         IsAnimating = true;
         Vector3 startPos = groundPosition + Vector3.up * dropHeight;
         transform.position = startPos;

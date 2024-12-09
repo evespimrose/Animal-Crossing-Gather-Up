@@ -19,7 +19,6 @@ public class FishingChip : MonoBehaviour
 
     private IEnumerator SearchFishCoroutine(float castingTime)
     {
-        Debug.Log($"SearchFishCoroutine......castingTime : {castingTime}");
         yield return new WaitForSeconds(castingTime);
 
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, 5f);

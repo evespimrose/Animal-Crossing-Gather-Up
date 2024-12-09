@@ -29,7 +29,7 @@ public class Flower: MonoBehaviour, ICollectable
         GameManager.Instance.player.CollectItem(fInfo);
     }
 
-    public void RefillBranches(int amount)
+    public void RefillFlowers(int amount)
     {
         flowerCount = Mathf.Min(maxFlowers, flowerCount + amount);
     }
