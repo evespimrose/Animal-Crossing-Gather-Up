@@ -123,8 +123,8 @@ public class Player : MonoBehaviour
         {
             Collect();
         }
-        //if(!IsUIOpen && !animReciever.isActing && !animReciever.isFishing && !isMoving && Input.GetKeyDown(KeyCode.Escape))
-
+        if (!IsUIOpen && !animReciever.isActing && !animReciever.isFishing && !isMoving && Input.GetKeyDown(KeyCode.Escape))
+            UIManager.Instance.ShowPauseOptionPanel();
     }
 
     public void Collect()
@@ -186,8 +186,11 @@ public class Player : MonoBehaviour
     private IEnumerator RotateToFaceDirection(Vector3 targetDirection, Item itemInfo)
     {
         /* DO NOT DELETE!!!*/
-        //ActivateAnimation(null, true, 2);
-        //yield return new WaitUntil(() => !animReciever.isActing);
+        //if (itemInfo is FishInfo)
+        //{
+        //    ActivateAnimation(null, true, 2);
+        //    yield return new WaitUntil(() => !animReciever.isActing);
+        //}
 
         float rotationSpeed = 5f;
         Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
@@ -207,7 +210,7 @@ public class Player : MonoBehaviour
 
     public void CollectItemWithCeremony(Item itemInfo = null)
     {
-        StartCoroutine(RotateToFaceDirection(Vector3.right, itemInfo)); // X�?+방향?�로 ?�전 ?�작
+        StartCoroutine(RotateToFaceDirection(Vector3.right, itemInfo)); // X�?+방향?�로 ?�전 ?�작
 
         // CineMachine Coroutine Active...
         StartCoroutine(CeremonyCoroutine(itemInfo));

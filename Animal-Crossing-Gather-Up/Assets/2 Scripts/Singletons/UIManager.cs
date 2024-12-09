@@ -14,13 +14,15 @@ public class UIManager : SingletonManager<UIManager>
 	public OptionUI optionUI;
 	public MoneyUI moneyUI;
 	public SellUI sellUI;
+	public PauseOptionUI pauseOptionUI;
 
-	// UI States
-	private bool isInventoryOpen = false;
+    // UI States
+    private bool isInventoryOpen = false;
 	private bool isPurchaseOpen = false;
 	private bool isDialogOpen = false;
 	private bool isOptionOpen = false;
 	private bool isSellOpen = false;
+	private bool isPauseOptionOpen = false;
 
     public string currentOption = "";
 
@@ -66,12 +68,19 @@ public class UIManager : SingletonManager<UIManager>
         }
 
 		// Find all UI components in the scene
-		inventoryUI = FindAnyObjectByType<InventoryUI>();
-		purchaseUI = FindAnyObjectByType<PurchaseUI>();
-		dialogUI = FindAnyObjectByType<DialogUI>();
-		optionUI = FindAnyObjectByType<OptionUI>();
-		moneyUI = FindAnyObjectByType<MoneyUI>();
-	}
+		if(inventoryUI == null)
+			inventoryUI = FindAnyObjectByType<InventoryUI>();
+		if (purchaseUI == null)
+			purchaseUI = FindAnyObjectByType<PurchaseUI>();
+		if (dialogUI == null)
+			dialogUI = FindAnyObjectByType<DialogUI>();
+		if (optionUI == null)
+			optionUI = FindAnyObjectByType<OptionUI>();
+		if (moneyUI == null)
+			moneyUI = FindAnyObjectByType<MoneyUI>();
+		if(pauseOptionUI == null)
+            pauseOptionUI = FindAnyObjectByType<PauseOptionUI>();
+    }
 
 	#region Inventory Management
 	public void OpenInventory()
@@ -199,11 +208,19 @@ public class UIManager : SingletonManager<UIManager>
 	{
 		moneyUI.HideMoney();
 	}
-	#endregion
+    #endregion
 
-	// General UI State Check
-	public bool IsAnyUIOpen()
+    #region PauseOptionUI Management
+	public void ShowPauseOptionPanel()
 	{
-		return isInventoryOpen || isPurchaseOpen || isDialogOpen || isOptionOpen || isSellOpen;
+        pauseOptionUI.gameObject.SetActive(true);
+    }
+
+    #endregion
+
+    // General UI State Check
+    public bool IsAnyUIOpen()
+	{
+		return isInventoryOpen || isPurchaseOpen || isDialogOpen || isOptionOpen || isSellOpen || isPauseOptionOpen;
 	}
 }
