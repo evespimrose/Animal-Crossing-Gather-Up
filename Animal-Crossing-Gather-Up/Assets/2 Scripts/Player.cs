@@ -192,7 +192,7 @@ public class Player : MonoBehaviour
         OnItemCollected?.Invoke(item);
     }
 
-    private IEnumerator RotateToFaceDirection(Vector3 targetDirection)
+    private IEnumerator RotateToFaceDirection(Vector3 targetDirection, Item itemInfo)
     {
         /* DO NOT DELETE!!!*/
         //ActivateAnimation(null, true, 2);
@@ -200,6 +200,7 @@ public class Player : MonoBehaviour
 
         float rotationSpeed = 5f;
         Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+
 
         while (Quaternion.Angle(transform.rotation, targetRotation) > 0.1f)
         {
@@ -214,7 +215,7 @@ public class Player : MonoBehaviour
 
     public void CollectItemWithCeremony(Item itemInfo = null)
     {
-        StartCoroutine(RotateToFaceDirection(Vector3.right)); // X축 +방향으로 회전 시작
+        StartCoroutine(RotateToFaceDirection(Vector3.right, itemInfo)); // X축 +방향으로 회전 시작
 
         // CineMachine Coroutine Active...
         StartCoroutine(CeremonyCoroutine(itemInfo));
