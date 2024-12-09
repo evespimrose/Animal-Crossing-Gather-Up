@@ -135,6 +135,7 @@ public class SellUI : MonoBehaviour
 		}
 
 		// Update current slot
+		print(index);
 		SlotUI currentSlotUI = slotUIs[index];
 		currentSlotUI.CursorOnSlotDisplayBackground(true);
 		currentSlotUI.cursorImage.gameObject.SetActive(true);
@@ -150,6 +151,13 @@ public class SellUI : MonoBehaviour
 		List<Slot> slots = sell.GetSlots();
 		if (slots[index].Item != null)
 		{
+			if (slots[index].Item is ToolInfo toolInfo)
+			{
+				if (toolInfo.isEquipped)
+				{
+					return;
+				}
+			}
 			slots[index].isSelected = !slots[index].isSelected;
 			slotUIs[index].SelectSlotAtSell(slots[index].isSelected);
 		}
