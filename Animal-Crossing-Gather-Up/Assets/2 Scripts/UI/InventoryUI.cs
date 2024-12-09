@@ -20,13 +20,12 @@ public class InventoryUI : MonoBehaviour
 	private bool isSelecting = false;
 	private string selectedOption = "";
 
-	public delegate void SlotChooseHandler();
-	public event SlotChooseHandler OnSlotChoose;
+	private bool isProcessingSelection = false; // Flag to prevent multiple processing
+	private bool hasProcessedCurrentSelection = false;  // Flag to track if current selection was processed
 
 	private void Start()
 	{
 		// Find component
-		inventory = FindObjectOfType<Inventory>();
 		inventory.OnInventoryFull += OnInventoryFull; // Subscribe to the event
 
 		if (inventoryPanel != null)
@@ -51,14 +50,10 @@ public class InventoryUI : MonoBehaviour
 
 	public void InventoryOpen()
 	{
+		isProcessingSelection = false;
+		hasProcessedCurrentSelection = false;
 		inventoryPanel.SetActive(true); // Open the inventory UI
-
-		// key input and cursor move
-
-		// if choose, delegate call
-
-		// but if full, call another delegate
-
+		UIManager.Instance.ShowMoney();
 		UpdateAllSlotUIs(); // Update all slots when opening the inventory
 		CursorOnSlot(cursorOnSlotIndex);  // Select the first slot by default
 		foreach (SlotUI slotUI in slotUIs)
@@ -69,6 +64,7 @@ public class InventoryUI : MonoBehaviour
 
 	public void InventoryClose()
 	{
+		UIManager.Instance.HideMoney();
 		inventoryPanel.SetActive(false);
 	}
 
@@ -160,21 +156,29 @@ public class InventoryUI : MonoBehaviour
 	{
 		while (isSelecting)
 		{
-			selectedOption = slotUIs[index].GetSelectedOption();
-			print(selectedOption);
-			slotUIs[index].SetSelectedOptionInit();
+			// Get selected option only if we haven't processed current selection
+			if (!hasProcessedCurrentSelection)
+			{
+				selectedOption = UIManager.Instance.GetSelectedOption();
 
-			if (selectedOption == "")
-			{
-				yield return new WaitForEndOfFrame();
+				// Process only valid selections
+				if (!string.IsNullOrEmpty(selectedOption))
+				{
+					isProcessingSelection = true;
+					inventory.InventorySelectEnd();
+					isSelecting = false;
+					selectedOption = "";
+					UIManager.Instance.SetSelectedOptionInit();
+					hasProcessedCurrentSelection = true;  // Mark as processed
+					isProcessingSelection = false;
+				}
 			}
-			else
-			{
-				OnSlotChoose();
-				isSelecting = false;
-				selectedOption = "";
-			}
+			yield return new WaitForEndOfFrame();
 		}
+
+		// Reset flags when coroutine ends
+		hasProcessedCurrentSelection = false;
+		isProcessingSelection = false;
 	}
 
 	public string GetSelectedOptionText()

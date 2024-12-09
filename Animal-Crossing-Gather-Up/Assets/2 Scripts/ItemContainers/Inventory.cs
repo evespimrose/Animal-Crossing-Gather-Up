@@ -21,12 +21,15 @@ public class Inventory : MonoBehaviour
 
 	public int money = 1000;
 
+	private Sell sell;
+
 	private void Start()
 	{
 		inventoryUI = FindObjectOfType<InventoryUI>();
-		inventoryUI.OnSlotChoose += InventorySelectEnd;
 		purchaseUI = FindObjectOfType<PurchaseUI>();
 		purchaseUI.OnSlotChoose += PurchaseSelectEnd;
+		sell = FindAnyObjectByType<Sell>();
+		FindObjectOfType<SellUI>().OnSell += SelectConfirm;
 		StartCoroutine(InitializeInventory());
 	}
 
@@ -181,6 +184,9 @@ public class Inventory : MonoBehaviour
 		}
 		slots[index].Item.optionText[0] = "가방에 넣기";
 		currentEquipIndex = index;
+
+		// Update SellUI to reflect equipped state
+		FindObjectOfType<Sell>()?.UpdateFromInventory();
 	}
 
 	private void UnEquipTool(int index)
@@ -191,10 +197,27 @@ public class Inventory : MonoBehaviour
 		}
 		slots[index].Item.optionText[0] = "들기";
 		currentEquipIndex = -1;
+
+		// Update SellUI to reflect unequipped state
+		FindObjectOfType<Sell>()?.UpdateFromInventory();
 	}
 
 	private void RemoveItemAll(int index)
 	{
 		slots[index].RemoveItemAll();
+	}
+
+	public void SelectConfirm()
+	{
+		List<int> selectedSlotIndex = sell.GetSelectedSlotIndex();
+		if (selectedSlotIndex.Count > 0)
+		{
+			for (int i = 0; i < selectedSlotIndex.Count; i++)
+			{
+				money += slots[selectedSlotIndex[i]].Item.basePrice * slots[selectedSlotIndex[i]].stackCount;
+				RemoveItemAll(selectedSlotIndex[i]);
+			}
+			UIManager.Instance.CloseSellPanel();
+		}
 	}
 }
