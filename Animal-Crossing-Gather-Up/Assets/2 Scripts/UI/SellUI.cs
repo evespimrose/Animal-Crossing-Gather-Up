@@ -148,8 +148,11 @@ public class SellUI : MonoBehaviour
 	private void SelectSlot(int index)
 	{
 		List<Slot> slots = sell.GetSlots();
-		slots[index].isSelected = !slots[index].isSelected;
-		slotUIs[index].SelectSlotAtSell(slots[index].isSelected);
+		if (slots[index].Item != null)
+		{
+			slots[index].isSelected = !slots[index].isSelected;
+			slotUIs[index].SelectSlotAtSell(slots[index].isSelected);
+		}
 	}
 
 	public void AddSlotUI(SlotUI slotUI)
