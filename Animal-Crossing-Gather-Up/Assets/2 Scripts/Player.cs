@@ -138,6 +138,7 @@ public class Player : MonoBehaviour
             else if(movement.magnitude <= 0f)
                 isMoving = false;
         }
+        animReciever.gameObject.transform.localPosition = Vector3.zero;
     }
 
     private void HandleCollection()
