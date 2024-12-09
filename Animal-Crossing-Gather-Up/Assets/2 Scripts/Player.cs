@@ -39,6 +39,13 @@ public class Player : MonoBehaviour
     private Animator animator;
     public AnimReciever animReciever;
 
+    [SerializeField] private GameObject squidPrefab;
+    [SerializeField] private GameObject clownFishPrefab;
+    [SerializeField] private GameObject lobsterPrefab;
+    [SerializeField] private GameObject seaHorsePrefab;
+
+
+
     private void Start()
     {
         characterController = GetComponent<CharacterController>();
