@@ -52,7 +52,7 @@ public class DateTimeUI : MonoBehaviour
         string period = hours < 12 ? "AM" : "PM";
         hours = hours % 12 == 0 ? 12 : hours % 12;
 
-        timeText.text = string.Format("{0}:{1:00} {2}", hours, minutes, period);
+        timeText.text = string.Format("{0} {1}:{2:00}", period, hours, minutes);
     }
     private void UpdateDateUI(int month, int day)
     {
