@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PurchaseUI : MonoBehaviour
 {
@@ -21,9 +22,10 @@ public class PurchaseUI : MonoBehaviour
 	public delegate void SlotChooseHandler();
 	public event SlotChooseHandler OnSlotChoose;
 
+	public Image cursorImage;
+
 	private void Start()
 	{
-		print("PurchaseUI: Starting initializaion");
 		// Initialize lists and set default state
 		purchasePanel.SetActive(false);
 		slotUIs = new List<SlotUI>();
@@ -40,28 +42,8 @@ public class PurchaseUI : MonoBehaviour
 	// Initialize slots and update UI once
 	public void InitializeShopSlots(List<Slot> shopSlots)
 	{
-		if (shopSlots == null || shopSlots.Count == 0)
-		{
-			Debug.LogError("PurchaseUI: Received null or empty shop slots");
-			return;
-		}
-
 		// Store reference to shop slots
-		print($"PurchaseUI: Initializing with {shopSlots.Count} shop slots");
 		slots = new List<Slot>(shopSlots);
-
-		// Ensure we have both slots and UI components
-		if (slotUIs.Count == 0)
-		{
-			Debug.LogError("PurchaseUI: No slot UIs available");
-			return;
-		}
-
-		if (slotUIs.Count == 0)
-		{
-			Debug.LogError($"PurchaseUI: Not enough UI slots ({slotUIs.Count})");
-			return;
-		}
 
 		// Update UI components
 		for (int i = 0; i < slots.Count; i++)
@@ -69,41 +51,19 @@ public class PurchaseUI : MonoBehaviour
 			if (slots[i] != null && slots[i].Item != null && slotUIs[i] != null)
 			{
 				slotUIs[i].UpdateUI(slots[i].Item, slots[i].stackCount);
-				print($"PurchaseUI: Updated UI for slot {i} with item {slots[i].Item.itemName}");
 			}
 		}
 
 		isInitialized = true;
-		print("PurchaseUI: Initialization complete");
 	}
 
 	public void AddSlotUI(SlotUI slotUI)
 	{
-		if (slotUI == null)
-		{
-			Debug.LogError("PurchaseUI: Attempted to add null SlotUI");
-			return;
-		}
-
 		slotUIs.Add(slotUI);
-		print($"PurchaseUI: Added new SlotUI. Total count: {slotUIs.Count}");
 	}
 
 	public void PurchasePanelOpen()
 	{
-		if (isInitialized == false)
-		{
-			Debug.LogWarning("PurchaseUI: Cannot open panel before initializaion");
-			return;
-		}
-
-		if (slotUIs == null || slotUIs.Count == 0)
-		{
-			Debug.LogError("PurchaseUI: No slot UIs available");
-			return;
-		}
-
-		print("PurchaseUI: Opening purchase panel");
 		purchasePanel.SetActive(true);
 
 		// Reset cursor state for all slots
@@ -124,7 +84,6 @@ public class PurchaseUI : MonoBehaviour
 	{
 		if (purchasePanel.activeSelf)
 		{
-			print("PurchaseUI: Closing purchase panel");
 			UIManager.Instance.HideMoney();
 			purchasePanel.SetActive(false);
 		}
@@ -132,52 +91,90 @@ public class PurchaseUI : MonoBehaviour
 
 	private void HandleSlotSelection()
 	{
-		if (isInitialized == false)
-		{
-			return;
-		}
-
 		int previousSlotIndex = cursorOnSlotIndex;  // Store the previous index
 
-		if (Input.GetKeyDown(KeyCode.W) && cursorOnSlotIndex >= slotsPerRow)
+		if (Input.GetKeyDown(KeyCode.W))
 		{
-			// Move cursor up
-			cursorOnSlotIndex -= slotsPerRow;   // Move up by one row
+			if (cursorOnSlotIndex >= slotsPerRow)
+			{
+				// Move cursor up
+				cursorOnSlotIndex -= slotsPerRow;   // Move up by one row
+			}
+			else if (cursorOnSlotIndex < 0)
+			{
+				cursorOnSlotIndex = slotsPerRow * totalRows - 1;  // 3
+			}
 		}
-		else if (Input.GetKeyDown(KeyCode.S) && cursorOnSlotIndex < slotsPerRow * (totalRows - 1))
+		else if (Input.GetKeyDown(KeyCode.S))
 		{
-			// Move cursor down
-			cursorOnSlotIndex += slotsPerRow;   // Move down by one row
+			if (cursorOnSlotIndex < slotsPerRow * (totalRows - 1) && cursorOnSlotIndex >= 0)
+			{
+				// Move cursor down
+				cursorOnSlotIndex += slotsPerRow;   // Move down by one row
+			}
+			else if (cursorOnSlotIndex >= slotsPerRow * (totalRows - 1))
+			{
+				cursorOnSlotIndex = -1;
+			}
 		}
 		else if (Input.GetKeyDown(KeyCode.A) && cursorOnSlotIndex % slotsPerRow > 0)
 		{
-			// Move cursor left
-			cursorOnSlotIndex--;    // Move left by one slot
+			if (cursorOnSlotIndex >= 0)
+			{
+				// Move cursor left
+				cursorOnSlotIndex--;    // Move left by one slot
+			}
 		}
 		else if (Input.GetKeyDown(KeyCode.D) && cursorOnSlotIndex % slotsPerRow < slotsPerRow - 1)
 		{
-			// Move cursor right
-			cursorOnSlotIndex++;    // Move right by one slot
+			if (cursorOnSlotIndex >= 0)
+			{
+				// Move cursor right
+				cursorOnSlotIndex++;    // Move right by one slot
+			}
 		}
 		else if (Input.GetKeyDown(KeyCode.Return))
 		{
-			SelectSlot(cursorOnSlotIndex);
+			if (cursorOnSlotIndex >= 0)
+			{
+				SelectSlot(cursorOnSlotIndex);
+			}
+			else
+			{
+				UIManager.Instance.ClosePurchasePanel();
+			}
 		}
 
 		// Only update the selection if it has changed
 		if (previousSlotIndex != cursorOnSlotIndex)
 		{
-			CursorOnSlot(cursorOnSlotIndex);
+			if (cursorOnSlotIndex >= 0)
+			{
+				CursorOnSlot(cursorOnSlotIndex);
+			}
+			else
+			{
+				CursorOnQuit();
+			}
 		}
+	}
+
+	private void CursorOnQuit()
+	{
+		// Reset all slots
+		foreach (SlotUI slotUI in slotUIs)
+		{
+			slotUI.CursorOnSlotDisplayBackground(false);
+			slotUI.CursorOnSlotDisplayName(false);
+			slotUI.CursorOnSlotDisplayCursor(false);
+		}
+
+		cursorImage.gameObject.SetActive(true);
 	}
 
 	private void CursorOnSlot(int index)
 	{
-		if (isInitialized == false || slotUIs == null || index >= slotUIs.Count)
-		{
-			Debug.LogWarning($"PurchaseUI: Invalid cursor operation. Initialized: {isInitialized}, Index: {index}, SlotUIs count: {(slotUIs != null ? slotUIs.Count : 0)}");
-			return;
-		}
+		cursorImage.gameObject.SetActive(false);
 
 		// Disable cursor and name display for all slots
 		foreach (SlotUI slotUI in slotUIs)
@@ -216,7 +213,6 @@ public class PurchaseUI : MonoBehaviour
 		while (isSelecting)
 		{
 			selectedOption = slotUIs[index].GetSelectedOption();
-			print(selectedOption);
 			slotUIs[index].SetSelectedOptionInit();
 
 			if (selectedOption == "")
