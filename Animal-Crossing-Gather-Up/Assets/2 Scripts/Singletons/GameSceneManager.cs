@@ -3,37 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameSceneManager : MonoBehaviour
+public class GameSceneManager : SingletonManager<GameSceneManager>
 {
 
-    private static GameSceneManager instance;
-    public static GameSceneManager Instance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                instance = FindObjectOfType<GameSceneManager>();
-                if (instance == null)
-                {
-                    GameObject go = new GameObject("GameSceneManager");
-                    instance = go.AddComponent<GameSceneManager>();
-                }
-            }
-            return instance;
-        }
-    }
-    
-    private void Awake()
-    {
-        if (instance != null && instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        instance = this;
-        DontDestroyOnLoad(gameObject);
-    }
+   
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.F))
