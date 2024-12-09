@@ -83,6 +83,16 @@ public class Sell : MonoBehaviour
 
 		if (inventorySlots != null)
 		{
+			// Reset selection states first
+			foreach (Slot slot in slots)
+			{
+				if (slot != null)
+				{
+					slot.isSelected = false;
+				}
+			}
+
+			// Update slots with inventory data
 			for (int i = 0; i < slots.Count && i < inventorySlots.Count; i++)
 			{
 				if (inventorySlots[i].Item != null)
@@ -121,9 +131,17 @@ public class Sell : MonoBehaviour
 	public List<int> GetSelectedSlotIndex()
 	{
 		List<int> slotIndex = new List<int>();
+
+		// Check if slots list exists
+		if (slots == null)
+		{
+			return slotIndex;
+		}
+
+		// Iterate through slots and collect indices of selected slots
 		for (int i = 0; i < slots.Count; i++)
 		{
-			if (slots[i].isSelected)
+			if (slots[i] != null && slots[i].isSelected)
 			{
 				slotIndex.Add(i);
 			}
