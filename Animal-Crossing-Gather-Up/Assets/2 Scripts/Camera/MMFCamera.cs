@@ -4,19 +4,18 @@ using UnityEngine;
 
 public class MMFCamera : MonoBehaviour
 {
-    [Header("타겟 설정")]
-    [SerializeField] private Transform target; 
-    [SerializeField] private Vector3 offset = new Vector3(0f, 5f, -8f); 
-    
-    [Header("카메라 설정")]
-    [SerializeField] private float smoothSpeed = 5f; 
-    [SerializeField] private Vector2 heightMinMax = new Vector2(2f, 12f); 
+    [Header("Target Settings")]
+    [SerializeField] private Transform target;
+    [SerializeField] private Vector3 offset = new Vector3(0f, 5f, -8f);
+
+    [Header("Camera Settings")]
+    [SerializeField] private float smoothSpeed = 5f;
+    [SerializeField] private Vector2 heightMinMax = new Vector2(2f, 12f);
     [SerializeField] private float viewTransitionDuration = 0.5f;
     [SerializeField] private Vector3 lookAtPosition;
     [SerializeField] private float lookAtOffset;
     [SerializeField] private float defaultLookAtOffset = 0f;
     [SerializeField] private float inventoryLookAtOffset = 4f;
-
 
     private Vector3 defaultOffset;
     private Vector3 closeUpOffset = new Vector3(8f, 5f, 0f);
@@ -26,27 +25,31 @@ public class MMFCamera : MonoBehaviour
     private bool isCloseUpView = false;
     private bool toInventoryView = false;
 
-
     private float currentXPosition;
     private Vector3 velocity = Vector3.zero;
     [SerializeField] private Vector3 currentOffset;
+
+    // Added for adjustable Y position
+    public float currentY;
+
     private bool isTransitioning = false;
-    
+
     private void Start()
     {
         if (target == null)
         {
             target = GameObject.FindGameObjectWithTag("Player").transform;
         }
-        
+
         defaultOffset = offset;
         currentOffset = offset;
         lookAtOffset = 0f;
         Vector3 desiredPosition = target.position + offset;
         currentXPosition = desiredPosition.x;
+        currentY = target.position.y + offset.y; // Initialize currentY
         transform.position = desiredPosition;
     }
-    
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.O) && !isTransitioning)
@@ -70,21 +73,21 @@ public class MMFCamera : MonoBehaviour
 
         Vector3 startOffset = currentOffset;
         Vector3 targetOffset = isCloseUpView ? topViewOffset : closeUpOffset;
-        
+
         float elapsedTime = 0f;
-        
+
         while (elapsedTime < viewTransitionDuration)
         {
             elapsedTime += Time.deltaTime;
             float t = elapsedTime / viewTransitionDuration;
 
             t = Mathf.SmoothStep(0, 1, t);
-            
+
             currentOffset = Vector3.Lerp(startOffset, targetOffset, t);
-            
+
             yield return null;
         }
-        
+
         currentOffset = targetOffset;
         defaultOffset = targetOffset;
         isCloseUpView = !isCloseUpView;
@@ -95,7 +98,6 @@ public class MMFCamera : MonoBehaviour
     {
         isTransitioning = true;
 
-        // 시작 값과 목표 값을 설정
         Vector3 startOffset = currentOffset;
         Vector3 targetOffset = toInventoryView ? inventoryViewOffset : defaultOffset;
 
@@ -109,24 +111,20 @@ public class MMFCamera : MonoBehaviour
             elapsedTime += Time.deltaTime;
             float t = elapsedTime / viewTransitionDuration;
 
-            // 부드러운 전환 (SmoothStep)
             t = Mathf.SmoothStep(0, 1, t);
 
-            // Offset과 LookAtOffset을 동시에 전환
             currentOffset = Vector3.Lerp(startOffset, targetOffset, t);
             lookAtOffset = Mathf.Lerp(startLookAtOffset, targetLookAtOffset, t);
 
             yield return null;
         }
 
-        // 최종적으로 목표 값에 도달
         currentOffset = targetOffset;
         lookAtOffset = targetLookAtOffset;
         toInventoryView = !toInventoryView;
 
         isTransitioning = false;
     }
-
 
     private void LateUpdate()
     {
@@ -135,10 +133,11 @@ public class MMFCamera : MonoBehaviour
         float targetXPosition = target.position.x;
         currentXPosition = Mathf.SmoothDamp(currentXPosition, targetXPosition, ref velocity.x, 1f / smoothSpeed);
 
-        Vector3 newPosition = new Vector3(currentXPosition, target.position.y, target.position.z) + currentOffset;
+        Vector3 newPosition = new Vector3(currentXPosition, currentY, target.position.z) + currentOffset;
 
-        newPosition.y = Mathf.Clamp(newPosition.y, target.position.y + heightMinMax.x, target.position.y + heightMinMax.y);
-        
+        // Allow `currentY` to be controlled externally without clamping
+        newPosition.y = currentY;
+
         transform.position = newPosition;
         lookAtPosition = target.position + new Vector3(0f, lookAtOffset, 0f);
         transform.LookAt(lookAtPosition);
