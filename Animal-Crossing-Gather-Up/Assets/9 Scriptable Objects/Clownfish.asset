@@ -14,12 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: "\uB2C8\uBAA8"
   stackLimit: 0
-  basePrice: 100
+  basePrice: 317
   icon: {fileID: 21300000, guid: 2552aa2ab5bb0194d9af44b903dd3dab, type: 3}
   optionText: []
   fullInventoryOptionText:
   - "\uBC14\uAFB8\uAE30"
+  purchaseOptionText:
+  - "\uC0B4\uB798!"
+  - "\uADF8\uB9CC\uB458\uB798"
   prefab: {fileID: 7738370524306152086, guid: ac025b10ea6ba084583ce269e3462202, type: 3}
   spawnWeight: 1
   moveSpeed: 1
   wanderRadius: 3
+  type: 1
