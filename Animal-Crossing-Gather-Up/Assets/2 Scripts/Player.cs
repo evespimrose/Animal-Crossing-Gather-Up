@@ -30,7 +30,7 @@ public class Player : MonoBehaviour
     private ITool currentTool;
 
     [Header("For Debug")]
-    public GameObject debugTool;
+    public ToolInfo debugTool;
 
     private HandFlowerCommand handcollectCommand;
     public bool isMoving = false;
@@ -58,8 +58,8 @@ public class Player : MonoBehaviour
         if(animReciever == null )
             animReciever = GetComponentInChildren<AnimReciever>();
 
-        if (debugTool != null)
-            EquipTool(debugTool);
+        //if (debugTool != null)
+        //    EquipTool(debugTool);
 
         handcollectCommand = new HandFlowerCommand();
         animReciever.isFishing = false;
@@ -264,11 +264,11 @@ public class Player : MonoBehaviour
         characterController.Move(velocity * Time.deltaTime);
     }
 
-    public void EquipTool(GameObject tool)
+    public void EquipTool(ToolInfo tool)
     {
         StartCoroutine(EquipToolCoroutine(tool));
     }
-    private IEnumerator EquipToolCoroutine(GameObject tool)
+    private IEnumerator EquipToolCoroutine(ToolInfo tool)
     {
         if (equippedTool != null)
         {
@@ -277,7 +277,7 @@ public class Player : MonoBehaviour
 
         ActivateAnimation("Arm");
 
-        GameObject toolInstance = Instantiate(tool, handPosition.position, Quaternion.identity);
+        GameObject toolInstance = Instantiate(tool.prefab, handPosition.position, Quaternion.identity);
         equippedTool = toolInstance;
         equippedTool.transform.SetParent(handPosition);
         equippedTool.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
