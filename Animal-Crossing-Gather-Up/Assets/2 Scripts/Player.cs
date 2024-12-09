@@ -308,13 +308,9 @@ public class Player : MonoBehaviour
 
             ActivateAnimation("UnArm");
 
-            ToolInfo toolInfoCopy = currentTool.ToolInfo;
-            OnItemCollected?.Invoke(toolInfoCopy);
-
             Destroy(equippedTool);
             equippedTool = null;
             currentTool = null;
-            toolInfoCopy = null;
         }
     }
 
