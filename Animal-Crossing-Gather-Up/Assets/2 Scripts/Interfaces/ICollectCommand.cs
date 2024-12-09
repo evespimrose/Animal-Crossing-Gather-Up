@@ -28,6 +28,7 @@ public class HandFlowerCommand : ICollectCommand
 
         foreach (var hitCollider in sortedColliders)
         {
+            
             if (hitCollider.TryGetComponent(out Flower flower))
             {
                 flower.Collect();
@@ -47,7 +48,7 @@ public class HandFlowerCommand : ICollectCommand
                 return;
             }
             else
-                Debug.Log($"Didn't collect!");
+                Debug.Log($"Didn't collect : {hitCollider.gameObject.name}");
         }
     }
 }

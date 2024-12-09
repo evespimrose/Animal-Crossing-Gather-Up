@@ -22,7 +22,10 @@ public class Pebble : MonoBehaviour, ICollectable
 
         Debug.Log("Pebble collected.");
 
-        GameManager.Instance.player.Collect(pebbleInfo);
+        PebbleInfo pInfo = pebbleInfo;
+        pInfo.basePrice += Random.Range(-1, pebbleInfo.basePrice);
+
+        GameManager.Instance.player.CollectItem(pInfo);
 
         Destroy(gameObject);
     }
