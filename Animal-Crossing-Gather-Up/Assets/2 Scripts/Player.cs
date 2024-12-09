@@ -50,10 +50,16 @@ public class Player : MonoBehaviour
     private void Start()
     {
         characterController = GetComponent<CharacterController>();
-        animator = GetComponentInChildren<Animator>();
-        animReciever = GetComponentInChildren<AnimReciever>();
+
+        if(animator == null)
+            animator = GetComponentInChildren<Animator>();
+
+        if(animReciever == null )
+            animReciever = GetComponentInChildren<AnimReciever>();
+
         if (debugTool != null)
             EquipTool(debugTool);
+
         handcollectCommand = new HandFlowerCommand();
         animReciever.isFishing = false;
     }
