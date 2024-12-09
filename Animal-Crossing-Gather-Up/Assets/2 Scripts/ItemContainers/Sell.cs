@@ -118,8 +118,11 @@ public class Sell : MonoBehaviour
 					slots[i].RemoveItemAll();
 				}
 			}
-			// Update UI
-			UIManager.Instance.sellUI.UpdateUI();
+			// Only update UI if sell panel is active
+			if (UIManager.Instance.sellUI.sellPanel.activeSelf)
+			{
+				UIManager.Instance.sellUI.UpdateUI();
+			}
 		}
 	}
 
