@@ -164,7 +164,7 @@ public class Inventory : MonoBehaviour
 		if (slots[index].Item is ToolInfo toolInfo)
 		{
 			toolInfo.isEquipped = true;
-			//GameManager.Instance.player.EquipTool(toolInfo);
+			GameManager.Instance.player.EquipTool(toolInfo);
 		}
 		slots[index].Item.optionText[0] = "가방에 넣기";
 		currentEquipIndex = index;
@@ -177,7 +177,6 @@ public class Inventory : MonoBehaviour
 	{
 		if (slots[index].Item is ToolInfo toolInfo)
 		{
-			// Player에서 Action으로 깎일때마다 inventory에 반영하거나 도구 해제할 때 반영하기
 			toolInfo.isEquipped = false;
 		}
 		slots[index].Item.optionText[0] = "들기";
@@ -185,6 +184,27 @@ public class Inventory : MonoBehaviour
 
 		// Update SellUI to reflect unequipped state
 		FindObjectOfType<Sell>()?.UpdateFromInventory();
+	}
+
+	public void UpdateToolDurability(ToolInfo tool)
+	{
+		if (slots[currentEquipIndex].Item is ToolInfo toolInfo)
+		{
+			slots[currentEquipIndex].Item = tool;
+			CheckToolDurability();
+		}
+	}
+
+	private void CheckToolDurability()
+	{
+		if (slots[currentEquipIndex].Item is ToolInfo toolInfo)
+		{
+			if (toolInfo.currentDurability <= 0)
+			{
+				GameManager.Instance.player.UnequipTool();
+				RemoveItemAll(currentEquipIndex);
+			}
+		}
 	}
 
 	private void RemoveItemAll(int index)
