@@ -201,7 +201,7 @@ public class Inventory : MonoBehaviour
 		{
 			if (toolInfo.currentDurability <= 0)
 			{
-				GameManager.Instance.player.UnequipTool();
+				StartCoroutine(GameManager.Instance.player.UnequipAndDestroyTool());
 				RemoveItemAll(currentEquipIndex);
 			}
 		}
