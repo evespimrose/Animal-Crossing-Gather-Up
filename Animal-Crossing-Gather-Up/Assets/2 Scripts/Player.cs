@@ -39,11 +39,13 @@ public class Player : MonoBehaviour
     private Animator animator;
     private AnimReciever animReciever;
 
+    private ChangeCamera changeCamera;
     private void Start()
     {
         characterController = GetComponent<CharacterController>();
         animator = GetComponentInChildren<Animator>();
         animReciever = GetComponentInChildren<AnimReciever>();
+        changeCamera = FindObjectOfType<ChangeCamera>();
         if (debugTool != null)
             EquipTool(debugTool);
         handcollectCommand = new HandFlowerCommand();
@@ -77,13 +79,13 @@ public class Player : MonoBehaviour
             CollectItem(t1);
         }
         else if (Input.GetKeyDown(KeyCode.I))
-		{
-			// only optionPanel is not active
-			if (UIManager.Instance.GetOptionActive() == false)
-			{
-				UIManager.Instance.ToggleInventory();
-			}
-		}
+        {
+            // only optionPanel is not active
+            if (UIManager.Instance.GetOptionActive() == false)
+            {
+                UIManager.Instance.ToggleInventory();
+            }
+        }
         else if (Input.GetKeyDown(KeyCode.M))
             if (currentTool == null)
                 EquipTool(debugTool);
@@ -94,8 +96,8 @@ public class Player : MonoBehaviour
             CollectItemWithCeremony();
         }
     }
-	
-		
+
+
 
     private void HandleMovement()
     {
@@ -105,7 +107,7 @@ public class Player : MonoBehaviour
         isRun = Input.GetKey(KeyCode.LeftShift);
         animator.SetBool("Run", isRun);
 
-        movement = new Vector3(-vertical, 0, horizontal).normalized * (isRun? 2f : 1f);
+        movement = new Vector3(-vertical, 0, horizontal).normalized * (isRun ? 2f : 1f);
 
         if (!IsUIOpen && !animReciever.isActing)
         {
@@ -208,11 +210,13 @@ public class Player : MonoBehaviour
 
     public void CollectItemWithCeremony(Item itemInfo = null)
     {
+        changeCamera.ZoonIn(this.transform);
         StartCoroutine(RotateToFaceDirection(Vector3.right)); // X축 +방향으로 회전 시작
         animReciever.isActing = true;
         animator.SetTrigger("ShowOff");
 
         // CineMachine Coroutine Active...
+        changeCamera.ZoomOut(this.transform);
         StartCoroutine(CeremonyCoroutine(itemInfo));
     }
 
@@ -272,7 +276,7 @@ public class Player : MonoBehaviour
             }
 
             ToolInfo toolInfoCopy = currentTool.ToolInfo;
-            OnItemCollected?.Invoke(toolInfoCopy); 
+            OnItemCollected?.Invoke(toolInfoCopy);
 
             Destroy(equippedTool);
             equippedTool = null;
