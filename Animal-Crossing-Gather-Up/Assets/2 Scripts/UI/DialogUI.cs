@@ -11,4 +11,5 @@ public class DialogUI : MonoBehaviour
 
     [Header("Dialog Panel Text")]
     public TextMeshProUGUI dialogText;
+
 }
