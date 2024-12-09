@@ -10,6 +10,11 @@ public class ChangeCamera : MonoBehaviour
     private float originalFOV = 40f;
     private float duration = 0.5f;
 
+    private void Start()
+    {
+        mmf = GetComponent<MMFCamera>();
+    }
+
     public void ZoonIn(Transform transform)
     {
         StartCoroutine(ZoomCoroutine(changeFOV, 8f, transform));
@@ -34,7 +39,7 @@ public class ChangeCamera : MonoBehaviour
 
             mainCamera.transform.position = new Vector3(currentPOS.x, Y, currentPOS.z);
 
-            mmf.currentY = Y;
+            mmf.currentY = mainCamera.transform.position.y;
             yield return null;
         }
 
