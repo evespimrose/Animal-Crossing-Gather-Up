@@ -29,8 +29,8 @@ public class Player : MonoBehaviour
 
     private ITool currentTool;
 
-    [Header("For Debug")]
-    public ToolInfo debugTool;
+    //[Header("For Debug")]
+    //public ToolInfo debugTool;
 
     private HandFlowerCommand handcollectCommand;
     public bool isMoving = false;
@@ -101,11 +101,11 @@ public class Player : MonoBehaviour
                 UIManager.Instance.ToggleInventory();
             }
         }
-        else if (Input.GetKeyDown(KeyCode.M))
-            if (currentTool == null)
-                EquipTool(debugTool);
-            else
-                UnequipTool();
+        //else if (Input.GetKeyDown(KeyCode.M))
+        //    if (currentTool == null)
+        //        EquipTool(debugTool);
+        //    else
+        //        UnequipTool();
         else if (Input.GetKeyDown(KeyCode.L))
         {
             CollectItemWithCeremony();
@@ -233,7 +233,7 @@ public class Player : MonoBehaviour
 
     public void CollectItemWithCeremony(Item itemInfo = null)
     {
-        StartCoroutine(RotateToFaceDirection(Vector3.right, itemInfo)); // X축 +방향으로 회전 시작
+        StartCoroutine(RotateToFaceDirection(Vector3.right, itemInfo)); // X�?+방향?�로 ?�전 ?�작
 
         // CineMachine Coroutine Active...
         StartCoroutine(CeremonyCoroutine(itemInfo));
