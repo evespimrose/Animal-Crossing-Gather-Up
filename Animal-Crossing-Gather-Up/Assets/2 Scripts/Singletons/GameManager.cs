@@ -27,6 +27,7 @@ public class GameManager : SingletonManager<GameManager>
 
     [SerializeField] private List<OakTree> oakTrees = new();
     [SerializeField] private List<Stone> stones = new();
+    [SerializeField] private List<Flower> flowers = new();
 
     private const float respawnTime = 86400f;
     protected override void Awake()
@@ -174,8 +175,13 @@ public class GameManager : SingletonManager<GameManager>
         }
         foreach (var stone in stones)
         {
-            int branchesToSpawn = stone.maxPebbles - stone.pebbleCount;
-            stone.RefillPebbles(branchesToSpawn);
+            int pebblesToSpawn = stone.maxPebbles - stone.pebbleCount;
+            stone.RefillPebbles(pebblesToSpawn);
+        }
+        foreach (var flower in flowers)
+        {
+            int flowersToSpawn = flower.maxFlowers - flower.flowerCount;
+            flower.RefillFlowers(flowersToSpawn);
         }
     }
 }
