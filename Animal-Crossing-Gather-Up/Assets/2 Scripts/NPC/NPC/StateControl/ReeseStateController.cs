@@ -17,7 +17,6 @@ public class ReeseStateController : NPCState
     protected override void Update()
     {
         base.Update();
-        print($"현재 리즈 상태: {npcState.ToString()}");
 
     }
 

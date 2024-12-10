@@ -11,20 +11,12 @@ public class RoadriController : DialogController, INPCDialog
 
     private void Awake()
     {
-        roadriDialogData.isChooseActive = false;
-        roadriDialogData.isEnterActive = false;
-        for (int i = 0; i < roadriDialogData.dialogIndex.Length; i++)
-        {
-            roadriDialogData.dialogIndex[i] = 0;
-        }
+        dialogData = roadriDialogData;
     }
-
     protected override void Start()
     {
         base.Start();
-        dialogData = roadriDialogData;
-        roadriDialogData.currentOption = "";
-        roadriDialogData.currentOption = UIManager.Instance.optionUI.currentOption; ;
+        ResetDialog();
     }
 
     protected override void Update()
@@ -43,18 +35,15 @@ public class RoadriController : DialogController, INPCDialog
         string[] roadriOptions = { "집에 갈래", "섬을 더 돌아볼래" };
         UIManager.Instance.optionUI.SetOptions(roadriOptions);
         UIManager.Instance.dialogUI.dialogPanel.SetActive(true);
-        DialogStart(roadriDialogData.dialogTexts, roadriDialogData.dialogIndex[0]);
-        print("로드리 대화 시작");
+        DialogStart(roadriDialogData.dialogTexts, roadriDialogData.dialogIndex);
     }
 
     public void SelectedOptionAfter()
     {
         if (roadriDialogData.currentOption == "집에 갈래")
         {
-            dialogData.isChooseActive = false;
-            UIManager.Instance.optionUI.PanelActive(roadriDialogData.isChooseActive);
-
-            DialogStart(roadriDialogData.nextDialogTexts, roadriDialogData.dialogIndex[1]);
+            AfterSelectedOption();
+            DialogStart(roadriDialogData.nextDialogTexts, roadriDialogData.dialogIndex);
 
             string[] roadriOptions = { "출발!" };
             UIManager.Instance.optionUI.SetOptions(roadriOptions);
@@ -62,10 +51,8 @@ public class RoadriController : DialogController, INPCDialog
 
         else if (roadriDialogData.currentOption == "섬을 더 돌아볼래")
         {
-            dialogData.isChooseActive = false;
-            UIManager.Instance.optionUI.PanelActive(roadriDialogData.isChooseActive);
-
-            DialogStart(roadriDialogData.thirdDialogTexts, roadriDialogData.dialogIndex[2]);
+            AfterSelectedOption();
+            DialogStart(roadriDialogData.thirdDialogTexts, roadriDialogData.dialogIndex);
 
             string[] roadriOptions = { "대화 종료" };
             UIManager.Instance.optionUI.SetOptions(roadriOptions);
@@ -73,14 +60,13 @@ public class RoadriController : DialogController, INPCDialog
 
         else if (roadriDialogData.currentOption == "출발!")
         {
-            EndDialog();
-            print("집으로 출발");
+            ResetDialog();
+            GameSceneManager.Instance.ChangeScene("GameScene");
         }
 
         else if (roadriDialogData.currentOption == "대화 종료")
         {
-            EndDialog();
-            print("로드리 대화 종료");
+            ResetDialog();
         }
     }
 

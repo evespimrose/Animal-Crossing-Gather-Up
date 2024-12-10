@@ -11,20 +11,13 @@ public class MoriController : DialogController, INPCDialog
 
     private void Awake()
     {
-        moriDialogData.isChooseActive = false;
-        moriDialogData.isEnterActive = false;
-        for (int i = 0; i < moriDialogData.dialogIndex.Length; i++)
-        {
-            moriDialogData.dialogIndex[i] = 0;
-        }
+        dialogData = moriDialogData;
     }
 
     protected override void Start()
     {
         base.Start();
-        dialogData = moriDialogData;
-        moriDialogData.currentOption = "";
-        moriDialogData.currentOption = UIManager.Instance.optionUI.currentOption;
+        ResetDialog();
     }
 
     protected override void Update()
@@ -43,7 +36,7 @@ public class MoriController : DialogController, INPCDialog
         string[] moriOptions = { "외출할래", "지금은 안할래" };
         UIManager.Instance.optionUI.SetOptions(moriOptions);
         UIManager.Instance.dialogUI.dialogPanel.SetActive(true);
-        DialogStart(moriDialogData.dialogTexts, moriDialogData.dialogIndex[0]);
+        DialogStart(moriDialogData.dialogTexts, moriDialogData.dialogIndex);
         print("모리 대화 시작");
     }
 
@@ -51,10 +44,8 @@ public class MoriController : DialogController, INPCDialog
     {
         if (moriDialogData.currentOption == "외출할래")
         {
-            dialogData.isChooseActive = false;
-            UIManager.Instance.optionUI.PanelActive(moriDialogData.isChooseActive);
-
-            DialogStart(moriDialogData.nextDialogTexts, moriDialogData.dialogIndex[1]);
+            AfterSelectedOption();
+            DialogStart(moriDialogData.nextDialogTexts, moriDialogData.dialogIndex);
 
             string[] moriOptions = { "마일섬 출발!" };
             UIManager.Instance.optionUI.SetOptions(moriOptions);
@@ -62,10 +53,8 @@ public class MoriController : DialogController, INPCDialog
 
         else if (moriDialogData.currentOption == "지금은 안할래")
         {
-            dialogData.isChooseActive = false;
-            UIManager.Instance.optionUI.PanelActive(moriDialogData.isChooseActive);
-
-            DialogStart(moriDialogData.thirdDialogTexts, moriDialogData.dialogIndex[2]);
+            AfterSelectedOption();
+            DialogStart(moriDialogData.thirdDialogTexts, moriDialogData.dialogIndex);
 
             string[] moriOptions = { "대화 종료" };
             UIManager.Instance.optionUI.SetOptions(moriOptions);
@@ -73,14 +62,14 @@ public class MoriController : DialogController, INPCDialog
 
         else if (moriDialogData.currentOption == "마일섬 출발!")
         {
-            EndDialog();
-            print("마일섬으로 출발!");
+            ResetDialog();
+            GameSceneManager.Instance.ChangeScene("MileIsland");
+            //GameManager.Instance.inventory.hideFlags.itemremoveone
         }
 
         else if (moriDialogData.currentOption == "대화 종료")
         {
-            EndDialog();
-            print("모리 대화 종료");
+            ResetDialog();
         }
 
     }
