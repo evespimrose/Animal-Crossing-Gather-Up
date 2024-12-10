@@ -16,7 +16,6 @@ public class TimmyStateController : NPCState
     protected override void Update()
     {
         base.Update();
-        print($"현재 티미 상태: {npcState.ToString()}");
 
     }
 

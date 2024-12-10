@@ -14,7 +14,6 @@ public class PascalStateController : NPCState
     protected override void Update()
     {
         base.Update();
-        print($"현재 파스칼 상태: {npcState.ToString()}");
     }
 
     protected override void Talk()

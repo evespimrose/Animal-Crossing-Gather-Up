@@ -7,21 +7,23 @@ using UnityEngine.UI;
 
 public class UIManager : SingletonManager<UIManager>
 {
-    [Header("UI Components")]
-    public Canvas mainCanvas;
-    public InventoryUI inventoryUI;
-    public PurchaseUI purchaseUI;
-    public DialogUI dialogUI;
-    public OptionUI optionUI;
-    public MoneyUI moneyUI;
-    public SellUI sellUI;
+	[Header("UI Components")]
+	public Canvas mainCanvas;
+	public InventoryUI inventoryUI;
+	public PurchaseUI purchaseUI;
+	public DialogUI dialogUI;
+	public OptionUI optionUI;
+	public MoneyUI moneyUI;
+	public SellUI sellUI;
+	public PauseOptionUI pauseOptionUI;
 
     // UI States
     private bool isInventoryOpen = false;
-    private bool isPurchaseOpen = false;
-    private bool isDialogOpen = false;
-    private bool isOptionOpen = false;
-    private bool isSellOpen = false;
+	private bool isPurchaseOpen = false;
+	private bool isDialogOpen = false;
+	private bool isOptionOpen = false;
+	private bool isSellOpen = false;
+	private bool isPauseOptionOpen = false;
 
     public string currentOption = "";
 
@@ -66,12 +68,19 @@ public class UIManager : SingletonManager<UIManager>
             }
         }
 
-        // Find all UI components in the scene
-        inventoryUI = FindAnyObjectByType<InventoryUI>();
-        purchaseUI = FindAnyObjectByType<PurchaseUI>();
-        dialogUI = FindAnyObjectByType<DialogUI>();
-        optionUI = FindAnyObjectByType<OptionUI>();
-        moneyUI = FindAnyObjectByType<MoneyUI>();
+		// Find all UI components in the scene
+		if(inventoryUI == null)
+			inventoryUI = FindAnyObjectByType<InventoryUI>();
+		if (purchaseUI == null)
+			purchaseUI = FindAnyObjectByType<PurchaseUI>();
+		if (dialogUI == null)
+			dialogUI = FindAnyObjectByType<DialogUI>();
+		if (optionUI == null)
+			optionUI = FindAnyObjectByType<OptionUI>();
+		if (moneyUI == null)
+			moneyUI = FindAnyObjectByType<MoneyUI>();
+		if(pauseOptionUI == null)
+            pauseOptionUI = FindAnyObjectByType<PauseOptionUI>();
     }
 
     #region Inventory Management
@@ -183,27 +192,35 @@ public class UIManager : SingletonManager<UIManager>
     }
     #endregion
 
-    #region MoneyUI Management
-    public void ShowMoney()
-    {
-        if (isInventoryOpen)
-        {
-            moneyUI.ShowMoney(moneyPanelOnInventory);
-        }
-        else if (isPurchaseOpen || isSellOpen)
-        {
-            moneyUI.ShowMoney(moneyPanelOnShop);
-        }
+	#region MoneyUI Management
+	public void ShowMoney()
+	{
+		if (isInventoryOpen)
+		{
+			moneyUI.ShowMoney(moneyPanelOnInventory);
+		}
+		else if (isPurchaseOpen || isSellOpen)
+		{
+			moneyUI.ShowMoney(moneyPanelOnShop);
+		}
+	}
+	public void HideMoney()
+	{
+		moneyUI.HideMoney();
+	}
+    #endregion
+
+    #region PauseOptionUI Management
+	public void ShowPauseOptionPanel()
+	{
+        pauseOptionUI.gameObject.SetActive(true);
     }
-    public void HideMoney()
-    {
-        moneyUI.HideMoney();
-    }
+
     #endregion
 
     // General UI State Check
     public bool IsAnyUIOpen()
-    {
-        return isInventoryOpen || isPurchaseOpen || isDialogOpen || isOptionOpen || isSellOpen;
-    }
+	{
+		return isInventoryOpen || isPurchaseOpen || isDialogOpen || isOptionOpen || isSellOpen || isPauseOptionOpen;
+	}
 }
