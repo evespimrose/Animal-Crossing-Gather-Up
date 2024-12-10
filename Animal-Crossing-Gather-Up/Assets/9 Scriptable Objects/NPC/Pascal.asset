@@ -14,16 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcName: Pascal
   dialogTexts:
-  - "\uB9C8\uC77C\uC12C \uC8FC\uBBFC \uD30C\uC2A4\uCE7C\uC785\uB2C8\uB2E4\t"
-  - "\uD30C\uC2A4\uCE7C \uD14C\uC2A4\uD2B8 \uC911"
+  - "\uC548\uB155! \uB9C8\uC77C\uC12C\uC5D0 \uB180\uB7EC\uC654\uAD6C\uB098!"
+  - "\uB0B4\uAC00 \uB9C8\uC77C\uC12C\uC5D0 \uB300\uD55C \uD2B9\uBCC4\uD55C \uBE44\uBC00\uC744
+    \uC54C\uB824\uC904\uAC8C!"
   nextDialogTexts:
-  - "\uD30C\uC2A4\uCE7C \uCCAB\uBC88\uC9F8 1\uBC88 first \uC635\uC158 \uC120\uD0DD"
-  - "\uD30C\uC2A4\uCE7C \uD14C\u3150\uC2A4\uD2B8 \uCCAB\uBC88\uCA30 \uC635\uC158
-    \uC120\uD0DD \uD6C4 \uD14C\uC2A4\uD2B8"
+  - 
+  - 
   thirdDialogTexts:
-  - "\uD30C\uC2A4\uCE7C \uB450\uBC88\uCA30 2\uBC88 second \uC635\uC158 \uC120\uD0DD"
+  - "\uAD81\uAE08\uD574\uC9C0\uBA74 \uB2E4\uC2DC \uB098\uB97C \uCC3E\uC544\uC640!"
   fourthDialogTexts: []
-  dialogIndex: 000000000000000000000000
+  dialogIndex: 0
   isChooseActive: 0
-  isEnterActive: 0
   currentOption: "\uB300\uD654 \uC885\uB8CC"
