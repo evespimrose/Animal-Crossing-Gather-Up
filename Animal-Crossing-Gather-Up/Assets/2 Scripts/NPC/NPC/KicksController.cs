@@ -21,7 +21,7 @@ public class KicksController : DialogController, INPCDialog
 
     public void NPCDialogStart()
     {
-        string[] kicksOptions = { "거래", "그냥" };
+        string[] kicksOptions = { "뭔데? 말해줘", "나중에 들을게" };
         UIManager.Instance.optionUI.SetOptions(kicksOptions);
         UIManager.Instance.ShowDialog();
         DialogStart(kicksDialogData.dialogTexts, kicksDialogData.dialogIndex);
@@ -29,31 +29,33 @@ public class KicksController : DialogController, INPCDialog
 
     protected override void SelectedOption()
     {
-        if (kicksDialogData.currentOption == "거래")
+        if (kicksDialogData.currentOption == "뭔데? 말해줘")
         {
             AfterSelectedOption();
             DialogStart(kicksDialogData.nextDialogTexts, kicksDialogData.dialogIndex);
 
-            string[] kicksOptions = { "거래할래!" };
+            string[] kicksOptions = { "응... 고마워" };
             UIManager.Instance.optionUI.SetOptions(kicksOptions);
         }
 
-        else if (kicksDialogData.currentOption == "그냥")
+        else if (kicksDialogData.currentOption == "나중에 들을게")
         {
             AfterSelectedOption();
             DialogStart(kicksDialogData.thirdDialogTexts, kicksDialogData.dialogIndex);
 
-            string[] kicksOptions = { "안녕" };
+            string[] kicksOptions = { "응, 나중에 봐" };
             UIManager.Instance.optionUI.SetOptions(kicksOptions);
         }
 
-        else if (kicksDialogData.currentOption == "거래할래!")
+        else if (kicksDialogData.currentOption == "응... 고마워")
         {
+            AfterSelectedOption();
             ResetDialog();
         }
 
-        else if (kicksDialogData.currentOption == "안녕")
+        else if (kicksDialogData.currentOption == "응, 나중에 봐")
         {
+            AfterSelectedOption();
             ResetDialog();
         }
     }
