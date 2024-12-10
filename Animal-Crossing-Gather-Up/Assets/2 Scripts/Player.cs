@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static UnityEditor.Progress;
 
 [RequireComponent(typeof(CharacterController))]
@@ -20,12 +21,6 @@ public class Player : MonoBehaviour
     private readonly float gravity = V;
     private Vector3 velocity;
     private bool isRun = false;
-
-    // test of input item Player to Inventory
-    public Item i0;
-    public Item i1;
-    public Item t0;
-    public Item t1;
 
     private ITool currentTool;
 
@@ -47,8 +42,24 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject clownFishPrefab;
     [SerializeField] private GameObject lobsterPrefab;
     [SerializeField] private GameObject seaHorsePrefab;
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
 
-
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        string currentScene = SceneManager.GetActiveScene().name;
+        if (currentScene == "GameScene")
+        {
+            gameObject.transform.position = new Vector3(25f, 0.74f, -40f);
+        }
+        else if (currentScene == "MileIsland")
+        {
+            gameObject.transform.position = new Vector3(136f, 0.74f, -47f);
+        }
+    }
 
     private void Start()
     {
@@ -72,28 +83,12 @@ public class Player : MonoBehaviour
         Move();
         HandleCollection();
         ApplyGravity();
-        Test();
+        HandleKeyInput();
     }
 
-    private void Test()
+    private void HandleKeyInput()
     {
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            CollectItem(i0);
-        }
-        else if (Input.GetKeyDown(KeyCode.X))
-        {
-            CollectItem(i1);
-        }
-        else if (Input.GetKeyDown(KeyCode.C))
-        {
-            CollectItem(t0);
-        }
-        else if (Input.GetKeyDown(KeyCode.V))
-        {
-            CollectItem(t1);
-        }
-        else if (Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKeyDown(KeyCode.I))
         {
             // only optionPanel is not active
             if (UIManager.Instance.GetOptionActive() == false)
@@ -111,8 +106,6 @@ public class Player : MonoBehaviour
             CollectItemWithCeremony();
         }
     }
-
-
 
     private void Move()
     {
@@ -147,8 +140,8 @@ public class Player : MonoBehaviour
         {
             Collect();
         }
-        //if(!IsUIOpen && !animReciever.isActing && !animReciever.isFishing && !isMoving && Input.GetKeyDown(KeyCode.Escape))
-
+        if (!IsUIOpen && !animReciever.isActing && !animReciever.isFishing && !isMoving && Input.GetKeyDown(KeyCode.Escape))
+            UIManager.Instance.ShowPauseOptionPanel();
     }
 
     public void Collect()
@@ -185,9 +178,6 @@ public class Player : MonoBehaviour
                     ActivateAnimation(null, false, 3);
                     fishingPole.UnExecute();
                 }
-
-                OnItemCollected?.Invoke(currentTool.ToolInfo);
-                StartCoroutine(UnequipAndDestroyTool(equippedTool));
             }
         }
         else
@@ -200,10 +190,10 @@ public class Player : MonoBehaviour
         }
     }
 
-    private IEnumerator UnequipAndDestroyTool(GameObject toolToDestroy)
+    public IEnumerator UnequipAndDestroyTool()
     {
         yield return StartCoroutine(UnequipToolCoroutine());
-        Destroy(toolToDestroy);
+        Destroy(equippedTool);
     }
     public void CollectItem(Item item)
     {
@@ -213,8 +203,11 @@ public class Player : MonoBehaviour
     private IEnumerator RotateToFaceDirection(Vector3 targetDirection, Item itemInfo)
     {
         /* DO NOT DELETE!!!*/
-        //ActivateAnimation(null, true, 2);
-        //yield return new WaitUntil(() => !animReciever.isActing);
+        //if (itemInfo is FishInfo)
+        //{
+        //    ActivateAnimation(null, true, 2);
+        //    yield return new WaitUntil(() => !animReciever.isActing);
+        //}
 
         float rotationSpeed = 5f;
         Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
@@ -234,7 +227,7 @@ public class Player : MonoBehaviour
 
     public void CollectItemWithCeremony(Item itemInfo = null)
     {
-        StartCoroutine(RotateToFaceDirection(Vector3.right, itemInfo)); // X�?+방향?�로 ?�전 ?�작
+        StartCoroutine(RotateToFaceDirection(Vector3.right, itemInfo)); // X�?+방향?�로 ?�전 ?�작
 
         // CineMachine Coroutine Active...
         StartCoroutine(CeremonyCoroutine(itemInfo));
@@ -252,9 +245,7 @@ public class Player : MonoBehaviour
         //Send itemInfo to inventory
         JudgeActivationOfPrefabs(itemInfo, false);
 
-        OnItemCollected?.Invoke(itemInfo);
-
-        
+        OnItemCollected?.Invoke(itemInfo);       
 
         yield break;
     }
@@ -307,14 +298,11 @@ public class Player : MonoBehaviour
             }
 
             ActivateAnimation("UnArm");
-
-            ToolInfo toolInfoCopy = currentTool.ToolInfo;
-            OnItemCollected?.Invoke(toolInfoCopy);
+            yield return new WaitUntil(() => !animReciever.isActing);
 
             Destroy(equippedTool);
             equippedTool = null;
             currentTool = null;
-            toolInfoCopy = null;
         }
     }
 

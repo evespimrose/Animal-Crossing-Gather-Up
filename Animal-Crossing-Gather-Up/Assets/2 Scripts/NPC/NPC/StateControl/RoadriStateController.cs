@@ -16,7 +16,6 @@ public class RoadriStateController : NPCState
     protected override void Update()
     {
         base.Update();
-        print($"현재 로드리 상태: {npcState.ToString()}");
 
     }
 
