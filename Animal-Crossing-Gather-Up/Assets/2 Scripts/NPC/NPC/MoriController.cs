@@ -31,7 +31,7 @@ public class MoriController : DialogController, INPCDialog
 
     protected override void SelectedOption()
     {
-        if (moriDialogData.currentOption == "외출할래")
+        if (moriDialogData.dialogOption == "외출할래")
         {
             AfterSelectedOption();
             DialogStart(moriDialogData.nextDialogTexts, moriDialogData.dialogIndex);
@@ -40,7 +40,7 @@ public class MoriController : DialogController, INPCDialog
 			UIManager.Instance.optionUI.SetOptions(moriOptions);
 		}
 
-		else if (moriDialogData.currentOption == "지금은 안할래")
+		else if (moriDialogData.dialogOption == "지금은 안할래")
 		{
 			AfterSelectedOption();
 			DialogStart(moriDialogData.thirdDialogTexts, moriDialogData.dialogIndex);
@@ -49,7 +49,7 @@ public class MoriController : DialogController, INPCDialog
 			UIManager.Instance.optionUI.SetOptions(moriOptions);
 		}
 
-		else if (moriDialogData.currentOption == "마일섬 출발!")
+		else if (moriDialogData.dialogOption == "마일섬 출발!")
 		{
 			ResetDialog();
 			// check mileTicket and remove
@@ -59,7 +59,7 @@ public class MoriController : DialogController, INPCDialog
 			}
 		}
 
-		else if (moriDialogData.currentOption == "대화 종료")
+		else if (moriDialogData.dialogOption == "대화 종료")
 		{
 			ResetDialog();
 		}

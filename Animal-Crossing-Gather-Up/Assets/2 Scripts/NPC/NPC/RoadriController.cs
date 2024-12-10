@@ -30,7 +30,7 @@ public class RoadriController : DialogController, INPCDialog
 
     protected override void SelectedOption()
     {
-        if (roadriDialogData.currentOption == "집에 갈래")
+        if (roadriDialogData.dialogOption == "집에 갈래")
         {
             AfterSelectedOption();
             DialogStart(roadriDialogData.nextDialogTexts, roadriDialogData.dialogIndex);
@@ -39,7 +39,7 @@ public class RoadriController : DialogController, INPCDialog
             UIManager.Instance.optionUI.SetOptions(roadriOptions);
         }
 
-        else if (roadriDialogData.currentOption == "섬을 더 돌아볼래")
+        else if (roadriDialogData.dialogOption == "섬을 더 돌아볼래")
         {
             AfterSelectedOption();
             DialogStart(roadriDialogData.thirdDialogTexts, roadriDialogData.dialogIndex);
@@ -48,13 +48,13 @@ public class RoadriController : DialogController, INPCDialog
             UIManager.Instance.optionUI.SetOptions(roadriOptions);
         }
 
-        else if (roadriDialogData.currentOption == "출발!")
+        else if (roadriDialogData.dialogOption == "출발!")
         {
             ResetDialog();
             GameSceneManager.Instance.ChangeScene("GameScene");
         }
 
-        else if (roadriDialogData.currentOption == "대화 종료")
+        else if (roadriDialogData.dialogOption == "대화 종료")
         {
             ResetDialog();
         }
