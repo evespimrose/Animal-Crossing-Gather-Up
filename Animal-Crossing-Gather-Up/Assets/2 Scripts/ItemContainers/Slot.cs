@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Slot : MonoBehaviour
 {
-	public Item Item { get; private set; }
+	public Item Item { get; set; }
 	public int stackCount;
 	public bool isSelected = false;
 

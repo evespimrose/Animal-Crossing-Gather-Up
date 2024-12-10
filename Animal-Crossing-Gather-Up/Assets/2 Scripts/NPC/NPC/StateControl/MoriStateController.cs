@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
-using System.Threading.Tasks;
 using UnityEngine;
 
 public class MoriStateController : NPCState
@@ -23,7 +22,6 @@ public class MoriStateController : NPCState
     {
         base.Update();
         print($"현재 모리 상태: {npcState.ToString()}");
-
     }
 
     protected override void Talk()

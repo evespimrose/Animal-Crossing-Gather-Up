@@ -10,7 +10,6 @@ public class Inventory : MonoBehaviour
 	private List<Slot> slots;   // List of slots
 
 	public GameObject[] horizontalLayoutObjects;
-	private bool isInitialized = false;
 
 	public delegate void InventoryFullHandler();
 	public event InventoryFullHandler OnInventoryFull;  // Event for inventory full
@@ -48,8 +47,6 @@ public class Inventory : MonoBehaviour
 		{
 			AddSlot(i < 10 ? 0 : 1);    // Add empty slots based on index
 		}
-
-		isInitialized = true;
 	}
 
 	private void AddSlot(int horizontalCount)
@@ -65,11 +62,6 @@ public class Inventory : MonoBehaviour
 	// item add logic
 	public void AddItem(Item item = null)
 	{
-		if (isInitialized == false)
-		{
-			return;
-		}
-
 		bool isAdded = false;
 
 		// Check for existing item in slots
@@ -116,14 +108,6 @@ public class Inventory : MonoBehaviour
 	// inventory full method (inventory popup recycle)
 	private void InventoryFull()
 	{
-		print("Inventroy is Full!");
-
-		// inventory full delegate call
-
-		// if change delegate call
-
-		// inventory open
-		//InventoryDisplayer.Instance.InventoryOpen();
 		OnInventoryFull?.Invoke();  // Trigger the event
 	}
 
@@ -132,7 +116,6 @@ public class Inventory : MonoBehaviour
 		// option Text, index print
 		string optionText = inventoryUI.GetSelectedOptionText();
 		int index = inventoryUI.GetSelectedOptionSlotIndex();
-		print($"option text: {optionText}, index: {index}");
 
 		if (optionText == "들기")
 		{
@@ -181,6 +164,7 @@ public class Inventory : MonoBehaviour
 		if (slots[index].Item is ToolInfo toolInfo)
 		{
 			toolInfo.isEquipped = true;
+			GameManager.Instance.player.EquipTool(toolInfo);
 		}
 		slots[index].Item.optionText[0] = "가방에 넣기";
 		currentEquipIndex = index;
@@ -200,6 +184,27 @@ public class Inventory : MonoBehaviour
 
 		// Update SellUI to reflect unequipped state
 		FindObjectOfType<Sell>()?.UpdateFromInventory();
+	}
+
+	public void UpdateToolDurability(ToolInfo tool)
+	{
+		if (slots[currentEquipIndex].Item is ToolInfo toolInfo)
+		{
+			slots[currentEquipIndex].Item = tool;
+			CheckToolDurability();
+		}
+	}
+
+	private void CheckToolDurability()
+	{
+		if (slots[currentEquipIndex].Item is ToolInfo toolInfo)
+		{
+			if (toolInfo.currentDurability <= 0)
+			{
+				StartCoroutine(GameManager.Instance.player.UnequipAndDestroyTool());
+				RemoveItemAll(currentEquipIndex);
+			}
+		}
 	}
 
 	private void RemoveItemAll(int index)
