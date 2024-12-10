@@ -1,6 +1,3 @@
-# Created by https://www.toptal.com/developers/gitignore/api/unity
-# Edit at https://www.toptal.com/developers/gitignore?templates=unity
-
 ### Unity ###
 # This .gitignore file should be placed at the root of your Unity project directory
 #
@@ -52,9 +49,10 @@ ExportedObj/
 EditorUserSettings.asset
 
 # Unity3D generated meta files
-*.pidb.meta
-*.pdb.meta
-*.mdb.meta
+# Commented out to include all .meta files
+# *.pidb.meta
+# *.pdb.meta
+# *.mdb.meta
 
 # Unity3D generated file on crash reports
 sysinfo.txt
