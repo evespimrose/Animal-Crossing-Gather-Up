@@ -20,7 +20,6 @@ public class HandFlowerCommand : ICollectCommand
 {
     public void Execute(Vector3 position)
     {
-        Debug.Log("HandFlowerCommand");
 
         Collider[] hitColliders = Physics.OverlapSphere(position, 1f);
 
@@ -32,23 +31,18 @@ public class HandFlowerCommand : ICollectCommand
             if (hitCollider.TryGetComponent(out Flower flower))
             {
                 flower.Collect();
-                Debug.Log($"Collected {flower.name}");
                 return;
             }
             else if (hitCollider.TryGetComponent(out Branch branch))
             {
                 branch.Collect();
-                Debug.Log($"Collected {branch.name}");
                 return;
             }
             else if (hitCollider.TryGetComponent(out Pebble pebble))
             {
                 pebble.Collect();
-                Debug.Log($"Collected {pebble.name}");
                 return;
             }
-            else
-                Debug.Log($"Didn't collect : {hitCollider.gameObject.name}");
         }
     }
 }

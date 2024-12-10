@@ -211,7 +211,6 @@ public class Player : MonoBehaviour
 
     private IEnumerator RotateToFaceDirection(Vector3 targetDirection, Item itemInfo)
     {
-        /* DO NOT DELETE!!!*/
         if (itemInfo is FishInfo)
         {
             ActivateAnimation(null, true, 2);
