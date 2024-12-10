@@ -178,6 +178,7 @@ public class Inventory : MonoBehaviour
 		if (slots[index].Item is ToolInfo toolInfo)
 		{
 			toolInfo.isEquipped = false;
+			GameManager.Instance.player.UnequipTool();
 		}
 		slots[index].Item.optionText[0] = "µé±â";
 		currentEquipIndex = -1;
