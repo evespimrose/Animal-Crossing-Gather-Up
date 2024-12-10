@@ -30,7 +30,6 @@ public class SlotUI : MonoBehaviour
 
 	private void Awake()
 	{
-		print("SlotUI: Awake");
 		currentSlot = GetComponent<Slot>();
 		itemNameText = itemInfo.GetComponentInChildren<TextMeshProUGUI>();
 		isInitialized = true;

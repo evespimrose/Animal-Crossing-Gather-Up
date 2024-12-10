@@ -42,6 +42,7 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject clownFishPrefab;
     [SerializeField] private GameObject lobsterPrefab;
     [SerializeField] private GameObject seaHorsePrefab;
+
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
@@ -150,6 +151,15 @@ public class Player : MonoBehaviour
 
         if (currentTool != null)
         {
+            if (currentTool.ToolInfo.toolType == ToolInfo.ToolType.FishingPole && equippedTool.TryGetComponent(out FishingPole fPole) && animReciever.isFishing)
+            {
+                ActivateAnimation(null, false, 3);
+                fPole.UnExecute();
+                return;
+            }
+            else
+                currentTool.Execute(transform.position, transform.forward);
+
             if (animator != null && !animReciever.isActing && !isMoving)
             {
                 switch (currentTool.ToolInfo.toolType)
@@ -168,8 +178,7 @@ public class Player : MonoBehaviour
                         break;
                 }
             }
-
-            currentTool.Execute(transform.position, transform.forward);
+            
 
             if (currentTool.ToolInfo.currentDurability <= 0)
             {
@@ -326,7 +335,8 @@ public class Player : MonoBehaviour
         animReciever.fishingTaskCount = fishingTaskCount;
         animator.SetBool("isFishing", isFishing);
         animator.SetInteger("FishingTaskCount", fishingTaskCount);
-        animator.SetTrigger(str);
+        if(str != null)
+            animator.SetTrigger(str);
     }
     private void JudgeActivationOfPrefabs(Item itemInfo, bool activation)
     {
