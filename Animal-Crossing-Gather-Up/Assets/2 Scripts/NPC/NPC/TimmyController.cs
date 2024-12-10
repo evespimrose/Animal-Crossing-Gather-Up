@@ -41,36 +41,22 @@ public class TimmyController : DialogController, INPCDialog
         if (timmyDialogData.currentOption == "장비를 구매할래")
         {
             AfterSelectedOption();
-            DialogStart(timmyDialogData.nextDialogTexts, timmyDialogData.dialogIndex);
-
-            string[] timmyOptions = { "구매" };
-            UIManager.Instance.optionUI.SetOptions(timmyOptions);
+            ResetDialog();
+            UIManager.Instance.OpenPurchasePanel();
         }
 
         if (timmyDialogData.currentOption == "채집물을 판매할래")
         {
             AfterSelectedOption();
-            DialogStart(timmyDialogData.thirdDialogTexts, timmyDialogData.dialogIndex);
-
-            string[] timmyOptions = { "판매" };
-            UIManager.Instance.optionUI.SetOptions(timmyOptions);
+            ResetDialog();
+            UIManager.Instance.OpenInventory();
         }
 
         if (timmyDialogData.currentOption == "아무 것도 안할래")
         {
+            AfterSelectedOption();
             ResetDialog();
         }
-
-        if (timmyDialogData.currentOption == "구매")
-        {
-            ResetDialog();
-        }
-
-        if (timmyDialogData.currentOption == "판매")
-        {
-            ResetDialog();
-        }
-
     }
 
 }
