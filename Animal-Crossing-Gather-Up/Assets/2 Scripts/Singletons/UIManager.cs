@@ -6,39 +6,39 @@ using UnityEngine.UI;
 
 public class UIManager : SingletonManager<UIManager>
 {
-	[Header("UI Components")]
-	public Canvas mainCanvas;
-	public InventoryUI inventoryUI;
-	public PurchaseUI purchaseUI;
-	public DialogUI dialogUI;
-	public OptionUI optionUI;
-	public MoneyUI moneyUI;
-	public SellUI sellUI;
+    [Header("UI Components")]
+    public Canvas mainCanvas;
+    public InventoryUI inventoryUI;
+    public PurchaseUI purchaseUI;
+    public DialogUI dialogUI;
+    public OptionUI optionUI;
+    public MoneyUI moneyUI;
+    public SellUI sellUI;
 
-	// UI States
-	private bool isInventoryOpen = false;
-	private bool isPurchaseOpen = false;
-	private bool isDialogOpen = false;
-	private bool isOptionOpen = false;
-	private bool isSellOpen = false;
+    // UI States
+    private bool isInventoryOpen = false;
+    private bool isPurchaseOpen = false;
+    private bool isDialogOpen = false;
+    private bool isOptionOpen = false;
+    private bool isSellOpen = false;
 
     public string currentOption = "";
 
-	[Header("Money UI Position")]
-	public Vector2 moneyPanelOnInventory = new Vector2(-400, 50);
-	public Vector2 moneyPanelOnShop = new Vector2(750, 400);
+    [Header("Money UI Position")]
+    public Vector2 moneyPanelOnInventory = new Vector2(-400, 50);
+    public Vector2 moneyPanelOnShop = new Vector2(750, 400);
 
-	protected override void Awake()
-	{
-		base.Awake();
-		// Keep UIManager and Canvas persistent across scenes
-		DontDestroyOnLoad(gameObject);
-		if (mainCanvas != null)
-		{
-			DontDestroyOnLoad(mainCanvas.gameObject);
-		}
-		InitializeUIComponents();
-	}
+    protected override void Awake()
+    {
+        base.Awake();
+        // Keep UIManager and Canvas persistent across scenes
+        DontDestroyOnLoad(gameObject);
+        if (mainCanvas != null)
+        {
+            DontDestroyOnLoad(mainCanvas.gameObject);
+        }
+        InitializeUIComponents();
+    }
 
     private void InitializeUIComponents()
     {
@@ -65,145 +65,152 @@ public class UIManager : SingletonManager<UIManager>
             }
         }
 
-		// Find all UI components in the scene
-		inventoryUI = FindAnyObjectByType<InventoryUI>();
-		purchaseUI = FindAnyObjectByType<PurchaseUI>();
-		dialogUI = FindAnyObjectByType<DialogUI>();
-		optionUI = FindAnyObjectByType<OptionUI>();
-		moneyUI = FindAnyObjectByType<MoneyUI>();
-	}
+        // Find all UI components in the scene
+        inventoryUI = FindAnyObjectByType<InventoryUI>();
+        purchaseUI = FindAnyObjectByType<PurchaseUI>();
+        dialogUI = FindAnyObjectByType<DialogUI>();
+        optionUI = FindAnyObjectByType<OptionUI>();
+        moneyUI = FindAnyObjectByType<MoneyUI>();
+    }
 
-	#region Inventory Management
-	public void OpenInventory()
-	{
-		if (!isInventoryOpen && !isPurchaseOpen && !isSellOpen)
-		{
-			isInventoryOpen = true;
-			inventoryUI.InventoryOpen();
-		}
-	}
-	public void CloseInventory()
-	{
-		if (isInventoryOpen)
-		{
-			isInventoryOpen = false;
-			inventoryUI.InventoryClose();
-		}
-	}
-	public void ToggleInventory()
-	{
-		if (isInventoryOpen)
-		{
-			CloseInventory();
-		}
-		else
-		{
-			OpenInventory();
-		}
-	}
-	#endregion
+    #region Inventory Management
+    public void OpenInventory()
+    {
+        if (!isInventoryOpen && !isPurchaseOpen && !isSellOpen)
+        {
+            isInventoryOpen = true;
+            inventoryUI.InventoryOpen();
+        }
+    }
+    public void CloseInventory()
+    {
+        if (isInventoryOpen)
+        {
+            isInventoryOpen = false;
+            inventoryUI.InventoryClose();
+        }
+    }
+    public void ToggleInventory()
+    {
+        if (isInventoryOpen)
+        {
+            CloseInventory();
+        }
+        else
+        {
+            OpenInventory();
+        }
+    }
+    #endregion
 
-	#region SellUI Management
-	public void OpenSellPanel()
-	{
-		if (!IsAnyUIOpen())
-		{
-			isSellOpen = true;
-			sellUI.SellPanelOpen();
-		}
-	}
-	public void CloseSellPanel()
-	{
-		if (isSellOpen)
-		{
-			isSellOpen = false;
-			sellUI.SellPanelClose();
-		}
-	}
-	#endregion
+    #region SellUI Management
+    public void OpenSellPanel()
+    {
+        if (!IsAnyUIOpen())
+        {
+            isSellOpen = true;
+            sellUI.SellPanelOpen();
+        }
+    }
+    public void CloseSellPanel()
+    {
+        if (isSellOpen)
+        {
+            isSellOpen = false;
+            sellUI.SellPanelClose();
+        }
+    }
+    #endregion
 
-	#region PurchaseUI Management
-	public void OpenPurchasePanel()
-	{
-		if (!isInventoryOpen && !isPurchaseOpen && !isSellOpen)
-		{
-			isPurchaseOpen = true;
-			purchaseUI.PurchasePanelOpen();
-		}
-	}
-	public void ClosePurchasePanel()
-	{
-		if (isPurchaseOpen)
-		{
-			isPurchaseOpen = false;
-			purchaseUI.PurchasePanelClose();
-		}
-	}
-	#endregion
+    #region PurchaseUI Management
+    public void OpenPurchasePanel()
+    {
+        if (!isInventoryOpen && !isPurchaseOpen && !isSellOpen)
+        {
+            isPurchaseOpen = true;
+            purchaseUI.PurchasePanelOpen();
+        }
+    }
+    public void ClosePurchasePanel()
+    {
+        if (isPurchaseOpen)
+        {
+            isPurchaseOpen = false;
+            purchaseUI.PurchasePanelClose();
+        }
+    }
+    #endregion
 
-	#region Dialog System Management
-	public void ShowDialog(string[] dialogTexts, int talkCount)
-	{
-		isDialogOpen = true;
-		dialogUI.dialogPanel.SetActive(true);
-		dialogUI.dialogText.text = dialogTexts[talkCount];
-	}
-	public void CloseDialog()
-	{
-		isDialogOpen = false;
-		dialogUI.dialogPanel.SetActive(false);
-		dialogUI.enterPanel.SetActive(false);
-	}
-	#endregion
+    #region Dialog System Management
 
-	#region OptionUI Management
-	public void ShowOptions(string[] options)
-	{
-		isOptionOpen = true;
-		optionUI.PanelActive(true);
-		optionUI.SetOptions(options);
-	}
-	public string GetSelectedOption()
-	{
-		return optionUI.currentOption;
-	}
-	public void SetSelectedOptionInit()
-	{
-		optionUI.currentOption = "";
-	}
-	public void CloseOptions()
-	{
-		isOptionOpen = false;
-		optionUI.optionPanel.SetActive(false);
-		optionUI.cursor.SetActive(false);
-	}
-	public bool GetOptionActive()
-	{
-		return isOptionOpen;
-	}
-	#endregion
+    public void DialogPanelOff()
+    {
+        dialogUI.dialogPanel.SetActive(false);
+        dialogUI.enterPanel.SetActive(false);
+    }
 
-	#region MoneyUI Management
-	public void ShowMoney()
-	{
-		if (isInventoryOpen)
-		{
-			moneyUI.ShowMoney(moneyPanelOnInventory);
-		}
-		else if (isPurchaseOpen || isSellOpen)
-		{
-			moneyUI.ShowMoney(moneyPanelOnShop);
-		}
-	}
-	public void HideMoney()
-	{
-		moneyUI.HideMoney();
-	}
-	#endregion
+    public void ShowDialog(string[] dialogTexts, int talkCount)
+    {
+        isDialogOpen = true;
+        dialogUI.dialogPanel.SetActive(true);
+        dialogUI.dialogText.text = dialogTexts[talkCount];
+    }
+    public void CloseDialog()
+    {
+        isDialogOpen = false;
+        dialogUI.dialogPanel.SetActive(false);
+        dialogUI.enterPanel.SetActive(false);
+    }
+    #endregion
 
-	// General UI State Check
-	public bool IsAnyUIOpen()
-	{
-		return isInventoryOpen || isPurchaseOpen || isDialogOpen || isOptionOpen || isSellOpen;
-	}
+    #region OptionUI Management
+    public void ShowOptions(string[] options)
+    {
+        isOptionOpen = true;
+        optionUI.PanelActive(true);
+        optionUI.SetOptions(options);
+    }
+    public string GetSelectedOption()
+    {
+        return optionUI.currentOption;
+    }
+    public void SetSelectedOptionInit()
+    {
+        optionUI.currentOption = "";
+    }
+    public void CloseOptions()
+    {
+        isOptionOpen = false;
+        optionUI.optionPanel.SetActive(false);
+        optionUI.cursor.SetActive(false);
+    }
+    public bool GetOptionActive()
+    {
+        return isOptionOpen;
+    }
+    #endregion
+
+    #region MoneyUI Management
+    public void ShowMoney()
+    {
+        if (isInventoryOpen)
+        {
+            moneyUI.ShowMoney(moneyPanelOnInventory);
+        }
+        else if (isPurchaseOpen || isSellOpen)
+        {
+            moneyUI.ShowMoney(moneyPanelOnShop);
+        }
+    }
+    public void HideMoney()
+    {
+        moneyUI.HideMoney();
+    }
+    #endregion
+
+    // General UI State Check
+    public bool IsAnyUIOpen()
+    {
+        return isInventoryOpen || isPurchaseOpen || isDialogOpen || isOptionOpen || isSellOpen;
+    }
 }
