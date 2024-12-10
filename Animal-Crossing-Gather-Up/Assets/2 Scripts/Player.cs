@@ -298,6 +298,7 @@ public class Player : MonoBehaviour
             }
 
             ActivateAnimation("UnArm");
+            yield return new WaitUntil(() => !animReciever.isActing);
 
             Destroy(equippedTool);
             equippedTool = null;
