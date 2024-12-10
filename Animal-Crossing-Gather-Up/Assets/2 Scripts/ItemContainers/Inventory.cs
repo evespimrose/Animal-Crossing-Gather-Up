@@ -147,10 +147,6 @@ public class Inventory : MonoBehaviour
 				money -= slot.Item.basePrice;
 				AddItem(slot.Item);
 			}
-			else
-			{
-				print("Not Enough Money!");
-			}
 		}
 	}
 

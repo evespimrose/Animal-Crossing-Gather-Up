@@ -30,7 +30,6 @@ public class SlotUI : MonoBehaviour
 
 	private void Awake()
 	{
-		print("SlotUI: Awake");
 		currentSlot = GetComponent<Slot>();
 		itemNameText = itemInfo.GetComponentInChildren<TextMeshProUGUI>();
 		isInitialized = true;
@@ -127,7 +126,7 @@ public class SlotUI : MonoBehaviour
 			// if item is tool and has equipped, only "put into bag" option exist
 			if (currentSlot.Item is ToolInfo toolInfo && toolInfo.isEquipped)
 			{
-				string[] option = { "가방에 넣기" };
+				string[] option = { "가방에 ?�기" };
 				UIManager.Instance.ShowOptions(option);
 			}
 			else
