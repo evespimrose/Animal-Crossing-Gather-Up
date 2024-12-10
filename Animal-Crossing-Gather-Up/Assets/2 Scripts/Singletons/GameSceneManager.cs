@@ -6,20 +6,16 @@ using UnityEngine.SceneManagement;
 public class GameSceneManager : SingletonManager<GameSceneManager>
 {
 
-   
-    private void Update()
+    public void ChangeScene(string currentScene)
     {
-        if (Input.GetKeyDown(KeyCode.F))
+        currentScene = SceneManager.GetActiveScene().name;
+        if (currentScene == "GameScene")
         {
-            string currentScene = SceneManager.GetActiveScene().name;
-            if (currentScene == "GameScene")
-            {
-                LoadScene("MileIsland");
-            }
-            else
-            {
-                LoadScene("GameScene");
-            }
+            LoadScene("MileIsland");
+        }
+        else
+        {
+            LoadScene("GameScene");
         }
     }
 

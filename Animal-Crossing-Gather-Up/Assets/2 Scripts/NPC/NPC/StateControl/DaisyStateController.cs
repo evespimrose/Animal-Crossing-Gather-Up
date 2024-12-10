@@ -15,7 +15,6 @@ public class DaisyStateController : NPCState
     protected override void Update()
     {
         base.Update();
-        //print($"현재 데이지 상태: {npcState.ToString()}");
     }
 
     protected override void Talk()

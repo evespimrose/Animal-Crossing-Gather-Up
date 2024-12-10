@@ -14,7 +14,6 @@ public class KickStateController : NPCState
     protected override void Update()
     {
         base.Update();
-        //print($"현재 킥 상태: {npcState.ToString()}");
     }
 
     protected override void Talk()
