@@ -6,7 +6,7 @@ public class MMFCamera : MonoBehaviour
 {
     [Header("Target Settings")]
     [SerializeField] private Transform target;
-    [SerializeField] private Vector3 offset = new Vector3(0f, 5f, -8f);
+    [SerializeField] private Vector3 offset = new Vector3(8f, 5f, 0f);
 
     [Header("Camera Settings")]
     [SerializeField] private float smoothSpeed = 5f;
@@ -48,6 +48,8 @@ public class MMFCamera : MonoBehaviour
         currentXPosition = desiredPosition.x;
         currentY = target.position.y + offset.y; // Initialize currentY
         transform.position = desiredPosition;
+
+        StartCoroutine(TransitionCameraView());
     }
 
     private void Update()

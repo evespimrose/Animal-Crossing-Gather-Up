@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static UnityEditor.Progress;
@@ -60,11 +61,15 @@ public class Player : MonoBehaviour
         string currentScene = SceneManager.GetActiveScene().name;
         if (currentScene == "GameScene")
         {
-            gameObject.transform.position = new Vector3(25f, 0.74f, -40f);
+            characterController.enabled = false;
+            transform.position = new Vector3(25f, 1f, -40f);
+            characterController.enabled = true;
         }
         else if (currentScene == "MileIsland")
         {
-            gameObject.transform.position = new Vector3(136f, 0.74f, -47f);
+            characterController.enabled = false;
+            transform.position = new Vector3(136f, 1f, -47f);
+            characterController.enabled = true;
         }
     }
 
