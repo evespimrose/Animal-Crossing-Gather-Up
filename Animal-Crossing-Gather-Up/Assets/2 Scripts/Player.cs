@@ -24,9 +24,6 @@ public class Player : MonoBehaviour
 
     private ITool currentTool;
 
-    //[Header("For Debug")]
-    //public ToolInfo debugTool;
-
     private HandFlowerCommand handcollectCommand;
     public bool isMoving = false;
 
@@ -42,6 +39,7 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject clownFishPrefab;
     [SerializeField] private GameObject lobsterPrefab;
     [SerializeField] private GameObject seaHorsePrefab;
+
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
@@ -71,9 +69,6 @@ public class Player : MonoBehaviour
         if(animReciever == null )
             animReciever = GetComponentInChildren<AnimReciever>();
 
-        //if (debugTool != null)
-        //    EquipTool(debugTool);
-
         handcollectCommand = new HandFlowerCommand();
         animReciever.isFishing = false;
     }
@@ -96,11 +91,6 @@ public class Player : MonoBehaviour
                 UIManager.Instance.ToggleInventory();
             }
         }
-        //else if (Input.GetKeyDown(KeyCode.M))
-        //    if (currentTool == null)
-        //        EquipTool(debugTool);
-        //    else
-        //        UnequipTool();
         else if (Input.GetKeyDown(KeyCode.L))
         {
             CollectItemWithCeremony();
@@ -150,6 +140,15 @@ public class Player : MonoBehaviour
 
         if (currentTool != null)
         {
+            if (currentTool.ToolInfo.toolType == ToolInfo.ToolType.FishingPole && equippedTool.TryGetComponent(out FishingPole fPole) && animReciever.isFishing)
+            {
+                ActivateAnimation(null, false, 3);
+                fPole.UnExecute();
+                return;
+            }
+            else
+                currentTool.Execute(transform.position, transform.forward);
+
             if (animator != null && !animReciever.isActing && !isMoving)
             {
                 switch (currentTool.ToolInfo.toolType)
@@ -168,8 +167,7 @@ public class Player : MonoBehaviour
                         break;
                 }
             }
-
-            currentTool.Execute(transform.position, transform.forward);
+            
 
             if (currentTool.ToolInfo.currentDurability <= 0)
             {
@@ -202,12 +200,11 @@ public class Player : MonoBehaviour
 
     private IEnumerator RotateToFaceDirection(Vector3 targetDirection, Item itemInfo)
     {
-        /* DO NOT DELETE!!!*/
-        //if (itemInfo is FishInfo)
-        //{
-        //    ActivateAnimation(null, true, 2);
-        //    yield return new WaitUntil(() => !animReciever.isActing);
-        //}
+        if (itemInfo is FishInfo)
+        {
+            ActivateAnimation(null, true, 2);
+            yield return new WaitUntil(() => !animReciever.isActing);
+        }
 
         float rotationSpeed = 5f;
         Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
@@ -240,7 +237,6 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(2.1f);        // Wait for CineMachine's Playtime
         yield return new WaitUntil(() => !animReciever.isActing); // Wait for Animation's End
         changeCamera.ZoomOut(transform);
-        Debug.Log($"CeremonyCoroutine : {itemInfo.itemName}");
 
         //Send itemInfo to inventory
         JudgeActivationOfPrefabs(itemInfo, false);
@@ -306,19 +302,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    // 
-    public void SellItem(GameObject item)
-    {
-        //if (inventory.RemoveItem(item))
-        //{
-        //    //money += item.sellPrice;
-        //}
-        //else
-        //{
-        //    Debug.Log("Item not found in inventory.");
-        //}
-    }
-
     public void ActivateAnimation(string str = null, bool isFishing = false, int fishingTaskCount = 0)
     {
         animReciever.isActing = true;
@@ -326,16 +309,15 @@ public class Player : MonoBehaviour
         animReciever.fishingTaskCount = fishingTaskCount;
         animator.SetBool("isFishing", isFishing);
         animator.SetInteger("FishingTaskCount", fishingTaskCount);
-        animator.SetTrigger(str);
+        if(str != null)
+            animator.SetTrigger(str);
     }
     private void JudgeActivationOfPrefabs(Item itemInfo, bool activation)
     {
-        //Debug.Log($"JudgeActivationOfPrefabs : {itemInfo.name}, {activation}");
         if (itemInfo == null) return;
 
         if (itemInfo is BugInfo bugInfo)
         {
-            Debug.Log($"BugInfo");
 
             switch (bugInfo.type)
             {
@@ -347,7 +329,6 @@ public class Player : MonoBehaviour
         }
         else if (itemInfo is FishInfo fishInfo)
         {
-            Debug.Log($"FishInfo, {fishInfo.type}");
 
             switch (fishInfo.type)
             {
@@ -374,10 +355,6 @@ public class Player : MonoBehaviour
                 case FishInfo.FishType.Crab:
                     break;
             }
-        }
-        else
-        {
-            Debug.Log($"{itemInfo.GetType()}");
         }
 
         equippedTool.SetActive(!activation);

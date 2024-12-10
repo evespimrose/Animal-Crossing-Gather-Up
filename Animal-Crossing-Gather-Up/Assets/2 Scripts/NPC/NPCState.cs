@@ -34,7 +34,7 @@ public abstract class NPCState : MonoBehaviour, INPCState
     {
         anim = GetComponent<Animator>();
         dialogState = GetComponent<IDialogState>();
-        npcState = NPCStateType.Idle; //idle로 기본 설정
+        npcState = NPCStateType.Idle; //idle�?기본 ?�정
     }
 
     protected virtual void Update()
@@ -82,8 +82,8 @@ public abstract class NPCState : MonoBehaviour, INPCState
     protected virtual void Talk()
     {
         anim.SetFloat("Speed", 0f);
-        Vector3 direction = (GameManager.Instance.player.transform.position - transform.position).normalized;
-        direction.y = 0f; //y값 제외하고 회전
+        Vector3 direction = (player.position - transform.position).normalized;
+        direction.y = 0f; //y�??�외?�고 ?�전
 
         if (direction != GameManager.Instance.player.transform.position)
         {
@@ -150,6 +150,7 @@ public abstract class NPCState : MonoBehaviour, INPCState
     public void SetCurrentState(NPCStateType newState)
     {
         npcState = newState;
+
     }
 
 
