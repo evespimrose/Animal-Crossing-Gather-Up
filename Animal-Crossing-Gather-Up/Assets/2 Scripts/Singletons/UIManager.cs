@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -142,17 +143,10 @@ public class UIManager : SingletonManager<UIManager>
     #endregion
 
     #region Dialog System Management
-
-    public void DialogPanelOff()
-    {
-        dialogUI.dialogPanel.SetActive(false);
-        dialogUI.enterPanel.SetActive(false);
-    }
-    public void ShowDialog(string[] dialogTexts, int talkCount)
+    public void ShowDialog()
     {
         isDialogOpen = true;
         dialogUI.dialogPanel.SetActive(true);
-        dialogUI.dialogText.text = dialogTexts[talkCount];
     }
     public void CloseDialog()
     {
