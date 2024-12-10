@@ -58,7 +58,6 @@ public class Player : SingletonManager<Player>
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         string currentScene = SceneManager.GetActiveScene().name;
@@ -100,17 +99,12 @@ public class Player : SingletonManager<Player>
 
     private void HandleKeyInput()
     {
-        if (Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKeyDown(KeyCode.I) && !animReciever.isActing && isMoving)
         {
-            // only optionPanel is not active
             if (UIManager.Instance.GetOptionActive() == false)
             {
                 UIManager.Instance.ToggleInventory();
             }
-        }
-        else if (Input.GetKeyDown(KeyCode.L))
-        {
-            CollectItemWithCeremony();
         }
     }
 

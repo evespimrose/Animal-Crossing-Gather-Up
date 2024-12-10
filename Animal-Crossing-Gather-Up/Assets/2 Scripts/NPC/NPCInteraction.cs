@@ -36,9 +36,8 @@ public class NPCInteraction : MonoBehaviour
             return;
         }
 
-
         INPCDialog nearestNPC = FindNearestNPC();
-        if (Input.GetKeyDown(KeyCode.R) && !isDialogActive)
+        if (Input.GetKeyDown(KeyCode.F) && !isDialogActive && !GameManager.Instance.player.animReciever.isActing && !GameManager.Instance.player.isMoving)
         {
             if (nearestNPC != null)
             {
@@ -51,7 +50,6 @@ public class NPCInteraction : MonoBehaviour
                 nearestNPC.NPCDialogStart();
             }
         }
-
     }
 
     private INPCDialog FindNearestNPC()

@@ -21,14 +21,6 @@ public class GameSceneManager : SingletonManager<GameSceneManager>
             fadeImage.color = new Color(0, 0, 0, 0);  
         }
     }
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.F) && !isTransitioning)
-        {
-            string currentScene = SceneManager.GetActiveScene().name;
-            ChangeScene(currentScene);
-        }
-    }
     public void ChangeScene(string currentScene)
     {
         if (!isTransitioning)
