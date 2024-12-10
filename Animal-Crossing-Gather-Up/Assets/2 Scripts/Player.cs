@@ -212,11 +212,11 @@ public class Player : MonoBehaviour
     private IEnumerator RotateToFaceDirection(Vector3 targetDirection, Item itemInfo)
     {
         /* DO NOT DELETE!!!*/
-        //if (itemInfo is FishInfo)
-        //{
-        //    ActivateAnimation(null, true, 2);
-        //    yield return new WaitUntil(() => !animReciever.isActing);
-        //}
+        if (itemInfo is FishInfo)
+        {
+            ActivateAnimation(null, true, 2);
+            yield return new WaitUntil(() => !animReciever.isActing);
+        }
 
         float rotationSpeed = 5f;
         Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
@@ -313,19 +313,6 @@ public class Player : MonoBehaviour
             equippedTool = null;
             currentTool = null;
         }
-    }
-
-    // 
-    public void SellItem(GameObject item)
-    {
-        //if (inventory.RemoveItem(item))
-        //{
-        //    //money += item.sellPrice;
-        //}
-        //else
-        //{
-        //    Debug.Log("Item not found in inventory.");
-        //}
     }
 
     public void ActivateAnimation(string str = null, bool isFishing = false, int fishingTaskCount = 0)
