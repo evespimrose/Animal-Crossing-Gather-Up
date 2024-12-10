@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static UnityEditor.Progress;
 
 [RequireComponent(typeof(CharacterController))]
-public class Player : MonoBehaviour
+public class Player : SingletonManager<Player>
 {
     private CharacterController characterController;
     public float moveSpeed = 5f;
@@ -35,14 +36,25 @@ public class Player : MonoBehaviour
 
     private ChangeCamera changeCamera;
 
+    [Header("¼¼·¹¸Ó´Ï¿ë ÇÁ¸®ÆÕ")]
     [SerializeField] private GameObject squidPrefab;
     [SerializeField] private GameObject clownFishPrefab;
     [SerializeField] private GameObject lobsterPrefab;
     [SerializeField] private GameObject seaHorsePrefab;
+    [SerializeField] private GameObject orcaPrefab;
+    [SerializeField] private GameObject crabPrefab;
+    [SerializeField] private GameObject dolphinPrefab;
 
-    private void Awake()
+    [SerializeField] private GameObject beePrefab;
+    [SerializeField] private GameObject beetlePrefab;
+    [SerializeField] private GameObject butterflyPrefab;
+    [SerializeField] private GameObject blackSpiderPrefab;
+    [SerializeField] private GameObject dragonflyPrefab;
+    [SerializeField] private GameObject sandSpiderPrefab;
+
+    protected override void Awake()
     {
-        DontDestroyOnLoad(gameObject);
+        base.Awake();
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
@@ -51,11 +63,15 @@ public class Player : MonoBehaviour
         string currentScene = SceneManager.GetActiveScene().name;
         if (currentScene == "GameScene")
         {
-            gameObject.transform.position = new Vector3(25f, 0.74f, -40f);
+            characterController.enabled = false;
+            transform.position = new Vector3(25f, 1f, -40f);
+            characterController.enabled = true;
         }
         else if (currentScene == "MileIsland")
         {
-            gameObject.transform.position = new Vector3(136f, 0.74f, -47f);
+            characterController.enabled = false;
+            transform.position = new Vector3(136f, 1f, -47f);
+            characterController.enabled = true;
         }
     }
 
@@ -83,17 +99,12 @@ public class Player : MonoBehaviour
 
     private void HandleKeyInput()
     {
-        if (Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKeyDown(KeyCode.I) && !animReciever.isActing && isMoving)
         {
-            // only optionPanel is not active
             if (UIManager.Instance.GetOptionActive() == false)
             {
                 UIManager.Instance.ToggleInventory();
             }
-        }
-        else if (Input.GetKeyDown(KeyCode.L))
-        {
-            CollectItemWithCeremony();
         }
     }
 
@@ -224,7 +235,7 @@ public class Player : MonoBehaviour
 
     public void CollectItemWithCeremony(Item itemInfo = null)
     {
-        StartCoroutine(RotateToFaceDirection(Vector3.right, itemInfo)); // Xï¿½?+ë°©í–¥?ï¿½ë¡œ ?ï¿½ì „ ?ï¿½ìž‘
+        StartCoroutine(RotateToFaceDirection(Vector3.right, itemInfo)); // Xï¿?+ë°©í–¥?ï¿½ë¡œ ?ï¿½ì „ ?ï¿½ìž‘
 
         // CineMachine Coroutine Active...
         StartCoroutine(CeremonyCoroutine(itemInfo));
@@ -236,10 +247,10 @@ public class Player : MonoBehaviour
         changeCamera.ZoonIn(transform);
         yield return new WaitForSeconds(2.1f);        // Wait for CineMachine's Playtime
         yield return new WaitUntil(() => !animReciever.isActing); // Wait for Animation's End
-        changeCamera.ZoomOut(transform);
 
         //Send itemInfo to inventory
         JudgeActivationOfPrefabs(itemInfo, false);
+        changeCamera.ZoomOut(transform);
 
         OnItemCollected?.Invoke(itemInfo);       
 
@@ -318,41 +329,52 @@ public class Player : MonoBehaviour
 
         if (itemInfo is BugInfo bugInfo)
         {
-
-            switch (bugInfo.type)
+            switch (bugInfo.bugName)
             {
-                case BugInfo.BugType.TreeBug:
+                case BugInfo.BugName.Bee:
+                    beePrefab.SetActive(activation);
                     break;
-                case BugInfo.BugType.FlowerBug:
+                case BugInfo.BugName.Beetle:
+                    beetlePrefab.SetActive(activation);
+                    break;
+                case BugInfo.BugName.Butterfly:
+                    butterflyPrefab.SetActive(activation);
+                    break;
+                case BugInfo.BugName.Dragonfly:
+                    dragonflyPrefab.SetActive(activation);
+                    break;
+                case BugInfo.BugName.BlackSpider:
+                    blackSpiderPrefab.SetActive(activation);
+                    break;
+                case BugInfo.BugName.SandSpider:
+                    sandSpiderPrefab.SetActive(activation);
                     break;
             }
         }
         else if (itemInfo is FishInfo fishInfo)
         {
-
             switch (fishInfo.type)
             {
                 case FishInfo.FishType.ClownFish:
                     clownFishPrefab.SetActive(activation);
                     break;
-                case FishInfo.FishType.Pelican:
-                    break;
                 case FishInfo.FishType.Lobster:
                     lobsterPrefab.SetActive(activation);
                     break;
                 case FishInfo.FishType.Dolphin:
+                    dolphinPrefab.SetActive(activation);
                     break;
                 case FishInfo.FishType.Orca:
+                    orcaPrefab.SetActive(activation);
                     break;
                 case FishInfo.FishType.SeaHorse:
                     seaHorsePrefab.SetActive(activation);
-                    break;
-                case FishInfo.FishType.SeaOtter:
                     break;
                 case FishInfo.FishType.Squid:
                     squidPrefab.SetActive(activation);
                     break;
                 case FishInfo.FishType.Crab:
+                    crabPrefab.SetActive(activation);
                     break;
             }
         }
