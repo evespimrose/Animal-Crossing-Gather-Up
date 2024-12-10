@@ -21,7 +21,7 @@ public class DaisyMaeController : DialogController, INPCDialog
 
     public void NPCDialogStart()
     {
-        string[] daisyOptions = { "test1", "test2" };
+        string[] daisyOptions = { "뭔데?", "아, 괜찮아" };
         UIManager.Instance.optionUI.SetOptions(daisyOptions);
         UIManager.Instance.ShowDialog();
         DialogStart(daisyDialogData.dialogTexts, daisyDialogData.dialogIndex);
@@ -29,31 +29,33 @@ public class DaisyMaeController : DialogController, INPCDialog
 
     protected override void SelectedOption()
     {
-        if (daisyDialogData.currentOption == "test1")
+        if (daisyDialogData.currentOption == "뭔데?")
         {
             AfterSelectedOption();
             DialogStart(daisyDialogData.nextDialogTexts, daisyDialogData.dialogIndex);
 
-            string[] daisyOptions = { "데이지 1 테스트" };
+            string[] daisyOptions = { "고마워" };
             UIManager.Instance.optionUI.SetOptions(daisyOptions);
         }
 
-        else if (daisyDialogData.currentOption == "test2")
+        else if (daisyDialogData.currentOption == "아, 괜찮아")
         {
             AfterSelectedOption();
             DialogStart(daisyDialogData.thirdDialogTexts, daisyDialogData.dialogIndex);
 
-            string[] daisyOptions = { "데이지 2 테스트" };
+            string[] daisyOptions = { "응!" };
             UIManager.Instance.optionUI.SetOptions(daisyOptions);
         }
 
-        else if (daisyDialogData.currentOption == "데이지 1 테스트")
+        else if (daisyDialogData.currentOption == "고마워")
         {
+            AfterSelectedOption();
             ResetDialog();
         }
 
-        else if (daisyDialogData.currentOption == "데이지 2 테스트")
+        else if (daisyDialogData.currentOption == "응!")
         {
+            AfterSelectedOption();
             ResetDialog();
         }
     }
