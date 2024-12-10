@@ -40,11 +40,20 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject lobsterPrefab;
     [SerializeField] private GameObject seaHorsePrefab;
 
+    private static Player instance;
     private void Awake()
     {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject); // Áßº¹µÈ Player »èÁ¦
+            return;
+        }
+
+        instance = this;
         DontDestroyOnLoad(gameObject);
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
+
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
@@ -224,7 +233,7 @@ public class Player : MonoBehaviour
 
     public void CollectItemWithCeremony(Item itemInfo = null)
     {
-        StartCoroutine(RotateToFaceDirection(Vector3.right, itemInfo)); // Xï¿½?+ë°©í–¥?ï¿½ë¡œ ?ï¿½ì „ ?ï¿½ìž‘
+        StartCoroutine(RotateToFaceDirection(Vector3.right, itemInfo)); // Xï¿?+ë°©í–¥?ï¿½ë¡œ ?ï¿½ì „ ?ï¿½ìž‘
 
         // CineMachine Coroutine Active...
         StartCoroutine(CeremonyCoroutine(itemInfo));
