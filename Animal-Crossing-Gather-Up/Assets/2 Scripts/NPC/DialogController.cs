@@ -9,13 +9,13 @@ using Unity.VisualScripting;
 
 public class DialogController : MonoBehaviour, IDialogState
 {
-	public Coroutine currentCoroutine { get; private set; }
+    public Coroutine currentCoroutine { get; private set; }
 
-	protected NPCDialogData dialogData;
-	protected NPCInteraction interactionNPC;
+    protected NPCDialogData dialogData;
+    protected NPCInteraction interactionNPC;
 
-	protected string[] activeDialogTexts;
-	protected int activeDialogIndex;
+    protected string[] activeDialogTexts;
+    protected int activeDialogIndex;
 
 
     protected virtual void Start()
@@ -97,9 +97,9 @@ public class DialogController : MonoBehaviour, IDialogState
                 break;
             }
 
-			UIManager.Instance.dialogUI.dialogText.text += letter;
-			yield return new WaitForSeconds(0.1f);
-		}
+            UIManager.Instance.dialogUI.dialogText.text += letter;
+            yield return new WaitForSeconds(0.1f);
+        }
 
         UIManager.Instance.dialogUI.enterPanel.SetActive(true);
         UIManager.Instance.optionUI.PanelActive(dialogData.isChooseActive);
