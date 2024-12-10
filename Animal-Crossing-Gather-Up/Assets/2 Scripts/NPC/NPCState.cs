@@ -82,7 +82,7 @@ public abstract class NPCState : MonoBehaviour, INPCState
     protected virtual void Talk()
     {
         anim.SetFloat("Speed", 0f);
-        Vector3 direction = (player.position - transform.position).normalized;
+        Vector3 direction = (GameManager.Instance.player.transform.position - transform.position).normalized;
         direction.y = 0f; //y�??�외?�고 ?�전
 
         if (direction != GameManager.Instance.player.transform.position)
