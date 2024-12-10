@@ -25,7 +25,7 @@ MonoBehaviour:
   - "\uC0B4\uB798!"
   - "\uADF8\uB9CC\uB458\uB798"
   prefab: {fileID: 3690448061760608477, guid: 4c6ed8bd70bcc974bb8a3e6433a629d5, type: 3}
-  maxDurability: 100
-  currentDurability: 100
+  maxDurability: 5
+  currentDurability: 5
   isEquipped: 0
   toolType: 2
