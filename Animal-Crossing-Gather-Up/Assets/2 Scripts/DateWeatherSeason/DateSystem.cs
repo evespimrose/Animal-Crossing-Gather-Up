@@ -58,12 +58,9 @@ public class DateSystem : MonoBehaviour
         OnDateChanged?.Invoke(month, day);
     }
 
-    public string GetFormattedDate()
-    {
-        return $" {month}월 {day}일";
-    }
+  
 
-    // 날짜 설정 메서드 (디버그용)
+    // 날짜 설정 메서드
     public void SetDate(int newMonth, int newDay)
     {
         month = Mathf.Clamp(newMonth, 1, 12);

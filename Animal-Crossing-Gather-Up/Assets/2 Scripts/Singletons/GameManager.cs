@@ -166,22 +166,41 @@ public class GameManager : SingletonManager<GameManager>
             currentFlowerBugs = Mathf.Max(0, currentFlowerBugs - 1);
     }
 
-    private void RefillCollactables()
+    public void RefillCollactables()
     {
-        foreach (var oakTree in oakTrees)
+        if (oakTrees != null)
         {
-            int branchesToSpawn = oakTree.maxBranches - oakTree.branchCount;
-            oakTree.RefillBranches(branchesToSpawn);
+            for (int i = 0; i < oakTrees.Count; i++)
+            {
+                if (oakTrees[i] != null)
+                {
+                    int branchesToSpawn = oakTrees[i].maxBranches - oakTrees[i].branchCount;
+                    oakTrees[i].RefillBranches(branchesToSpawn);
+                }
+            }
         }
-        foreach (var stone in stones)
+
+        if (stones != null)
         {
-            int pebblesToSpawn = stone.maxPebbles - stone.pebbleCount;
-            stone.RefillPebbles(pebblesToSpawn);
+            for (int i = 0; i < stones.Count; i++)
+            {
+                if (stones[i] != null)
+                {
+                    int pebblesToSpawn = stones[i].maxPebbles - stones[i].pebbleCount;
+                    stones[i].RefillPebbles(pebblesToSpawn);
+                }
+            }
         }
-        foreach (var flower in flowers)
+        if (flowers != null)
         {
-            int flowersToSpawn = flower.maxFlowers - flower.flowerCount;
-            flower.RefillFlowers(flowersToSpawn);
+            for(int i = 0;  i < flowers.Count; i++)
+            {
+                if (flowers[i] != null)
+                {
+                    int flowersToSpawn = flowers[i].maxFlowers - flowers[i].flowerCount;
+                    flowers[i].RefillFlowers(flowersToSpawn);
+                }
+            }
         }
     }
 }
