@@ -36,10 +36,21 @@ public class Player : SingletonManager<Player>
 
     private ChangeCamera changeCamera;
 
+    [Header("세레머니용 프리팹")]
     [SerializeField] private GameObject squidPrefab;
     [SerializeField] private GameObject clownFishPrefab;
     [SerializeField] private GameObject lobsterPrefab;
     [SerializeField] private GameObject seaHorsePrefab;
+    [SerializeField] private GameObject orcaPrefab;
+    [SerializeField] private GameObject crabPrefab;
+    [SerializeField] private GameObject dolphinPrefab;
+
+    [SerializeField] private GameObject beePrefab;
+    [SerializeField] private GameObject beetlePrefab;
+    [SerializeField] private GameObject butterflyPrefab;
+    [SerializeField] private GameObject blackSpiderPrefab;
+    [SerializeField] private GameObject dragonflyPrefab;
+    [SerializeField] private GameObject sandSpiderPrefab;
 
     protected override void Awake()
     {
@@ -242,10 +253,10 @@ public class Player : SingletonManager<Player>
         changeCamera.ZoonIn(transform);
         yield return new WaitForSeconds(2.1f);        // Wait for CineMachine's Playtime
         yield return new WaitUntil(() => !animReciever.isActing); // Wait for Animation's End
-        changeCamera.ZoomOut(transform);
 
         //Send itemInfo to inventory
         JudgeActivationOfPrefabs(itemInfo, false);
+        changeCamera.ZoomOut(transform);
 
         OnItemCollected?.Invoke(itemInfo);       
 
@@ -324,41 +335,52 @@ public class Player : SingletonManager<Player>
 
         if (itemInfo is BugInfo bugInfo)
         {
-
-            switch (bugInfo.type)
+            switch (bugInfo.bugName)
             {
-                case BugInfo.BugType.TreeBug:
+                case BugInfo.BugName.Bee:
+                    beePrefab.SetActive(activation);
                     break;
-                case BugInfo.BugType.FlowerBug:
+                case BugInfo.BugName.Beetle:
+                    beetlePrefab.SetActive(activation);
+                    break;
+                case BugInfo.BugName.Butterfly:
+                    butterflyPrefab.SetActive(activation);
+                    break;
+                case BugInfo.BugName.Dragonfly:
+                    dragonflyPrefab.SetActive(activation);
+                    break;
+                case BugInfo.BugName.BlackSpider:
+                    blackSpiderPrefab.SetActive(activation);
+                    break;
+                case BugInfo.BugName.SandSpider:
+                    sandSpiderPrefab.SetActive(activation);
                     break;
             }
         }
         else if (itemInfo is FishInfo fishInfo)
         {
-
             switch (fishInfo.type)
             {
                 case FishInfo.FishType.ClownFish:
                     clownFishPrefab.SetActive(activation);
                     break;
-                case FishInfo.FishType.Pelican:
-                    break;
                 case FishInfo.FishType.Lobster:
                     lobsterPrefab.SetActive(activation);
                     break;
                 case FishInfo.FishType.Dolphin:
+                    dolphinPrefab.SetActive(activation);
                     break;
                 case FishInfo.FishType.Orca:
+                    orcaPrefab.SetActive(activation);
                     break;
                 case FishInfo.FishType.SeaHorse:
                     seaHorsePrefab.SetActive(activation);
-                    break;
-                case FishInfo.FishType.SeaOtter:
                     break;
                 case FishInfo.FishType.Squid:
                     squidPrefab.SetActive(activation);
                     break;
                 case FishInfo.FishType.Crab:
+                    crabPrefab.SetActive(activation);
                     break;
             }
         }

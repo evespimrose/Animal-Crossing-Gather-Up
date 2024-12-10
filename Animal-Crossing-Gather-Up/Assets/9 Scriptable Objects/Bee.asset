@@ -20,6 +20,10 @@ MonoBehaviour:
   - "\uADFC\uCC98\uC5D0 \uB450\uAE30"
   fullInventoryOptionText:
   - "\uBC14\uAFB8\uAE30"
+  purchaseOptionText:
+  - "\uC0B4\uB798!"
+  - "\uADF8\uB9CC\uB458\uB798"
   prefab: {fileID: 1609184919698041878, guid: 209394589968f0b44ba797013a342959, type: 3}
   type: 1
+  bugName: 1
   spawnWeight: 0.3
