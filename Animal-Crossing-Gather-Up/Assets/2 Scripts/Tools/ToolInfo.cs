@@ -15,6 +15,7 @@ public class ToolInfo : Item
 	{
 		currentDurability = maxDurability;
 		isEquipped = false;
+		optionText[0] = "µé±â";
 	}
 
 
