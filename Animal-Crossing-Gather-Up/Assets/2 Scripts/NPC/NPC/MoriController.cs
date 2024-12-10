@@ -9,25 +9,15 @@ public class MoriController : DialogController, INPCDialog
 {
 	public NPCDialogData moriDialogData;
 
-	private void Awake()
-	{
-		dialogData = moriDialogData;
-	}
+    private void Awake()
+    {
+        SetDialogData(moriDialogData);
+    }
 
 	protected override void Start()
 	{
 		base.Start();
 		ResetDialog();
-	}
-
-	protected override void Update()
-	{
-		base.Update();
-		if (moriDialogData.currentOption != UIManager.Instance.optionUI.currentOption && UIManager.Instance.optionUI.currentOption != null)
-		{
-			moriDialogData.currentOption = UIManager.Instance.optionUI.currentOption;
-			SelectedOptionAfter();
-		}
 	}
 
 
@@ -39,12 +29,12 @@ public class MoriController : DialogController, INPCDialog
 		DialogStart(moriDialogData.dialogTexts, moriDialogData.dialogIndex);
 	}
 
-	public void SelectedOptionAfter()
-	{
-		if (moriDialogData.currentOption == "외출할래")
-		{
-			AfterSelectedOption();
-			DialogStart(moriDialogData.nextDialogTexts, moriDialogData.dialogIndex);
+    protected override void SelectedOption()
+    {
+        if (moriDialogData.currentOption == "외출할래")
+        {
+            AfterSelectedOption();
+            DialogStart(moriDialogData.nextDialogTexts, moriDialogData.dialogIndex);
 
 			string[] moriOptions = { "마일섬 출발!" };
 			UIManager.Instance.optionUI.SetOptions(moriOptions);

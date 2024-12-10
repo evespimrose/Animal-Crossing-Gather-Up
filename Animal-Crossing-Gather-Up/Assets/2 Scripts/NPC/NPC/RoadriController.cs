@@ -11,7 +11,7 @@ public class RoadriController : DialogController, INPCDialog
 
     private void Awake()
     {
-        dialogData = roadriDialogData;
+        SetDialogData(roadriDialogData);
     }
     protected override void Start()
     {
@@ -19,16 +19,6 @@ public class RoadriController : DialogController, INPCDialog
         ResetDialog();
     }
 
-    protected override void Update()
-    {
-
-        base.Update();
-        if (roadriDialogData.currentOption != UIManager.Instance.optionUI.currentOption && UIManager.Instance.optionUI.currentOption != null)
-        {
-            roadriDialogData.currentOption = UIManager.Instance.optionUI.currentOption;
-            SelectedOptionAfter();
-        }
-    }
 
     public void NPCDialogStart()
     {
@@ -38,7 +28,7 @@ public class RoadriController : DialogController, INPCDialog
         DialogStart(roadriDialogData.dialogTexts, roadriDialogData.dialogIndex);
     }
 
-    public void SelectedOptionAfter()
+    protected override void SelectedOption()
     {
         if (roadriDialogData.currentOption == "집에 갈래")
         {
@@ -61,6 +51,7 @@ public class RoadriController : DialogController, INPCDialog
         else if (roadriDialogData.currentOption == "출발!")
         {
             ResetDialog();
+            GameSceneManager.Instance.ChangeScene("GameScene");
         }
 
         else if (roadriDialogData.currentOption == "대화 종료")

@@ -8,22 +8,22 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: mBeak
-    second: {fileID: 2100000, guid: e937eecd84a9d634dac2d5cc17375682, type: 2}
+    second: {fileID: 2100000, guid: 75a2cd2a56155c947b2d9d8ec7e6292b, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: mBody
-    second: {fileID: 2100000, guid: 05f4fed99dcc01147aa019de132a002e, type: 2}
+    second: {fileID: 2100000, guid: 7807b8ba18679484b9faba463a95f0d9, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: mEye
-    second: {fileID: 2100000, guid: 5fcc1c5ddf0412a4099085805c7c128f, type: 2}
+    second: {fileID: 2100000, guid: e75eb28e6290f8645827ce7eec2ff190, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: mTops
-    second: {fileID: 2100000, guid: 4b010a06ea10025468961380a7387939, type: 2}
+    second: {fileID: 2100000, guid: 65915a4c3408abc4fb91681c7b20086d, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
