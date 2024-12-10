@@ -54,6 +54,11 @@ public class MMFCamera : MonoBehaviour
 
     private void Update()
     {
+        if (target == null)
+        {
+            target = GameObject.FindGameObjectWithTag("Player").transform;
+        }
+
         if (Input.GetKeyDown(KeyCode.O) && !isTransitioning)
         {
             StartCoroutine(TransitionCameraView());
