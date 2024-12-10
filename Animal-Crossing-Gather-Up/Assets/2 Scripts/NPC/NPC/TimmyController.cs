@@ -8,19 +8,13 @@ public class TimmyController : DialogController, INPCDialog
     public NPCDialogData timmyDialogData;
     private void Awake()
     {
-        timmyDialogData.isChooseActive = false;
-        timmyDialogData.isEnterActive = false;
-        for (int i = 0; i < timmyDialogData.dialogIndex.Length; i++)
-        {
-            timmyDialogData.dialogIndex[i] = 0;
-        }
+        dialogData = timmyDialogData;
     }
 
     protected override void Start()
     {
         base.Start();
-        dialogData = timmyDialogData;
-        timmyDialogData.currentOption = UIManager.Instance.optionUI.currentOption;
+        ResetDialog();
     }
 
     protected override void Update()
@@ -35,10 +29,10 @@ public class TimmyController : DialogController, INPCDialog
 
     public void NPCDialogStart()
     {
-        string[] moriOptions = { "장비를 구매할래", "채집물을 판매할래", "아무 것도 안할래" };
-        UIManager.Instance.optionUI.SetOptions(moriOptions);
+        string[] timmyOptions = { "장비를 구매할래", "채집물을 판매할래", "아무 것도 안할래" };
+        UIManager.Instance.optionUI.SetOptions(timmyOptions);
         UIManager.Instance.dialogUI.dialogPanel.SetActive(true);
-        DialogStart(timmyDialogData.dialogTexts, timmyDialogData.dialogIndex[0]);
+        DialogStart(timmyDialogData.dialogTexts, timmyDialogData.dialogIndex);
         print("티미 대화 시작");
     }
 
@@ -47,42 +41,35 @@ public class TimmyController : DialogController, INPCDialog
 
         if (timmyDialogData.currentOption == "장비를 구매할래")
         {
-            dialogData.isChooseActive = false;
-            UIManager.Instance.optionUI.PanelActive(timmyDialogData.isChooseActive);
+            AfterSelectedOption();
+            DialogStart(timmyDialogData.nextDialogTexts, timmyDialogData.dialogIndex);
 
-            DialogStart(timmyDialogData.nextDialogTexts, timmyDialogData.dialogIndex[1]);
-
-            string[] moriOptions = { "구매" };
-            UIManager.Instance.optionUI.SetOptions(moriOptions);
+            string[] timmyOptions = { "구매" };
+            UIManager.Instance.optionUI.SetOptions(timmyOptions);
         }
 
         if (timmyDialogData.currentOption == "채집물을 판매할래")
         {
-            dialogData.isChooseActive = false;
-            UIManager.Instance.optionUI.PanelActive(timmyDialogData.isChooseActive);
+            AfterSelectedOption();
+            DialogStart(timmyDialogData.thirdDialogTexts, timmyDialogData.dialogIndex);
 
-            DialogStart(timmyDialogData.thirdDialogTexts, timmyDialogData.dialogIndex[2]);
-
-            string[] moriOptions = { "판매" };
-            UIManager.Instance.optionUI.SetOptions(moriOptions);
+            string[] timmyOptions = { "판매" };
+            UIManager.Instance.optionUI.SetOptions(timmyOptions);
         }
 
         if (timmyDialogData.currentOption == "아무 것도 안할래")
         {
-            EndDialog();
-            print("티미 대화 종료");
+            ResetDialog();
         }
 
         if (timmyDialogData.currentOption == "구매")
         {
-            EndDialog();
-            print("장비 구매 완료");
+            ResetDialog();
         }
 
         if (timmyDialogData.currentOption == "판매")
         {
-            EndDialog();
-            print("채집물 판매 완료");
+            ResetDialog();
         }
 
     }

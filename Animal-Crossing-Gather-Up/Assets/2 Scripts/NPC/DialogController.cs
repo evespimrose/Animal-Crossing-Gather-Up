@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Unity.VisualScripting;
-//using Unity.Android.Types;
 
 
 
@@ -24,25 +23,22 @@ public class DialogController : MonoBehaviour, IDialogState
         interactionNPC = GetComponentInParent<NPCInteraction>();
         UIManager.Instance.optionUI.optionPanel.SetActive(false);
         UIManager.Instance.DialogPanelOff();
+        dialogData.currentOption = UIManager.Instance.optionUI.currentOption;
     }
-
 
     public void DialogStart(string[] dialogTexts, int dialogIndexCount)
     {
         dialogData.isChooseActive = false;
         activeDialogTexts = dialogTexts;
         activeDialogIndex = dialogIndexCount;
-        FirstText(dialogTexts, dialogIndexCount);
+        DialogActive(dialogTexts, dialogIndexCount);
     }
 
-    public void EndDialog()
+    public void ResetDialog()
     {
         interactionNPC.isDialogActive = false;
         dialogData.isChooseActive = false;
-        for (int i = 0; i < dialogData.dialogIndex.Length; i++)
-        {
-            dialogData.dialogIndex[i] = 0;
-        }
+        dialogData.dialogIndex = 0;
         activeDialogTexts = null;
         UIManager.Instance.optionUI.optionPanel.SetActive(false);
         UIManager.Instance.dialogUI.dialogPanel.SetActive(false);
@@ -52,73 +48,46 @@ public class DialogController : MonoBehaviour, IDialogState
     {
         if (UIManager.Instance.dialogUI.dialogPanel.activeSelf && activeDialogTexts != null)
         {
-            EnterDialog(activeDialogTexts, activeDialogIndex);
+            DialogActive(activeDialogTexts, activeDialogIndex);
         }
     }
 
-    public void FirstText(string[] SetdialogTexts, int dialogIndexCount)
+    public void DialogActive(string[] setDialogTexts, int dialogIndexCount)
     {
-        if (currentCoroutine == null)
+
+        if (dialogData.dialogIndex == 0 && currentCoroutine == null)
         {
-            if (dialogData.dialogIndex[dialogIndexCount] >= SetdialogTexts.Length)
-            {
-                dialogData.dialogIndex[dialogIndexCount] = 0;
-            }
-            string firstText = SetdialogTexts[dialogData.dialogIndex[dialogIndexCount]];
-            currentCoroutine = StartCoroutine(TypingDialog(firstText));
-            dialogData.dialogIndex[dialogIndexCount]++;
+            activeDialogTexts = setDialogTexts;
+            string text = setDialogTexts[dialogData.dialogIndex];
+            currentCoroutine = StartCoroutine(TypingDialog(text));
+            dialogData.dialogIndex++;
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
 
-            interactionNPC.isDialogActive = false;
-            dialogData.isChooseActive = false;
-            for (int i = 0; i < dialogData.dialogIndex.Length; i++)
-            {
-                dialogData.dialogIndex[i] = 0;
-            }
-            activeDialogTexts = null;
-            UIManager.Instance.optionUI.optionPanel.SetActive(false);
-            UIManager.Instance.dialogUI.dialogPanel.SetActive(false);
+        if (Input.GetKeyDown(KeyCode.Space) && currentCoroutine == null)
+        {
+            string dialogText = setDialogTexts[dialogData.dialogIndex];
+            currentCoroutine = StartCoroutine(TypingDialog(dialogText));
+            dialogData.dialogIndex++;
         }
-    }
 
-    public void EnterDialog(string[] setDialogTexts, int dialogIndexCount)
-    {
-        if (dialogData.dialogIndex[dialogIndexCount] >= setDialogTexts.Length)
+
+        if (dialogData.dialogIndex >= setDialogTexts.Length)
         {
+            dialogData.dialogIndex = 0;
             dialogData.isChooseActive = true;
             activeDialogTexts = null;
             return;
         }
 
-        if (dialogData.dialogIndex[dialogIndexCount] < setDialogTexts.Length && currentCoroutine == null)
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (Input.GetKeyDown(KeyCode.Space) && currentCoroutine == null)
-            {
-                string text = setDialogTexts[dialogData.dialogIndex[dialogIndexCount]];
-                currentCoroutine = StartCoroutine(TypingDialog(text));
-                dialogData.dialogIndex[dialogIndexCount]++;
-            }
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                interactionNPC.isDialogActive = false;
-                dialogData.isChooseActive = false;
-                for (int i = 0; i < dialogData.dialogIndex.Length; i++)
-                {
-                    dialogData.dialogIndex[i] = 0;
-                }
-                activeDialogTexts = null;
-                UIManager.Instance.optionUI.optionPanel.SetActive(false);
-                UIManager.Instance.dialogUI.dialogPanel.SetActive(false);
-            }
+            ResetDialog();
         }
     }
 
     private IEnumerator TypingDialog(string text)
     {
-        dialogData.isEnterActive = false;
         UIManager.Instance.dialogUI.enterPanel.SetActive(false);
         UIManager.Instance.dialogUI.dialogText.text = "";
         foreach (char letter in text.ToCharArray())
@@ -133,10 +102,14 @@ public class DialogController : MonoBehaviour, IDialogState
             yield return new WaitForSeconds(0.1f);
         }
 
-        dialogData.isEnterActive = true;
         UIManager.Instance.dialogUI.enterPanel.SetActive(true);
         UIManager.Instance.optionUI.PanelActive(dialogData.isChooseActive);
         currentCoroutine = null;
     }
 
+    public void AfterSelectedOption()
+    {
+        dialogData.isChooseActive = false;
+        UIManager.Instance.optionUI.PanelActive(dialogData.isChooseActive);
+    }
 }

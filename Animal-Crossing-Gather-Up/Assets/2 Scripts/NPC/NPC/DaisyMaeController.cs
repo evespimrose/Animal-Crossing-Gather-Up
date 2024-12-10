@@ -5,80 +5,65 @@ using static UnityEditor.Progress;
 
 public class DaisyMaeController : DialogController, INPCDialog
 {
-    public NPCDialogData daisyDailogData;
+    public NPCDialogData daisyDialogData;
 
     private void Awake()
     {
-        daisyDailogData.isChooseActive = false;
-        daisyDailogData.isEnterActive = false;
-        for (int i = 0; i < daisyDailogData.dialogIndex.Length; i++)
-        {
-            daisyDailogData.dialogIndex[i] = 0;
-        }
+        dialogData = daisyDialogData;
     }
 
     protected override void Start()
     {
         base.Start();
-        dialogData = daisyDailogData;
-        daisyDailogData.currentOption = "";
-        daisyDailogData.currentOption = UIManager.Instance.optionUI.currentOption;
+        ResetDialog();
     }
 
     protected override void Update()
     {
-
         base.Update();
-        if (daisyDailogData.currentOption != UIManager.Instance.optionUI.currentOption && UIManager.Instance.optionUI.currentOption != null)
+        if (daisyDialogData.currentOption != UIManager.Instance.optionUI.currentOption && UIManager.Instance.optionUI.currentOption != null)
         {
-            daisyDailogData.currentOption = UIManager.Instance.optionUI.currentOption;
+            daisyDialogData.currentOption = UIManager.Instance.optionUI.currentOption;
             SelectedOptionAfter();
         }
     }
 
     public void NPCDialogStart()
     {
-        string[] timmyOptions = { "test1", "test2" };
-        UIManager.Instance.optionUI.SetOptions(timmyOptions);
+        string[] daisyOptions = { "test1", "test2" };
+        UIManager.Instance.optionUI.SetOptions(daisyOptions);
         UIManager.Instance.dialogUI.dialogPanel.SetActive(true);
-        DialogStart(daisyDailogData.dialogTexts, daisyDailogData.dialogIndex[0]);
-        print("데이지 대화 시작");
+        DialogStart(daisyDialogData.dialogTexts, daisyDialogData.dialogIndex);
     }
 
     public void SelectedOptionAfter()
     {
-        if (daisyDailogData.currentOption == "test1")
+        if (daisyDialogData.currentOption == "test1")
         {
-            dialogData.isChooseActive = false;
-            UIManager.Instance.optionUI.PanelActive(daisyDailogData.isChooseActive);
+            AfterSelectedOption();
+            DialogStart(daisyDialogData.nextDialogTexts, daisyDialogData.dialogIndex);
 
-            DialogStart(daisyDailogData.nextDialogTexts, daisyDailogData.dialogIndex[1]);
-
-            string[] roadriOptions = { "테스트 1 끝" };
-            UIManager.Instance.optionUI.SetOptions(roadriOptions);
+            string[] daisyOptions = { "데이지 1 테스트" };
+            UIManager.Instance.optionUI.SetOptions(daisyOptions);
         }
 
-        else if (daisyDailogData.currentOption == "test2")
+        else if (daisyDialogData.currentOption == "test2")
         {
-            dialogData.isChooseActive = false;
-            UIManager.Instance.optionUI.PanelActive(daisyDailogData.isChooseActive);
+            AfterSelectedOption();
+            DialogStart(daisyDialogData.thirdDialogTexts, daisyDialogData.dialogIndex);
 
-            DialogStart(daisyDailogData.thirdDialogTexts, daisyDailogData.dialogIndex[2]);
-
-            string[] roadriOptions = { "테스트 2 끝" };
-            UIManager.Instance.optionUI.SetOptions(roadriOptions);
+            string[] daisyOptions = { "데이지 2 테스트" };
+            UIManager.Instance.optionUI.SetOptions(daisyOptions);
         }
 
-        else if (daisyDailogData.currentOption == "테스트 1 끝")
+        else if (daisyDialogData.currentOption == "데이지 1 테스트")
         {
-            EndDialog();
-            print("데이지 1 옵션 테스트 완료");
+            ResetDialog();
         }
 
-        else if (daisyDailogData.currentOption == "테스트 2 끝")
+        else if (daisyDialogData.currentOption == "데이지 2 테스트")
         {
-            EndDialog();
-            print("데이지 2 옵션 테스트 완료");
+            ResetDialog();
         }
     }
 }

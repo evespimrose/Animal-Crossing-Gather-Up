@@ -5,80 +5,68 @@ using static UnityEditor.Progress;
 
 public class KicksController : DialogController, INPCDialog
 {
-    public NPCDialogData timmyDialogData;
+    public NPCDialogData kicksDialogData;
 
     private void Awake()
     {
-        timmyDialogData.isChooseActive = false;
-        timmyDialogData.isEnterActive = false;
-        for (int i = 0; i < timmyDialogData.dialogIndex.Length; i++)
-        {
-            timmyDialogData.dialogIndex[i] = 0;
-        }
+        dialogData = kicksDialogData;
+
     }
 
     protected override void Start()
     {
         base.Start();
-        dialogData = timmyDialogData;
-        timmyDialogData.currentOption = "";
-        timmyDialogData.currentOption = UIManager.Instance.optionUI.currentOption;
+        ResetDialog();
     }
 
     protected override void Update()
     {
 
         base.Update();
-        if (timmyDialogData.currentOption != UIManager.Instance.optionUI.currentOption && UIManager.Instance.optionUI.currentOption != null)
+        if (kicksDialogData.currentOption != UIManager.Instance.optionUI.currentOption && UIManager.Instance.optionUI.currentOption != null)
         {
-            timmyDialogData.currentOption = UIManager.Instance.optionUI.currentOption;
+            kicksDialogData.currentOption = UIManager.Instance.optionUI.currentOption;
             SelectedOptionAfter();
         }
     }
 
     public void NPCDialogStart()
     {
-        string[] timmyOptions = { "거래", "그냥" };
-        UIManager.Instance.optionUI.SetOptions(timmyOptions);
+        string[] kicksOptions = { "거래", "그냥" };
+        UIManager.Instance.optionUI.SetOptions(kicksOptions);
         UIManager.Instance.dialogUI.dialogPanel.SetActive(true);
-        DialogStart(timmyDialogData.dialogTexts, timmyDialogData.dialogIndex[0]);
+        DialogStart(kicksDialogData.dialogTexts, kicksDialogData.dialogIndex);
         print("킥 대화 시작");
     }
 
     public void SelectedOptionAfter()
     {
-        if (timmyDialogData.currentOption == "거래")
+        if (kicksDialogData.currentOption == "거래")
         {
-            dialogData.isChooseActive = false;
-            UIManager.Instance.optionUI.PanelActive(timmyDialogData.isChooseActive);
+            AfterSelectedOption();
+            DialogStart(kicksDialogData.nextDialogTexts, kicksDialogData.dialogIndex);
 
-            DialogStart(timmyDialogData.nextDialogTexts, timmyDialogData.dialogIndex[1]);
-
-            string[] roadriOptions = { "거래할래!" };
-            UIManager.Instance.optionUI.SetOptions(roadriOptions);
+            string[] kicksOptions = { "거래할래!" };
+            UIManager.Instance.optionUI.SetOptions(kicksOptions);
         }
 
-        else if (timmyDialogData.currentOption == "그냥")
+        else if (kicksDialogData.currentOption == "그냥")
         {
-            dialogData.isChooseActive = false;
-            UIManager.Instance.optionUI.PanelActive(timmyDialogData.isChooseActive);
+            AfterSelectedOption();
+            DialogStart(kicksDialogData.thirdDialogTexts, kicksDialogData.dialogIndex);
 
-            DialogStart(timmyDialogData.thirdDialogTexts, timmyDialogData.dialogIndex[2]);
-
-            string[] roadriOptions = { "안녕" };
-            UIManager.Instance.optionUI.SetOptions(roadriOptions);
+            string[] kicksOptions = { "안녕" };
+            UIManager.Instance.optionUI.SetOptions(kicksOptions);
         }
 
-        else if (timmyDialogData.currentOption == "거래할래!")
+        else if (kicksDialogData.currentOption == "거래할래!")
         {
-            EndDialog();
-            print("킥에게서 물품 구매 완료");
+            ResetDialog();
         }
 
-        else if (timmyDialogData.currentOption == "안녕")
+        else if (kicksDialogData.currentOption == "안녕")
         {
-            EndDialog();
-            print("킥 대화 종료");
+            ResetDialog();
         }
     }
 }

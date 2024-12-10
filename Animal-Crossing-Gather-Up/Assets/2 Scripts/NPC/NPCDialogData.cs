@@ -22,7 +22,7 @@ public class NPCDialogData : ScriptableObject
     public string[] fourthDialogTexts;
 
     [Header("DialogIndex")]
-    public int[] dialogIndex;
+    public int dialogIndex;
 
     [Header("bool")]
     public bool isChooseActive; //선택패널 활성화 bool
