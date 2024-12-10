@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static UnityEditor.Progress;
 
 [RequireComponent(typeof(CharacterController))]
@@ -41,8 +42,24 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject clownFishPrefab;
     [SerializeField] private GameObject lobsterPrefab;
     [SerializeField] private GameObject seaHorsePrefab;
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
 
-
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        string currentScene = SceneManager.GetActiveScene().name;
+        if (currentScene == "GameScene")
+        {
+            gameObject.transform.position = new Vector3(25f, 0.74f, -40f);
+        }
+        else if (currentScene == "MileIsland")
+        {
+            gameObject.transform.position = new Vector3(136f, 0.74f, -47f);
+        }
+    }
 
     private void Start()
     {
@@ -210,7 +227,7 @@ public class Player : MonoBehaviour
 
     public void CollectItemWithCeremony(Item itemInfo = null)
     {
-        StartCoroutine(RotateToFaceDirection(Vector3.right, itemInfo)); // X�?+방향?�로 ?�전 ?�작
+        StartCoroutine(RotateToFaceDirection(Vector3.right, itemInfo)); // X�?+방향?�로 ?�전 ?�작
 
         // CineMachine Coroutine Active...
         StartCoroutine(CeremonyCoroutine(itemInfo));
