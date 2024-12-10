@@ -69,12 +69,6 @@ public class NPCInteraction : MonoBehaviour
             }
         }
 
-        if (nearestNPC != null)
-        {
-            print("상호작용 가능한 거리");
-        }
-
-        print($"상호작용 가능한 NPC: {nearestNPC}");
         return nearestNPC;
     }
 }

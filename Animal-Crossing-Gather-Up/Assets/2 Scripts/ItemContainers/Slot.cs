@@ -49,11 +49,9 @@ public class Slot : MonoBehaviour
 	public void RemoveItemOne()
 	{
 		stackCount--;
-		print($"Remove {Item.itemName}. Current Stack Count : {stackCount}");
 		if (stackCount == 0)
 		{
 			Item = null;
-			print("Item is null");
 		}
 	}
 

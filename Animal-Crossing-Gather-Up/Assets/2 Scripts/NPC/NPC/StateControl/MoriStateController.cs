@@ -21,7 +21,6 @@ public class MoriStateController : NPCState
     protected override void Update()
     {
         base.Update();
-        print($"현재 모리 상태: {npcState.ToString()}");
     }
 
     protected override void Talk()

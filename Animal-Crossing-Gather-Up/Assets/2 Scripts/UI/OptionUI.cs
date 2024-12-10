@@ -104,7 +104,6 @@ public class OptionUI : MonoBehaviour
         currentOption = optionTexts[currentIndex].text;
         PanelActive(false);
 
-        print($"현재 옵션: {currentOption}");
         return currentOption;
     }
 
