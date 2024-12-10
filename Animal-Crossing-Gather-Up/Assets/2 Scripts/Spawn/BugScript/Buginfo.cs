@@ -13,6 +13,7 @@ public class BugInfo : Item, ICollectableInfo
     
     public GameObject prefab;
     public BugType type;
+    public BugName bugName;
 
     [Range(0.1f, 1f)]
     public float spawnWeight;
@@ -23,6 +24,17 @@ public class BugInfo : Item, ICollectableInfo
     {
         TreeBug,
         FlowerBug
+    }
+
+    public enum BugName
+    {
+        None,
+        Bee,
+        Beetle,
+        Butterfly,
+        BlackSpider,
+        Dragonfly,
+        SandSpider
     }
 
 }

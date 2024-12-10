@@ -52,10 +52,47 @@ public class TimeManager : SingletonManager<TimeManager>
         // 씬 로드 이벤트 구독
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+
+    private void Update()
+    {
+        // 씬 전환 중에는 시간 업데이트 건너뛰기
+        if (Time.timeScale == 0f)
+            return;
+
+        // Inspector에서 시간 변경 체크
+        if (previousTime != currentTime)
+        {
+            celestialController.UpdateCelestialBodies(currentTime, sunriseHour, sunsetHour);
+            OnTimeChanged?.Invoke(currentTime);
+            previousTime = currentTime;
+        }
+
+        // 일반 시간 업데이트
+        UpdateTime();
+        celestialController.UpdateCelestialBodies(currentTime, sunriseHour, sunsetHour);
+
+        if (Time.timeScale == 0f || GameManager.Instance == null || !GameManager.Instance.enabled)
+            return;
+
+        // GameScene이나 MileIsland일 때만 CheckDayNightTransition 실행
+        string currentScene = SceneManager.GetActiveScene().name;
+        if (currentScene == "GameScene" || currentScene == "MileIsland")
+        {
+            CheckDayNightTransition();
+        }
+
+        OnTimeChanged?.Invoke(currentTime);
+    }
     private void Start()
     {
         previousTime = currentTime;
     }
+    #region Scene Management
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         // 새 씬에서 CelestialPivot 찾아서 연결
@@ -66,55 +103,49 @@ public class TimeManager : SingletonManager<TimeManager>
             celestialController.SetNewPivot(newPivot);
         }
     }
-
-    private void OnDestroy()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-
-
-    private void Update()
-    {
-        // Inspector에서 시간 변경 체크
-        if (previousTime != currentTime)
-        {
-            celestialController.UpdateCelestialBodies(currentTime, sunriseHour, sunsetHour);
-            CheckDayNightTransition();
-            OnTimeChanged?.Invoke(currentTime);  // 시간 변경 이벤트 발생
-            previousTime = currentTime;
-        }
-
-        UpdateTime();
-        celestialController.UpdateCelestialBodies(currentTime, sunriseHour, sunsetHour);
-        CheckDayNightTransition();
-        OnTimeChanged?.Invoke(currentTime);  // 시간 변경 이벤트 발생
-    }
-
+    #endregion  
+    #region Time Management
     private void UpdateTime()
     {
         currentTime += (Time.deltaTime / 60f) * timeScale;
         if (currentTime >= 24f) currentTime = 0f;
         previousTime = currentTime; // 수동 조정 후에도 시간이 계속 흐르도록
     }
-    
 
+    public void AddHours(float hours)
+    {
+        currentTime += hours;
+        if (currentTime >= 24f)
+        {
+            currentTime -= 24f;
+        }
+        celestialController.UpdateCelestialBodies(currentTime, sunriseHour, sunsetHour);
+        OnTimeChanged?.Invoke(currentTime);
+    }
+    #endregion
+    #region Day/Night Cycle
     private void CheckDayNightTransition()
     {
         bool isNight = IsNight;
-        if (wasNight != isNight)
+        if (wasNight == isNight) 
+            return;
+
+        wasNight = isNight;  
+
+        if (isNight)
         {
-            if (isNight)
+            OnSunset?.Invoke();
+        }
+        else
+        {
+            OnSunrise?.Invoke();
+            // GameManager가 준비되었을 때만 RefillCollectables 실행
+            if (GameManager.Instance != null && GameManager.Instance.enabled)
             {
-                OnSunset?.Invoke();  // 일몰 시점
-               
+                GameManager.Instance.RefillCollactables();
             }
-            else
-            {
-                OnSunrise?.Invoke(); // 일출 시점
-               
-            }
-            wasNight = isNight;
         }
     }
-   
+    #endregion
+
 }
