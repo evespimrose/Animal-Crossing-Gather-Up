@@ -9,376 +9,376 @@ using static UnityEditor.Progress;
 [RequireComponent(typeof(CharacterController))]
 public class Player : SingletonManager<Player>
 {
-    private CharacterController characterController;
-    public float moveSpeed = 5f;
-    public Transform handPosition;
-    public GameObject equippedTool;
+	private CharacterController characterController;
+	public float moveSpeed = 5f;
+	public Transform handPosition;
+	public GameObject equippedTool;
 
-    public delegate void ItemCollectedHandler(Item item);
-    public event ItemCollectedHandler OnItemCollected;
+	public delegate void ItemCollectedHandler(Item item);
+	public event ItemCollectedHandler OnItemCollected;
 
-    private Vector3 movement;
-    private const float V = -9.81f;
-    private readonly float gravity = V;
-    private Vector3 velocity;
-    private bool isRun = false;
+	private Vector3 movement;
+	private const float V = -9.81f;
+	private readonly float gravity = V;
+	private Vector3 velocity;
+	private bool isRun = false;
 
-    private ITool currentTool;
+	private ITool currentTool;
 
-    private HandFlowerCommand handcollectCommand;
-    public bool isMoving = false;
+	private HandFlowerCommand handcollectCommand;
+	public bool isMoving = false;
 
-    private bool IsUIOpen => UIManager.Instance.IsAnyUIOpen();
+	private bool IsUIOpen => UIManager.Instance.IsAnyUIOpen();
 
-    public GameObject EquippedTool => equippedTool;
-    private Animator animator;
-    public AnimReciever animReciever;
+	public GameObject EquippedTool => equippedTool;
+	private Animator animator;
+	public AnimReciever animReciever;
 
-    private ChangeCamera changeCamera;
+	private ChangeCamera changeCamera;
 
-    [Header("¼¼·¹¸Ó´Ï¿ë ÇÁ¸®ÆÕ")]
-    [SerializeField] private GameObject squidPrefab;
-    [SerializeField] private GameObject clownFishPrefab;
-    [SerializeField] private GameObject lobsterPrefab;
-    [SerializeField] private GameObject seaHorsePrefab;
-    [SerializeField] private GameObject orcaPrefab;
-    [SerializeField] private GameObject crabPrefab;
-    [SerializeField] private GameObject dolphinPrefab;
+	[Header("¼¼·¹¸Ó´Ï¿ë ÇÁ¸®ÆÕ")]
+	[SerializeField] private GameObject squidPrefab;
+	[SerializeField] private GameObject clownFishPrefab;
+	[SerializeField] private GameObject lobsterPrefab;
+	[SerializeField] private GameObject seaHorsePrefab;
+	[SerializeField] private GameObject orcaPrefab;
+	[SerializeField] private GameObject crabPrefab;
+	[SerializeField] private GameObject dolphinPrefab;
 
-    [SerializeField] private GameObject beePrefab;
-    [SerializeField] private GameObject beetlePrefab;
-    [SerializeField] private GameObject butterflyPrefab;
-    [SerializeField] private GameObject blackSpiderPrefab;
-    [SerializeField] private GameObject dragonflyPrefab;
-    [SerializeField] private GameObject sandSpiderPrefab;
+	[SerializeField] private GameObject beePrefab;
+	[SerializeField] private GameObject beetlePrefab;
+	[SerializeField] private GameObject butterflyPrefab;
+	[SerializeField] private GameObject blackSpiderPrefab;
+	[SerializeField] private GameObject dragonflyPrefab;
+	[SerializeField] private GameObject sandSpiderPrefab;
 
-    protected override void Awake()
-    {
-        base.Awake();
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
+	protected override void Awake()
+	{
+		base.Awake();
+		SceneManager.sceneLoaded += OnSceneLoaded;
+	}
 
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        string currentScene = SceneManager.GetActiveScene().name;
-        if (currentScene == "GameScene")
-        {
-            characterController.enabled = false;
-            transform.position = new Vector3(25f, 1f, -40f);
-            characterController.enabled = true;
-        }
-        else if (currentScene == "MileIsland")
-        {
-            characterController.enabled = false;
-            transform.position = new Vector3(136f, 1f, -47f);
-            characterController.enabled = true;
-        }
-    }
+	private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+	{
+		string currentScene = SceneManager.GetActiveScene().name;
+		if (currentScene == "GameScene")
+		{
+			characterController.enabled = false;
+			transform.position = new Vector3(25f, 1f, -40f);
+			characterController.enabled = true;
+		}
+		else if (currentScene == "MileIsland")
+		{
+			characterController.enabled = false;
+			transform.position = new Vector3(136f, 1f, -47f);
+			characterController.enabled = true;
+		}
+	}
 
-    private void Start()
-    {
-        characterController = GetComponent<CharacterController>();
+	private void Start()
+	{
+		characterController = GetComponent<CharacterController>();
 
-        if(animator == null)
-            animator = GetComponentInChildren<Animator>();
+		if (animator == null)
+			animator = GetComponentInChildren<Animator>();
 
-        if(animReciever == null )
-            animReciever = GetComponentInChildren<AnimReciever>();
+		if (animReciever == null)
+			animReciever = GetComponentInChildren<AnimReciever>();
 
-        handcollectCommand = new HandFlowerCommand();
-        animReciever.isFishing = false;
-    }
+		handcollectCommand = new HandFlowerCommand();
+		animReciever.isFishing = false;
+	}
 
-    private void Update()
-    {
-        Move();
-        HandleCollection();
-        ApplyGravity();
-        HandleKeyInput();
-    }
+	private void Update()
+	{
+		Move();
+		HandleCollection();
+		ApplyGravity();
+		HandleKeyInput();
+	}
 
-    private void HandleKeyInput()
-    {
-        if (Input.GetKeyDown(KeyCode.I) && !animReciever.isActing && isMoving)
-        {
-            if (UIManager.Instance.GetOptionActive() == false)
-            {
-                UIManager.Instance.ToggleInventory();
-            }
-        }
-    }
+	private void HandleKeyInput()
+	{
+		if (Input.GetKeyDown(KeyCode.I) && !animReciever.isActing && !isMoving)
+		{
+			if (UIManager.Instance.GetOptionActive() == false)
+			{
+				UIManager.Instance.ToggleInventory();
+			}
+		}
+	}
 
-    private void Move()
-    {
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
+	private void Move()
+	{
+		float horizontal = Input.GetAxis("Horizontal");
+		float vertical = Input.GetAxis("Vertical");
 
-        isRun = Input.GetKey(KeyCode.LeftShift);
-        animator.SetBool("isRun", isRun);
+		isRun = Input.GetKey(KeyCode.LeftShift);
+		animator.SetBool("isRun", isRun);
 
-        movement = new Vector3(-vertical, 0, horizontal).normalized * (isRun ? 2f : 1f);
+		movement = new Vector3(-vertical, 0, horizontal).normalized * (isRun ? 2f : 1f);
 
-        if (!IsUIOpen && !animReciever.isActing && !animReciever.isFishing)
-        {
-            isMoving = true;
-            animator.SetFloat("speed", movement.magnitude);
+		if (!IsUIOpen && !animReciever.isActing && !animReciever.isFishing)
+		{
+			isMoving = true;
+			animator.SetFloat("speed", movement.magnitude);
 
-            if (movement.magnitude > 0.1f)
-            {
-                characterController.Move(moveSpeed * Time.deltaTime * movement);
+			if (movement.magnitude > 0.1f)
+			{
+				characterController.Move(moveSpeed * Time.deltaTime * movement);
 
-                transform.forward = movement;
-            }
-            else if(movement.magnitude <= 0f)
-                isMoving = false;
-        }
-        animReciever.gameObject.transform.localPosition = Vector3.zero;
-    }
+				transform.forward = movement;
+			}
+			else if (movement.magnitude <= 0f)
+				isMoving = false;
+		}
+		animReciever.gameObject.transform.localPosition = Vector3.zero;
+	}
 
-    private void HandleCollection()
-    {
-        if (!IsUIOpen && !animReciever.isActing && Input.GetKeyDown(KeyCode.Space))
-        {
-            Collect();
-        }
-        if (!IsUIOpen && !animReciever.isActing && !animReciever.isFishing && !isMoving && Input.GetKeyDown(KeyCode.Escape))
-            UIManager.Instance.ShowPauseOptionPanel();
-    }
+	private void HandleCollection()
+	{
+		if (!IsUIOpen && !animReciever.isActing && Input.GetKeyDown(KeyCode.Space))
+		{
+			Collect();
+		}
+		if (!IsUIOpen && !animReciever.isActing && !animReciever.isFishing && !isMoving && Input.GetKeyDown(KeyCode.Escape))
+			UIManager.Instance.ShowPauseOptionPanel();
+	}
 
-    public void Collect()
-    {
-        if (isMoving || animReciever.isActing) return;
+	public void Collect()
+	{
+		if (isMoving || animReciever.isActing) return;
 
-        if (currentTool != null)
-        {
-            if (currentTool.ToolInfo.toolType == ToolInfo.ToolType.FishingPole && equippedTool.TryGetComponent(out FishingPole fPole) && animReciever.isFishing)
-            {
-                ActivateAnimation(null, false, 3);
-                fPole.UnExecute();
-                return;
-            }
-            else
-                currentTool.Execute(transform.position, transform.forward);
+		if (currentTool != null)
+		{
+			if (currentTool.ToolInfo.toolType == ToolInfo.ToolType.FishingPole && equippedTool.TryGetComponent(out FishingPole fPole) && animReciever.isFishing)
+			{
+				ActivateAnimation(null, false, 3);
+				fPole.UnExecute();
+				return;
+			}
+			else
+				currentTool.Execute(transform.position, transform.forward);
 
-            if (animator != null && !animReciever.isActing && !isMoving)
-            {
-                switch (currentTool.ToolInfo.toolType)
-                {
-                    case ToolInfo.ToolType.Axe:
-                        ActivateAnimation("UseAxe");
-                        break;
-                    case ToolInfo.ToolType.FishingPole:
-                        ActivateAnimation("UseFishingPole", true, 0);
-                        break;
-                    case ToolInfo.ToolType.BugNet:
-                        ActivateAnimation("UseBugNet");
-                        break;
-                    default:
-                        ActivateAnimation("Idle");
-                        break;
-                }
-            }
-            
+			if (animator != null && !animReciever.isActing && !isMoving)
+			{
+				switch (currentTool.ToolInfo.toolType)
+				{
+					case ToolInfo.ToolType.Axe:
+						ActivateAnimation("UseAxe");
+						break;
+					case ToolInfo.ToolType.FishingPole:
+						ActivateAnimation("UseFishingPole", true, 0);
+						break;
+					case ToolInfo.ToolType.BugNet:
+						ActivateAnimation("UseBugNet");
+						break;
+					default:
+						ActivateAnimation("Idle");
+						break;
+				}
+			}
 
-            if (currentTool.ToolInfo.currentDurability <= 0)
-            {
-                if (currentTool.ToolInfo.toolType == ToolInfo.ToolType.FishingPole && equippedTool.TryGetComponent(out FishingPole fishingPole))
-                {
-                    ActivateAnimation(null, false, 3);
-                    fishingPole.UnExecute();
-                }
-            }
-        }
-        else
-        {
-            if (animator != null && !animReciever.isActing)
-            {
-                handcollectCommand.Execute(transform.position);
-                ActivateAnimation("ItemPickUp");
-            }
-        }
-    }
 
-    public IEnumerator UnequipAndDestroyTool()
-    {
-        yield return StartCoroutine(UnequipToolCoroutine());
-        Destroy(equippedTool);
-    }
-    public void CollectItem(Item item)
-    {
-        OnItemCollected?.Invoke(item);
-    }
+			if (currentTool.ToolInfo.currentDurability <= 0)
+			{
+				if (currentTool.ToolInfo.toolType == ToolInfo.ToolType.FishingPole && equippedTool.TryGetComponent(out FishingPole fishingPole))
+				{
+					ActivateAnimation(null, false, 3);
+					fishingPole.UnExecute();
+				}
+			}
+		}
+		else
+		{
+			if (animator != null && !animReciever.isActing)
+			{
+				handcollectCommand.Execute(transform.position);
+				ActivateAnimation("ItemPickUp");
+			}
+		}
+	}
 
-    private IEnumerator RotateToFaceDirection(Vector3 targetDirection, Item itemInfo)
-    {
-        if (itemInfo is FishInfo)
-        {
-            ActivateAnimation(null, true, 2);
-            yield return new WaitUntil(() => !animReciever.isActing);
-        }
+	public IEnumerator UnequipAndDestroyTool()
+	{
+		yield return StartCoroutine(UnequipToolCoroutine());
+		Destroy(equippedTool);
+	}
+	public void CollectItem(Item item)
+	{
+		OnItemCollected?.Invoke(item);
+	}
 
-        float rotationSpeed = 5f;
-        Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+	private IEnumerator RotateToFaceDirection(Vector3 targetDirection, Item itemInfo)
+	{
+		if (itemInfo is FishInfo)
+		{
+			ActivateAnimation(null, true, 2);
+			yield return new WaitUntil(() => !animReciever.isActing);
+		}
 
-        JudgeActivationOfPrefabs(itemInfo, true);
+		float rotationSpeed = 5f;
+		Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
 
-        while (Quaternion.Angle(transform.rotation, targetRotation) > 0.1f)
-        {
-            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
-            yield return null;
-        }
+		JudgeActivationOfPrefabs(itemInfo, true);
 
-        transform.rotation = targetRotation;
-        ActivateAnimation("ShowOff");
-        yield break;
-    }
+		while (Quaternion.Angle(transform.rotation, targetRotation) > 0.1f)
+		{
+			transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+			yield return null;
+		}
 
-    public void CollectItemWithCeremony(Item itemInfo = null)
-    {
-        StartCoroutine(RotateToFaceDirection(Vector3.right, itemInfo)); // Xï¿?+ë°©í–¥?ï¿½ë¡œ ?ï¿½ì „ ?ï¿½ìž‘
+		transform.rotation = targetRotation;
+		ActivateAnimation("ShowOff");
+		yield break;
+	}
 
-        // CineMachine Coroutine Active...
-        StartCoroutine(CeremonyCoroutine(itemInfo));
-    }
+	public void CollectItemWithCeremony(Item itemInfo = null)
+	{
+		StartCoroutine(RotateToFaceDirection(Vector3.right, itemInfo)); // Xï¿?+ë°©í–¥?ï¿½ë¡œ ?ï¿½ì „ ?ï¿½ìž‘
 
-    private IEnumerator CeremonyCoroutine(Item itemInfo = null)
-    {
-        // CineMachine Active...
-        changeCamera.ZoonIn(transform);
-        yield return new WaitForSeconds(2.1f);        // Wait for CineMachine's Playtime
-        yield return new WaitUntil(() => !animReciever.isActing); // Wait for Animation's End
+		// CineMachine Coroutine Active...
+		StartCoroutine(CeremonyCoroutine(itemInfo));
+	}
 
-        //Send itemInfo to inventory
-        JudgeActivationOfPrefabs(itemInfo, false);
-        changeCamera.ZoomOut(transform);
+	private IEnumerator CeremonyCoroutine(Item itemInfo = null)
+	{
+		// CineMachine Active...
+		changeCamera.ZoonIn(transform);
+		yield return new WaitForSeconds(2.1f);        // Wait for CineMachine's Playtime
+		yield return new WaitUntil(() => !animReciever.isActing); // Wait for Animation's End
 
-        OnItemCollected?.Invoke(itemInfo);       
+		//Send itemInfo to inventory
+		JudgeActivationOfPrefabs(itemInfo, false);
+		changeCamera.ZoomOut(transform);
 
-        yield break;
-    }
+		OnItemCollected?.Invoke(itemInfo);
 
-    private void ApplyGravity()
-    {
-        if (!characterController.isGrounded)
-        {
-            velocity.y += gravity * Time.deltaTime;
-        }
+		yield break;
+	}
 
-        characterController.Move(velocity * Time.deltaTime);
-    }
+	private void ApplyGravity()
+	{
+		if (!characterController.isGrounded)
+		{
+			velocity.y += gravity * Time.deltaTime;
+		}
 
-    public void EquipTool(ToolInfo tool)
-    {
-        StartCoroutine(EquipToolCoroutine(tool));
-    }
-    private IEnumerator EquipToolCoroutine(ToolInfo tool)
-    {
-        if (equippedTool != null)
-        {
-            yield return StartCoroutine(UnequipToolCoroutine());
-        }
+		characterController.Move(velocity * Time.deltaTime);
+	}
 
-        ActivateAnimation("Arm");
+	public void EquipTool(ToolInfo tool)
+	{
+		StartCoroutine(EquipToolCoroutine(tool));
+	}
+	private IEnumerator EquipToolCoroutine(ToolInfo tool)
+	{
+		if (equippedTool != null)
+		{
+			yield return StartCoroutine(UnequipToolCoroutine());
+		}
 
-        GameObject toolInstance = Instantiate(tool.prefab, handPosition.position, Quaternion.identity);
-        equippedTool = toolInstance;
-        equippedTool.transform.SetParent(handPosition);
-        equippedTool.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+		ActivateAnimation("Arm");
 
-        if (!equippedTool.TryGetComponent(out currentTool))
-        {
-            Debug.LogWarning("Equipped object does not have a valid tool component.");
-        }
-    }
-    public void UnequipTool()
-    {
-        StartCoroutine(UnequipToolCoroutine());
-    }
-    public IEnumerator UnequipToolCoroutine()
-    {
-        if (equippedTool != null)
-        {
-            if (animReciever.isFishing && equippedTool.TryGetComponent(out FishingPole fishingPole))
-            {
-                fishingPole.UnExecute();
-                yield return new WaitUntil(() => fishingPole.isDoneFishing);
-            }
+		GameObject toolInstance = Instantiate(tool.prefab, handPosition.position, Quaternion.identity);
+		equippedTool = toolInstance;
+		equippedTool.transform.SetParent(handPosition);
+		equippedTool.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
 
-            ActivateAnimation("UnArm");
-            yield return new WaitUntil(() => !animReciever.isActing);
+		if (!equippedTool.TryGetComponent(out currentTool))
+		{
+			Debug.LogWarning("Equipped object does not have a valid tool component.");
+		}
+	}
+	public void UnequipTool()
+	{
+		StartCoroutine(UnequipToolCoroutine());
+	}
+	public IEnumerator UnequipToolCoroutine()
+	{
+		if (equippedTool != null)
+		{
+			if (animReciever.isFishing && equippedTool.TryGetComponent(out FishingPole fishingPole))
+			{
+				fishingPole.UnExecute();
+				yield return new WaitUntil(() => fishingPole.isDoneFishing);
+			}
 
-            Destroy(equippedTool);
-            equippedTool = null;
-            currentTool = null;
-        }
-    }
+			ActivateAnimation("UnArm");
+			yield return new WaitUntil(() => !animReciever.isActing);
 
-    public void ActivateAnimation(string str = null, bool isFishing = false, int fishingTaskCount = 0)
-    {
-        animReciever.isActing = true;
-        animReciever.isFishing = isFishing;
-        animReciever.fishingTaskCount = fishingTaskCount;
-        animator.SetBool("isFishing", isFishing);
-        animator.SetInteger("FishingTaskCount", fishingTaskCount);
-        if(str != null)
-            animator.SetTrigger(str);
-    }
-    private void JudgeActivationOfPrefabs(Item itemInfo, bool activation)
-    {
-        if (itemInfo == null) return;
+			Destroy(equippedTool);
+			equippedTool = null;
+			currentTool = null;
+		}
+	}
 
-        if (itemInfo is BugInfo bugInfo)
-        {
-            switch (bugInfo.bugName)
-            {
-                case BugInfo.BugName.Bee:
-                    beePrefab.SetActive(activation);
-                    break;
-                case BugInfo.BugName.Beetle:
-                    beetlePrefab.SetActive(activation);
-                    break;
-                case BugInfo.BugName.Butterfly:
-                    butterflyPrefab.SetActive(activation);
-                    break;
-                case BugInfo.BugName.Dragonfly:
-                    dragonflyPrefab.SetActive(activation);
-                    break;
-                case BugInfo.BugName.BlackSpider:
-                    blackSpiderPrefab.SetActive(activation);
-                    break;
-                case BugInfo.BugName.SandSpider:
-                    sandSpiderPrefab.SetActive(activation);
-                    break;
-            }
-        }
-        else if (itemInfo is FishInfo fishInfo)
-        {
-            switch (fishInfo.type)
-            {
-                case FishInfo.FishType.ClownFish:
-                    clownFishPrefab.SetActive(activation);
-                    break;
-                case FishInfo.FishType.Lobster:
-                    lobsterPrefab.SetActive(activation);
-                    break;
-                case FishInfo.FishType.Dolphin:
-                    dolphinPrefab.SetActive(activation);
-                    break;
-                case FishInfo.FishType.Orca:
-                    orcaPrefab.SetActive(activation);
-                    break;
-                case FishInfo.FishType.SeaHorse:
-                    seaHorsePrefab.SetActive(activation);
-                    break;
-                case FishInfo.FishType.Squid:
-                    squidPrefab.SetActive(activation);
-                    break;
-                case FishInfo.FishType.Crab:
-                    crabPrefab.SetActive(activation);
-                    break;
-            }
-        }
+	public void ActivateAnimation(string str = null, bool isFishing = false, int fishingTaskCount = 0)
+	{
+		animReciever.isActing = true;
+		animReciever.isFishing = isFishing;
+		animReciever.fishingTaskCount = fishingTaskCount;
+		animator.SetBool("isFishing", isFishing);
+		animator.SetInteger("FishingTaskCount", fishingTaskCount);
+		if (str != null)
+			animator.SetTrigger(str);
+	}
+	private void JudgeActivationOfPrefabs(Item itemInfo, bool activation)
+	{
+		if (itemInfo == null) return;
 
-        equippedTool.SetActive(!activation);
-    }
+		if (itemInfo is BugInfo bugInfo)
+		{
+			switch (bugInfo.bugName)
+			{
+				case BugInfo.BugName.Bee:
+					beePrefab.SetActive(activation);
+					break;
+				case BugInfo.BugName.Beetle:
+					beetlePrefab.SetActive(activation);
+					break;
+				case BugInfo.BugName.Butterfly:
+					butterflyPrefab.SetActive(activation);
+					break;
+				case BugInfo.BugName.Dragonfly:
+					dragonflyPrefab.SetActive(activation);
+					break;
+				case BugInfo.BugName.BlackSpider:
+					blackSpiderPrefab.SetActive(activation);
+					break;
+				case BugInfo.BugName.SandSpider:
+					sandSpiderPrefab.SetActive(activation);
+					break;
+			}
+		}
+		else if (itemInfo is FishInfo fishInfo)
+		{
+			switch (fishInfo.type)
+			{
+				case FishInfo.FishType.ClownFish:
+					clownFishPrefab.SetActive(activation);
+					break;
+				case FishInfo.FishType.Lobster:
+					lobsterPrefab.SetActive(activation);
+					break;
+				case FishInfo.FishType.Dolphin:
+					dolphinPrefab.SetActive(activation);
+					break;
+				case FishInfo.FishType.Orca:
+					orcaPrefab.SetActive(activation);
+					break;
+				case FishInfo.FishType.SeaHorse:
+					seaHorsePrefab.SetActive(activation);
+					break;
+				case FishInfo.FishType.Squid:
+					squidPrefab.SetActive(activation);
+					break;
+				case FishInfo.FishType.Crab:
+					crabPrefab.SetActive(activation);
+					break;
+			}
+		}
+
+		equippedTool.SetActive(!activation);
+	}
 }
