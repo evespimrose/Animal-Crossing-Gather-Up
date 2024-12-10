@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 using static UnityEditor.Progress;
 
 [RequireComponent(typeof(CharacterController))]
-public class Player : MonoBehaviour
+public class Player : SingletonManager<Player>
 {
     private CharacterController characterController;
     public float moveSpeed = 5f;
@@ -41,17 +41,9 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject lobsterPrefab;
     [SerializeField] private GameObject seaHorsePrefab;
 
-    private static Player instance;
-    private void Awake()
+    protected override void Awake()
     {
-        if (instance != null && instance != this)
-        {
-            Destroy(gameObject); // 중복된 Player 삭제
-            return;
-        }
-
-        instance = this;
-        DontDestroyOnLoad(gameObject);
+        base.Awake();
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
