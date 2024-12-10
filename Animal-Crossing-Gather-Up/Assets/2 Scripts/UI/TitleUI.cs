@@ -39,9 +39,7 @@ public class TitleUI : MonoBehaviour
         if (isgameStart)
             SceneManager.LoadScene("GameScene");
         else
-        {
-            
-        }
+            QuitGame();
     }
 
     private void ChangeChosenOption(bool param)
