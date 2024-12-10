@@ -55,7 +55,6 @@ public class DialogController : MonoBehaviour, IDialogState
         {
             dialogData.currentOption = UIManager.Instance.optionUI.currentOption;
             SelectedOption();
-            UIManager.Instance.SetSelectedOptionInit();
         }
     }
 
