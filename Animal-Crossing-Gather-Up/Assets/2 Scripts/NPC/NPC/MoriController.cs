@@ -35,9 +35,8 @@ public class MoriController : DialogController, INPCDialog
     {
         string[] moriOptions = { "외출할래", "지금은 안할래" };
         UIManager.Instance.optionUI.SetOptions(moriOptions);
-        UIManager.Instance.dialogUI.dialogPanel.SetActive(true);
+        UIManager.Instance.ShowDialog();
         DialogStart(moriDialogData.dialogTexts, moriDialogData.dialogIndex);
-        print("모리 대화 시작");
     }
 
     public void SelectedOptionAfter()

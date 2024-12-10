@@ -31,9 +31,8 @@ public class TimmyController : DialogController, INPCDialog
     {
         string[] timmyOptions = { "장비를 구매할래", "채집물을 판매할래", "아무 것도 안할래" };
         UIManager.Instance.optionUI.SetOptions(timmyOptions);
-        UIManager.Instance.dialogUI.dialogPanel.SetActive(true);
+        UIManager.Instance.ShowDialog();
         DialogStart(timmyDialogData.dialogTexts, timmyDialogData.dialogIndex);
-        print("티미 대화 시작");
     }
 
     public void SelectedOptionAfter()

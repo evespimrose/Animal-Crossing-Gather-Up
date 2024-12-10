@@ -22,8 +22,7 @@ public class DialogController : MonoBehaviour, IDialogState
     {
         interactionNPC = GetComponentInParent<NPCInteraction>();
         UIManager.Instance.optionUI.optionPanel.SetActive(false);
-        UIManager.Instance.DialogPanelOff();
-        dialogData.currentOption = UIManager.Instance.optionUI.currentOption;
+        UIManager.Instance.CloseDialog();
     }
 
     public void DialogStart(string[] dialogTexts, int dialogIndexCount)
@@ -40,8 +39,8 @@ public class DialogController : MonoBehaviour, IDialogState
         dialogData.isChooseActive = false;
         dialogData.dialogIndex = 0;
         activeDialogTexts = null;
-        UIManager.Instance.optionUI.optionPanel.SetActive(false);
-        UIManager.Instance.dialogUI.dialogPanel.SetActive(false);
+        UIManager.Instance.CloseOptions();
+        UIManager.Instance.CloseDialog();
     }
 
     protected virtual void Update()

@@ -32,7 +32,7 @@ public class DaisyMaeController : DialogController, INPCDialog
     {
         string[] daisyOptions = { "test1", "test2" };
         UIManager.Instance.optionUI.SetOptions(daisyOptions);
-        UIManager.Instance.dialogUI.dialogPanel.SetActive(true);
+        UIManager.Instance.ShowDialog();
         DialogStart(daisyDialogData.dialogTexts, daisyDialogData.dialogIndex);
     }
 

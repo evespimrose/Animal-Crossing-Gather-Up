@@ -34,7 +34,7 @@ public class RoadriController : DialogController, INPCDialog
     {
         string[] roadriOptions = { "집에 갈래", "섬을 더 돌아볼래" };
         UIManager.Instance.optionUI.SetOptions(roadriOptions);
-        UIManager.Instance.dialogUI.dialogPanel.SetActive(true);
+        UIManager.Instance.ShowDialog();
         DialogStart(roadriDialogData.dialogTexts, roadriDialogData.dialogIndex);
     }
 

@@ -30,9 +30,8 @@ public class ReeseController : DialogController, INPCDialog
     {
         string[] reeseOptions = { "리즈 상점 테스트", "하는 중" };
         UIManager.Instance.optionUI.SetOptions(reeseOptions);
-        UIManager.Instance.dialogUI.dialogPanel.SetActive(true);
+        UIManager.Instance.ShowDialog();
         DialogStart(reeseDialogData.dialogTexts, reeseDialogData.dialogIndex);
-        print("리즈 대화 시작");
     }
 
     public void SelectedOptionAfter()

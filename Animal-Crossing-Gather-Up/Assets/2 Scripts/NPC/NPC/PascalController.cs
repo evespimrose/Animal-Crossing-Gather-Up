@@ -30,9 +30,8 @@ public class PascalController : DialogController, INPCDialog
     {
         string[] pascalOptions = { "¸¶ÀÏ¼¶ ÁÖ¹Î ÆÄ½ºÄ®", "ÆÄ½ºÄ® Å×½ºÆ® Áß" };
         UIManager.Instance.optionUI.SetOptions(pascalOptions);
-        UIManager.Instance.dialogUI.dialogPanel.SetActive(true);
+        UIManager.Instance.ShowDialog();
         DialogStart(pascalDialogData.dialogTexts, pascalDialogData.dialogIndex);
-        print("ÆÄ½ºÄ® ´ëÈ­ ½ÃÀÛ");
     }
 
     public void SelectedOptionAfter()

@@ -34,9 +34,8 @@ public class KicksController : DialogController, INPCDialog
     {
         string[] kicksOptions = { "거래", "그냥" };
         UIManager.Instance.optionUI.SetOptions(kicksOptions);
-        UIManager.Instance.dialogUI.dialogPanel.SetActive(true);
+        UIManager.Instance.ShowDialog();
         DialogStart(kicksDialogData.dialogTexts, kicksDialogData.dialogIndex);
-        print("킥 대화 시작");
     }
 
     public void SelectedOptionAfter()
