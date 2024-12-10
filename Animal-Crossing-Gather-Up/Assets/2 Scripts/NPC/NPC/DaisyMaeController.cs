@@ -9,23 +9,19 @@ public class DaisyMaeController : DialogController, INPCDialog
 
     private void Awake()
     {
-        dialogData = daisyDialogData;
+        SetDialogData(daisyDialogData);
     }
 
     protected override void Start()
     {
         base.Start();
         ResetDialog();
+        currentOption = daisyDialogData.currentOption;
     }
 
     protected override void Update()
     {
         base.Update();
-        if (daisyDialogData.currentOption != UIManager.Instance.optionUI.currentOption && UIManager.Instance.optionUI.currentOption != null)
-        {
-            daisyDialogData.currentOption = UIManager.Instance.optionUI.currentOption;
-            SelectedOptionAfter();
-        }
     }
 
     public void NPCDialogStart()
@@ -36,7 +32,7 @@ public class DaisyMaeController : DialogController, INPCDialog
         DialogStart(daisyDialogData.dialogTexts, daisyDialogData.dialogIndex);
     }
 
-    public void SelectedOptionAfter()
+    protected override void SelectedOption()
     {
         if (daisyDialogData.currentOption == "test1")
         {

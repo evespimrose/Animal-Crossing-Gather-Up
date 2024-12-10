@@ -8,7 +8,7 @@ public class TimmyController : DialogController, INPCDialog
     public NPCDialogData timmyDialogData;
     private void Awake()
     {
-        dialogData = timmyDialogData;
+        SetDialogData(timmyDialogData);
     }
 
     protected override void Start()
@@ -20,11 +20,6 @@ public class TimmyController : DialogController, INPCDialog
     protected override void Update()
     {
         base.Update();
-        if (timmyDialogData.currentOption != UIManager.Instance.optionUI.currentOption && UIManager.Instance.optionUI.currentOption != null)
-        {
-            timmyDialogData.currentOption = UIManager.Instance.optionUI.currentOption;
-            SelectedOptionAfter();
-        }
     }
 
     public void NPCDialogStart()
@@ -35,7 +30,7 @@ public class TimmyController : DialogController, INPCDialog
         DialogStart(timmyDialogData.dialogTexts, timmyDialogData.dialogIndex);
     }
 
-    public void SelectedOptionAfter()
+    protected override void SelectedOption()
     {
 
         if (timmyDialogData.currentOption == "장비를 구매할래")
@@ -49,7 +44,7 @@ public class TimmyController : DialogController, INPCDialog
         {
             AfterSelectedOption();
             ResetDialog();
-            UIManager.Instance.OpenInventory();
+            UIManager.Instance.OpenSellPanel();
         }
 
         if (timmyDialogData.currentOption == "아무 것도 안할래")

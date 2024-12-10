@@ -11,7 +11,7 @@ public class MoriController : DialogController, INPCDialog
 
     private void Awake()
     {
-        dialogData = moriDialogData;
+        SetDialogData(moriDialogData);
     }
 
     protected override void Start()
@@ -23,11 +23,6 @@ public class MoriController : DialogController, INPCDialog
     protected override void Update()
     {
         base.Update();
-        if (moriDialogData.currentOption != UIManager.Instance.optionUI.currentOption && UIManager.Instance.optionUI.currentOption != null)
-        {
-            moriDialogData.currentOption = UIManager.Instance.optionUI.currentOption;
-            SelectedOptionAfter();
-        }
     }
 
 
@@ -39,7 +34,7 @@ public class MoriController : DialogController, INPCDialog
         DialogStart(moriDialogData.dialogTexts, moriDialogData.dialogIndex);
     }
 
-    public void SelectedOptionAfter()
+    protected override void SelectedOption()
     {
         if (moriDialogData.currentOption == "외출할래")
         {
@@ -52,22 +47,24 @@ public class MoriController : DialogController, INPCDialog
 
         else if (moriDialogData.currentOption == "지금은 안할래")
         {
-            AfterSelectedOption();
-            DialogStart(moriDialogData.thirdDialogTexts, moriDialogData.dialogIndex);
+            ResetDialog();
+            //AfterSelectedOption();
+            //DialogStart(moriDialogData.thirdDialogTexts, moriDialogData.dialogIndex);
 
-            string[] moriOptions = { "대화 종료" };
-            UIManager.Instance.optionUI.SetOptions(moriOptions);
+            //string[] moriOptions = { "대화 종료" };
+            //UIManager.Instance.optionUI.SetOptions(moriOptions);
         }
 
         else if (moriDialogData.currentOption == "마일섬 출발!")
         {
             ResetDialog();
+            GameSceneManager.Instance.ChangeScene("MileIsland");
         }
 
-        else if (moriDialogData.currentOption == "대화 종료")
-        {
-            ResetDialog();
-        }
+        //else if (moriDialogData.currentOption == "대화 종료")
+        //{
+        //    ResetDialog();
+        //}
 
     }
 }

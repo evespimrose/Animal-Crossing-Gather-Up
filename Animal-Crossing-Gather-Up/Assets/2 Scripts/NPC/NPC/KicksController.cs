@@ -9,8 +9,7 @@ public class KicksController : DialogController, INPCDialog
 
     private void Awake()
     {
-        dialogData = kicksDialogData;
-
+        SetDialogData(kicksDialogData);
     }
 
     protected override void Start()
@@ -23,11 +22,6 @@ public class KicksController : DialogController, INPCDialog
     {
 
         base.Update();
-        if (kicksDialogData.currentOption != UIManager.Instance.optionUI.currentOption && UIManager.Instance.optionUI.currentOption != null)
-        {
-            kicksDialogData.currentOption = UIManager.Instance.optionUI.currentOption;
-            SelectedOptionAfter();
-        }
     }
 
     public void NPCDialogStart()
@@ -38,7 +32,7 @@ public class KicksController : DialogController, INPCDialog
         DialogStart(kicksDialogData.dialogTexts, kicksDialogData.dialogIndex);
     }
 
-    public void SelectedOptionAfter()
+    protected override void SelectedOption()
     {
         if (kicksDialogData.currentOption == "°Å·¡")
         {

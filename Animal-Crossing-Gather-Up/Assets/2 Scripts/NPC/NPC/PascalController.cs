@@ -7,7 +7,7 @@ public class PascalController : DialogController, INPCDialog
     public NPCDialogData pascalDialogData;
     private void Awake()
     {
-        dialogData = pascalDialogData;
+        SetDialogData(pascalDialogData);
     }
 
     protected override void Start()
@@ -19,11 +19,6 @@ public class PascalController : DialogController, INPCDialog
     protected override void Update()
     {
         base.Update();
-        if (pascalDialogData.currentOption != UIManager.Instance.optionUI.currentOption && UIManager.Instance.optionUI.currentOption != null)
-        {
-            pascalDialogData.currentOption = UIManager.Instance.optionUI.currentOption;
-            SelectedOptionAfter();
-        }
     }
 
     public void NPCDialogStart()
@@ -34,9 +29,8 @@ public class PascalController : DialogController, INPCDialog
         DialogStart(pascalDialogData.dialogTexts, pascalDialogData.dialogIndex);
     }
 
-    public void SelectedOptionAfter()
+    protected override void SelectedOption()
     {
-
         if (pascalDialogData.currentOption == "¸¶ÀÏ¼¶ ÁÖ¹Î ÆÄ½ºÄ®")
         {
             AfterSelectedOption();

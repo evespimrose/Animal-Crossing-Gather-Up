@@ -24,7 +24,6 @@ public abstract class NPCState : MonoBehaviour, INPCState
     protected float rotateSpeed = 1.5f;
     protected float rotateToPlayerSpeed = 5f;
     protected float rotateToOriginalSpeed = 3f;
-    public Transform player;
 
     protected IDialogState dialogState;
     protected NPCStateType npcState;
@@ -83,10 +82,10 @@ public abstract class NPCState : MonoBehaviour, INPCState
     protected virtual void Talk()
     {
         anim.SetFloat("Speed", 0f);
-        Vector3 direction = (player.position - transform.position).normalized;
+        Vector3 direction = (GameManager.Instance.player.transform.position - transform.position).normalized;
         direction.y = 0f; //y값 제외하고 회전
 
-        if (direction != player.position)
+        if (direction != GameManager.Instance.player.transform.position)
         {
             Quaternion targetRotation = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateToPlayerSpeed * Time.deltaTime);
@@ -151,7 +150,6 @@ public abstract class NPCState : MonoBehaviour, INPCState
     public void SetCurrentState(NPCStateType newState)
     {
         npcState = newState;
-        print($"{gameObject.name} 상태변경: {newState}");
     }
 
 

@@ -7,7 +7,7 @@ public class ReeseController : DialogController, INPCDialog
     public NPCDialogData reeseDialogData;
     private void Awake()
     {
-        dialogData = reeseDialogData;
+        SetDialogData(reeseDialogData);
     }
 
     protected override void Start()
@@ -19,16 +19,11 @@ public class ReeseController : DialogController, INPCDialog
     protected override void Update()
     {
         base.Update();
-        if (reeseDialogData.currentOption != UIManager.Instance.optionUI.currentOption && UIManager.Instance.optionUI.currentOption != null)
-        {
-            reeseDialogData.currentOption = UIManager.Instance.optionUI.currentOption;
-            SelectedOptionAfter();
-        }
     }
 
     public void NPCDialogStart()
     {
-        string[] reeseOptions = { "리즈 상점 테스트", "하는 중" };
+        string[] reeseOptions = { "구매", "아냐 됐어" };
         UIManager.Instance.optionUI.SetOptions(reeseOptions);
         UIManager.Instance.ShowDialog();
         DialogStart(reeseDialogData.dialogTexts, reeseDialogData.dialogIndex);
@@ -37,7 +32,7 @@ public class ReeseController : DialogController, INPCDialog
     public void SelectedOptionAfter()
     {
 
-        if (reeseDialogData.currentOption == "리즈 상점 테스트")
+        if (reeseDialogData.currentOption == "구매")
         {
             AfterSelectedOption();
             DialogStart(reeseDialogData.nextDialogTexts, reeseDialogData.dialogIndex);
@@ -46,7 +41,7 @@ public class ReeseController : DialogController, INPCDialog
             UIManager.Instance.optionUI.SetOptions(reeseOptions);
         }
 
-        if (reeseDialogData.currentOption == "하는 중")
+        if (reeseDialogData.currentOption == "아냐 됐어")
         {
             AfterSelectedOption();
             DialogStart(reeseDialogData.thirdDialogTexts, reeseDialogData.dialogIndex);
@@ -61,11 +56,6 @@ public class ReeseController : DialogController, INPCDialog
         }
 
         if (reeseDialogData.currentOption == "리즈 테스트 완료")
-        {
-            ResetDialog();
-        }
-
-        if (reeseDialogData.currentOption == "판매")
         {
             ResetDialog();
         }
