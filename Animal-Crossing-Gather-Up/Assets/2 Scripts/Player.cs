@@ -21,16 +21,10 @@ public class Player : MonoBehaviour
     private Vector3 velocity;
     private bool isRun = false;
 
-    // test of input item Player to Inventory
-    public Item i0;
-    public Item i1;
-    public Item t0;
-    public Item t1;
-
     private ITool currentTool;
 
-    [Header("For Debug")]
-    public ToolInfo debugTool;
+    //[Header("For Debug")]
+    //public ToolInfo debugTool;
 
     private HandFlowerCommand handcollectCommand;
     public bool isMoving = false;
@@ -72,28 +66,12 @@ public class Player : MonoBehaviour
         Move();
         HandleCollection();
         ApplyGravity();
-        Test();
+        HandleKeyInput();
     }
 
-    private void Test()
+    private void HandleKeyInput()
     {
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            CollectItem(i0);
-        }
-        else if (Input.GetKeyDown(KeyCode.X))
-        {
-            CollectItem(i1);
-        }
-        else if (Input.GetKeyDown(KeyCode.C))
-        {
-            CollectItem(t0);
-        }
-        else if (Input.GetKeyDown(KeyCode.V))
-        {
-            CollectItem(t1);
-        }
-        else if (Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKeyDown(KeyCode.I))
         {
             // only optionPanel is not active
             if (UIManager.Instance.GetOptionActive() == false)
@@ -101,18 +79,16 @@ public class Player : MonoBehaviour
                 UIManager.Instance.ToggleInventory();
             }
         }
-        else if (Input.GetKeyDown(KeyCode.M))
-            if (currentTool == null)
-                EquipTool(debugTool);
-            else
-                UnequipTool();
+        //else if (Input.GetKeyDown(KeyCode.M))
+        //    if (currentTool == null)
+        //        EquipTool(debugTool);
+        //    else
+        //        UnequipTool();
         else if (Input.GetKeyDown(KeyCode.L))
         {
             CollectItemWithCeremony();
         }
     }
-
-
 
     private void Move()
     {
@@ -138,6 +114,7 @@ public class Player : MonoBehaviour
             else if(movement.magnitude <= 0f)
                 isMoving = false;
         }
+        animReciever.gameObject.transform.localPosition = Vector3.zero;
     }
 
     private void HandleCollection()
@@ -184,9 +161,6 @@ public class Player : MonoBehaviour
                     ActivateAnimation(null, false, 3);
                     fishingPole.UnExecute();
                 }
-
-                OnItemCollected?.Invoke(currentTool.ToolInfo);
-                StartCoroutine(UnequipAndDestroyTool(equippedTool));
             }
         }
         else
@@ -199,10 +173,10 @@ public class Player : MonoBehaviour
         }
     }
 
-    private IEnumerator UnequipAndDestroyTool(GameObject toolToDestroy)
+    public IEnumerator UnequipAndDestroyTool()
     {
         yield return StartCoroutine(UnequipToolCoroutine());
-        Destroy(toolToDestroy);
+        Destroy(equippedTool);
     }
     public void CollectItem(Item item)
     {
@@ -233,7 +207,7 @@ public class Player : MonoBehaviour
 
     public void CollectItemWithCeremony(Item itemInfo = null)
     {
-        StartCoroutine(RotateToFaceDirection(Vector3.right, itemInfo)); // X축 +방향으로 회전 시작
+        StartCoroutine(RotateToFaceDirection(Vector3.right, itemInfo)); // X�?+방향?�로 ?�전 ?�작
 
         // CineMachine Coroutine Active...
         StartCoroutine(CeremonyCoroutine(itemInfo));
@@ -251,9 +225,7 @@ public class Player : MonoBehaviour
         //Send itemInfo to inventory
         JudgeActivationOfPrefabs(itemInfo, false);
 
-        OnItemCollected?.Invoke(itemInfo);
-
-        
+        OnItemCollected?.Invoke(itemInfo);       
 
         yield break;
     }
@@ -307,13 +279,9 @@ public class Player : MonoBehaviour
 
             ActivateAnimation("UnArm");
 
-            ToolInfo toolInfoCopy = currentTool.ToolInfo;
-            OnItemCollected?.Invoke(toolInfoCopy);
-
             Destroy(equippedTool);
             equippedTool = null;
             currentTool = null;
-            toolInfoCopy = null;
         }
     }
 
