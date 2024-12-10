@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Inventory : MonoBehaviour
+public class Inventory : SingletonManager<Inventory>
 {
 	public GameObject slotPrefab;   // Prefab for the slot
 
@@ -101,6 +101,7 @@ public class Inventory : MonoBehaviour
 	{
 		for (int i = 0; i < slots.Count; i++)
 		{
+			if (slots[i].Item == null) continue;
 			if (slots[i].Item.itemName == "MileTicket")
 			{
 				Debug.Log("Find MileTicket!");

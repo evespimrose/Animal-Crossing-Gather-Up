@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Sell : MonoBehaviour
+public class Sell : SingletonManager<Sell>
 {
 	[Header("References")]
 	public GameObject[] horizontalLayoutObjects;
