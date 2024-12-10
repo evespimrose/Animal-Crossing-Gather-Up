@@ -43,7 +43,7 @@ public class DaisyMaeController : DialogController, INPCDialog
             AfterSelectedOption();
             DialogStart(daisyDialogData.thirdDialogTexts, daisyDialogData.dialogIndex);
 
-            string[] daisyOptions = { "응!" };
+            string[] daisyOptions = { "응, 나중에 봐" };
             UIManager.Instance.optionUI.SetOptions(daisyOptions);
         }
 
@@ -53,7 +53,7 @@ public class DaisyMaeController : DialogController, INPCDialog
             ResetDialog();
         }
 
-        else if (daisyDialogData.dialogOption == "응!")
+        else if (daisyDialogData.dialogOption == "응, 나중에 봐")
         {
             AfterSelectedOption();
             ResetDialog();

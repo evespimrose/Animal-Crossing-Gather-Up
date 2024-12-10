@@ -31,7 +31,6 @@ public class MoriController : DialogController, INPCDialog
 
 	protected override void SelectedOption()
 	{
-		print("Mori SelectedOption Call");
 		if (moriDialogData.dialogOption == "외출할래")
 		{
 			AfterSelectedOption();
