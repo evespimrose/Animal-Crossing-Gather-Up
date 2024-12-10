@@ -26,7 +26,7 @@ public class PascalController : DialogController, INPCDialog
 
     protected override void SelectedOption()
     {
-        if (pascalDialogData.currentOption == "비밀이 뭔데?")
+        if (pascalDialogData.dialogOption == "비밀이 뭔데?")
         {
             AfterSelectedOption();
             DialogStart(pascalDialogData.nextDialogTexts, pascalDialogData.dialogIndex);
@@ -35,7 +35,7 @@ public class PascalController : DialogController, INPCDialog
             UIManager.Instance.optionUI.SetOptions(pascalOptions);
         }
 
-        if (pascalDialogData.currentOption == "나중에 알려줘")
+        if (pascalDialogData.dialogOption == "나중에 알려줘")
         {
             AfterSelectedOption();
             DialogStart(pascalDialogData.thirdDialogTexts, pascalDialogData.dialogIndex);
@@ -44,13 +44,13 @@ public class PascalController : DialogController, INPCDialog
             UIManager.Instance.optionUI.SetOptions(pascalOptions);
         }
 
-        if (pascalDialogData.currentOption == "응, 고마워")
+        if (pascalDialogData.dialogOption == "응, 고마워")
         {
             AfterSelectedOption();
             ResetDialog();
         }
 
-        if (pascalDialogData.currentOption == "응, 나중에 봐")
+        if (pascalDialogData.dialogOption == "응, 나중에 봐")
         {
             AfterSelectedOption();
             ResetDialog();

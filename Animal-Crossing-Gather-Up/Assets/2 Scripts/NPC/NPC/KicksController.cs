@@ -29,7 +29,7 @@ public class KicksController : DialogController, INPCDialog
 
     protected override void SelectedOption()
     {
-        if (kicksDialogData.currentOption == "뭔데? 말해줘")
+        if (kicksDialogData.dialogOption == "뭔데? 말해줘")
         {
             AfterSelectedOption();
             DialogStart(kicksDialogData.nextDialogTexts, kicksDialogData.dialogIndex);
@@ -38,7 +38,7 @@ public class KicksController : DialogController, INPCDialog
             UIManager.Instance.optionUI.SetOptions(kicksOptions);
         }
 
-        else if (kicksDialogData.currentOption == "나중에 들을게")
+        else if (kicksDialogData.dialogOption == "나중에 들을게")
         {
             AfterSelectedOption();
             DialogStart(kicksDialogData.thirdDialogTexts, kicksDialogData.dialogIndex);
@@ -47,13 +47,13 @@ public class KicksController : DialogController, INPCDialog
             UIManager.Instance.optionUI.SetOptions(kicksOptions);
         }
 
-        else if (kicksDialogData.currentOption == "응... 고마워")
+        else if (kicksDialogData.dialogOption == "응... 고마워")
         {
             AfterSelectedOption();
             ResetDialog();
         }
 
-        else if (kicksDialogData.currentOption == "응, 나중에 봐")
+        else if (kicksDialogData.dialogOption == "응, 나중에 봐")
         {
             AfterSelectedOption();
             ResetDialog();

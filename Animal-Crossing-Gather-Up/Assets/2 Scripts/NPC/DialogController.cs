@@ -16,12 +16,12 @@ public class DialogController : MonoBehaviour, IDialogState
 
     protected string[] activeDialogTexts;
     protected int activeDialogIndex;
-    protected string currentOption;
+    protected string npcDialogOption;
 
     protected virtual void Start()
     {
         interactionNPC = GetComponentInParent<NPCInteraction>();
-        dialogData.currentOption = UIManager.Instance.optionUI.currentOption;
+        dialogData.dialogOption = UIManager.Instance.optionUI.npcDialogOption;
         UIManager.Instance.CloseOptions();
         UIManager.Instance.CloseDialog();
     }
@@ -51,9 +51,9 @@ public class DialogController : MonoBehaviour, IDialogState
             DialogActive(activeDialogTexts, activeDialogIndex);
         }
 
-        if (dialogData.currentOption != UIManager.Instance.optionUI.currentOption && UIManager.Instance.optionUI.currentOption != null)
+        if (dialogData.dialogOption != UIManager.Instance.optionUI.npcDialogOption && UIManager.Instance.optionUI.npcDialogOption != null)
         {
-            dialogData.currentOption = UIManager.Instance.optionUI.currentOption;
+            dialogData.dialogOption = UIManager.Instance.optionUI.npcDialogOption;
             SelectedOption();
         }
     }
@@ -122,7 +122,7 @@ public class DialogController : MonoBehaviour, IDialogState
     public void SetDialogData(NPCDialogData newDialogData)
     {
         dialogData = newDialogData;
-        newDialogData.currentOption = currentOption;
+        newDialogData.dialogOption = npcDialogOption;
     }
 
     protected virtual void SelectedOption()

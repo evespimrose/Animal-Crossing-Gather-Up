@@ -16,7 +16,7 @@ public class DaisyMaeController : DialogController, INPCDialog
     {
         base.Start();
         ResetDialog();
-        currentOption = daisyDialogData.currentOption;
+        npcDialogOption = daisyDialogData.dialogOption;
     }
 
     public void NPCDialogStart()
@@ -29,7 +29,7 @@ public class DaisyMaeController : DialogController, INPCDialog
 
     protected override void SelectedOption()
     {
-        if (daisyDialogData.currentOption == "¹ºµ¥?")
+        if (daisyDialogData.dialogOption == "¹ºµ¥?")
         {
             AfterSelectedOption();
             DialogStart(daisyDialogData.nextDialogTexts, daisyDialogData.dialogIndex);
@@ -38,7 +38,7 @@ public class DaisyMaeController : DialogController, INPCDialog
             UIManager.Instance.optionUI.SetOptions(daisyOptions);
         }
 
-        else if (daisyDialogData.currentOption == "¾Æ, ±¦Âú¾Æ")
+        else if (daisyDialogData.dialogOption == "¾Æ, ±¦Âú¾Æ")
         {
             AfterSelectedOption();
             DialogStart(daisyDialogData.thirdDialogTexts, daisyDialogData.dialogIndex);
@@ -47,13 +47,13 @@ public class DaisyMaeController : DialogController, INPCDialog
             UIManager.Instance.optionUI.SetOptions(daisyOptions);
         }
 
-        else if (daisyDialogData.currentOption == "°í¸¶¿ö")
+        else if (daisyDialogData.dialogOption == "°í¸¶¿ö")
         {
             AfterSelectedOption();
             ResetDialog();
         }
 
-        else if (daisyDialogData.currentOption == "ÀÀ!")
+        else if (daisyDialogData.dialogOption == "ÀÀ!")
         {
             AfterSelectedOption();
             ResetDialog();
