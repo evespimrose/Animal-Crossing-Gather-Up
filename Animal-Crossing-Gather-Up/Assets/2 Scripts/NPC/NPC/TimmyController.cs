@@ -17,11 +17,6 @@ public class TimmyController : DialogController, INPCDialog
         ResetDialog();
     }
 
-    protected override void Update()
-    {
-        base.Update();
-    }
-
     public void NPCDialogStart()
     {
         string[] timmyOptions = { "장비를 구매할래", "채집물을 판매할래", "아무 것도 안할래" };
@@ -32,7 +27,7 @@ public class TimmyController : DialogController, INPCDialog
 
     protected override void SelectedOption()
     {
-
+        print("Selected Option Call");
         if (timmyDialogData.currentOption == "장비를 구매할래")
         {
             AfterSelectedOption();

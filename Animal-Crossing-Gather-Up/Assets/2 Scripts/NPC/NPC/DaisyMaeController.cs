@@ -19,11 +19,6 @@ public class DaisyMaeController : DialogController, INPCDialog
         currentOption = daisyDialogData.currentOption;
     }
 
-    protected override void Update()
-    {
-        base.Update();
-    }
-
     public void NPCDialogStart()
     {
         string[] daisyOptions = { "test1", "test2" };

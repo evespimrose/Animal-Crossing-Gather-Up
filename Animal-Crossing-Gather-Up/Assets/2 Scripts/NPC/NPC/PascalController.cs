@@ -16,11 +16,6 @@ public class PascalController : DialogController, INPCDialog
         ResetDialog();
     }
 
-    protected override void Update()
-    {
-        base.Update();
-    }
-
     public void NPCDialogStart()
     {
         string[] pascalOptions = { "¸¶ÀÏ¼¶ ÁÖ¹Î ÆÄ½ºÄ®", "ÆÄ½ºÄ® Å×½ºÆ® Áß" };

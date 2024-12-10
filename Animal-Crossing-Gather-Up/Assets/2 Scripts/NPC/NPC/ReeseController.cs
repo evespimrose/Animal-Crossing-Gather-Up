@@ -16,10 +16,6 @@ public class ReeseController : DialogController, INPCDialog
         ResetDialog();
     }
 
-    protected override void Update()
-    {
-        base.Update();
-    }
 
     public void NPCDialogStart()
     {
@@ -43,15 +39,6 @@ public class ReeseController : DialogController, INPCDialog
 
         if (reeseDialogData.currentOption == "아냐 됐어")
         {
-            AfterSelectedOption();
-            DialogStart(reeseDialogData.thirdDialogTexts, reeseDialogData.dialogIndex);
-
-            string[] reeseOptions = { "리즈 테스트 완료" };
-            UIManager.Instance.optionUI.SetOptions(reeseOptions);
-        }
-
-        if (reeseDialogData.currentOption == "상점 테스트 완료")
-        {
             ResetDialog();
         }
 
@@ -59,6 +46,7 @@ public class ReeseController : DialogController, INPCDialog
         {
             ResetDialog();
         }
+
 
     }
 }

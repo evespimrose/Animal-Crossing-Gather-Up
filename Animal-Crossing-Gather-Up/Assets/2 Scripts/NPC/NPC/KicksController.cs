@@ -18,11 +18,6 @@ public class KicksController : DialogController, INPCDialog
         ResetDialog();
     }
 
-    protected override void Update()
-    {
-
-        base.Update();
-    }
 
     public void NPCDialogStart()
     {

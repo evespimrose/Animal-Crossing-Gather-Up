@@ -20,11 +20,6 @@ public class MoriController : DialogController, INPCDialog
         ResetDialog();
     }
 
-    protected override void Update()
-    {
-        base.Update();
-    }
-
 
     public void NPCDialogStart()
     {
@@ -36,6 +31,7 @@ public class MoriController : DialogController, INPCDialog
 
     protected override void SelectedOption()
     {
+        print("Mori Selected Option Call");
         if (moriDialogData.currentOption == "외출할래")
         {
             AfterSelectedOption();

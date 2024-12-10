@@ -44,7 +44,7 @@ public class DialogController : MonoBehaviour, IDialogState
         UIManager.Instance.CloseDialog();
     }
 
-    protected virtual void Update()
+    protected void Update()
     {
         if (UIManager.Instance.dialogUI.dialogPanel.activeSelf && activeDialogTexts != null)
         {
@@ -55,6 +55,7 @@ public class DialogController : MonoBehaviour, IDialogState
         {
             dialogData.currentOption = UIManager.Instance.optionUI.currentOption;
             SelectedOption();
+            UIManager.Instance.SetSelectedOptionInit();
         }
     }
 
@@ -116,7 +117,7 @@ public class DialogController : MonoBehaviour, IDialogState
     public void AfterSelectedOption()
     {
         dialogData.isChooseActive = false;
-        UIManager.Instance.optionUI.PanelActive(dialogData.isChooseActive);
+        UIManager.Instance.optionUI.PanelActive(false);
     }
 
     public void SetDialogData(NPCDialogData newDialogData)
