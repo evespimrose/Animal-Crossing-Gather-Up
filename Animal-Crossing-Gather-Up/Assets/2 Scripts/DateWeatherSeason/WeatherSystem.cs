@@ -30,36 +30,6 @@ public class WeatherSystem : MonoBehaviour
         nextWeatherCheck = TimeManager.Instance.CurrentTime + weatherCheckInterval;
         InitializeWeatherPrefabs();
     }
-
-    public void Initialize(bool rain, bool snow, float nextCheck)
-    {
-        isRaining = rain;
-        isSnowing = snow;
-        nextWeatherCheck = nextCheck;
-
-        InitializeWeatherPrefabs();
-        UpdateWeatherEffects();
-    }
-
-    private void InitializeWeatherPrefabs()
-    {
-        if (currentRainInstance == null)
-            currentRainInstance = Instantiate(rainPrefab, transform);
-        if (currentSnowInstance == null)
-            currentSnowInstance = Instantiate(snowPrefab, transform);
-
-        currentRainInstance.SetActive(false);
-        currentSnowInstance.SetActive(false);
-    }
-
-    private void UpdateWeatherEffects()
-    {
-        if (currentRainInstance != null)
-            currentRainInstance.SetActive(isRaining);
-        if (currentSnowInstance != null)
-            currentSnowInstance.SetActive(isSnowing);
-    }
-
     private void Update()
     {
         if (TimeManager.Instance.CurrentTime >= nextWeatherCheck)
@@ -82,6 +52,37 @@ public class WeatherSystem : MonoBehaviour
             nextWeatherCheck = TimeManager.Instance.CurrentTime + weatherCheckInterval;
         }
     }
+    private void OnDestroy()
+    {
+        if (currentRainInstance != null)
+            Destroy(currentRainInstance);
+        if (currentSnowInstance != null)
+            Destroy(currentSnowInstance);
+    }
+
+    #region Initialization
+    public void Initialize(bool rain, bool snow, float nextCheck)
+    {
+        isRaining = rain;
+        isSnowing = snow;
+        nextWeatherCheck = nextCheck;
+
+        InitializeWeatherPrefabs();
+        UpdateWeatherEffects();
+    }
+
+    private void InitializeWeatherPrefabs()
+    {
+        if (currentRainInstance == null)
+            currentRainInstance = Instantiate(rainPrefab, transform);
+        if (currentSnowInstance == null)
+            currentSnowInstance = Instantiate(snowPrefab, transform);
+
+        currentRainInstance.SetActive(false);
+        currentSnowInstance.SetActive(false);
+    }
+    #endregion      
+    #region Weather Control
     [Header("수동 날씨 제어")]
     [SerializeField] private bool manualControl = false;  // 수동 제어 모드
 
@@ -108,7 +109,8 @@ public class WeatherSystem : MonoBehaviour
         isSnowing = false;
         UpdateWeatherEffects();
     }
-
+    #endregion
+    #region Weather Update
     private void UpdateWeather()
     {
         float random = UnityEngine.Random.value * 100f;
@@ -134,23 +136,17 @@ public class WeatherSystem : MonoBehaviour
 
         UpdateWeatherEffects();
     }
-
-    private void OnDestroy()
+    private void UpdateWeatherEffects()
     {
         if (currentRainInstance != null)
-            Destroy(currentRainInstance);
+            currentRainInstance.SetActive(isRaining);
         if (currentSnowInstance != null)
-            Destroy(currentSnowInstance);
+            currentSnowInstance.SetActive(isSnowing);
     }
+    #endregion
 
 
     public bool IsRaining => isRaining;
     public bool IsSnowing => isSnowing;
     public float NextWeatherCheck => nextWeatherCheck;
-
-
-
-
-
-
 }
