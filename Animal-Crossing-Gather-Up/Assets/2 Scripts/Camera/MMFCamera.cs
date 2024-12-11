@@ -36,8 +36,8 @@ public class MMFCamera : SingletonManager<MMFCamera>
 	{
 		if (target == null)
 		{
-            target = GameManager.Instance.player.transform;
-        }
+			target = GameObject.FindGameObjectWithTag("Player").transform;
+		}
 
 		defaultOffset = offset;
 		currentOffset = offset;
@@ -52,8 +52,8 @@ public class MMFCamera : SingletonManager<MMFCamera>
 	{
 		if (target == null)
 		{
-            target = GameManager.Instance.player.transform;
-        }
+			target = GameObject.FindGameObjectWithTag("Player").transform;
+		}
 	}
 
 	public void TopView()
