@@ -61,7 +61,7 @@
         _CausticsNoiseScale ("Noise Scale", Range(0.0, 1.0)) = 0.01
 
         [Header(Curve)]
-        _CurveStrength ("Curve Strength", Range(0,0.01)) = 0.001
+        _CurveStrength ("Curve Strength", Range(0,0.015)) = 0.001
     }
     SubShader
     {

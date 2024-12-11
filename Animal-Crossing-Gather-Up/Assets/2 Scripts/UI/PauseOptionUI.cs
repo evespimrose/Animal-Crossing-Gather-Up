@@ -10,11 +10,14 @@ public class PauseOptionUI : MonoBehaviour
     [SerializeField] private GameObject chooseFirstUI;
     [SerializeField] private GameObject chooseSecondUI;
 
+    private void Start()
+    {
+        chooseFirstUI.SetActive(true);
+    }
     private void OnEnable()
     {
         Time.timeScale = 0;
         isResume = true;
-        chooseFirstUI.SetActive(true);
     }
 
     private void OnDisable()
@@ -51,6 +54,7 @@ public class PauseOptionUI : MonoBehaviour
             Time.timeScale = 1;
 
             SceneManager.LoadScene("TitleScene");
+            gameObject.SetActive(false);
         }
     }
 

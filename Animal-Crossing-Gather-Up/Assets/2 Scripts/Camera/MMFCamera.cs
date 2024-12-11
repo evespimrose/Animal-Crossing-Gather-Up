@@ -36,8 +36,8 @@ public class MMFCamera : SingletonManager<MMFCamera>
 	{
 		if (target == null)
 		{
-			target = GameObject.FindGameObjectWithTag("Player").transform;
-		}
+            target = GameManager.Instance.player.transform;
+        }
 
 		defaultOffset = offset;
 		currentOffset = offset;
@@ -52,28 +52,14 @@ public class MMFCamera : SingletonManager<MMFCamera>
 	{
 		if (target == null)
 		{
-			target = GameObject.FindGameObjectWithTag("Player").transform;
-		}
-
-		if (Input.GetKeyDown(KeyCode.T) && !isTransitioning)
-		{
-			StartCoroutine(TransitionTopCameraView());
-		}
-		if (Input.GetKeyDown(KeyCode.I) && !isTransitioning)
-		{
-			StartCoroutine(TransitionInventoryCameraView());
-		}
-		if (Input.GetKeyDown(KeyCode.C) && !isTransitioning)
-		{
-			StartCoroutine(TransitionCloseUpCameraView());
-		}
+            target = GameManager.Instance.player.transform;
+        }
 	}
 
 	public void TopView()
 	{
 		StartCoroutine(TransitionTopCameraView());
 	}
-
 	public void CloseUp()
 	{
 		StartCoroutine(TransitionCloseUpCameraView());
