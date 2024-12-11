@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Bee
   m_EditorClassIdentifier: 
   itemName: "\uBC8C"
-  stackLimit: 3
+  stackLimit: 1
   basePrice: 200
   icon: {fileID: 21300000, guid: 9999f1866f6d33445a642249c36fe80e, type: 3}
   optionText:
-  - "\uADFC\uCC98\uC5D0 \uB450\uAE30"
+  - "\uD30C\uAD34\uD558\uAE30"
   fullInventoryOptionText:
   - "\uBC14\uAFB8\uAE30"
   purchaseOptionText:

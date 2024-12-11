@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: SeaHorse
   m_EditorClassIdentifier: 
   itemName: "\uD574\uB9C8"
-  stackLimit: 0
+  stackLimit: 1
   basePrice: 150
   icon: {fileID: 21300000, guid: 166c967bc427b2c4380759dbd26edd50, type: 3}
   optionText:
-  - "\uADFC\uCC98\uC5D0 \uB450\uAE30"
+  - "\uD30C\uAD34\uD558\uAE30"
   fullInventoryOptionText:
   - "\uBC14\uAFB8\uAE30"
   purchaseOptionText:

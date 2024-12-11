@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Squid
   m_EditorClassIdentifier: 
   itemName: "\uC624\uC9D5\uC5B4"
-  stackLimit: 0
+  stackLimit: 1
   basePrice: 118
   icon: {fileID: 21300000, guid: 018edc392c49f2e40bc03a3096115c93, type: 3}
   optionText:
-  - "\uADFC\uCC98\uC5D0 \uB450\uAE30"
+  - "\uD30C\uAD34\uD558\uAE30"
   fullInventoryOptionText:
   - "\uBC14\uAFB8\uAE30"
   purchaseOptionText:

@@ -17,9 +17,9 @@ MonoBehaviour:
   basePrice: 285
   icon: {fileID: 21300000, guid: 33be511302f9f4b9cbd542aa8988e06c, type: 3}
   optionText:
-  - "\uFFFD\uFFFD\xF3\uFFFD\uFFFD \uFFFD\u03B1\uFFFD"
+  - "\uD30C\uAD34\uD558\uAE30"
   fullInventoryOptionText:
-  - "\uFFFD\u0672\u0671\uFFFD"
+  - "\uBC14\uAFB8\uAE30"
   purchaseOptionText:
   - "\uC0B4\uB798!"
   - "\uADF8\uB9CC\uB458\uB798"

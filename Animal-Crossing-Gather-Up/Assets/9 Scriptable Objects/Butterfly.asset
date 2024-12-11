@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Butterfly
   m_EditorClassIdentifier: 
   itemName: "\uB098\uBE44"
-  stackLimit: 0
+  stackLimit: 1
   basePrice: 100
   icon: {fileID: 21300000, guid: 9b9a61ff83c734e45a64f2aedc40dc95, type: 3}
   optionText:
-  - "\uADFC\uCC98\uC5D0 \uB450\uAE30"
+  - "\uD30C\uAD34\uD558\uAE30"
   fullInventoryOptionText:
   - "\uBC14\uAFB8\uAE30"
   purchaseOptionText:

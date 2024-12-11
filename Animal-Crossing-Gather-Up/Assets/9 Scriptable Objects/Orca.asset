@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Orca
   m_EditorClassIdentifier: 
   itemName: "\uBC94\uACE0\uB798"
-  stackLimit: 2
+  stackLimit: 1
   basePrice: 300
   icon: {fileID: 21300000, guid: 3dcf6a3f52bfdd84eaf2eaabb95bc176, type: 3}
   optionText:
-  - "\uADFC\uCC98\uC5D0 \uB450\uAE30"
+  - "\uD30C\uAD34\uD558\uAE30"
   fullInventoryOptionText:
   - "\uBC14\uAFB8\uAE30"
   purchaseOptionText:
