@@ -35,6 +35,7 @@ public class Player : SingletonManager<Player>
 	public AnimReciever animReciever;
 
 	private ChangeCamera changeCamera;
+	private bool isCloseUp = true;
 
 	[Header("세레머니용 프리팹")]
 	[SerializeField] private GameObject squidPrefab;
@@ -104,10 +105,27 @@ public class Player : SingletonManager<Player>
 			if (UIManager.Instance.GetOptionActive() == false)
 			{
 				UIManager.Instance.ToggleInventory();
-				//GameManager.Instance
 			}
 		}
-	}
+
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+			if (!isCloseUp)
+			{
+                isCloseUp = true;
+
+                GameManager.Instance.cam.CloseUp();
+			}
+			else
+			{
+				isCloseUp = false;
+
+                GameManager.Instance.cam.TopView();
+            }
+
+        }
+
+    }
 
 	private void Move()
 	{

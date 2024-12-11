@@ -30,6 +30,9 @@ public class GameManager : SingletonManager<GameManager>
     [SerializeField] private List<Flower> flowers = new();
 
     private const float respawnTime = 86400f;
+
+    public MMFCamera cam;
+
     protected override void Awake()
     {
         base.Awake();
@@ -59,6 +62,7 @@ public class GameManager : SingletonManager<GameManager>
         // ������ ã��
         FindBugSpawnerByType();
         FindFishSpawnerByType();
+        
     }
 
     private void Start()
