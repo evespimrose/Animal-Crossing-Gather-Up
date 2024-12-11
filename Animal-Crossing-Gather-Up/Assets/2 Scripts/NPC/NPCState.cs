@@ -90,14 +90,22 @@ public abstract class NPCState : MonoBehaviour, INPCState
             Quaternion targetRotation = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateToPlayerSpeed * Time.deltaTime);
 
+            if (dialogState == null)
+            {
+                return;
+            }
+
             if (dialogState.currentCoroutine != null && UIManager.Instance.dialogUI.dialogPanel.activeSelf)
             {
                 anim.SetBool("Talk", true);
+
             }
+
             else if (dialogState.currentCoroutine == null && UIManager.Instance.dialogUI.dialogPanel.activeSelf)
             {
                 anim.SetBool("Talk", false);
             }
+
         }
     }
 

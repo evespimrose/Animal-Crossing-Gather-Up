@@ -5,47 +5,55 @@ using UnityEngine.SceneManagement;
 
 public class MMFCamera : SingletonManager<MMFCamera>
 {
-    [Header("Target Settings")]
-    [SerializeField] private Transform target;
-    [SerializeField] private Vector3 offset = new Vector3(8f, 5f, 0f);
+	[Header("Target Settings")]
+	[SerializeField] private Transform target;
+	[SerializeField] private Vector3 offset = new Vector3(8f, 5f, 0f);
 
-    [Header("Camera Settings")]
-    [SerializeField] private float smoothSpeed = 5f;
-    [SerializeField] private Vector2 heightMinMax = new Vector2(2f, 12f);
-    [SerializeField] private float viewTransitionDuration = 0.5f;
-    [SerializeField] private Vector3 lookAtPosition;
-    [SerializeField] private float lookAtOffset;
-    [SerializeField] private float defaultLookAtOffset = 0f;
-    [SerializeField] private float inventoryLookAtOffset = 4f;
+	[Header("Camera Settings")]
+	[SerializeField] private float smoothSpeed = 5f;
+	[SerializeField] private Vector2 heightMinMax = new Vector2(2f, 12f);
+	[SerializeField] private float viewTransitionDuration = 0.5f;
+	[SerializeField] private Vector3 lookAtPosition;
+	[SerializeField] private float lookAtOffset;
+	[SerializeField] private float defaultLookAtOffset = 0f;
+	[SerializeField] private float inventoryLookAtOffset = 4f;
 
-    private Vector3 defaultOffset;
-    private Vector3 closeUpOffset = new Vector3(8f, 5f, 0f);
-    private Vector3 topViewOffset = new Vector3(2f, 7f, 0f);
-    private Vector3 inventoryViewOffset = new Vector3(5f, 8f, 0f);
+	private Vector3 defaultOffset;
+	private Vector3 closeUpOffset = new Vector3(8f, 5f, 0f);
+	private Vector3 topViewOffset = new Vector3(2f, 7f, 0f);
+	private Vector3 inventoryViewOffset = new Vector3(5f, 8f, 0f);
 
-    private float currentXPosition;
-    private Vector3 velocity = Vector3.zero;
-    [SerializeField] private Vector3 currentOffset;
+	private float currentXPosition;
+	private Vector3 velocity = Vector3.zero;
+	[SerializeField] private Vector3 currentOffset;
 
-    // Added for adjustable Y position
-    public float currentY;
+	// Added for adjustable Y position
+	public float currentY;
 
-    public bool isTransitioning = false;
+	public bool isTransitioning = false;
 
-    private void OnEnable()
-    {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
+	private void Start()
+	{
+		if (target == null)
+		{
+			target = GameObject.FindGameObjectWithTag("Player").transform;
+		}
 
-    private void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
+		defaultOffset = offset;
+		currentOffset = offset;
+		lookAtOffset = 0f;
+		Vector3 desiredPosition = target.position + offset;
+		currentXPosition = desiredPosition.x;
+		currentY = target.position.y + offset.y; // Initialize currentY
+		transform.position = desiredPosition;
+	}
 
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        CloseUp();
-    }
+	private void Update()
+	{
+		if (target == null)
+		{
+			target = GameObject.FindGameObjectWithTag("Player").transform;
+		}
 
     private void Start()
     {
@@ -54,14 +62,10 @@ public class MMFCamera : SingletonManager<MMFCamera>
             target = GameManager.Instance.player.transform;
         }
 
-        defaultOffset = offset;
-        currentOffset = offset;
-        lookAtOffset = 0f;
-        Vector3 desiredPosition = target.position + offset;
-        currentXPosition = desiredPosition.x;
-        currentY = target.position.y + offset.y; // Initialize currentY
-        transform.position = desiredPosition;
-    }
+	public void TopView()
+	{
+		StartCoroutine(TransitionTopCameraView());
+	}
 
     private void Update()
     {
@@ -69,140 +73,120 @@ public class MMFCamera : SingletonManager<MMFCamera>
         {
             target = GameManager.Instance.player.transform;
         }
+	public void CloseUp()
+	{
+		StartCoroutine(TransitionCloseUpCameraView());
+	}
 
-        if (Input.GetKeyDown(KeyCode.T) && !isTransitioning)
-        {
-            StartCoroutine(TransitionTopCameraView());
-        }
-        if (Input.GetKeyDown(KeyCode.I) && !isTransitioning)
-        {
-            StartCoroutine(TransitionInventoryCameraView());
-        }
-        if (Input.GetKeyDown(KeyCode.C) && !isTransitioning)
-        {
-            StartCoroutine(TransitionCloseUpCameraView());
-        }
-    }
+	public void InventoryView()
+	{
+		StartCoroutine(TransitionInventoryCameraView());
+	}
 
-    public void TopView()
-    {
-        StartCoroutine(TransitionTopCameraView());
-    }
+	private IEnumerator TransitionTopCameraView()
+	{
+		isTransitioning = true;
 
-    public void CloseUp()
-    {
-        StartCoroutine(TransitionCloseUpCameraView());
-    }
+		Vector3 startOffset = currentOffset;
+		Vector3 targetOffset = topViewOffset;
 
-    public void InventoryView()
-    {
-        StartCoroutine(TransitionInventoryCameraView());
-    }
+		float startLookAtOffset = lookAtOffset;
+		float targetLookAtOffset = defaultLookAtOffset;
 
-    private IEnumerator TransitionTopCameraView()
-    {
-        isTransitioning = true;
+		float elapsedTime = 0f;
 
-        Vector3 startOffset = currentOffset;
-        Vector3 targetOffset = topViewOffset;
+		while (elapsedTime < viewTransitionDuration)
+		{
+			elapsedTime += Time.deltaTime;
+			float t = elapsedTime / viewTransitionDuration;
 
-        float startLookAtOffset = lookAtOffset;
-        float targetLookAtOffset = defaultLookAtOffset;
+			t = Mathf.SmoothStep(0, 1, t);
 
-        float elapsedTime = 0f;
+			currentOffset = Vector3.Lerp(startOffset, targetOffset, t);
+			lookAtOffset = Mathf.Lerp(startLookAtOffset, targetLookAtOffset, t);
 
-        while (elapsedTime < viewTransitionDuration)
-        {
-            elapsedTime += Time.deltaTime;
-            float t = elapsedTime / viewTransitionDuration;
+			yield return null;
+		}
 
-            t = Mathf.SmoothStep(0, 1, t);
+		currentOffset = targetOffset;
+		lookAtOffset = targetLookAtOffset;
+		isTransitioning = false;
+	}
 
-            currentOffset = Vector3.Lerp(startOffset, targetOffset, t);
-            lookAtOffset = Mathf.Lerp(startLookAtOffset, targetLookAtOffset, t);
+	private IEnumerator TransitionInventoryCameraView()
+	{
+		isTransitioning = true;
 
-            yield return null;
-        }
+		Vector3 startOffset = currentOffset;
+		Vector3 targetOffset = inventoryViewOffset;
 
-        currentOffset = targetOffset;
-        lookAtOffset = targetLookAtOffset;
-        isTransitioning = false;
-    }
+		float startLookAtOffset = lookAtOffset;
+		float targetLookAtOffset = inventoryLookAtOffset;
 
-    private IEnumerator TransitionInventoryCameraView()
-    {
-        isTransitioning = true;
+		float elapsedTime = 0f;
 
-        Vector3 startOffset = currentOffset;
-        Vector3 targetOffset = inventoryViewOffset;
+		while (elapsedTime < viewTransitionDuration)
+		{
+			elapsedTime += Time.deltaTime;
+			float t = elapsedTime / viewTransitionDuration;
 
-        float startLookAtOffset = lookAtOffset;
-        float targetLookAtOffset = inventoryLookAtOffset;
+			t = Mathf.SmoothStep(0, 1, t);
 
-        float elapsedTime = 0f;
+			currentOffset = Vector3.Lerp(startOffset, targetOffset, t);
+			lookAtOffset = Mathf.Lerp(startLookAtOffset, targetLookAtOffset, t);
 
-        while (elapsedTime < viewTransitionDuration)
-        {
-            elapsedTime += Time.deltaTime;
-            float t = elapsedTime / viewTransitionDuration;
+			yield return null;
+		}
 
-            t = Mathf.SmoothStep(0, 1, t);
+		currentOffset = targetOffset;
+		lookAtOffset = targetLookAtOffset;
+		isTransitioning = false;
+	}
 
-            currentOffset = Vector3.Lerp(startOffset, targetOffset, t);
-            lookAtOffset = Mathf.Lerp(startLookAtOffset, targetLookAtOffset, t);
+	private IEnumerator TransitionCloseUpCameraView()
+	{
+		isTransitioning = true;
 
-            yield return null;
-        }
+		Vector3 startOffset = currentOffset;
+		Vector3 targetOffset = closeUpOffset;
 
-        currentOffset = targetOffset;
-        lookAtOffset = targetLookAtOffset;
-        isTransitioning = false;
-    }
+		float startLookAtOffset = lookAtOffset;
+		float targetLookAtOffset = defaultLookAtOffset;
 
-    private IEnumerator TransitionCloseUpCameraView()
-    {
-        isTransitioning = true;
+		float elapsedTime = 0f;
 
-        Vector3 startOffset = currentOffset;
-        Vector3 targetOffset = closeUpOffset;
+		while (elapsedTime < viewTransitionDuration)
+		{
+			elapsedTime += Time.deltaTime;
+			float t = elapsedTime / viewTransitionDuration;
 
-        float startLookAtOffset = lookAtOffset;
-        float targetLookAtOffset = defaultLookAtOffset;
+			t = Mathf.SmoothStep(0, 1, t);
 
-        float elapsedTime = 0f;
+			currentOffset = Vector3.Lerp(startOffset, targetOffset, t);
+			lookAtOffset = Mathf.Lerp(startLookAtOffset, targetLookAtOffset, t);
 
-        while (elapsedTime < viewTransitionDuration)
-        {
-            elapsedTime += Time.deltaTime;
-            float t = elapsedTime / viewTransitionDuration;
+			yield return null;
+		}
 
-            t = Mathf.SmoothStep(0, 1, t);
+		currentOffset = targetOffset;
+		lookAtOffset = targetLookAtOffset;
+		isTransitioning = false;
+	}
 
-            currentOffset = Vector3.Lerp(startOffset, targetOffset, t);
-            lookAtOffset = Mathf.Lerp(startLookAtOffset, targetLookAtOffset, t);
+	private void LateUpdate()
+	{
+		if (target == null) return;
 
-            yield return null;
-        }
+		float targetXPosition = target.position.x;
+		currentXPosition = Mathf.SmoothDamp(currentXPosition, targetXPosition, ref velocity.x, 1f / smoothSpeed);
 
-        currentOffset = targetOffset;
-        lookAtOffset = targetLookAtOffset;
-        isTransitioning = false;
-    }
+		Vector3 newPosition = new Vector3(currentXPosition, currentY, target.position.z) + currentOffset;
 
-    private void LateUpdate()
-    {
-        if (target == null) return;
+		// Allow `currentY` to be controlled externally without clamping
+		newPosition.y = currentY;
 
-        float targetXPosition = target.position.x;
-        currentXPosition = Mathf.SmoothDamp(currentXPosition, targetXPosition, ref velocity.x, 1f / smoothSpeed);
-
-        Vector3 newPosition = new Vector3(currentXPosition, currentY, target.position.z) + currentOffset;
-
-        // Allow `currentY` to be controlled externally without clamping
-        newPosition.y = currentY;
-
-        transform.position = newPosition;
-        lookAtPosition = target.position + new Vector3(0f, lookAtOffset, 0f);
-        transform.LookAt(lookAtPosition);
-    }
+		transform.position = newPosition;
+		lookAtPosition = target.position + new Vector3(0f, lookAtOffset, 0f);
+		transform.LookAt(lookAtPosition);
+	}
 }
