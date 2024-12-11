@@ -189,7 +189,7 @@ public class Inventory : SingletonManager<Inventory>
 		if (slots[index].Item is ToolInfo toolInfo)
 		{
 			toolInfo.isEquipped = false;
-			GameManager.Instance.player.UnequipTool();
+			GameManager.Instance.player.UnequipAndDestroyTool();
 		}
 		slots[index].Item.optionText[0] = "µé±â";
 		currentEquipIndex = -1;

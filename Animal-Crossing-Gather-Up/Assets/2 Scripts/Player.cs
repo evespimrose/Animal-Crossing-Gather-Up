@@ -104,6 +104,7 @@ public class Player : SingletonManager<Player>
 			if (UIManager.Instance.GetOptionActive() == false)
 			{
 				UIManager.Instance.ToggleInventory();
+				//GameManager.Instance
 			}
 		}
 	}
@@ -275,7 +276,7 @@ public class Player : SingletonManager<Player>
 	{
 		if (equippedTool != null)
 		{
-			yield return StartCoroutine(UnequipToolCoroutine());
+			yield return StartCoroutine(UnequipAndDestroyTool());
 		}
 
 		ActivateAnimation("Arm");
@@ -307,7 +308,6 @@ public class Player : SingletonManager<Player>
 			ActivateAnimation("UnArm");
 			yield return new WaitUntil(() => !animReciever.isActing);
 
-			Destroy(equippedTool);
 			equippedTool = null;
 			currentTool = null;
 		}
