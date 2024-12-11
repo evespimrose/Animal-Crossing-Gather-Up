@@ -23,7 +23,7 @@ public class Player : SingletonManager<Player>
     private Vector3 velocity;
     private bool isRun = false;
 
-    private ITool currentTool;
+	private Tool currentTool;
 
     private HandFlowerCommand handcollectCommand;
     public bool isMoving = false;
@@ -36,14 +36,14 @@ public class Player : SingletonManager<Player>
 
     private ChangeCamera changeCamera;
 
-    [Header("¼¼·¹¸Ó´Ï¿ë ÇÁ¸®ÆÕ")]
+    [Header("ï¿½ï¿½ï¿½ï¿½ï¿½Ó´Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")]
     [SerializeField] private GameObject squidPrefab;
     [SerializeField] private GameObject clownFishPrefab;
     [SerializeField] private GameObject lobsterPrefab;
-    [SerializeField] private GameObject seaHorsePrefab;
     [SerializeField] private GameObject orcaPrefab;
     [SerializeField] private GameObject crabPrefab;
     [SerializeField] private GameObject dolphinPrefab;
+    [SerializeField] private GameObject seaHorsePrefab;
 
     [SerializeField] private GameObject beePrefab;
     [SerializeField] private GameObject beetlePrefab;
@@ -160,6 +160,17 @@ public class Player : SingletonManager<Player>
             else
                 currentTool.Execute(transform.position, transform.forward);
 
+            if (currentTool.ToolInfo.currentDurability <= 0)
+            {
+                if (currentTool.ToolInfo.toolType == ToolInfo.ToolType.FishingPole && equippedTool.TryGetComponent(out FishingPole fishingPole))
+                {
+                    ActivateAnimation(null, false, 3);
+                    fishingPole.UnExecute();
+                }
+                else if (currentTool.ToolInfo.toolType == ToolInfo.ToolType.FishingPole && equippedTool.TryGetComponent(out BugNet _))
+                    return;
+            }
+
             if (animator != null && !animReciever.isActing && !isMoving)
             {
                 switch (currentTool.ToolInfo.toolType)
@@ -176,16 +187,6 @@ public class Player : SingletonManager<Player>
                     default:
                         ActivateAnimation("Idle");
                         break;
-                }
-            }
-            
-
-            if (currentTool.ToolInfo.currentDurability <= 0)
-            {
-                if (currentTool.ToolInfo.toolType == ToolInfo.ToolType.FishingPole && equippedTool.TryGetComponent(out FishingPole fishingPole))
-                {
-                    ActivateAnimation(null, false, 3);
-                    fishingPole.UnExecute();
                 }
             }
         }
@@ -235,7 +236,7 @@ public class Player : SingletonManager<Player>
 
     public void CollectItemWithCeremony(Item itemInfo = null)
     {
-        StartCoroutine(RotateToFaceDirection(Vector3.right, itemInfo)); // Xï¿?+ë°©í–¥?ï¿½ë¡œ ?ï¿½ì „ ?ï¿½ìž‘
+        StartCoroutine(RotateToFaceDirection(Vector3.right, itemInfo)); // Xï¿½?+ë°©í–¥?ï¿½ë¡œ ?ï¿½ì „ ?ï¿½ìž‘
 
         // CineMachine Coroutine Active...
         StartCoroutine(CeremonyCoroutine(itemInfo));

@@ -1,26 +1,23 @@
 using UnityEngine;
 
-public class BugNet : MonoBehaviour, ITool
+public class BugNet : Tool
 {
-    [SerializeField] private ToolInfo toolInfo;
     private ICollectCommand collectCommand;
-
-    public ToolInfo ToolInfo => toolInfo;
 
     private void Awake()
     {
         collectCommand = new BugNetCollectCommand();
     }
 
-    public void Execute(Vector3 position, Vector3 foward = default)
+    public override void Execute(Vector3 position, Vector3 foward = default)
     {
-        if (toolInfo.currentDurability > 0)
+        if (ToolInfo.currentDurability > 0)
         {
             collectCommand.Execute(position);
-            toolInfo.currentDurability--;
+            ToolInfo.currentDurability--;
 
-            GameManager.Instance.inventory.UpdateToolDurability(toolInfo);
-            Debug.Log($"toolInfo.currentDurability : {toolInfo.currentDurability}");
+            GameManager.Instance.inventory.UpdateToolDurability(ToolInfo);
+            Debug.Log($"toolInfo.currentDurability : {ToolInfo.currentDurability}");
         }
     }
 }

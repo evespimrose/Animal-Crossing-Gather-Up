@@ -1,15 +1,12 @@
 using UnityEngine;
 
-public class FishingPole : MonoBehaviour, ITool
+public class FishingPole : Tool
 {
-    [SerializeField] private ToolInfo toolInfo;
     private FishingPoleCollectCommand collectCommand;
 
     [SerializeField] private GameObject fishingChipPrefab;
     [SerializeField] private GameObject fishingChipInstantiate;
     public bool isDoneFishing = false;
-
-    public ToolInfo ToolInfo => toolInfo;
 
 
     private void Awake()
@@ -17,15 +14,15 @@ public class FishingPole : MonoBehaviour, ITool
         collectCommand = new FishingPoleCollectCommand();
     }
 
-    public void Execute(Vector3 position, Vector3 foward = default)
+    public override void Execute(Vector3 position, Vector3 foward = default)
     {
-        if (toolInfo.currentDurability > 0)
+        if (ToolInfo.currentDurability > 0)
         {
             //collectCommand.Execute(position);
-            toolInfo.currentDurability--;
+            ToolInfo.currentDurability--;
 
-            GameManager.Instance.inventory.UpdateToolDurability(toolInfo);
-            Debug.Log($"toolInfo.currentDurability : {toolInfo.currentDurability}");
+            GameManager.Instance.inventory.UpdateToolDurability(ToolInfo);
+            Debug.Log($"toolInfo.currentDurability : {ToolInfo.currentDurability}");
 
             fishingChipInstantiate = Instantiate(fishingChipPrefab, position + (foward * 5f), Quaternion.identity);
             float destroyTime = Random.Range(3f, 8f);

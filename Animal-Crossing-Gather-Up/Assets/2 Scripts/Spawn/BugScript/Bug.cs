@@ -22,7 +22,7 @@ public class Bug : MonoBehaviour, ICollectable
 
         GetValue();
 
-        GameManager.Instance.RemoveBug(info); // SingletonManager<> ��ӹ���?�Ŵ���
+        GameManager.Instance.RemoveBug(info); // SingletonManager<> ��ӹ���?�Ŵ���
 
         BugInfo bInfo = info;
 
