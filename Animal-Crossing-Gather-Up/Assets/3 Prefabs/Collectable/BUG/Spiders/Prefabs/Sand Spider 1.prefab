@@ -2978,7 +2978,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8078808943568620376}
-  - component: {fileID: 6858542552215307192}
   m_Layer: 0
   m_Name: Sand Spider 1
   m_TagString: Untagged
@@ -3009,18 +3008,6 @@ Transform:
   - {fileID: 8739556061933756954}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6858542552215307192
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7947612661106244870}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43da4c22a7f5e764d94ab191c0f5c828, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8033412125249736395
 GameObject:
   m_ObjectHideFlags: 0

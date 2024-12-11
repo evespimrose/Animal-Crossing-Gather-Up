@@ -23,7 +23,7 @@ MonoBehaviour:
   purchaseOptionText:
   - "\uC0B4\uB798!"
   - "\uADF8\uB9CC\uB458\uB798"
-  prefab: {fileID: 100076, guid: 052c7844b4ce6b94fa44abc12693479b, type: 3}
+  prefab: {fileID: 4611081100001500126, guid: 1b089154f0385a1479cd45beeb6dbcc0, type: 3}
   type: 0
   bugName: 5
   spawnWeight: 0.6

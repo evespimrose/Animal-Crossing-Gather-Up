@@ -34,7 +34,7 @@ public class Player : SingletonManager<Player>
 	private Animator animator;
 	public AnimReciever animReciever;
 
-	private ChangeCamera changeCamera;
+	[SerializeField] private ChangeCamera changeCamera;
 	private bool isCloseUp = true;
 
 	[Header("¼¼·¹¸Ó´Ï¿ë ÇÁ¸®ÆÕ")]
@@ -252,21 +252,21 @@ public class Player : SingletonManager<Player>
 
 		transform.rotation = targetRotation;
 		ActivateAnimation("ShowOff");
-		yield break;
 	}
 
-	public void CollectItemWithCeremony(Item itemInfo = null)
+	public IEnumerator CollectItemWithCeremony(Item itemInfo = null)
 	{
-		StartCoroutine(RotateToFaceDirection(Vector3.right, itemInfo)); // Xï¿?+ë°©í–¥?ï¿½ë¡œ ?ï¿½ì „ ?ï¿½ìž‘
+		yield return StartCoroutine(RotateToFaceDirection(Vector3.right, itemInfo)); // Xï¿?+ë°©í–¥?ï¿½ë¡œ ?ï¿½ì „ ?ï¿½ìž‘
 
 		// CineMachine Coroutine Active...
-		StartCoroutine(CeremonyCoroutine(itemInfo));
+		yield return StartCoroutine(CeremonyCoroutine(itemInfo));
 	}
 
 	private IEnumerator CeremonyCoroutine(Item itemInfo = null)
 	{
 		// CineMachine Active...
 		changeCamera.ZoonIn(transform);
+		Debug.Log("CeremonyCoroutine");
 		yield return new WaitForSeconds(2.1f);        // Wait for CineMachine's Playtime
 		yield return new WaitUntil(() => !animReciever.isActing); // Wait for Animation's End
 
@@ -276,7 +276,6 @@ public class Player : SingletonManager<Player>
 
 		OnItemCollected?.Invoke(itemInfo);
 
-		yield break;
 	}
 
 	private void ApplyGravity()
@@ -343,10 +342,16 @@ public class Player : SingletonManager<Player>
 	}
 	private void JudgeActivationOfPrefabs(Item itemInfo, bool activation)
 	{
-		if (itemInfo == null) return;
+		if (itemInfo == null)
+		{
+			Debug.Log($"bugInfo{itemInfo.name}, {activation}");
+
+			return;
+		}
 
 		if (itemInfo is BugInfo bugInfo)
 		{
+			Debug.Log($"bugInfo{bugInfo.name}, {activation}");
 			switch (bugInfo.bugName)
 			{
 				case BugInfo.BugName.Bee:
@@ -371,8 +376,11 @@ public class Player : SingletonManager<Player>
 		}
 		else if (itemInfo is FishInfo fishInfo)
 		{
+			Debug.Log($"bugInfo{fishInfo.name}, {activation}");
+
 			switch (fishInfo.type)
 			{
+
 				case FishInfo.FishType.ClownFish:
 					clownFishPrefab.SetActive(activation);
 					break;

@@ -4,38 +4,47 @@ using UnityEngine;
 
 public class Bug : MonoBehaviour, ICollectable
 {
-   //���� ���� ����
-   //���� ibugmanger
+	//���� ���� ����
+	//���� ibugmanger
 
-    private BugInfo info;
-    
+	private BugInfo info;
+	[SerializeField] private GameObject renderPrefab;
 
-    public void Initialize(BugInfo buginfom)
-    {
-        info = buginfom;
-      
-    }
+	public void Initialize(BugInfo buginfom)
+	{
+		info = buginfom;
 
-    public void Collect()
-    {
-        GetValue();
+	}
 
-        GameManager.Instance.RemoveBug(info); // SingletonManager<> ��ӹ���?�Ŵ���
+	private void OnDestroy()
+	{
+		Debug.Log("BugDestroy");
+	}
 
-        BugInfo bInfo = info;
+	public void Collect()
+	{
+		GetValue();
 
-        bInfo.basePrice += Random.Range(-1, info.basePrice);
+		GameManager.Instance.RemoveBug(info); // SingletonManager<> ��ӹ���?�Ŵ���
 
-        StartCoroutine(WaitForActingAndCollectCoroutine(bInfo));
+		BugInfo bInfo = info;
 
-        Destroy(gameObject);
-    }
-    public int GetValue() => info.basePrice;
+		bInfo.basePrice += Random.Range(-1, info.basePrice);
 
-    private IEnumerator WaitForActingAndCollectCoroutine(BugInfo bInfo)
-    {
-        yield return new WaitUntil(() => !GameManager.Instance.player.animReciever.isActing);
+		StartCoroutine(WaitForActingAndCollectCoroutine(bInfo));
+	}
+	public int GetValue() => info.basePrice;
 
-        GameManager.Instance.player.CollectItemWithCeremony(bInfo);
-    }
+	private IEnumerator WaitForActingAndCollectCoroutine(BugInfo bInfo)
+	{
+		yield return new WaitUntil(() => !GameManager.Instance.player.animReciever.isActing);
+		Debug.Log("WaitForActingAndCollectCoroutine");
+
+		BugInfo bugInfo = bInfo;
+		renderPrefab.SetActive(false);
+		yield return StartCoroutine(GameManager.Instance.player.CollectItemWithCeremony(bugInfo));
+
+		Destroy(gameObject);
+
+	}
 }

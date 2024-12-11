@@ -23,7 +23,7 @@ MonoBehaviour:
   purchaseOptionText:
   - "\uC0B4\uB798!"
   - "\uADF8\uB9CC\uB458\uB798"
-  prefab: {fileID: 7893974801881764390, guid: 27d6a72fdc9f82a43bf4ba0a4c1a73ba, type: 3}
+  prefab: {fileID: 4086800767650504587, guid: 73784626087fcd042b0de3e97934186e, type: 3}
   spawnWeight: 0.3
   moveSpeed: 1
   wanderRadius: 4
