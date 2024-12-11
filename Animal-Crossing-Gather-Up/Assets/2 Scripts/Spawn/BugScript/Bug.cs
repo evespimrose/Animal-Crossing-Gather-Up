@@ -18,8 +18,6 @@ public class Bug : MonoBehaviour, ICollectable
 
     public void Collect()
     {
-        Debug.Log("BugNet - Collect");
-
         GetValue();
 
         GameManager.Instance.RemoveBug(info); // SingletonManager<> ��ӹ���?�Ŵ���

@@ -11,18 +11,6 @@ public class Stone : MonoBehaviour, ICollectable
         this.pebbleInfo = pebbleInfo;
     }
 
-    private void OnMouseDown()
-    {
-        if (pebbleCount > 0)
-        {
-            Collect();
-        }
-        else
-        {
-            Debug.Log("No branches available to collect.");
-        }
-    }
-
     public void Collect()
     {
         if (pebbleCount <= 0 || pebbleInfo == null) return;

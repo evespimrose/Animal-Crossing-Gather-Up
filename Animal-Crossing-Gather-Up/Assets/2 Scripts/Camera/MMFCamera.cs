@@ -51,7 +51,7 @@ public class MMFCamera : SingletonManager<MMFCamera>
     {
         if (target == null)
         {
-            target = GameObject.FindGameObjectWithTag("Player").transform;
+            target = GameManager.Instance.player.transform;
         }
 
         defaultOffset = offset;
@@ -67,7 +67,7 @@ public class MMFCamera : SingletonManager<MMFCamera>
     {
         if (target == null)
         {
-            target = GameObject.FindGameObjectWithTag("Player").transform;
+            target = GameManager.Instance.player.transform;
         }
 
         if (Input.GetKeyDown(KeyCode.T) && !isTransitioning)
