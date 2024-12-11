@@ -222,6 +222,9 @@ public class Player : SingletonManager<Player>
 	{
 		yield return StartCoroutine(UnequipToolCoroutine());
 		Destroy(equippedTool);
+
+		equippedTool = null;
+		currentTool = null;
 	}
 	public void CollectItem(Item item)
 	{
@@ -325,9 +328,6 @@ public class Player : SingletonManager<Player>
 
 			ActivateAnimation("UnArm");
 			yield return new WaitUntil(() => !animReciever.isActing);
-
-			equippedTool = null;
-			currentTool = null;
 		}
 	}
 
