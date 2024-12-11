@@ -22,11 +22,7 @@ public class OceanFish : MonoBehaviour, ICollectable
 		GetValue();
 		GameManager.Instance.RemoveFish();
 
-		FishInfo fishInfo = info;
-
-		fishInfo.basePrice += Random.Range(-1, info.basePrice);
-
-		StartCoroutine(WaitForActingAndCollectCoroutine(fishInfo));
+		StartCoroutine(WaitForActingAndCollectCoroutine(info));
 	}
 
 	private IEnumerator WaitForActingAndCollectCoroutine(FishInfo fInfo)

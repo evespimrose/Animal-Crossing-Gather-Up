@@ -27,11 +27,7 @@ public class Bug : MonoBehaviour, ICollectable
 
 		GameManager.Instance.RemoveBug(info); // SingletonManager<> ��ӹ���?�Ŵ���
 
-		BugInfo bInfo = info;
-
-		bInfo.basePrice += Random.Range(-1, info.basePrice);
-
-		StartCoroutine(WaitForActingAndCollectCoroutine(bInfo));
+		StartCoroutine(WaitForActingAndCollectCoroutine(info));
 	}
 	public int GetValue() => info.basePrice;
 
