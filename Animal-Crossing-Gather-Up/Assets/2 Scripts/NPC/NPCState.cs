@@ -53,12 +53,6 @@ public abstract class NPCState : MonoBehaviour, INPCState
             case NPCStateType.Talk:
                 Talk();
                 break;
-                //case NPCStateType.Happy:
-                //    Happy();
-                //    break;
-                //case NPCStateType.Dance:
-                //    Dance();
-                //    break;
         }
     }
 
@@ -68,7 +62,7 @@ public abstract class NPCState : MonoBehaviour, INPCState
         anim.SetFloat("Speed", 0f);
     }
 
-    protected virtual void LookAround()
+    private void LookAround()
     {
         anim.SetTrigger("ChangeLook");
         anim.SetFloat("Speed", 0f);
@@ -142,18 +136,6 @@ public abstract class NPCState : MonoBehaviour, INPCState
 
         anim.SetFloat("Speed", currentSpeed);
     }
-
-    //private void Happy()
-    //{
-    //    anim.SetTrigger("Happy");
-
-    //}
-
-    //private void Dance()
-    //{
-    //    anim.SetTrigger("Dance");
-
-    //}
 
     public void SetCurrentState(NPCStateType newState)
     {

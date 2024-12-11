@@ -14,6 +14,16 @@ public class NPCInteraction : MonoBehaviour
 
     private void Awake()
     {
+        FindNPC();
+    }
+
+    private void Update()
+    {
+        PlayerInteraction();
+    }
+
+    private void FindNPC()
+    {
         foreach (var npc in GetComponentsInChildren<INPCDialog>())
         {
             Transform npcTransform = ((MonoBehaviour)npc).transform;
@@ -28,7 +38,7 @@ public class NPCInteraction : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void PlayerInteraction()
     {
         if (GameManager.Instance.player == null)
         {
@@ -51,7 +61,6 @@ public class NPCInteraction : MonoBehaviour
             }
         }
     }
-
     private INPCDialog FindNearestNPC()
     {
         float minDistance = interactionDistance;
