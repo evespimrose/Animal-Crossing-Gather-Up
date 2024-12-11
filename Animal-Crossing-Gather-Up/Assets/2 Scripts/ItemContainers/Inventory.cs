@@ -137,7 +137,7 @@ public class Inventory : SingletonManager<Inventory>
 			EquipTool(index);
 			UIManager.Instance.CloseInventory();
 		}
-		else if (optionText == "근처에 두기")
+		else if (optionText == "파괴하기")
 		{
 			RemoveItemAll(index);
 			UIManager.Instance.CloseInventory();
@@ -189,7 +189,7 @@ public class Inventory : SingletonManager<Inventory>
 		if (slots[index].Item is ToolInfo toolInfo)
 		{
 			toolInfo.isEquipped = false;
-			GameManager.Instance.player.UnequipAndDestroyTool();
+			StartCoroutine(GameManager.Instance.player.UnequipAndDestroyTool());
 		}
 		slots[index].Item.optionText[0] = "들기";
 		currentEquipIndex = -1;
