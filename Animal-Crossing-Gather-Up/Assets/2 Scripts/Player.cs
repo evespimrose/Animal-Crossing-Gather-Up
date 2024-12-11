@@ -35,6 +35,7 @@ public class Player : SingletonManager<Player>
 	public AnimReciever animReciever;
 
 	private ChangeCamera changeCamera;
+	private bool isCloseUp = true;
 
 	[Header("세레머니용 프리팹")]
 	[SerializeField] private GameObject squidPrefab;
@@ -106,7 +107,25 @@ public class Player : SingletonManager<Player>
 				UIManager.Instance.ToggleInventory();
 			}
 		}
-	}
+
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+			if (!isCloseUp)
+			{
+                isCloseUp = true;
+
+                GameManager.Instance.cam.CloseUp();
+			}
+			else
+			{
+				isCloseUp = false;
+
+                GameManager.Instance.cam.TopView();
+            }
+
+        }
+
+    }
 
 	private void Move()
 	{
@@ -275,7 +294,7 @@ public class Player : SingletonManager<Player>
 	{
 		if (equippedTool != null)
 		{
-			yield return StartCoroutine(UnequipToolCoroutine());
+			yield return StartCoroutine(UnequipAndDestroyTool());
 		}
 
 		ActivateAnimation("Arm");
@@ -307,7 +326,6 @@ public class Player : SingletonManager<Player>
 			ActivateAnimation("UnArm");
 			yield return new WaitUntil(() => !animReciever.isActing);
 
-			Destroy(equippedTool);
 			equippedTool = null;
 			currentTool = null;
 		}

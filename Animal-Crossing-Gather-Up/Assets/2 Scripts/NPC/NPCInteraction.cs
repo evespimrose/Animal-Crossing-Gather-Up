@@ -47,6 +47,7 @@ public class NPCInteraction : MonoBehaviour
                 }
                 isDialogActive = true;
                 nearestNPC.NPCDialogStart();
+                GameManager.Instance.cam.CloseUp();
             }
         }
     }
