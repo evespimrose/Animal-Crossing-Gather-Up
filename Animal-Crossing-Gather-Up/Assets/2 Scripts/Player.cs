@@ -65,7 +65,7 @@ public class Player : SingletonManager<Player>
 		if (currentScene == "GameScene")
 		{
 			characterController.enabled = false;
-			transform.position = new Vector3(25f, 1f, -40f);
+			transform.position = new Vector3(27.5f, 1f, -73f);
 			characterController.enabled = true;
 		}
 		else if (currentScene == "MileIsland")
@@ -108,24 +108,24 @@ public class Player : SingletonManager<Player>
 			}
 		}
 
-        if (Input.GetKeyDown(KeyCode.V))
-        {
+		if (Input.GetKeyDown(KeyCode.V))
+		{
 			if (!isCloseUp)
 			{
-                isCloseUp = true;
+				isCloseUp = true;
 
-                GameManager.Instance.cam.CloseUp();
+				GameManager.Instance.cam.CloseUp();
 			}
 			else
 			{
 				isCloseUp = false;
 
-                GameManager.Instance.cam.TopView();
-            }
+				GameManager.Instance.cam.TopView();
+			}
 
-        }
+		}
 
-    }
+	}
 
 	private void Move()
 	{
