@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: pebble
   stackLimit: 10
   basePrice: 50
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: fa1d31a93ac5c3d4c8db497cb6aec8c4, type: 3}
   optionText:
   - "\uD30C\uAD34\uD558\uAE30"
   fullInventoryOptionText:

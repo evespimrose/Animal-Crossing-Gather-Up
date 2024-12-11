@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: "\uB78D\uC2A4\uD0C0"
   stackLimit: 1
-  basePrice: 290
+  basePrice: 200
   icon: {fileID: 21300000, guid: f0f385dd2856e684c84c316d70777aa8, type: 3}
   optionText:
   - "\uD30C\uAD34\uD558\uAE30"

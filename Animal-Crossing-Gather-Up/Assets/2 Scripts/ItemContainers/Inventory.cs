@@ -18,7 +18,7 @@ public class Inventory : SingletonManager<Inventory>
 	private PurchaseUI purchaseUI;
 	private int currentEquipIndex = -1;
 
-	public int money = 1000;
+	public int money = 0;
 
 	private Sell sell;
 
