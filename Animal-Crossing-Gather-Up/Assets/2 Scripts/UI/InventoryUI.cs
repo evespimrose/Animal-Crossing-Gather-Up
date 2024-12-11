@@ -54,7 +54,8 @@ public class InventoryUI : MonoBehaviour
 		hasProcessedCurrentSelection = false;
 		inventoryPanel.SetActive(true); // Open the inventory UI
 		UIManager.Instance.ShowMoney();
-		UpdateAllSlotUIs(); // Update all slots when opening the inventory
+        GameManager.Instance.cam.InventoryView();
+        UpdateAllSlotUIs(); // Update all slots when opening the inventory
 		CursorOnSlot(cursorOnSlotIndex);  // Select the first slot by default
 		foreach (SlotUI slotUI in slotUIs)
 		{
@@ -64,7 +65,8 @@ public class InventoryUI : MonoBehaviour
 
 	public void InventoryClose()
 	{
-		UIManager.Instance.HideMoney();
+        GameManager.Instance.cam.CloseUp();
+        UIManager.Instance.HideMoney();
 		inventoryPanel.SetActive(false);
 	}
 

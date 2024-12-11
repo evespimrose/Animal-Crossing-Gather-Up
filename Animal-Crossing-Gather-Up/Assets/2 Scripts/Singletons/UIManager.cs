@@ -106,12 +106,11 @@ public class UIManager : SingletonManager<UIManager>
         if (isInventoryOpen)
         {
             CloseInventory();
-            GameManager.Instance.cam.CloseUp();
+            
         }
         else
         {
             OpenInventory();
-            GameManager.Instance.cam.InventoryView();
         }
     }
     #endregion
