@@ -238,6 +238,7 @@ public class Player : SingletonManager<Player>
 			ActivateAnimation(null, true, 2);
 			yield return new WaitUntil(() => !animReciever.isActing);
 		}
+		yield return new WaitUntil(() => !animReciever.isActing);
 
 		float rotationSpeed = 5f;
 		Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
@@ -252,6 +253,9 @@ public class Player : SingletonManager<Player>
 
 		transform.rotation = targetRotation;
 		ActivateAnimation("ShowOff");
+
+		changeCamera.ZoonIn(transform);
+		yield return new WaitForSeconds(2.1f);
 	}
 
 	public IEnumerator CollectItemWithCeremony(Item itemInfo = null)
@@ -265,7 +269,7 @@ public class Player : SingletonManager<Player>
 	private IEnumerator CeremonyCoroutine(Item itemInfo = null)
 	{
 		// CineMachine Active...
-		changeCamera.ZoonIn(transform);
+
 		yield return new WaitUntil(() => !animReciever.isActing);
 
 		JudgeActivationOfPrefabs(itemInfo, false);
@@ -346,12 +350,10 @@ public class Player : SingletonManager<Player>
 	}
 	private void JudgeActivationOfPrefabs(Item itemInfo, bool activation)
 	{
-		if (itemInfo == null)
-		{
-			Debug.Log($"bugInfo{itemInfo.name}, {activation}");
+		Debug.Log($"JudgeActivationOfPrefabs : {activation}");
 
+		if (itemInfo == null)
 			return;
-		}
 
 		if (itemInfo is BugInfo bugInfo)
 		{
