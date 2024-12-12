@@ -23,7 +23,7 @@ public class Player : SingletonManager<Player>
 	private Vector3 velocity;
 	private bool isRun = false;
 
-	private ITool currentTool;
+	[SerializeField] private Tool currentTool;
 
 	private HandFlowerCommand handcollectCommand;
 	public bool isMoving = false;
@@ -170,7 +170,7 @@ public class Player : SingletonManager<Player>
 
 		if (currentTool != null)
 		{
-			if (currentTool.ToolInfo.toolType == ToolInfo.ToolType.FishingPole && equippedTool.TryGetComponent(out FishingPole fPole) && animReciever.isFishing)
+			if (currentTool.toolInfo.toolType == ToolInfo.ToolType.FishingPole && equippedTool.TryGetComponent(out FishingPole fPole) && animReciever.isFishing)
 			{
 				ActivateAnimation(null, false, 3);
 				fPole.UnExecute();
@@ -181,7 +181,7 @@ public class Player : SingletonManager<Player>
 
 			if (animator != null && !animReciever.isActing && !isMoving)
 			{
-				switch (currentTool.ToolInfo.toolType)
+				switch (currentTool.toolInfo.toolType)
 				{
 					case ToolInfo.ToolType.Axe:
 						ActivateAnimation("UseAxe");
@@ -199,9 +199,9 @@ public class Player : SingletonManager<Player>
 			}
 
 
-			if (currentTool.ToolInfo.currentDurability <= 0)
+			if (currentTool.toolInfo.currentDurability <= 0)
 			{
-				if (currentTool.ToolInfo.toolType == ToolInfo.ToolType.FishingPole && equippedTool.TryGetComponent(out FishingPole fishingPole))
+				if (currentTool.toolInfo.toolType == ToolInfo.ToolType.FishingPole && equippedTool.TryGetComponent(out FishingPole fishingPole))
 				{
 					ActivateAnimation(null, false, 3);
 					fishingPole.UnExecute();
@@ -225,6 +225,8 @@ public class Player : SingletonManager<Player>
 
 		equippedTool = null;
 		currentTool = null;
+
+		Debug.Log($"equippedTool != NULL!!{(equippedTool != null)}");
 	}
 	public void CollectItem(Item item)
 	{
@@ -296,20 +298,32 @@ public class Player : SingletonManager<Player>
 	{
 		if (equippedTool != null)
 		{
+			Debug.Log($"EquipToolCoroutine's equippedTool != NULL!!{(equippedTool != null)}");
+
 			yield return StartCoroutine(UnequipAndDestroyTool());
 		}
 
 		ActivateAnimation("Arm");
 
-		GameObject toolInstance = Instantiate(tool.prefab, handPosition.position, Quaternion.identity);
-		equippedTool = toolInstance;
+		GameObject toolInstance = Instantiate(tool.prefab);
+
+		Debug.Log($"toolInstance!!{toolInstance.name}");
+
+		equippedTool = Instantiate(toolInstance);
+		Debug.Log($"equippedTool!!{equippedTool.name}");
+
+		if (equippedTool.TryGetComponent(out Tool eqTool))
+		{
+			Debug.Log($"TryGetComponent!!{eqTool.name}");
+
+			eqTool.toolInfo = Instantiate(tool);
+			currentTool = eqTool;
+			Debug.Log($"currentTool!!{currentTool.name}, {currentTool.toolInfo.currentDurability}");
+		}
 		equippedTool.transform.SetParent(handPosition);
 		equippedTool.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
 
-		if (!equippedTool.TryGetComponent(out currentTool))
-		{
-			Debug.LogWarning("Equipped object does not have a valid tool component.");
-		}
+		Destroy(toolInstance);
 	}
 	public void UnequipTool()
 	{

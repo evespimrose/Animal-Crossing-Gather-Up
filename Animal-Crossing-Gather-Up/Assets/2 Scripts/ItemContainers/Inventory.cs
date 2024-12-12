@@ -189,6 +189,8 @@ public class Inventory : SingletonManager<Inventory>
 		if (slots[index].Item is ToolInfo toolInfo)
 		{
 			toolInfo.isEquipped = false;
+			Debug.Log($"Inventory's UnEquipTool!!!!!");
+
 			StartCoroutine(GameManager.Instance.player.UnequipAndDestroyTool());
 		}
 		slots[index].Item.optionText[0] = "µé±â";
@@ -213,8 +215,12 @@ public class Inventory : SingletonManager<Inventory>
 		{
 			if (toolInfo.currentDurability <= 0)
 			{
-				StartCoroutine(GameManager.Instance.player.UnequipAndDestroyTool());
-				RemoveItemAll(currentEquipIndex);
+				Debug.Log($"Inventory's UnEquipTool's equippedTool != NULL!!");
+
+				//StartCoroutine(GameManager.Instance.player.UnequipAndDestroyTool());
+				int index = currentEquipIndex;
+				UnEquipTool(index);
+				RemoveItemAll(index);
 			}
 		}
 	}

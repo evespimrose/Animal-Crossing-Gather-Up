@@ -8,7 +8,7 @@ public class ToolInfo : Item
 	public int maxDurability = 5;
 	public int currentDurability;
 	public bool isEquipped;
-	public ICollectCommand collectCommand;
+	public CollectCommand collectCommand;
 	public ToolType toolType;
 
 	private void OnEnable()
