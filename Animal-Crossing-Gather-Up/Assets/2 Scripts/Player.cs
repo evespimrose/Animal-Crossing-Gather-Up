@@ -170,6 +170,15 @@ public class Player : SingletonManager<Player>
 
 		if (currentTool != null)
 		{
+			if (currentTool.toolInfo.currentDurability <= 0)
+			{
+				if (currentTool.toolInfo.toolType == ToolInfo.ToolType.FishingPole && equippedTool.TryGetComponent(out FishingPole fishingPole))
+				{
+					ActivateAnimation(null, false, 3);
+					fishingPole.UnExecute();
+				}
+			}
+
 			if (currentTool.toolInfo.toolType == ToolInfo.ToolType.FishingPole && equippedTool.TryGetComponent(out FishingPole fPole) && animReciever.isFishing)
 			{
 				ActivateAnimation(null, false, 3);
@@ -179,7 +188,7 @@ public class Player : SingletonManager<Player>
 			else
 				currentTool.Execute(transform.position, transform.forward);
 
-			if (animator != null && !animReciever.isActing && !isMoving)
+			if (animator != null && !animReciever.isActing && !isMoving && currentTool.toolInfo.currentDurability > 0)
 			{
 				switch (currentTool.toolInfo.toolType)
 				{
@@ -195,16 +204,6 @@ public class Player : SingletonManager<Player>
 					default:
 						ActivateAnimation("Idle");
 						break;
-				}
-			}
-
-
-			if (currentTool.toolInfo.currentDurability <= 0)
-			{
-				if (currentTool.toolInfo.toolType == ToolInfo.ToolType.FishingPole && equippedTool.TryGetComponent(out FishingPole fishingPole))
-				{
-					ActivateAnimation(null, false, 3);
-					fishingPole.UnExecute();
 				}
 			}
 		}

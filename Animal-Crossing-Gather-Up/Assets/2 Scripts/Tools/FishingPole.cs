@@ -15,20 +15,20 @@ public class FishingPole : Tool
 
 	public override void Execute(Vector3 position, Vector3 foward = default)
 	{
+		toolInfo.currentDurability--;
+
 		if (toolInfo.currentDurability > 0)
 		{
-			//collectCommand.Execute(position);
-			toolInfo.currentDurability--;
-
-			GameManager.Instance.inventory.UpdateToolDurability(toolInfo);
-			Debug.Log($"toolInfo.currentDurability : {toolInfo.currentDurability}");
-
+			collectCommand.Execute(position);
 			fishingChipInstantiate = Instantiate(fishingChipPrefab, position + (foward * 5f), Quaternion.identity);
 			float destroyTime = Random.Range(3f, 8f);
 			if (fishingChipInstantiate.TryGetComponent(out FishingChip fishingChip))
 				fishingChip.Execute(destroyTime);
 			Destroy(fishingChipInstantiate, destroyTime + 0.1f);
 		}
+
+		GameManager.Instance.inventory.UpdateToolDurability(toolInfo);
+		Debug.Log($"toolInfo.currentDurability : {toolInfo.currentDurability}");
 	}
 	public void UnExecute()
 	{

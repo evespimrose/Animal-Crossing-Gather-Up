@@ -11,13 +11,13 @@ public class BugNet : Tool
 
 	public override void Execute(Vector3 position, Vector3 foward = default)
 	{
-		if (toolInfo.currentDurability > 0)
-		{
-			collectCommand.Execute(position);
-			toolInfo.currentDurability--;
+		toolInfo.currentDurability--;
 
-			GameManager.Instance.inventory.UpdateToolDurability(toolInfo);
-			Debug.Log($"toolInfo.currentDurability : {toolInfo.currentDurability}");
-		}
+
+		if (toolInfo.currentDurability > 0)
+			collectCommand.Execute(position);
+
+		GameManager.Instance.inventory.UpdateToolDurability(toolInfo);
+		Debug.Log($"toolInfo.currentDurability : {toolInfo.currentDurability}");
 	}
 }
