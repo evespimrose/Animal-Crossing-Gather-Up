@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 
 public class TimeManager : SingletonManager<TimeManager>
 {
+	public event Action OnDayChanged;
 	public event Action<float> OnTimeChanged;
 	public event Action OnSunrise;  // 일출 이벤트
 	public event Action OnSunset;   // 일몰 이벤트
@@ -106,20 +107,44 @@ public class TimeManager : SingletonManager<TimeManager>
 	#region Time Management
 	private void UpdateTime()
 	{
-		currentTime += (Time.deltaTime / 60f) * timeScale;
-		if (currentTime >= 24f) currentTime = 0f;
-		previousTime = currentTime; // 수동 조정 후에도 시간이 계속 흐르도록
+		float newTime = currentTime + (Time.deltaTime / 60f) * timeScale;
+
+		if (newTime >= 24f)
+		{
+			currentTime = 0f;
+			OnDayChanged?.Invoke();
+		}
+		else
+		{
+			currentTime = newTime;
+		}
+
+		previousTime = currentTime;
 	}
 
 	public void AddHours(float hours)
 	{
-		currentTime += hours;
-		if (currentTime >= 24f)
+		float newTime = currentTime + hours;
+		bool dayChanged = false;
+
+		if (newTime >= 24f)
 		{
-			currentTime -= 24f;
+			dayChanged = true;
+			currentTime = newTime % 24f;
 		}
+		else
+		{
+			currentTime = newTime;
+		}
+
 		celestialController.UpdateCelestialBodies(currentTime, sunriseHour, sunsetHour);
 		OnTimeChanged?.Invoke(currentTime);
+
+
+		if (dayChanged)
+		{
+			OnDayChanged?.Invoke();
+		}
 	}
 	#endregion
 	#region Day/Night Cycle
