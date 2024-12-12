@@ -267,11 +267,8 @@ public class Player : SingletonManager<Player>
 	{
 		// CineMachine Active...
 		changeCamera.ZoonIn(transform);
-		Debug.Log("CeremonyCoroutine");
-		yield return new WaitForSeconds(2.1f);        // Wait for CineMachine's Playtime
-		yield return new WaitUntil(() => !animReciever.isActing); // Wait for Animation's End
+		yield return new WaitUntil(() => !animReciever.isActing);
 
-		//Send itemInfo to inventory
 		JudgeActivationOfPrefabs(itemInfo, false);
 		changeCamera.ZoomOut(transform);
 
@@ -297,8 +294,6 @@ public class Player : SingletonManager<Player>
 	{
 		if (equippedTool != null)
 		{
-			Debug.Log($"EquipToolCoroutine's equippedTool != NULL!!{(equippedTool != null)}");
-
 			yield return StartCoroutine(UnequipAndDestroyTool());
 		}
 
@@ -306,18 +301,15 @@ public class Player : SingletonManager<Player>
 
 		GameObject toolInstance = Instantiate(tool.prefab);
 
-		Debug.Log($"toolInstance!!{toolInstance.name}");
-
 		equippedTool = Instantiate(toolInstance);
-		Debug.Log($"equippedTool!!{equippedTool.name}");
 
 		if (equippedTool.TryGetComponent(out Tool eqTool))
 		{
-			Debug.Log($"TryGetComponent!!{eqTool.name}");
 
 			eqTool.toolInfo = Instantiate(tool);
+			eqTool.toolInfo.currentDurability = tool.currentDurability;
+			eqTool.toolInfo.isEquipped = tool.isEquipped;
 			currentTool = eqTool;
-			Debug.Log($"currentTool!!{currentTool.name}, {currentTool.toolInfo.currentDurability}");
 		}
 		equippedTool.transform.SetParent(handPosition);
 		equippedTool.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
