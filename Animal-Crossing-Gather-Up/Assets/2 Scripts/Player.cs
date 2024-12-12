@@ -4,7 +4,6 @@ using System.Diagnostics.Contracts;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static UnityEditor.Progress;
 
 [RequireComponent(typeof(CharacterController))]
 public class Player : SingletonManager<Player>
