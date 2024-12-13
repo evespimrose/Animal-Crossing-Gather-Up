@@ -8,16 +8,32 @@ public class DateSystem : MonoBehaviour
 	[SerializeField] private int month = 12;
 	[SerializeField] private int day = 1;
 	private float previousTime;
+    private bool isProcessingDateChange = false;
 
-	public static event Action<int, int> OnDateChanged;
+    public static event Action<int, int> OnDateChanged;
 	public static event Action<int> OnMonthChanged;
-
-	public int CurrentMonth => month;
+    public static Action OnAddDay;
+    public int CurrentMonth => month;
 	public int CurrentDay => day;
 
-	private void Start()
+    private void Awake()
+    {
+
+        var objs = FindObjectsOfType<TimeManager>();
+
+
+        if (objs.Length > 1)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        OnAddDay += AdvanceDay;
+    }
+    private bool isStart = false;
+    private void Start()
 	{
-		previousTime = TimeManager.Instance.CurrentTime;
+        isStart = true;
+        previousTime = TimeManager.Instance.CurrentTime;
 		// 초기 날짜 이벤트 발생
 		OnDateChanged?.Invoke(month, day);
 		OnMonthChanged?.Invoke(month);
@@ -69,19 +85,5 @@ public class DateSystem : MonoBehaviour
 		OnDateChanged?.Invoke(month, day);
 		OnMonthChanged?.Invoke(month);
 	}
-	private void OnEnable()
-	{
-		if (TimeManager.Instance != null)
-		{
-			TimeManager.Instance.OnDayChanged += AdvanceDay;
-		}
-	}
-
-	private void OnDisable()
-	{
-		if (TimeManager.Instance != null)
-		{
-			TimeManager.Instance.OnDayChanged -= AdvanceDay;
-		}
-	}
+	
 }

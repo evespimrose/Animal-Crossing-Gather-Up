@@ -60,34 +60,30 @@ public class TimeManager : SingletonManager<TimeManager>
 
 	private void Update()
 	{
-		// 씬 전환 중에는 시간 업데이트 건너뛰기
-		if (Time.timeScale == 0f)
-			return;
+        if (Time.timeScale == 0f)
+            return;
 
-		// Inspector에서 시간 변경 체크
-		if (previousTime != currentTime)
-		{
-			celestialController.UpdateCelestialBodies(currentTime, sunriseHour, sunsetHour);
-			OnTimeChanged?.Invoke(currentTime);
-			previousTime = currentTime;
-		}
 
-		// 일반 시간 업데이트
-		UpdateTime();
-		celestialController.UpdateCelestialBodies(currentTime, sunriseHour, sunsetHour);
+        float oldTime = currentTime;
 
-		if (Time.timeScale == 0f || GameManager.Instance == null || !GameManager.Instance.enabled)
-			return;
+        UpdateTime();
+        celestialController.UpdateCelestialBodies(currentTime, sunriseHour, sunsetHour);
 
-		// GameScene이나 MileIsland일 때만 CheckDayNightTransition 실행
-		string currentScene = SceneManager.GetActiveScene().name;
-		if (currentScene == "GameScene" || currentScene == "MileIsland")
-		{
-			CheckDayNightTransition();
-		}
 
-		OnTimeChanged?.Invoke(currentTime);
-	}
+        if (oldTime != currentTime)
+        {
+            OnTimeChanged?.Invoke(currentTime);
+        }
+
+        if (Time.timeScale == 0f || GameManager.Instance == null || !GameManager.Instance.enabled)
+            return;
+
+        string currentScene = SceneManager.GetActiveScene().name;
+        if (currentScene == "GameScene" || currentScene == "MileIsland")
+        {
+            CheckDayNightTransition();
+        }
+    }
 	private void Start()
 	{
 		previousTime = currentTime;
@@ -107,45 +103,27 @@ public class TimeManager : SingletonManager<TimeManager>
 	#region Time Management
 	private void UpdateTime()
 	{
-		float newTime = currentTime + (Time.deltaTime / 60f) * timeScale;
+        currentTime += (Time.deltaTime / 60f) * timeScale;
 
-		if (newTime >= 24f)
-		{
-			currentTime = 0f;
-			OnDayChanged?.Invoke();
-		}
-		else
-		{
-			currentTime = newTime;
-		}
+        if (currentTime >= 24f)
+        {
+            currentTime = 0f;
 
-		previousTime = currentTime;
-	}
+        }
+    }
 
 	public void AddHours(float hours)
 	{
-		float newTime = currentTime + hours;
-		bool dayChanged = false;
+        currentTime += hours;
+        if (currentTime >= 24f)
+        {
+            currentTime -= 24f;
+            DateSystem.OnAddDay.Invoke();
 
-		if (newTime >= 24f)
-		{
-			dayChanged = true;
-			currentTime = newTime % 24f;
-		}
-		else
-		{
-			currentTime = newTime;
-		}
-
-		celestialController.UpdateCelestialBodies(currentTime, sunriseHour, sunsetHour);
-		OnTimeChanged?.Invoke(currentTime);
-
-
-		if (dayChanged)
-		{
-			OnDayChanged?.Invoke();
-		}
-	}
+        }
+        celestialController.UpdateCelestialBodies(currentTime, sunriseHour, sunsetHour);
+        OnTimeChanged?.Invoke(currentTime);
+    }
 	#endregion
 	#region Day/Night Cycle
 	private void CheckDayNightTransition()
