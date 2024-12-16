@@ -17,13 +17,13 @@ MonoBehaviour:
   basePrice: 300
   icon: {fileID: 21300000, guid: 1068fbb5fb9a9e640803a779f7bca083, type: 3}
   optionText:
-  - "\uADFC\uCC98\uC5D0 \uB450\uAE30"
+  - "\uD30C\uAD34\uD558\uAE30"
   fullInventoryOptionText:
   - "\uBC14\uAFB8\uAE30"
   purchaseOptionText:
   - "\uC0B4\uB798!"
   - "\uADF8\uB9CC\uB458\uB798"
-  prefab: {fileID: 3244950081451706823, guid: dedd4829869c7144589dfa1eb1207b0d, type: 3}
+  prefab: {fileID: 335093469661213046, guid: 00eb9a98aaafd554ca3116b0c97853f4, type: 3}
   type: 0
   bugName: 4
   spawnWeight: 0.1

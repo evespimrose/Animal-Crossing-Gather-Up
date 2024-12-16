@@ -21,20 +21,19 @@ public class TimmyStateController : NPCState
 
     protected override void Talk()
     {
-        if (UIManager.Instance.dialogUI.dialogPanel.activeSelf)
+        if (UIManager.Instance.IsAnyUIOpen())
         {
             base.Talk();
         }
 
-        if (!UIManager.Instance.dialogUI.dialogPanel.activeSelf)
+
+        if (!UIManager.Instance.IsAnyUIOpen())
         {
-            anim.SetBool("Talk", false);
             transform.rotation = Quaternion.Slerp(transform.rotation, originalRotation, rotateToOriginalSpeed * Time.deltaTime);
             if (Quaternion.Angle(transform.rotation, originalRotation) < 0.1f)
             {
                 SetCurrentState(NPCStateType.LookAround);
             }
-
         }
     }
 

@@ -18,14 +18,14 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 2bc45c253f20fdc498607c468be9e0d4, type: 3}
   optionText:
   - "\uB4E4\uAE30"
-  - "\uADFC\uCC98\uC5D0 \uB450\uAE30"
+  - "\uD30C\uAD34\uD558\uAE30"
   fullInventoryOptionText:
   - "\uBC14\uAFB8\uAE30"
   purchaseOptionText:
   - "\uC0B4\uB798!"
   - "\uADF8\uB9CC\uB458\uB798"
   prefab: {fileID: 2333052311417268404, guid: 059425a48af7f734287179b0d85bb5b3, type: 3}
-  maxDurability: 100
-  currentDurability: 100
+  maxDurability: 6
+  currentDurability: 6
   isEquipped: 0
   toolType: 3

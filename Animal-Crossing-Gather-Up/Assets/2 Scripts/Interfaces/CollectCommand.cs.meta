@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Animal-Crossing-Gather-Up/Assets/2 Scripts/Interfaces/Tool.cs.meta
+guid: 02acfd06507815947b1f2260aa24ba19
+========
+guid: 545036ed958835a4c9308d3f3397b029
+>>>>>>>> main:Animal-Crossing-Gather-Up/Assets/2 Scripts/Interfaces/CollectCommand.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

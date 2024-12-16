@@ -13,17 +13,17 @@ MonoBehaviour:
   m_Name: Beetle
   m_EditorClassIdentifier: 
   itemName: "\uD48D\uB385\uC774"
-  stackLimit: 0
+  stackLimit: 1
   basePrice: 100
   icon: {fileID: 21300000, guid: a4532382aa5385a449c04e7395363cf6, type: 3}
   optionText:
-  - "\uADFC\uCC98\uC5D0 \uB450\uAE30"
+  - "\uD30C\uAD34\uD558\uAE30"
   fullInventoryOptionText:
   - "\uBC14\uAFB8\uAE30"
   purchaseOptionText:
   - "\uC0B4\uB798!"
   - "\uADF8\uB9CC\uB458\uB798"
-  prefab: {fileID: 157960, guid: 062963ab1fe07ad4b8422ec9829a169e, type: 3}
+  prefab: {fileID: 2641262299874774130, guid: 9875f04cec4593d44a342a17bbc4812b, type: 3}
   type: 0
   bugName: 2
   spawnWeight: 0.3

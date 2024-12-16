@@ -471,7 +471,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6206218631769808174}
   - component: {fileID: 6206218631769808169}
-  - component: {fileID: 6206218631769808168}
   - component: {fileID: 6206218631769808175}
   - component: {fileID: -8059320667191162042}
   m_Layer: 0
@@ -532,29 +531,6 @@ LODGroup:
     renderers:
     - renderer: {fileID: 6206218631073705263}
   m_Enabled: 1
---- !u!136 &6206218631769808168
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6206218631769808173}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.2861515
-  m_Height: 0.86442876
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.50454557, z: 0.06719461}
 --- !u!95 &6206218631769808175
 Animator:
   serializedVersion: 5
@@ -588,6 +564,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8646c1dd66548384ca2d45d85d8cc550, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isSearched: 0
+  renderPrefab: {fileID: 0}
 --- !u!1 &6206218632335794616
 GameObject:
   m_ObjectHideFlags: 0

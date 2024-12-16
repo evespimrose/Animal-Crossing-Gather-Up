@@ -14,16 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcName: Kicks
   dialogTexts:
-  - "\uC548\uB155"
-  - "\uB098\uB97C \uC65C \uCC3E\uC544\uC654\uC5B4?"
+  - "\uC548\uB155! \uB09C \uB9C8\uC77C\uC12C\uC5D0 \uC0AC\uB294 \uD0A5\uC774\uC57C!"
+  - "\uB0B4\uAC00 \uC7AC\uBBF8\uC788\uB294 \uB18D\uB2F4 \uB9D0\uD574\uC904\uAE4C?"
   nextDialogTexts:
-  - "\uB09C @@\uB791 ##\uC774 \uC788\uC5B4"
-  - "\uAC70\uB798\uD560\uB798?\ndialogTexts \uCD94\uAC00 or \uAC70\uB798\uC6A9 UI
-    \uAD6C\uD604"
+  - "\uB2F4\uBC30\uB791 \uBE75\uC774 \uB3D9\uBB3C\uC6D0\uC5D0 \uAC14\uB300\n\uC774\uC720\uAC00
+    \uBB54\uC9C0 \uC54C\uC544?"
+  - "\uC65C\uB0D0\uBA74...\n\uB2F4\uBC30\uB294 \uB9D0\uBCF4\uB85C!\n\uBE75\uC740
+    \uC18C\uBCF4\uB85C!"
+  - "...\n\uD558\uD558\uD558...\n\uC7AC\uBC0C\uC9C0?"
+  - "...\uC2EC\uC2EC\uD558\uBA74 \uB098\uB97C \uCC3E\uC544\uC640!\n\uB9C8\uC77C\uC12C\uC5D0\uC11C
+    \uC990\uAC70\uC6B4 \uC2DC\uAC04 \uBCF4\uB0B4!"
   thirdDialogTexts:
-  - "\u3147\u314B"
+  - "\uC751...\n\uC2EC\uC2EC\uD558\uBA74 \uB098\uB97C \uB2E4\uC2DC \uCC3E\uC544\uC640\uC918!"
   fourthDialogTexts: []
-  dialogIndex: 020000000000000000000000
+  dialogIndex: 1686110208
   isChooseActive: 1
-  isEnterActive: 1
-  currentOption: 
+  dialogOption: 

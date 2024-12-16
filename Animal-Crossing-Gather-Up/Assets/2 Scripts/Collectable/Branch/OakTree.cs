@@ -13,18 +13,6 @@ public class OakTree : MonoBehaviour, ICollectable
         this.branchInfo = branchInfo;
     }
 
-    private void OnMouseDown()
-    {
-        if (branchCount > 0)
-        {
-            Collect();
-        }
-        else
-        {
-            Debug.Log("No branches available to collect.");
-        }
-    }
-
     public void Collect()
     {
         Debug.Log("Tree - Collect");

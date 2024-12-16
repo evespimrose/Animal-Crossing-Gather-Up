@@ -6,64 +6,64 @@ using static BugInfo;
 
 public class BugSpawner : MonoBehaviour
 {
-    [SerializeField] private List<BugInfo> bugList;
-    [SerializeField] private Transform spawnPoint;
-   
-    public Bug CurrentBug { get; private set; }
-    public BugType GetBugType() => bugList != null && bugList.Count > 0
-       ? bugList[0].type
-       : BugType.TreeBug;
+	[SerializeField] private List<BugInfo> bugList;
+	[SerializeField] private Transform spawnPoint;
 
-    public void Initialize( )
-    {
-        if (spawnPoint == null)
-        {
-            spawnPoint = transform.Find("SpawnPoint");
-        }
-    }
+	public Bug CurrentBug { get; private set; }
+	public BugType GetBugType() => bugList != null && bugList.Count > 0
+		 ? bugList[0].type
+		 : BugType.TreeBug;
 
-    public bool TrySpawnBug()
-    {
-        if (CurrentBug != null || bugList == null || bugList.Count == 0) return false;
+	public void Initialize()
+	{
+		if (spawnPoint == null)
+		{
+			spawnPoint = transform.Find("SpawnPoint");
+		}
+	}
 
-        var selectedBug = SelectRandomBug();
-        if (selectedBug == null) return false;
+	public bool TrySpawnBug()
+	{
+		if (CurrentBug != null || bugList == null || bugList.Count == 0) return false;
 
-        SpawnBug(selectedBug);
-        return true;
-    }
+		var selectedBug = SelectRandomBug();
+		if (selectedBug == null) return false;
 
-    private BugInfo SelectRandomBug()
-    {
-        float totalWwight = bugList.Sum(bug => bug.spawnWeight);
-        float random = Random.Range(0f, totalWwight);
+		SpawnBug(selectedBug);
+		return true;
+	}
 
-        foreach (var buginfo in bugList)
-        {
-            random -= buginfo .spawnWeight;
-            if (random < 0f)
-                return buginfo;
-        }
-        return bugList[0];
-    }
+	private BugInfo SelectRandomBug()
+	{
+		float totalWwight = bugList.Sum(bug => bug.spawnWeight);
+		float random = Random.Range(0f, totalWwight);
 
-    private void SpawnBug(BugInfo buginfo)
-    {
-        Quaternion rotation = Quaternion.Euler(-90, -90, 0);
+		foreach (var buginfo in bugList)
+		{
+			random -= buginfo.spawnWeight;
+			if (random < 0f)
+				return buginfo;
+		}
+		return bugList[0];
+	}
 
-        var bugObject = Instantiate(buginfo.prefab, spawnPoint.position,
-            rotation, transform);
-        if (!bugObject.TryGetComponent<Bug>(out Bug bug))
-        {         
-            Destroy(bugObject);
-            return;
-        }
+	private void SpawnBug(BugInfo buginfo)
+	{
+		Quaternion rotation = Quaternion.Euler(0, 0, 0);
+
+		var bugObject = Instantiate(buginfo.prefab, spawnPoint.position,
+				rotation, transform);
+		if (!bugObject.TryGetComponent<Bug>(out Bug bug))
+		{
+			Destroy(bugObject);
+			return;
+		}
 
 
-        CurrentBug = bug;
-        CurrentBug.Initialize(buginfo);
-        GameManager.Instance.AddBug(buginfo);
-    }
+		CurrentBug = bug;
+		CurrentBug.Initialize(buginfo);
+		GameManager.Instance.AddBug(buginfo);
+	}
 
 
 }

@@ -1,36 +1,31 @@
-using OpenCover.Framework.Model;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Flower: MonoBehaviour, ICollectable
+public class Flower : MonoBehaviour, ICollectable
 {
-    [SerializeField] public FlowerInfo flowerInfo;
-    public int flowerCount = 3;
-    public int maxFlowers = 3;
+	[SerializeField] public FlowerInfo flowerInfo;
+	public int flowerCount = 3;
+	public int maxFlowers = 3;
 
-    public void Initialize(FlowerInfo info)
-    {
-        flowerInfo = info;
-    }
+	public void Initialize(FlowerInfo info)
+	{
+		flowerInfo = info;
+	}
 
-    public void Collect()
-    {
-        if (flowerInfo == null || flowerCount <= 0) return;
+	public void Collect()
+	{
+		if (flowerInfo == null || flowerCount <= 0) return;
 
-        Debug.Log("Flower collected.");
+		Debug.Log("Flower collected.");
 
-        flowerCount--;
+		flowerCount--;
 
-        FlowerInfo fInfo = flowerInfo;
+		GameManager.Instance.player.CollectItem(flowerInfo);
+	}
 
-        fInfo.basePrice += Random.Range(-1, flowerInfo.basePrice);
-
-        GameManager.Instance.player.CollectItem(fInfo);
-    }
-
-    public void RefillFlowers(int amount)
-    {
-        flowerCount = Mathf.Min(maxFlowers, flowerCount + amount);
-    }
+	public void RefillFlowers(int amount)
+	{
+		flowerCount = Mathf.Min(maxFlowers, flowerCount + amount);
+	}
 }

@@ -13,17 +13,17 @@ MonoBehaviour:
   m_Name: Butterfly
   m_EditorClassIdentifier: 
   itemName: "\uB098\uBE44"
-  stackLimit: 0
-  basePrice: 100
+  stackLimit: 1
+  basePrice: 50
   icon: {fileID: 21300000, guid: 9b9a61ff83c734e45a64f2aedc40dc95, type: 3}
   optionText:
-  - "\uADFC\uCC98\uC5D0 \uB450\uAE30"
+  - "\uD30C\uAD34\uD558\uAE30"
   fullInventoryOptionText:
   - "\uBC14\uAFB8\uAE30"
   purchaseOptionText:
   - "\uC0B4\uB798!"
   - "\uADF8\uB9CC\uB458\uB798"
-  prefab: {fileID: 8598300892780421955, guid: e4e6b899b74985c4092e2f1098bba5ab, type: 3}
+  prefab: {fileID: 3390164526545962753, guid: 9ce5ceef5a7cd3a4d9950cbd3168bb3c, type: 3}
   type: 1
   bugName: 3
   spawnWeight: 0.7

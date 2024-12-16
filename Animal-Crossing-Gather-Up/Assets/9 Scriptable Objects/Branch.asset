@@ -15,9 +15,12 @@ MonoBehaviour:
   itemName: Branch
   stackLimit: 10
   basePrice: 50
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: f776537159942714788dbe13a66672a7, type: 3}
   optionText:
-  - "\uADFC\uCC98\uC5D0 \uB450\uAE30"
+  - "\uD30C\uAD34\uD558\uAE30"
   fullInventoryOptionText:
   - "\uBC14\uAFB8\uAE30"
+  purchaseOptionText:
+  - "\uC0B4\uB798!"
+  - "\uADF8\uB9CC\uB458\uB798"
   prefab: {fileID: 2535020073358834376, guid: ac5ab6336033d804a9c1dbd0bcbe4c4b, type: 3}

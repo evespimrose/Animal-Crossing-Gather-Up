@@ -2,10 +2,11 @@ using UnityEngine;
 
 public class Tool : MonoBehaviour
 {
-    public ToolInfo ToolInfo;
+	public ToolInfo toolInfo;
 
-    public virtual void Execute(Vector3 position, Vector3 foward)
-    { 
 
-    }
+	public virtual void Execute(Vector3 position, Vector3 foward)
+	{
+
+	}
 }

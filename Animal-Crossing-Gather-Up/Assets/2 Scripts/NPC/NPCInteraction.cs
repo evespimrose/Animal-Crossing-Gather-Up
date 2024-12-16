@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class NPCInteraction : MonoBehaviour
 {
-    public Transform player;
     private float interactionDistance = 3f;
 
     private Dictionary<Transform, INPCDialog> npcs = new Dictionary<Transform, INPCDialog>();
@@ -14,6 +13,16 @@ public class NPCInteraction : MonoBehaviour
     public bool isDialogActive = false;
 
     private void Awake()
+    {
+        FindNPC();
+    }
+
+    private void Update()
+    {
+        PlayerInteraction();
+    }
+
+    private void FindNPC()
     {
         foreach (var npc in GetComponentsInChildren<INPCDialog>())
         {
@@ -29,9 +38,9 @@ public class NPCInteraction : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void PlayerInteraction()
     {
-        if (player == null)
+        if (GameManager.Instance.player == null)
         {
             return;
         }
@@ -48,10 +57,10 @@ public class NPCInteraction : MonoBehaviour
                 }
                 isDialogActive = true;
                 nearestNPC.NPCDialogStart();
+                GameManager.Instance.cam.CloseUp();
             }
         }
     }
-
     private INPCDialog FindNearestNPC()
     {
         float minDistance = interactionDistance;
@@ -59,7 +68,7 @@ public class NPCInteraction : MonoBehaviour
 
         foreach (var npc in npcs)
         {
-            float distance = Vector3.Distance(player.transform.position, npc.Key.position);
+            float distance = Vector3.Distance(GameManager.Instance.player.transform.position, npc.Key.position);
             if (distance < minDistance)
             {
                 minDistance = distance;

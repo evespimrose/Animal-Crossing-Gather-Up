@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dropAnimator: {fileID: 8280355132863003314}
-  branchInfo: {fileID: 0}
+  branchInfo: {fileID: 11400000, guid: ddd6f13de6e2c6b459e90492c42753c3, type: 2}
 --- !u!114 &8280355132863003314
 MonoBehaviour:
   m_ObjectHideFlags: 0

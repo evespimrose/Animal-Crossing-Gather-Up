@@ -1,0 +1,137 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &335093469661213046
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3054323305081140641}
+  - component: {fileID: 4283523652795238920}
+  - component: {fileID: 2026251379542490427}
+  m_Layer: 0
+  m_Name: BlackSpider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3054323305081140641
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 335093469661213046}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 124.31569, y: 0.6437484, z: -28.601854}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4449835880735905577}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4283523652795238920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 335093469661213046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43da4c22a7f5e764d94ab191c0f5c828, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderPrefab: {fileID: 2011059290972871275}
+--- !u!135 &2026251379542490427
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 335093469661213046}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.14
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!1001 &3954397061950084012
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 3054323305081140641}
+    m_Modifications:
+    - target: {fileID: 801685837110510725, guid: dedd4829869c7144589dfa1eb1207b0d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 801685837110510725, guid: dedd4829869c7144589dfa1eb1207b0d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 801685837110510725, guid: dedd4829869c7144589dfa1eb1207b0d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 801685837110510725, guid: dedd4829869c7144589dfa1eb1207b0d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 801685837110510725, guid: dedd4829869c7144589dfa1eb1207b0d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 801685837110510725, guid: dedd4829869c7144589dfa1eb1207b0d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 801685837110510725, guid: dedd4829869c7144589dfa1eb1207b0d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 801685837110510725, guid: dedd4829869c7144589dfa1eb1207b0d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 801685837110510725, guid: dedd4829869c7144589dfa1eb1207b0d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 801685837110510725, guid: dedd4829869c7144589dfa1eb1207b0d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3244950081451706823, guid: dedd4829869c7144589dfa1eb1207b0d, type: 3}
+      propertyPath: m_Name
+      value: Black Widow 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: dedd4829869c7144589dfa1eb1207b0d, type: 3}
+--- !u!1 &2011059290972871275 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3244950081451706823, guid: dedd4829869c7144589dfa1eb1207b0d, type: 3}
+  m_PrefabInstance: {fileID: 3954397061950084012}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4449835880735905577 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 801685837110510725, guid: dedd4829869c7144589dfa1eb1207b0d, type: 3}
+  m_PrefabInstance: {fileID: 3954397061950084012}
+  m_PrefabAsset: {fileID: 0}

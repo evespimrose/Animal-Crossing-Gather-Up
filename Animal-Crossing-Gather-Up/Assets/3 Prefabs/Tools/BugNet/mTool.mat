@@ -64,7 +64,7 @@ Material:
     m_Floats:
     - _AlphaCutoff: 0.5
     - _BumpScale: 1
-    - _CurveStrength: 0
+    - _CurveStrength: 0.0134
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 10

@@ -11,7 +11,7 @@ public class RoadriController : DialogController, INPCDialog
 
     private void Awake()
     {
-        dialogData = roadriDialogData;
+        SetDialogData(roadriDialogData);
     }
     protected override void Start()
     {
@@ -19,16 +19,6 @@ public class RoadriController : DialogController, INPCDialog
         ResetDialog();
     }
 
-    protected override void Update()
-    {
-
-        base.Update();
-        if (roadriDialogData.currentOption != UIManager.Instance.optionUI.currentOption && UIManager.Instance.optionUI.currentOption != null)
-        {
-            roadriDialogData.currentOption = UIManager.Instance.optionUI.currentOption;
-            SelectedOptionAfter();
-        }
-    }
 
     public void NPCDialogStart()
     {
@@ -38,9 +28,9 @@ public class RoadriController : DialogController, INPCDialog
         DialogStart(roadriDialogData.dialogTexts, roadriDialogData.dialogIndex);
     }
 
-    public void SelectedOptionAfter()
+    protected override void SelectedOption()
     {
-        if (roadriDialogData.currentOption == "집에 갈래")
+        if (roadriDialogData.dialogOption == "집에 갈래")
         {
             AfterSelectedOption();
             DialogStart(roadriDialogData.nextDialogTexts, roadriDialogData.dialogIndex);
@@ -49,7 +39,7 @@ public class RoadriController : DialogController, INPCDialog
             UIManager.Instance.optionUI.SetOptions(roadriOptions);
         }
 
-        else if (roadriDialogData.currentOption == "섬을 더 돌아볼래")
+        else if (roadriDialogData.dialogOption == "섬을 더 돌아볼래")
         {
             AfterSelectedOption();
             DialogStart(roadriDialogData.thirdDialogTexts, roadriDialogData.dialogIndex);
@@ -58,12 +48,13 @@ public class RoadriController : DialogController, INPCDialog
             UIManager.Instance.optionUI.SetOptions(roadriOptions);
         }
 
-        else if (roadriDialogData.currentOption == "출발!")
+        else if (roadriDialogData.dialogOption == "출발!")
         {
             ResetDialog();
+            GameSceneManager.Instance.ChangeScene("GameScene");
         }
 
-        else if (roadriDialogData.currentOption == "대화 종료")
+        else if (roadriDialogData.dialogOption == "대화 종료")
         {
             ResetDialog();
         }

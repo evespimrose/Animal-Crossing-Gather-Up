@@ -4,40 +4,43 @@ using UnityEngine;
 
 public class Bug : MonoBehaviour, ICollectable
 {
-   //���� ���� ����
-   //���� ibugmanger
+	//���� ���� ����
+	//���� ibugmanger
 
-    private BugInfo info;
-    
+	private BugInfo info;
+	[SerializeField] private GameObject renderPrefab;
 
-    public void Initialize(BugInfo buginfom)
-    {
-        info = buginfom;
-      
-    }
+	public void Initialize(BugInfo buginfom)
+	{
+		info = buginfom;
 
-    public void Collect()
-    {
-        Debug.Log("BugNet - Collect");
+	}
 
-        GetValue();
+	private void OnDestroy()
+	{
+		Debug.Log("BugDestroy");
+	}
 
-        GameManager.Instance.RemoveBug(info); // SingletonManager<> ��ӹ���?�Ŵ���
+	public void Collect()
+	{
+		GetValue();
 
-        BugInfo bInfo = info;
+		GameManager.Instance.RemoveBug(info); // SingletonManager<> ��ӹ���?�Ŵ���
 
-        bInfo.basePrice += Random.Range(-1, info.basePrice);
+		StartCoroutine(WaitForActingAndCollectCoroutine(info));
+	}
+	public int GetValue() => info.basePrice;
 
-        StartCoroutine(WaitForActingAndCollectCoroutine(bInfo));
+	private IEnumerator WaitForActingAndCollectCoroutine(BugInfo bInfo)
+	{
+		yield return new WaitUntil(() => !GameManager.Instance.player.animReciever.isActing);
+		Debug.Log("WaitForActingAndCollectCoroutine");
 
-        Destroy(gameObject);
-    }
-    public int GetValue() => info.basePrice;
+		BugInfo bugInfo = bInfo;
+		renderPrefab.SetActive(false);
+		yield return StartCoroutine(GameManager.Instance.player.CollectItemWithCeremony(bugInfo));
 
-    private IEnumerator WaitForActingAndCollectCoroutine(BugInfo bInfo)
-    {
-        yield return new WaitUntil(() => !GameManager.Instance.player.animReciever.isActing);
+		Destroy(gameObject);
 
-        GameManager.Instance.player.CollectItemWithCeremony(bInfo);
-    }
+	}
 }

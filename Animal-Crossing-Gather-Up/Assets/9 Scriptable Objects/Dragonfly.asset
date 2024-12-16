@@ -13,17 +13,17 @@ MonoBehaviour:
   m_Name: Dragonfly
   m_EditorClassIdentifier: 
   itemName: "\uC7A0\uC790\uB9AC"
-  stackLimit: 0
+  stackLimit: 1
   basePrice: 100
   icon: {fileID: 21300000, guid: 7c9b2f354e325e240917653278f646e1, type: 3}
   optionText:
-  - "\uADFC\uCC98\uC5D0 \uB450\uAE30"
+  - "\uD30C\uAD34\uD558\uAE30"
   fullInventoryOptionText:
   - "\uBC14\uAFB8\uAE30"
   purchaseOptionText:
   - "\uC0B4\uB798!"
   - "\uADF8\uB9CC\uB458\uB798"
-  prefab: {fileID: 100076, guid: 052c7844b4ce6b94fa44abc12693479b, type: 3}
+  prefab: {fileID: 4611081100001500126, guid: 1b089154f0385a1479cd45beeb6dbcc0, type: 3}
   type: 0
   bugName: 5
   spawnWeight: 0.6

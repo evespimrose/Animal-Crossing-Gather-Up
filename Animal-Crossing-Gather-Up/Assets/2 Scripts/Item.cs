@@ -9,7 +9,7 @@ public class Item : ScriptableObject
 	public int stackLimit;
 	public int basePrice;
 	public Sprite icon;
-	public string[] optionText = { "근처에 두기" };
+	public string[] optionText = { "파괴하기" };
 	public string[] fullInventoryOptionText = { "바꾸기" };
 	public string[] purchaseOptionText = { "살래!", "그만둘래" };
 }

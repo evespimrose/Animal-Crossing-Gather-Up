@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO.Pipes;
 using TMPro;
 using UnityEngine;
 
@@ -15,6 +16,10 @@ public class OptionUI : MonoBehaviour
     public int currentIndex; //커서/밑줄이 가리키고 있는 현재 인덱스optionText -> 커서용
     public string currentOption; //현재 옵션
     private int optionSize; //옵션 개수
+
+    [Header("NPC")]
+    public string npcDialogOption; //npc 대화용 현재 옵션
+
 
     // set active false when start
     private void Start()
@@ -79,6 +84,7 @@ public class OptionUI : MonoBehaviour
                 currentIndex = 0;
             }
         }
+
         else if (Input.GetKeyDown(KeyCode.S))
         {
             currentIndex++;
@@ -87,10 +93,19 @@ public class OptionUI : MonoBehaviour
                 currentIndex = optionSize - 1;
             }
         }
+
         else if (Input.GetKeyDown(KeyCode.Return))
         {
-            SelectOption();
+            if (UIManager.Instance.dialogUI.dialogPanel.activeSelf)
+            {
+                NPCDialogSelectOption();
+            }   
+            else
+            {
+                SelectOption();
+            }
         }
+
         else if (Input.GetKeyDown(KeyCode.Escape))
         {
             SelectCancel();
@@ -107,6 +122,13 @@ public class OptionUI : MonoBehaviour
         return currentOption;
     }
 
+    public string NPCDialogSelectOption()
+    {
+        npcDialogOption = optionTexts[currentIndex].text;
+        PanelActive(false);
+
+        return npcDialogOption;
+    }
     private void SelectCancel()
     {
         currentOption = "Cancel";

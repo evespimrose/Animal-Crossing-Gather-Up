@@ -28,8 +28,8 @@ public class DaisyStateController : NPCState
 
     protected override Vector3 RandomWaypoint()
     {
-        float x = Random.Range(-2f, -22f);
-        float z = Random.Range(-18f, -33f);
+        float x = Random.Range(-8.5f, 3f);
+        float z = Random.Range(-33f, -24f);
         Vector3 myWaypoint = new Vector3(x, 0.6f, z);
 
         return myWaypoint;

@@ -13,17 +13,17 @@ MonoBehaviour:
   m_Name: Dolphin
   m_EditorClassIdentifier: 
   itemName: "\uB3CC\uACE0\uB798"
-  stackLimit: 0
+  stackLimit: 1
   basePrice: 300
   icon: {fileID: 21300000, guid: fb07df93731355b40817748d4033f833, type: 3}
   optionText:
-  - "\uADFC\uCC98\uC5D0 \uB450\uAE30"
+  - "\uD30C\uAD34\uD558\uAE30"
   fullInventoryOptionText:
   - "\uBC14\uAFB8\uAE30"
   purchaseOptionText:
   - "\uC0B4\uB798!"
   - "\uADF8\uB9CC\uB458\uB798"
-  prefab: {fileID: 5206078949442079778, guid: 1b7b6463f4ce49d48b51d8b787e09980, type: 3}
+  prefab: {fileID: 2234884174305180201, guid: fc992616a90308842849a779667c0ef4, type: 3}
   spawnWeight: 0.1
   moveSpeed: 2
   wanderRadius: 4

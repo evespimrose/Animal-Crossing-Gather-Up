@@ -13,17 +13,17 @@ MonoBehaviour:
   m_Name: Orca
   m_EditorClassIdentifier: 
   itemName: "\uBC94\uACE0\uB798"
-  stackLimit: 2
+  stackLimit: 1
   basePrice: 300
   icon: {fileID: 21300000, guid: 3dcf6a3f52bfdd84eaf2eaabb95bc176, type: 3}
   optionText:
-  - "\uADFC\uCC98\uC5D0 \uB450\uAE30"
+  - "\uD30C\uAD34\uD558\uAE30"
   fullInventoryOptionText:
   - "\uBC14\uAFB8\uAE30"
   purchaseOptionText:
   - "\uC0B4\uB798!"
   - "\uADF8\uB9CC\uB458\uB798"
-  prefab: {fileID: 5282283659001997933, guid: 5ed02cd5a4b54e943bd426dabbb920b6, type: 3}
+  prefab: {fileID: 5213604293305297777, guid: f60c28c87a89297428df6a0f6b23e1c5, type: 3}
   spawnWeight: 0.1
   moveSpeed: 2
   wanderRadius: 4

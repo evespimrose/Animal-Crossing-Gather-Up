@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Inventory : MonoBehaviour
+public class Inventory : SingletonManager<Inventory>
 {
 	public GameObject slotPrefab;   // Prefab for the slot
 
@@ -18,7 +18,7 @@ public class Inventory : MonoBehaviour
 	private PurchaseUI purchaseUI;
 	private int currentEquipIndex = -1;
 
-	public int money = 1000;
+	public int money = 0;
 
 	private Sell sell;
 
@@ -97,6 +97,21 @@ public class Inventory : MonoBehaviour
 		}
 	}
 
+	public bool CheckAndUseMileTicket()
+	{
+		for (int i = 0; i < slots.Count; i++)
+		{
+			if (slots[i].Item == null) continue;
+			if (slots[i].Item.itemName == "MileTicket")
+			{
+				Debug.Log("Find MileTicket!");
+				RemoveItemOne(i);
+				return true;
+			}
+		}
+		return false;
+	}
+
 	// private slots의 정보만 받기 위해 새로 할당받아서 복사해줘서 반환함
 	// 반환한 slots들을 변경해도 inventory의 slots에 담긴 item의 데이터가 바뀌지 않음
 	public List<Slot> GetSlotInfo()
@@ -122,7 +137,7 @@ public class Inventory : MonoBehaviour
 			EquipTool(index);
 			UIManager.Instance.CloseInventory();
 		}
-		else if (optionText == "근처에 두기")
+		else if (optionText == "파괴하기")
 		{
 			RemoveItemAll(index);
 			UIManager.Instance.CloseInventory();
@@ -174,7 +189,9 @@ public class Inventory : MonoBehaviour
 		if (slots[index].Item is ToolInfo toolInfo)
 		{
 			toolInfo.isEquipped = false;
-			GameManager.Instance.player.UnequipTool();
+			Debug.Log($"Inventory's UnEquipTool!!!!!");
+
+			StartCoroutine(GameManager.Instance.player.UnequipAndDestroyTool());
 		}
 		slots[index].Item.optionText[0] = "들기";
 		currentEquipIndex = -1;
@@ -198,8 +215,12 @@ public class Inventory : MonoBehaviour
 		{
 			if (toolInfo.currentDurability <= 0)
 			{
-				StartCoroutine(GameManager.Instance.player.UnequipAndDestroyTool());
-				RemoveItemAll(currentEquipIndex);
+				Debug.Log($"Inventory's UnEquipTool's equippedTool != NULL!!");
+
+				//StartCoroutine(GameManager.Instance.player.UnequipAndDestroyTool());
+				int index = currentEquipIndex;
+				UnEquipTool(index);
+				RemoveItemAll(index);
 			}
 		}
 	}

@@ -12,4 +12,9 @@ public class DialogUI : MonoBehaviour
     [Header("Dialog Panel Text")]
     public TextMeshProUGUI dialogText;
 
+    private void Start()
+    {
+        dialogPanel.SetActive(false);
+        enterPanel.SetActive(false);
+    }
 }

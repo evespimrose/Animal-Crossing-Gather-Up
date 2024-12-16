@@ -1,24 +1,26 @@
 using UnityEngine;
-using UnityEngine.UIElements;
+using System.Collections;
+using System.Collections.Generic;
 
 public class Axe : Tool
 {
-    private ICollectCommand collectCommand;
+	private CollectCommand collectCommand;
 
-    private void Awake()
-    {
-        collectCommand = new AxeCollectCommand();
-    }
+	private void Awake()
+	{
+		collectCommand = new AxeCollectCommand();
+	}
 
-    public override void Execute(Vector3 position, Vector3 foward = default)
-    {
-        if (ToolInfo.currentDurability > 0)
-        {
-            collectCommand.Execute(position);
+	public override void Execute(Vector3 position, Vector3 foward = default)
+	{
+		toolInfo.currentDurability--;
 
-            ToolInfo.currentDurability--;
-            GameManager.Instance.inventory.UpdateToolDurability(ToolInfo);
-            Debug.Log($"toolInfo.currentDurability : {ToolInfo.currentDurability}");
-        }
-    }
+
+		if (toolInfo.currentDurability > 0)
+			collectCommand.Execute(position);
+
+		GameManager.Instance.inventory.UpdateToolDurability(toolInfo);
+		Debug.Log($"toolInfo.currentDurability : {toolInfo.currentDurability}");
+
+	}
 }

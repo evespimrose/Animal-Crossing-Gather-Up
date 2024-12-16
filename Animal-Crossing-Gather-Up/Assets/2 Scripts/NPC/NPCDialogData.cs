@@ -28,5 +28,5 @@ public class NPCDialogData : ScriptableObject
     public bool isChooseActive; //선택패널 활성화 bool
 
     [Header("Option")]
-    public string currentOption;
+    public string dialogOption;
 }

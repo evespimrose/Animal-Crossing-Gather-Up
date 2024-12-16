@@ -675,7 +675,6 @@ GameObject:
   m_Component:
   - component: {fileID: 463308}
   - component: {fileID: 9506878}
-  - component: {fileID: 2309446614115854663}
   m_Layer: 0
   m_Name: scarab_01
   m_TagString: Untagged
@@ -721,18 +720,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &2309446614115854663
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 157960}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43da4c22a7f5e764d94ab191c0f5c828, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &158664
 GameObject:
   m_ObjectHideFlags: 0
@@ -1240,7 +1227,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c9b846c0022778a4ab1412cfa137b516, type: 2}
+  - {fileID: 2100000, guid: 4866aa634d6233a448504d60274166a3, type: 2}
   - {fileID: 2100000, guid: 4866aa634d6233a448504d60274166a3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
