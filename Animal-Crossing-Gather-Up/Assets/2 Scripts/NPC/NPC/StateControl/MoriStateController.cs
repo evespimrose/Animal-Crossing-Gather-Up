@@ -5,46 +5,28 @@ using UnityEngine;
 
 public class MoriStateController : NPCState
 {
-    private Quaternion originalRotation;
-
-    private void Awake()
-    {
-
-    }
     protected override void Start()
     {
         base.Start();
-        moveSpeed = 0f;
-        originalRotation = this.transform.rotation;
+        moveSpeed = 0f; // Mori의 이동 속도 설정
+        originalRotation = transform.rotation; // 원래 회전 저장
         SetCurrentState(NPCStateType.LookAround);
     }
-    protected override void Update()
-    {
-        base.Update();
-    }
 
-    protected override void Talk()
+    protected override void HandleTalk()
     {
         if (UIManager.Instance.dialogUI.dialogPanel.activeSelf)
         {
-            base.Talk();
+            base.HandleTalk();
         }
-
-        if (!UIManager.Instance.dialogUI.dialogPanel.activeSelf)
+        else
         {
-            anim.SetBool("Talk", false);
-            transform.rotation = Quaternion.Slerp(transform.rotation, originalRotation, rotateToOriginalSpeed * Time.deltaTime);
-            if (Quaternion.Angle(transform.rotation, originalRotation) < 0.1f)
-            {
-                SetCurrentState(NPCStateType.LookAround);
-            }
-
+            HandleRotationBackToOriginal(); // 대화 UI가 비활성화되면 원래 방향으로 회전
         }
     }
 
     protected override Vector3 RandomWaypoint()
     {
-        Vector3 myWaypoint = transform.position;
-        return myWaypoint;
+        return transform.position; // 현재 위치를 웨이포인트로 사용
     }
 }

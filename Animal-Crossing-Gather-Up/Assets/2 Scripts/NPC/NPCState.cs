@@ -1,40 +1,32 @@
-using JetBrains.Annotations;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.AI;
+using System.Collections.Generic;
 
 public enum NPCStateType
 {
     Idle,
     LookAround,
     Walk,
-    Talk,
-    //Happy,
-    //Dance,
+    Talk
 }
+
 public abstract class NPCState : MonoBehaviour, INPCState
 {
-
-    protected List<Vector3> waypoints = new List<Vector3>();
-    protected int currentWaypointIndex = 0;
     protected Animator anim;
-    protected float rotateSpeed = 1.5f;
-    protected float rotateToPlayerSpeed = 5f;
-    protected float rotateToOriginalSpeed = 3f;
+
+    [SerializeField] private float rotateSpeed = 1.5f;
+    [SerializeField] private float rotateToPlayerSpeed = 5f;
+    protected float moveSpeed = 2f; // 기본 이동 속도
 
     protected IDialogState dialogState;
     protected NPCStateType npcState;
     protected Vector3 currentTarget;
-    protected float moveSpeed;
+    protected Quaternion originalRotation;
 
     protected virtual void Start()
     {
         anim = GetComponent<Animator>();
         dialogState = GetComponent<IDialogState>();
-        npcState = NPCStateType.Idle; //idle�?기본 ?�정
+        npcState = NPCStateType.Idle; // 기본 상태 설정
     }
 
     protected virtual void Update()
@@ -42,68 +34,73 @@ public abstract class NPCState : MonoBehaviour, INPCState
         switch (npcState)
         {
             case NPCStateType.Idle:
-                Idle();
+                HandleIdle();
                 break;
             case NPCStateType.LookAround:
-                LookAround();
+                HandleLookAround();
                 break;
             case NPCStateType.Walk:
-                Walk();
+                HandleWalk();
                 break;
             case NPCStateType.Talk:
-                Talk();
+                HandleTalk();
                 break;
         }
     }
 
-    private void Idle()
+    private void HandleIdle()
     {
-        anim.Play("Idle");
-        anim.SetFloat("Speed", 0f);
+        PlayAnimation("Idle");
     }
 
-    private void LookAround()
+    private void HandleLookAround()
     {
-        anim.SetTrigger("ChangeLook");
-        anim.SetFloat("Speed", 0f);
+        PlayAnimation("ChangeLook");
     }
 
-    private void Walk()
+    private void HandleWalk()
     {
         Wander();
     }
 
-    protected virtual void Talk()
+    protected virtual void HandleTalk()
     {
-        anim.SetFloat("Speed", 0f);
-        Vector3 direction = (GameManager.Instance.player.transform.position - transform.position).normalized;
-        direction.y = 0f; //y�??�외?�고 ?�전
+        PlayAnimation("Talk");
+        RotateTowardsPlayer();
+        ManageDialogState();
+    }
 
-        if (direction != GameManager.Instance.player.transform.position)
+    private void PlayAnimation(string animationName)
+    {
+        anim.Play(animationName);
+        anim.SetFloat("Speed", 0f);
+    }
+
+    private void RotateTowardsPlayer()
+    {
+        Vector3 direction = (GameManager.Instance.player.transform.position - transform.position).normalized;
+        direction.y = 0f; // y축 무시
+
+        if (direction != Vector3.zero)
         {
             Quaternion targetRotation = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateToPlayerSpeed * Time.deltaTime);
-
-            if (dialogState == null)
-            {
-                return;
-            }
-
-            if (dialogState.currentCoroutine != null && UIManager.Instance.dialogUI.dialogPanel.activeSelf)
-            {
-                anim.SetBool("Talk", true);
-
-            }
-
-            else if (dialogState.currentCoroutine == null && UIManager.Instance.dialogUI.dialogPanel.activeSelf)
-            {
-                anim.SetBool("Talk", false);
-            }
-
         }
     }
 
-    protected abstract Vector3 RandomWaypoint();
+    private void ManageDialogState()
+    {
+        if (dialogState == null) return;
+
+        if (dialogState.currentCoroutine != null && UIManager.Instance.dialogUI.dialogPanel.activeSelf)
+        {
+            anim.SetBool("Talk", true);
+        }
+        else if (dialogState.currentCoroutine == null && UIManager.Instance.dialogUI.dialogPanel.activeSelf)
+        {
+            anim.SetBool("Talk", false);
+        }
+    }
 
     public void Wander()
     {
@@ -115,6 +112,11 @@ public abstract class NPCState : MonoBehaviour, INPCState
             }
         }
 
+        MoveTowardsTarget();
+    }
+
+    private void MoveTowardsTarget()
+    {
         Vector3 direction = (currentTarget - transform.position).normalized;
         if (direction != Vector3.zero)
         {
@@ -123,26 +125,36 @@ public abstract class NPCState : MonoBehaviour, INPCState
         }
 
         transform.position = Vector3.MoveTowards(transform.position, currentTarget, moveSpeed * Time.deltaTime);
+        UpdateAnimationSpeed();
+    }
 
-        float currentSpeed;
-        if (Vector3.Distance(transform.position, currentTarget) > 0.1f)
-        {
-            currentSpeed = 0.3f;
-        }
-        else
-        {
-            currentSpeed = 0.05f;
-        }
-
+    private void UpdateAnimationSpeed()
+    {
+        float currentSpeed = Vector3.Distance(transform.position, currentTarget) > 0.1f ? 0.3f : 0.05f;
         anim.SetFloat("Speed", currentSpeed);
     }
+
+    protected abstract Vector3 RandomWaypoint();
 
     public void SetCurrentState(NPCStateType newState)
     {
         npcState = newState;
-
+    }
+    
+    protected void HandleRotationBackToOriginal()
+    {
+        anim.SetBool("Talk", false);
+        transform.rotation = Quaternion.Slerp(transform.rotation, originalRotation, rotateToPlayerSpeed * Time.deltaTime);
+        if (Quaternion.Angle(transform.rotation, originalRotation) < 0.1f)
+        {
+            SetCurrentState(NPCStateType.LookAround);
+        }
     }
 
-
+    protected Vector3 GetRandomWaypoint(float minX, float maxX, float minZ, float maxZ, float y)
+    {
+        float x = Random.Range(minX, maxX);
+        float z = Random.Range(minZ, maxZ);
+        return new Vector3(x, y, z);
+    }
 }
-
